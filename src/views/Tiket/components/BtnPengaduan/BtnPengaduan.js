@@ -12,12 +12,13 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles, withStyles } from "@material-ui/styles";
-import clsx from "clsx";
 import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/Mail';
 
 const useStyles = makeStyles(theme => ({
-	root: {},
+	root: {
+		minHeight: 600
+	},
 	divButton: {
 		display: 'flex',
 		alignItems: 'center',
@@ -60,7 +61,7 @@ const StyledBadge = withStyles(theme => ({
 const BtnPengaduan = props => {
 	const classes = useStyles();
 	return(
-		<Card className={clsx(classes.root)}>
+		<Card className={classes.root}>
 			<CardHeader
 		        title="NOTIFIKASI"
 		    />
@@ -70,13 +71,14 @@ const BtnPengaduan = props => {
 				    size="small"
 				    variant="outlined"
 				    className={classes.button}
+				    onClick={props.addTicket}
 				  >
 				  	<AddIcon className={classes.leftIcon} />
 				    Buat Pengajuan
 				</Button>
 			</div>
 			
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Ticket Masuk')}>
 			    <ListItemText primary="Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -87,7 +89,7 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Ticket Keluar')}>
 			    <ListItemText primary="Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -98,7 +100,7 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Baru Diupdate')}>
 			    <ListItemText primary="Baru Diupdate" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -109,7 +111,7 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Permintaan Tutup Ticket')}>
 			    <ListItemText primary="Permintaan Tutup Ticket" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -129,7 +131,7 @@ const BtnPengaduan = props => {
 	            	Semua Ticket
 	            </Typography>
 			</div>
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Semua Ticket Masuk')}>
 			    <ListItemText primary="Semua Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -140,7 +142,7 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button>
+			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Semua Ticket Keluar')}>
 			    <ListItemText primary="Semua Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>

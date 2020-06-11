@@ -9,7 +9,8 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
-  Tiket as TiketView
+  Tiket as TiketView,
+  AddTiket as AddTiketView
 } from './views';
 
 const Routes = () => {
@@ -31,6 +32,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/tiket"
+      />
+      <RouteWithLayout
+        component={AddTiketView}
+        exact
+        layout={MainLayout}
+        path="/tiket/add"
       />
       <RouteWithLayout
         component={SignUpView}
