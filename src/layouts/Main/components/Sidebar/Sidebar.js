@@ -2,8 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import { Drawer } from '@material-ui/core';
 
 import { Profile, SidebarNav, UpgradePlan } from './components';
 
@@ -20,13 +19,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    padding: theme.spacing(2)
-  },
-  divider: {
-    margin: theme.spacing(2, 0)
+    paddingTop: theme.spacing(2)
   },
   nav: {
-    marginBottom: theme.spacing(2)
+    //marginBottom: theme.spacing(1)
   }
 }));
 
@@ -35,13 +31,13 @@ const Sidebar = props => {
 
   const classes = useStyles();
 
-  const pages = [
-    {
-      title: 'Home',
-      href: '/',
-      icon: <DashboardIcon />
-    }
-  ];
+  // const pages = [
+  //   {
+  //     title: 'Home',
+  //     href: '/',
+  //     icon: <DashboardIcon />
+  //   }
+  // ];
 
   return (
     <Drawer
@@ -56,10 +52,8 @@ const Sidebar = props => {
         className={clsx(classes.root, className)}
       >
         <Profile />
-        <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
-          pages={pages}
         />
         <UpgradePlan />
       </div>

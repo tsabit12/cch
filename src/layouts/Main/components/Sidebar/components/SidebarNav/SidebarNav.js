@@ -5,7 +5,9 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { List, ListItem, Button, colors } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText, colors } from '@material-ui/core';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -32,11 +34,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   active: {
-    color: theme.palette.primary.main,
-    fontWeight: theme.typography.fontWeightMedium,
-    '& $icon': {
-      color: theme.palette.primary.main
-    }
+    backgroundColor: 'rgba(216, 212, 212, 0.94)'
   }
 }));
 
@@ -50,7 +48,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const { pages, className, ...rest } = props;
+  const {className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -59,23 +57,32 @@ const SidebarNav = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      {pages.map(page => (
-        <ListItem
-          className={classes.item}
-          disableGutters
-          key={page.title}
-        >
-          <Button
-            activeClassName={classes.active}
-            className={classes.button}
-            component={CustomRouterLink}
-            to={page.href}
-          >
-            <div className={classes.icon}>{page.icon}</div>
-            {page.title}
-          </Button>
-        </ListItem>
-      ))}
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/dashboard"
+      >
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Home" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/tiket"
+      >
+        <ListItemIcon>
+          <FileCopyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Tiket" />
+      </ListItem>
+
     </List>
   );
 };

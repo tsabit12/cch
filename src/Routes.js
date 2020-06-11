@@ -8,17 +8,29 @@ import {
   Dashboard as DashboardView,
   SignUp as SignUpView,
   SignIn as SignInView,
-  NotFound as NotFoundView
+  NotFound as NotFoundView,
+  Tiket as TiketView
 } from './views';
 
 const Routes = () => {
   return (
     <Switch>
+      <Redirect
+        exact
+        from="/"
+        to="/dashboard"
+      />
       <RouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
-        path="/"
+        path="/dashboard"
+      />
+      <RouteWithLayout
+        component={TiketView}
+        exact
+        layout={MainLayout}
+        path="/tiket"
       />
       <RouteWithLayout
         component={SignUpView}
