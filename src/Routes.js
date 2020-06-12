@@ -8,7 +8,6 @@ import {
 } from './components';
 import { 
   Main as MainLayout, 
-  Minimal as MinimalLayout, 
   Login as LoginLayout,
   Bbk as BbkLayout
 } from './layouts';
@@ -54,7 +53,7 @@ const Routes = () => {
       <RouteWithLayout
         component={NotFoundView}
         exact
-        layout={MinimalLayout}
+        layout={LoginLayout}
         path="/not-found"
       />
       { /*ABSENSI*/ }
