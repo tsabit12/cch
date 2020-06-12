@@ -88,8 +88,7 @@ const SidebarNav = props => {
 };
 
 SidebarNav.propTypes = {
-  className: PropTypes.string,
-  pages: PropTypes.array.isRequired
+  className: PropTypes.string
 };
 
 export default SidebarNav;
