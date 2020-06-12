@@ -20,11 +20,7 @@ import RenderInput from "./RenderInput";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  margin: {
-    margin: theme.spacing(1),
+    height: '100%'
   },
   field: {
   	width: '100%',
@@ -41,6 +37,10 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
   	borderRadius: 0
+  },
+  container: {
+  	minHeight: '500px',
+    position: 'relative'
   }
 }));
 
@@ -174,104 +174,106 @@ const FormPengaduan = props => {
 	const { data, errors } = state;
 
 	return(
-		<Card>
+		<Card className={classes.root}>
 			<CardHeader
 				title='FORM PENGADUAN'
 			/>
 			<Divider />
 			<CardContent>
-				{
-					(
-						(data.channel === 7) || 
-						(data.channel === 0) || 
-						(data.channel === 6)
-					) ? <React.Fragment>
-							<SelectChannel 
-								channel={data.channel}
-								handleChange={handleChangeChannel}
-								error={errors.channel}
-							/>
-							{ data.channel !== 0 && 
+				<div className={classes.container}>
+					{
+						(
+							(data.channel === 7) || 
+							(data.channel === 0) || 
+							(data.channel === 6)
+						) ? <React.Fragment>
+								<SelectChannel 
+									channel={data.channel}
+									handleChange={handleChangeChannel}
+									error={errors.channel}
+								/>
+								{ data.channel !== 0 && 
+									<RenderInput 
+										jenis={data.channel} 
+										state={data}
+										handleChange={handleChange}
+										errors={errors}
+								/> }
+						</React.Fragment> : 
+						<Grid container spacing={4}>
+							<Grid item lg={6} sm={6} xl={12} xs={12}>
+								<SelectChannel 
+									channel={data.channel}
+									handleChange={handleChangeChannel}
+									error={errors.channel}
+								/>
+							</Grid>
+							<Grid item lg={6} sm={6} xl={12} xs={12}>
 								<RenderInput 
 									jenis={data.channel} 
 									state={data}
 									handleChange={handleChange}
 									errors={errors}
-							/> }
-					</React.Fragment> : 
-					<Grid container spacing={4}>
-						<Grid item lg={6} sm={6} xl={12} xs={12}>
-							<SelectChannel 
-								channel={data.channel}
-								handleChange={handleChangeChannel}
-								error={errors.channel}
-							/>
+								/>
+							</Grid>
 						</Grid>
-						<Grid item lg={6} sm={6} xl={12} xs={12}>
-							<RenderInput 
-								jenis={data.channel} 
-								state={data}
-								handleChange={handleChange}
-								errors={errors}
-							/>
-						</Grid>
-					</Grid>
-				}
+					}
 
-				<FormControl className={classes.field} error={!!errors.jenisChannel}>
-			        <InputLabel 
-			        	className={classes.label} 
-			        	htmlFor="jenis-customized-select"
-			        >
-			        	Jenis Pengaduan
-			        </InputLabel>
-			        <Select
-			          value={data.jenisChannel}
-			          onChange={handleChange}
-			          input={
-			          	<BootstrapInput 
-			          		name="jenisChannel" 
-			          		id="jenis-customized-select" 
-			          		iserror={!!errors.jenisChannel === true ? 1 : 0}
-			          	/>
-			          }
-			          autoWidth={true}
-			        >
-			          <MenuItem value={0}>--Pilih--</MenuItem>
-			          <MenuItem value={1}>Lacak Kiriman</MenuItem>
-			          <MenuItem value={2}>Info Tarif</MenuItem>
-			          <MenuItem value={3}>Layanan</MenuItem>
-			          <MenuItem value={4}>Kantor Pos & Kode Pos</MenuItem>
-			          <MenuItem value={5}>Lainnya</MenuItem>
-			        </Select>
-			        {!!errors.jenisChannel === true && <FormHelperText>{errors.jenisChannel}</FormHelperText>}
-				</FormControl>
-				<FormControl className={classes.field} error={!!errors.noresi}>
-					<FormLabel 
-						component="legend" 
-						className={classes.labelForm}
-					>
-						Nomor Resi
-					</FormLabel>
-					<div className={classes.inputBtn}>
-						<BootstrapInputWithButton 
-					    	name='noresi'
-					    	value={data.noresi}
-					    	id="noresi-customized-input" 
-					    	placeholder="Masukkan nomor resi"
-					    	onChange={handleChange}
-					    	style={{width: '100%'}}
-					    	iserror={!!errors.noresi === true ? 1 : 0}
-					    />
-					    <Button 
-					    	variant="contained" 
-					    	color="primary" 
-					    	className={classes.button}
-					    	onClick={onSubmit}
-					    >CEK</Button>
-				    </div>
-				    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
-				</FormControl>
+					<FormControl className={classes.field} error={!!errors.jenisChannel}>
+				        <InputLabel 
+				        	className={classes.label} 
+				        	htmlFor="jenis-customized-select"
+				        >
+				        	Jenis Pengaduan
+				        </InputLabel>
+				        <Select
+				          value={data.jenisChannel}
+				          onChange={handleChange}
+				          input={
+				          	<BootstrapInput 
+				          		name="jenisChannel" 
+				          		id="jenis-customized-select" 
+				          		iserror={!!errors.jenisChannel === true ? 1 : 0}
+				          	/>
+				          }
+				          autoWidth={true}
+				        >
+				          <MenuItem value={0}>--Pilih--</MenuItem>
+				          <MenuItem value={1}>Lacak Kiriman</MenuItem>
+				          <MenuItem value={2}>Info Tarif</MenuItem>
+				          <MenuItem value={3}>Layanan</MenuItem>
+				          <MenuItem value={4}>Kantor Pos & Kode Pos</MenuItem>
+				          <MenuItem value={5}>Lainnya</MenuItem>
+				        </Select>
+				        {!!errors.jenisChannel === true && <FormHelperText>{errors.jenisChannel}</FormHelperText>}
+					</FormControl>
+					<FormControl className={classes.field} error={!!errors.noresi}>
+						<FormLabel 
+							component="legend" 
+							className={classes.labelForm}
+						>
+							Nomor Resi
+						</FormLabel>
+						<div className={classes.inputBtn}>
+							<BootstrapInputWithButton 
+						    	name='noresi'
+						    	value={data.noresi}
+						    	id="noresi-customized-input" 
+						    	placeholder="Masukkan nomor resi"
+						    	onChange={handleChange}
+						    	style={{width: '100%'}}
+						    	iserror={!!errors.noresi === true ? 1 : 0}
+						    />
+						    <Button 
+						    	variant="contained" 
+						    	color="primary" 
+						    	className={classes.button}
+						    	onClick={onSubmit}
+						    >CEK</Button>
+					    </div>
+					    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
+					</FormControl>
+				</div>
 			</CardContent>
 		</Card>
 	);

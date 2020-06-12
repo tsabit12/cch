@@ -8,7 +8,8 @@ import {
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import {
 	FormPengaduan,
-	Loader
+	Loader,
+	ResponseTnt
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -123,9 +124,18 @@ const AddTiket = props => {
 			        		onSubmit={handleSubmitPengaduan}
 			        	/>
 			        </Grid>
+			        { tnt.length > 0 &&  
+			        	<Grid
+				          item
+				          lg={6}
+				          sm={6}
+				          xl={12}
+				          xs={12}
+				        >
+				        	<ResponseTnt data={state.tnt} />
+				        </Grid> }
 			    </Grid>
 		    </div>
-		    { tnt.length > 0 && <p>Oke</p> }
 		</div>
 	);
 }
