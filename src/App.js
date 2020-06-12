@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
+import decode from "jwt-decode";
 
 import { chartjs } from './helpers';
 import theme from './theme';
@@ -17,6 +18,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducers from "./rootReducers"; 
+import { isLoggedIn } from "./actions/bbk";
 
 const store = createStore(
   rootReducers,
@@ -34,7 +36,12 @@ validate.validators = {
   ...validators
 };
 
-export default class App extends Component {
+if (localStorage.bbkToken) {
+  const user   = decode(localStorage.bbkToken);
+  store.dispatch(isLoggedIn(user));
+}
+
+class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -47,3 +54,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;

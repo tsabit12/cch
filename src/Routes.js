@@ -1,17 +1,29 @@
 import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 
-import { RouteWithLayout } from './components';
-import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
+import { 
+  RouteWithLayout,
+  RouteBbkLayout,
+  RouteBbkLoggedLayout
+} from './components';
+import { 
+  Main as MainLayout, 
+  Minimal as MinimalLayout, 
+  Login as LoginLayout,
+  Bbk as BbkLayout
+} from './layouts';
 
 import {
   Dashboard as DashboardView,
-  SignUp as SignUpView,
-  SignIn as SignInView,
   NotFound as NotFoundView,
   Tiket as TiketView,
   AddTiket as AddTiketView
 } from './views';
+
+import {
+  Masuk as MasukView,
+  SignIn as SignInView
+} from "./absensi";
 
 const Routes = () => {
   return (
@@ -40,22 +52,23 @@ const Routes = () => {
         path="/tiket/add"
       />
       <RouteWithLayout
-        component={SignUpView}
-        exact
-        layout={MinimalLayout}
-        path="/sign-up"
-      />
-      <RouteWithLayout
-        component={SignInView}
-        exact
-        layout={MinimalLayout}
-        path="/sign-in"
-      />
-      <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      { /*ABSENSI*/ }
+      <RouteBbkLoggedLayout
+        component={SignInView}
+        exact
+        layout={LoginLayout}
+        path="/sign-in"
+      />
+      <RouteBbkLayout
+        component={MasukView}
+        exact
+        layout={BbkLayout}
+        path="/masuk"
       />
       <Redirect to="/not-found" />
     </Switch>
