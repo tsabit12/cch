@@ -4,11 +4,13 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
+	CardActions,
 	Divider,
 	FormControl,
 	TextField,
 	Button
 } from "@material-ui/core";
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const convertToLabel = (date) => {
 	const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -36,7 +38,6 @@ const useStyles = makeStyles(theme => ({
 	form: {
 		margin: theme.spacing(1),
 		position: 'relative',
-		minHeight: '450px'
 	},
 	inputButton: {
 		display: 'flex'
@@ -108,6 +109,18 @@ const FormMasuk = props => {
 					</FormControl>
 				</div>
 			</CardContent>
+			<Divider />
+			<CardActions className={classes.actions}>
+		        <Button
+		          color="primary"
+		          size="small"
+		          variant="text"
+		          href="http://103.78.208.98/absensi"
+		          target="_blank"
+		        >
+		          Tampilkan Rekap <ArrowRightIcon />
+		        </Button>
+		    </CardActions>
 		</Card>
 	);
 }

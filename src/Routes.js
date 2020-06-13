@@ -7,16 +7,16 @@ import {
   RouteBbkLoggedLayout
 } from './components';
 import { 
-  Main as MainLayout, 
+  //Main as MainLayout, 
   Login as LoginLayout,
   Bbk as BbkLayout
 } from './layouts';
 
 import {
-  Dashboard as DashboardView,
+  //Dashboard as DashboardView,
   NotFound as NotFoundView,
-  Tiket as TiketView,
-  AddTiket as AddTiketView
+  //Tiket as TiketView,
+  //AddTiket as AddTiketView
 } from './views';
 
 import {
@@ -27,12 +27,13 @@ import {
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
+      {/*<Redirect
         exact
         from="/"
-        to="/dashboard"
-      />
-      <RouteWithLayout
+        to="/masuk"
+      /> */}
+
+      { /* <RouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
@@ -49,6 +50,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/tiket/add"
+      /> */ }
+      <RouteBbkLayout
+        component={MasukView}
+        exact
+        layout={BbkLayout}
+        path="/"
       />
       <RouteWithLayout
         component={NotFoundView}
@@ -62,12 +69,6 @@ const Routes = () => {
         exact
         layout={LoginLayout}
         path="/sign-in"
-      />
-      <RouteBbkLayout
-        component={MasukView}
-        exact
-        layout={BbkLayout}
-        path="/masuk"
       />
       <Redirect to="/not-found" />
     </Switch>

@@ -11,7 +11,7 @@ const RouteBbkLoggedLayout = props => {
       {...rest}
       render={matchProps => 
         <Layout>
-          { isAuthenticated === false ? <Component {...matchProps} /> : <Redirect to="/masuk" /> } 
+          { isAuthenticated === false ? <Component {...matchProps} /> : <Redirect to="/" /> } 
         </Layout>
       }
     />

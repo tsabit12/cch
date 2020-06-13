@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { HashRouter } from 'react-router-dom';
+// import { createBrowserHistory } from 'history';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
@@ -25,7 +25,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-const browserHistory = createBrowserHistory();
+// const browserHistory = createBrowserHistory();
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw
@@ -44,13 +44,15 @@ if (localStorage.bbkToken) {
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <Router history={browserHistory}>
-            <Routes />
-          </Router>
-        </ThemeProvider>
-      </Provider>
+      <HashRouter>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            {/*<Router basename={process.env.PUBLIC_URL} history={browserHistory}>*/}
+              <Routes />
+            {/*</Router>*/}
+          </ThemeProvider>
+        </Provider>
+      </HashRouter>
     );
   }
 }
