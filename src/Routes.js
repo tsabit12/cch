@@ -3,37 +3,36 @@ import { Switch, Redirect } from 'react-router-dom';
 
 import { 
   RouteWithLayout,
-  RouteBbkLayout,
-  RouteBbkLoggedLayout
+  // RouteBbkLayout,
+  // RouteBbkLoggedLayout
 } from './components';
 import { 
-  //Main as MainLayout, 
-  Login as LoginLayout,
-  Bbk as BbkLayout
+  Main as MainLayout, 
+  Login as LoginLayout
+  //Bbk as BbkLayout
 } from './layouts';
 
 import {
-  //Dashboard as DashboardView,
+  Dashboard as DashboardView,
   NotFound as NotFoundView,
-  //Tiket as TiketView,
-  //AddTiket as AddTiketView
+  Tiket as TiketView,
+  AddTiket as AddTiketView
 } from './views';
 
-import {
-  Masuk as MasukView,
-  SignIn as SignInView
-} from "./absensi";
+// import {
+//   Masuk as MasukView,
+//   SignIn as SignInView
+// } from "./absensi";
 
 const Routes = () => {
   return (
     <Switch>
-      {/*<Redirect
+      <Redirect
         exact
         from="/"
-        to="/masuk"
-      /> */}
-
-      { /* <RouteWithLayout
+        to="/dashboard"
+      />
+      <RouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
@@ -50,12 +49,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/tiket/add"
-      /> */ }
-      <RouteBbkLayout
-        component={MasukView}
-        exact
-        layout={BbkLayout}
-        path="/"
       />
       <RouteWithLayout
         component={NotFoundView}
@@ -64,12 +57,18 @@ const Routes = () => {
         path="/not-found"
       />
       { /*ABSENSI*/ }
+      { /* <RouteBbkLayout
+        component={MasukView}
+        exact
+        layout={BbkLayout}
+        path="/"
+      />
       <RouteBbkLoggedLayout
         component={SignInView}
         exact
         layout={LoginLayout}
         path="/sign-in"
-      />
+      /> */}
       <Redirect to="/not-found" />
     </Switch>
   );

@@ -63,5 +63,5 @@
     "prettier-eslint-cli": "^4.7.1",
     "typescript": "^3.5.1"
   },
-  "homepage": "http://103.78.208.98/absensi2"
+  "homepage": "."
 }

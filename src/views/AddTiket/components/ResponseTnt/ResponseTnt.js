@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core";
 import BootstrapInput from "../FormPengaduan/BootstrapInput";
 import FormChecked from "./FormChecked";
+import api from "../../../../api";
+import InputSearch from "./InputSearch";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -22,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     	position: 'relative'
 	},
 	field:{
-		width:'100%'
+		width:'100%',
+		marginBottom: 15
 	},
 	labelForm: {
 		marginBottom: theme.spacing(1),
@@ -41,9 +44,13 @@ const ResponseTnt = props => {
 		data: {
 			layanan: '',
 			officeCode: '',
-			officeName: ''
+			officeName: '',
+			tujuanPengaduan: '',
+			kantorTujuan: ''
 		},
-		checked: false
+		checked: false,
+		listkprk: [],
+		listkprk2: []
 	})
 
 	React.useEffect(() => {
@@ -64,6 +71,32 @@ const ResponseTnt = props => {
 		...prevState,
 		checked: !prevState.checked
 	}))
+
+	const handleChangeSearch = (value, name) => {
+		// const { name, value } = e.target;
+		setState(prevState => ({ 
+			...prevState,
+			data: {
+				...prevState.data,
+				[name]: value 
+			}
+		}))
+	}
+
+	const fetchKprk = (nameOption, nameValue) => {
+		api.cch.getKprk(state.data[nameValue])
+			.then(res => {
+				const options = [];
+				res.forEach(row => {
+					options.push(`${row.nopend} - ${row.NamaKtr}`)
+				});	
+
+				setState(prevState => ({
+					...prevState,
+					[nameOption]: options
+				}))
+			})
+	}
 
 	const classes 	= useStyles();
 	const { data, checked } = state;
@@ -99,7 +132,25 @@ const ResponseTnt = props => {
 					    	style={{marginTop: -10}}
 					    />
 					</FormControl>
-					{ checked ? <FormChecked data={props.data} /> : <p>Oyy</p> }
+					<FormControl className={classes.field}>
+						<InputSearch 
+							name='tujuanPengaduan'
+							handleChange={handleChangeSearch}
+							value={data.tujuanPengaduan}
+							option={state.listkprk}
+							callApi={fetchKprk}
+							label='Tujuan Pengaduan'
+							apiValue='listkprk'
+						/>
+					</FormControl>
+					{ checked ? 
+						<FormChecked 
+							data={props.data} 
+							options={state.listkprk2}
+							handleChange={handleChangeSearch}
+							fetchKprk={fetchKprk}
+							kantorTujuan={data.kantorTujuan}
+						/> : <p>Oyy</p> }
 				</div>
 			</CardContent>
 		</Card>

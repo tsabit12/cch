@@ -63,5 +63,10 @@ export default{
 				return Promise.reject(res.data);
 			}
 		})
+	},
+	cch: {
+		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
+			param
+		}).then(res => res.data.result)
 	}
 }

@@ -50,7 +50,8 @@ const AddTiket = props => {
 			...prevState,
 			loading: true,
 			data,
-			errors: {}
+			errors: {},
+			tnt: []
 		}))
 		const payload = {
 			resi: data.noresi

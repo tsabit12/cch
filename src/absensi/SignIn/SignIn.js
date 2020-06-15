@@ -53,7 +53,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundImage: 'url(/images/auth.jpg)',
-    backgroundImage: `url(${process.env.REACT_APP_PUBLIC_URL}/images/logos/hitam.png)`,
+    // backgroundImage: `url(${process.env.REACT_APP_PUBLIC_URL}/images/logos/hitam.png)`,
+    backgroundImage:'url(http://www.bbk.go.id/absensi/images/logos/hitam.png)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
