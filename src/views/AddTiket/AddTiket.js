@@ -133,7 +133,10 @@ const AddTiket = props => {
 				          xl={12}
 				          xs={12}
 				        >
-				        	<ResponseTnt data={state.tnt} />
+				        	<ResponseTnt 
+				        		data={state.tnt} 
+				        		channel={state.data.channel}
+				        	/>
 				        </Grid> }
 			    </Grid>
 		    </div>
