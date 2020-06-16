@@ -14,12 +14,14 @@ const useStyles = makeStyles(theme => ({
 
 const Tiket = props => {
 	const [state, setState] = React.useState({
-		title: 'Ticket Masuk'
+		title: 'Ticket Masuk',
+		active: 1
 	})
 
-	const handleChangeTitle = (title) => setState(prevState => ({
+	const handleChangeTitle = (title, active) => setState(prevState => ({
 		...prevState,
-		title
+		title,
+		active: active
 	}))
 
 	const classes = useStyles();
@@ -40,6 +42,7 @@ const Tiket = props => {
 	        	<BtnPengaduan 
 	        		onClickTitle={handleChangeTitle} 
 	        		addTicket={() => props.history.push("/tiket/add")}
+	        		activeLink={state.active}
 	        	/>
 	        </Grid>
 	        <Grid

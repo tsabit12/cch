@@ -40,6 +40,12 @@ const useStyles = makeStyles(theme => ({
 		paddingLeft: 15,
 		paddingRight: 10
 	},
+	listActived: {
+		padding: 0,
+		paddingLeft: 15,
+		paddingRight: 10,
+		backgroundColor: 'rgba(216, 212, 212, 0.94)'
+	},
 	bottom: {
 		margin: 10,
 		marginLeft: 15,
@@ -78,7 +84,11 @@ const BtnPengaduan = props => {
 				</Button>
 			</div>
 			
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Ticket Masuk')}>
+			<ListItem 
+				className={props.activeLink === 1 ? classes.listActived : classes.list} 
+				button 
+				onClick={() => props.onClickTitle('Ticket Masuk', 1)}
+			>
 			    <ListItemText primary="Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -89,7 +99,11 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Ticket Keluar')}>
+			<ListItem 
+				className={props.activeLink === 2 ? classes.listActived : classes.list} 
+				button 
+				onClick={() => props.onClickTitle('Ticket Keluar', 2)}
+			>
 			    <ListItemText primary="Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -100,7 +114,11 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Baru Diupdate')}>
+			<ListItem 
+				button 
+				onClick={() => props.onClickTitle('Baru Diupdate', 3)}
+				className={props.activeLink === 3 ? classes.listActived : classes.list} 
+			>
 			    <ListItemText primary="Baru Diupdate" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -111,7 +129,11 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Permintaan Tutup Ticket')}>
+			<ListItem 
+				button 
+				onClick={() => props.onClickTitle('Permintaan Tutup Ticket', 4)}
+				className={props.activeLink === 4 ? classes.listActived : classes.list} 
+			>
 			    <ListItemText primary="Permintaan Tutup Ticket" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -131,7 +153,11 @@ const BtnPengaduan = props => {
 	            	Semua Ticket
 	            </Typography>
 			</div>
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Semua Ticket Masuk')}>
+			<ListItem 
+				button 
+				onClick={() => props.onClickTitle('Semua Ticket Masuk', 5)}
+				className={props.activeLink === 5 ? classes.listActived : classes.list} 
+			>
 			    <ListItemText primary="Semua Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
@@ -142,7 +168,11 @@ const BtnPengaduan = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider/>
-			<ListItem className={classes.list} button onClick={() => props.onClickTitle('Semua Ticket Keluar')}>
+			<ListItem 
+				className={props.activeLink === 6 ? classes.listActived : classes.list} 
+				button 
+				onClick={() => props.onClickTitle('Semua Ticket Keluar', 6)}
+			>
 			    <ListItemText primary="Semua Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
