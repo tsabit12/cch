@@ -108,6 +108,7 @@ const AddTiket = props => {
 			kantorTujuan: values.kantorTujuan.split("-")[0],
 			tujuanPengaduan: values.tujuanPengaduan.split("-")[0]
 		};
+		console.log(payload);
 		setState(prevState => ({
 			...prevState,
 			loading: true
