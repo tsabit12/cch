@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TextField } from "@material-ui/core";
+import { TextField, FormHelperText } from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const InputSearch = props => {
@@ -16,22 +16,26 @@ const InputSearch = props => {
 	}, [props.value]);
 
 	return(
-		<Autocomplete
-	      id="combo-box-demo"
-	      options={props.option}
-	      inputValue={props.value}
-	      // getOptionLabel={(option) => props.option}
-	      style={{ width: '100%' }}
-	      onInputChange={(e, value) => props.handleChange(value, props.name)}
-	      renderInput={(params) => 
-	      	<TextField 
-	      		{...params} 
-	      		label={props.label}
-	      		name={props.name}
-	      		size="small" 
-	      		variant="outlined" 
-	      	/> }
-	    />
+		<React.Fragment>
+			<Autocomplete
+		      id="combo-box-demo"
+		      options={props.option}
+		      inputValue={props.value}
+		      // getOptionLabel={(option) => props.option}
+		      style={{ width: '100%' }}
+		      onInputChange={(e, value) => props.handleChange(value, props.name)}
+		      renderInput={(params) => 
+		      	<TextField 
+		      		{...params} 
+		      		label={props.label}
+		      		name={props.name}
+		      		size="small" 
+		      		variant="outlined" 
+		      		error={!!props.error}
+		      	/> }
+		    />
+		    {!!props.error === true && <FormHelperText>{props.error}</FormHelperText>}
+	    </React.Fragment>
 	);
 }
 
@@ -42,7 +46,8 @@ InputSearch.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	option: PropTypes.array.isRequired,
 	callApi: PropTypes.func.isRequired,
-	apiValue: PropTypes.string.isRequired
+	apiValue: PropTypes.string.isRequired,
+	error: PropTypes.string
 }
 
 

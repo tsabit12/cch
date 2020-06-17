@@ -14,7 +14,8 @@ import {
 	MenuItem,
 	InputLabel,
 	TextareaAutosize,
-	Button
+	Button,
+	FormHelperText
 } from "@material-ui/core";
 import BootstrapInput from "../FormPengaduan/BootstrapInput";
 import FormChecked from "./FormChecked";
@@ -66,8 +67,6 @@ const ResponseTnt = props => {
 	const [state, setState] = React.useState({
 		data: {
 			layanan: '',
-			officeCode: '',
-			officeName: '',
 			tujuanPengaduan: '',
 			kantorTujuan: '',
 			channelpos: '0',
@@ -77,7 +76,8 @@ const ResponseTnt = props => {
 		checked: false,
 		listkprk: [],
 		listkprk2: [],
-		catatan: ''
+		catatan: '',
+		errors: {}
 	})
 
 	React.useEffect(() => {
@@ -122,6 +122,10 @@ const ResponseTnt = props => {
 			data: {
 				...prevState.data,
 				[name]: value 
+			},
+			errors: {
+				...prevState.errors,
+				[name]: undefined
 			}
 		}))
 	}
@@ -148,12 +152,44 @@ const ResponseTnt = props => {
 			data: {
 				...prevState.data,
 				[name]: value
+			},
+			errors: {
+				...prevState.errors,
+				[name]: undefined
 			}
 		}))
 	}
 
+	const onSubmit = () => {
+		const errors = validate(state.data);
+		setState(prevState => ({
+			...prevState,
+			errors
+		}))
+		if (Object.keys(errors).length === 0) {
+			const payload = {
+				...state.data,
+				tujuanPengaduan: state.data.tujuanPengaduan.replace(/ /g, ""),
+				kantorTujuan: state.data.kantorTujuan.replace(/ /g, ""),
+				catatan: state.catatan.replace(/=/g, "")
+			};
+			props.onSubmit(payload);
+		}
+	}
+
+	const validate = (value) => {
+		const errors = {};
+		if (!value.layanan) errors.layanan = "Layanan harap diisi";
+		if (value.jenisbisnis === '0') errors.jenisbisnis = "Jenis bisnis harap dipilih";
+		if (value.jeniscustomer === '0') errors.jeniscustomer = "Jenis customer harap dipilih";
+		if (value.channelpos === '0') errors.channelpos = "Channel pos harap dipilih";
+		if (!value.kantorTujuan) errors.kantorTujuan = "Kantor tujuan belum dipilih";
+		if (!value.tujuanPengaduan) errors.tujuanPengaduan = "Tujuan pengaduan belum dipilih";
+		return errors;
+	}
+
 	const classes 	= useStyles();
-	const { data, checked } = state;
+	const { data, checked, errors } = state;
 	
 	return(
 		<Card className={classes.root}>
@@ -161,7 +197,7 @@ const ResponseTnt = props => {
 			<Divider />
 			<CardContent>
 				<div className={classes.container}>
-					<FormControl className={classes.field}>
+					<FormControl className={classes.field} error={!!errors.layanan}>
 						<div className={classes.row}>
 							<FormLabel component="legend" >
 								Jenis Layanan
@@ -184,9 +220,10 @@ const ResponseTnt = props => {
 					    	id="layanan-customized-input" 
 					    	disabled={checked}
 					    	style={{marginTop: -10}}
+					    	iserror={!!errors.layanan === true ? 1 : 0}
 					    />
 					</FormControl>
-					<FormControl className={classes.field}>
+					<FormControl className={classes.field} error={!!errors.tujuanPengaduan}>
 						<InputSearch 
 							name='tujuanPengaduan'
 							handleChange={handleChangeSearch}
@@ -195,6 +232,7 @@ const ResponseTnt = props => {
 							callApi={fetchKprk}
 							label='Tujuan Pengaduan'
 							apiValue='listkprk'
+							error={errors.tujuanPengaduan}
 						/>
 					</FormControl>
 					{ checked ? 
@@ -204,9 +242,13 @@ const ResponseTnt = props => {
 							handleChange={handleChangeSearch}
 							fetchKprk={fetchKprk}
 							kantorTujuan={data.kantorTujuan}
+							error={errors.kantorTujuan}
 						/> : <p>Oyy</p> }
 					<div className={clsx(classes.row, classes.topMargin)}>
-						<FormControl className={classes.fieldBootstrap}>
+						<FormControl 
+							className={classes.fieldBootstrap}
+							error={!!errors.channelpos}
+						>
 							<InputLabel 
 					        	className={classes.label} 
 					        	htmlFor="channelpos"
@@ -220,6 +262,7 @@ const ResponseTnt = props => {
 					          	<BootstrapInput 
 					          		name="channelpos" 
 					          		id="channelpos" 
+					          		iserror={!!errors.channelpos === true ? 1 : 0}
 					          	/>}
 					          autoWidth={true}
 					        >
@@ -229,8 +272,12 @@ const ResponseTnt = props => {
 					          <MenuItem value={3}>ORANG</MenuItem>
 					          <MenuItem value={4}>KORPORAT</MenuItem>
 					        </Select>
+					        {!!errors.channelpos === true && <FormHelperText>{errors.channelpos}</FormHelperText>}
 						</FormControl>
-						<FormControl className={clsx(classes.fieldBootstrap, classes.padleft)}>
+						<FormControl 
+							className={clsx(classes.fieldBootstrap, classes.padleft)}
+							error={!!errors.jeniscustomer}
+						>
 							<InputLabel 
 					        	className={clsx(classes.label, classes.padleft)} 
 					        	htmlFor="jeniscustomer"
@@ -244,6 +291,7 @@ const ResponseTnt = props => {
 					          	<BootstrapInput 
 					          		name="jeniscustomer" 
 					          		id="jeniscustomer" 
+					          		iserror={!!errors.jeniscustomer === true ? 1 : 0}
 					          	/>}
 					          autoWidth={true}
 					        >
@@ -251,8 +299,12 @@ const ResponseTnt = props => {
 					          <MenuItem value={1}>RITEL</MenuItem>
 					          <MenuItem value={2}>KORPORAT</MenuItem>
 					        </Select>
+					        {!!errors.jeniscustomer === true && <FormHelperText>{errors.jeniscustomer}</FormHelperText>}
 						</FormControl>
-						<FormControl className={clsx(classes.fieldBootstrap, classes.padleft)}>
+						<FormControl 
+							className={clsx(classes.fieldBootstrap, classes.padleft)}
+							error={!!errors.jenisbisnis}
+						>
 							<InputLabel 
 					        	className={clsx(classes.label, classes.padleft)} 
 					        	htmlFor="jenisbisnis"
@@ -266,6 +318,7 @@ const ResponseTnt = props => {
 					          	<BootstrapInput 
 					          		name="jenisbisnis" 
 					          		id="jenisbisnis" 
+					          		iserror={!!errors.jenisbisnis === true ? 1 : 0}
 					          	/>}
 					          autoWidth={true}
 					        >
@@ -273,6 +326,7 @@ const ResponseTnt = props => {
 					          <MenuItem value={1}>e-Commerce</MenuItem>
 					          <MenuItem value={2}>Non e-Commerce</MenuItem>
 					        </Select>
+					        {!!errors.jenisbisnis === true && <FormHelperText>{errors.jenisbisnis}</FormHelperText>}
 						</FormControl>
 					</div>
 					<FormControl className={clsx(classes.field, classes.topMargin)}>
@@ -290,8 +344,20 @@ const ResponseTnt = props => {
 			</CardContent>
 			<Divider />
 			<CardActions className={classes.actions}>
-		        <Button variant="contained" color="secondary" onClick={() => props.reset()}>Reset</Button>
-				<Button variant="contained" color="primary">Simpan</Button>
+		        <Button 
+		        	variant="contained" 
+		        	onClick={() => props.reset()}
+		        	style={{backgroundColor: 'rgb(220, 0, 78)', color: 'white'}}
+		        >
+		        	Reset
+		        </Button>
+				<Button 
+					variant="contained" 
+					color="primary"
+					onClick={onSubmit}
+				>
+					Simpan
+				</Button>
 		   	</CardActions>
 		</Card>
 	);

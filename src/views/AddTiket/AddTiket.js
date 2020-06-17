@@ -101,6 +101,26 @@ const AddTiket = props => {
 		}))
 	}
 
+	const handleSubmit = (values) => {
+		const payload = {
+			...values,
+			...state.data,
+			kantorTujuan: values.kantorTujuan.split("-")[0],
+			tujuanPengaduan: values.tujuanPengaduan.split("-")[0]
+		};
+		setState(prevState => ({
+			...prevState,
+			loading: true
+		}))
+		
+		setTimeout(() => {
+			setState(prevState => ({
+				...prevState,
+				loading: false
+			}))
+		}, 600)
+	}
+
 	const { loading, errors, tnt } = state;
 
 	return(
@@ -148,6 +168,7 @@ const AddTiket = props => {
 				        		data={state.tnt} 
 				        		channel={state.data.channel}
 				        		reset={handleResetForm}
+				        		onSubmit={handleSubmit}
 				        	/>
 				        </Grid> }
 			    </Grid>

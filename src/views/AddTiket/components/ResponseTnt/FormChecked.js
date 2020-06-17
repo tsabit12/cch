@@ -45,16 +45,17 @@ const FormChecked = props => {
 						value={`${officeCode} - ${officeName}`}
 					/>
 				</FormControl>
-				<FormControl className={classes.field2}>
+				<FormControl className={classes.field2} error={!!props.error}>
 					<InputSearch 
-            name='kantorTujuan'
-            handleChange={props.handleChange}
-            value={props.kantorTujuan}
-            option={props.options}
-            callApi={props.fetchKprk}
-            label='Kantor Tujuan'
-            apiValue='listkprk2'
-          />
+			            name='kantorTujuan'
+			            handleChange={props.handleChange}
+			            value={props.kantorTujuan}
+			            option={props.options}
+			            callApi={props.fetchKprk}
+			            label='Kantor Tujuan'
+			            apiValue='listkprk2'
+			            error={props.error}
+			         />
 				</FormControl>
 			</div>
 	);
@@ -65,7 +66,8 @@ FormChecked.propTypes = {
   fetchKprk: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  kantorTujuan: PropTypes.string.isRequired
+  kantorTujuan: PropTypes.string.isRequired,
+  error: PropTypes.string
 }
 
 export default FormChecked;
