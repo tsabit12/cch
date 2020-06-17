@@ -4,6 +4,7 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
+	CardActions,
 	Divider,
 	FormControl,
 	FormLabel,
@@ -12,7 +13,8 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
-	TextareaAutosize
+	TextareaAutosize,
+	Button
 } from "@material-ui/core";
 import BootstrapInput from "../FormPengaduan/BootstrapInput";
 import FormChecked from "./FormChecked";
@@ -54,6 +56,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	padleft: {
 		paddingLeft: '12px'
+	},
+	actions: {
+	    justifyContent: 'flex-end'
 	}
 }))
 
@@ -283,8 +288,14 @@ const ResponseTnt = props => {
 					</FormControl>
 				</div>
 			</CardContent>
+			<Divider />
+			<CardActions className={classes.actions}>
+		        <Button variant="contained" color="secondary" onClick={() => props.reset()}>Reset</Button>
+				<Button variant="contained" color="primary">Simpan</Button>
+		   	</CardActions>
 		</Card>
 	);
 }
+
 
 export default ResponseTnt;

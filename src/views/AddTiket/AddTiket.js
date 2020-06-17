@@ -40,7 +40,8 @@ const AddTiket = props => {
 		loading: false,
 		errors: {},
 		data: {},
-		tnt: []
+		tnt: [],
+		disabledForm: false
 	})
 
 	const classes = useStyles();
@@ -62,7 +63,8 @@ const AddTiket = props => {
 				setState(prevState => ({
 					...prevState,
 					loading: false,
-					tnt: r_tnt
+					tnt: r_tnt,
+					disabledForm: true
 				}))
 			})
 			.catch(err => {
@@ -90,6 +92,14 @@ const AddTiket = props => {
 		...prevState,
 		errors: {}
 	}))
+
+	const handleResetForm = () => {
+		setState(prevState => ({
+			...prevState,
+			disabledForm: false,
+			tnt: []
+		}))
+	}
 
 	const { loading, errors, tnt } = state;
 
@@ -123,6 +133,7 @@ const AddTiket = props => {
 			        >
 			        	<FormPengaduan 
 			        		onSubmit={handleSubmitPengaduan}
+			        		disabled={state.disabledForm}
 			        	/>
 			        </Grid>
 			        { tnt.length > 0 &&  
@@ -136,6 +147,7 @@ const AddTiket = props => {
 				        	<ResponseTnt 
 				        		data={state.tnt} 
 				        		channel={state.data.channel}
+				        		reset={handleResetForm}
 				        	/>
 				        </Grid> }
 			    </Grid>

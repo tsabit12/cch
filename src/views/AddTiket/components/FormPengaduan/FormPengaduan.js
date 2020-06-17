@@ -41,6 +41,16 @@ const useStyles = makeStyles(theme => ({
   container: {
   	minHeight: '500px',
     position: 'relative'
+  },
+  backdrop: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    background: 'white',
+    opacity: 0.5,
+    pointerEvents: 'none'
   }
 }));
 
@@ -99,19 +109,42 @@ const FormPengaduan = props => {
 		errors: {}
 	});
 
+	React.useEffect(() => {
+		if (!props.disabled) {
+			setState({
+				data: {
+					channel: 0,
+					jenisChannel: 0,
+					noresi: '',
+					instagram: '',
+					nohp: '',
+					email: '',
+					twitter: '',
+					fb: '',
+					nik: '',
+					alamat: '',
+					nama: ''
+				},
+				errors: {}
+			})
+		}
+	}, [props.disabled])
+
 	const handleChange = e => {
 		const { name, value } = e.target;
-		 setState(prevState => ({
-			...prevState,
-			data: {
-				...prevState.data,
-				[name]: value
-			},
-			errors: {
-				...prevState.errors,
-				[name]: undefined
-			}
-		}))
+		if (!props.disabled) {
+			setState(prevState => ({
+				...prevState,
+				data: {
+					...prevState.data,
+					[name]: value
+				},
+				errors: {
+					...prevState.errors,
+					[name]: undefined
+				}
+			}))
+		}
 	}
 
 	const handleChangeChannel = e => {
@@ -172,6 +205,7 @@ const FormPengaduan = props => {
 	}
 
 	const { data, errors } = state;
+	const { disabled } = props;
 
 	return(
 		<Card className={classes.root}>
@@ -179,6 +213,7 @@ const FormPengaduan = props => {
 				title='FORM PENGADUAN'
 			/>
 			<Divider />
+			<div className={disabled ? classes.backdrop : ''}>
 			<CardContent>
 				<div className={classes.container}>
 					{
@@ -275,6 +310,7 @@ const FormPengaduan = props => {
 					</FormControl>
 				</div>
 			</CardContent>
+			</div>
 		</Card>
 	);
 }
