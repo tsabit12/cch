@@ -59,6 +59,13 @@ const Topbar = props => {
           </IconButton>
         </Hidden>
         <Hidden lgUp>
+            <IconButton
+              onClick={() => logout()}
+              className={classes.signOutButton}
+              color="inherit"
+            >
+              <InputIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             onClick={onSidebarOpen}
