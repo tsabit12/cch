@@ -90,6 +90,9 @@ export default{
 		}).then(res => res.data),
 		selesai: (nodps) => axios.post(`${process.env.REACT_APP_API}/getDps/selesai`, {
 			nodps: nodps
-		}).then(res => res.data)
+		}).then(res => res.data),
+		login: (payload) => axios.post(`${process.env.REACT_APP_API}/login`, {
+			...payload
+		}).then(res => res.data.result)
 	}
 }

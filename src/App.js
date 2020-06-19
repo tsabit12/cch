@@ -18,7 +18,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducers from "./rootReducers"; 
-import { isLoggedIn } from "./actions/bbk";
+import { isLoggedIn } from "./actions/djp";
 
 const store = createStore(
   rootReducers,
@@ -36,9 +36,13 @@ validate.validators = {
   ...validators
 };
 
-if (localStorage.bbkToken) {
-  const user   = decode(localStorage.bbkToken);
-  store.dispatch(isLoggedIn(user));
+if (localStorage.djpToken) {
+  const user   = decode(localStorage.djpToken);
+  const payload = {
+    ...user,
+    token: localStorage.djpToken
+  }
+  store.dispatch(isLoggedIn(payload));
 }
 
 class App extends Component {

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, ListItemIcon, ListItemText, colors } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+// import DashboardIcon from '@material-ui/icons/Dashboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 const useStyles = makeStyles(theme => ({
@@ -57,7 +57,7 @@ const SidebarNav = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <ListItem 
+      {/*<ListItem 
         button
         activeClassName={classes.active}
         className={classes.button}
@@ -81,18 +81,18 @@ const SidebarNav = props => {
           <FileCopyIcon />
         </ListItemIcon>
         <ListItemText primary="Tiket" />
-      </ListItem>
+      </ListItem>*/}
       <ListItem 
         button
         activeClassName={classes.active}
         className={classes.button}
         component={CustomRouterLink}
-        to="/scan"
+        to="/"
       >
         <ListItemIcon>
           <FileCopyIcon />
         </ListItemIcon>
-        <ListItemText primary="Scan DPS" />
+        <ListItemText primary="SCAN DPS" />
       </ListItem>
     </List>
   );

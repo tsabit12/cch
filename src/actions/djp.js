@@ -6,7 +6,8 @@ import {
 	REMOVE_SUCCESS_MESSAGE,
 	ADD_SUCCESS_MESSAGE,
 	WAS_SCAN,
-	UPDATE_TO_VALID_DPS
+	UPDATE_TO_VALID_DPS,
+	LOGIN_DJP
 } from "../types";
 import api from "../api";
 
@@ -144,3 +145,15 @@ export const invalidAdd = (errors, payload) => dispatch => {
 		})
 	}
 }
+
+export const isLoggedIn = (user) => ({
+	type: LOGIN_DJP,
+	user
+})
+
+export const setLogin = (payload) => dispatch => 
+	api.dps.login(payload)
+		.then(user => {
+			localStorage.djpToken = user.token;
+			dispatch(isLoggedIn(user))
+		})

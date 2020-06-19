@@ -6,13 +6,15 @@ import {
 	REMOVE_SUCCESS_MESSAGE,
 	ADD_SUCCESS_MESSAGE,
 	WAS_SCAN,
-	UPDATE_TO_VALID_DPS
+	UPDATE_TO_VALID_DPS,
+	LOGIN_DJP
 } from "../types";
 
 const initialState = {
 	temp: [],
 	errors: {},
-	removed: {}
+	removed: {},
+	user: {}
 }
 
 export default function djp(state=initialState, action={}) {
@@ -61,6 +63,7 @@ export default function djp(state=initialState, action={}) {
 			}
 		case WAS_SCAN:
 			return{
+				...state,
 				temp: [],
 				errors: {},
 				removed: {}
@@ -72,6 +75,11 @@ export default function djp(state=initialState, action={}) {
 					if (x.barcode === action.payload.barcode) return action.payload;
 					return x;
 				})
+			}
+		case LOGIN_DJP:
+			return{
+				...state,
+				user: action.user
 			}
 		default: return state;
 	}

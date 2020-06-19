@@ -3,8 +3,8 @@ import { Switch, Redirect } from 'react-router-dom';
 
 import { 
   RouteWithLayout,
-  // RouteBbkLayout,
-  // RouteBbkLoggedLayout
+  UserRouteDjp,
+  GuestRouteDjp
 } from './components';
 import { 
   Main as MainLayout, 
@@ -13,38 +13,29 @@ import {
 } from './layouts';
 
 import {
-  Dashboard as DashboardView,
+  //Dashboard as DashboardView,
   NotFound as NotFoundView,
-  Tiket as TiketView,
-  AddTiket as AddTiketView,
-  Scan as ScanView
+  //Tiket as TiketView,
+  //AddTiket as AddTiketView,
+  Scan as ScanView,
+  SignIn as SignInView
 } from './views';
 
-// import {
-//   Masuk as MasukView,
-//   SignIn as SignInView
-// } from "./absensi";
 
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
+      {/* <Redirect
         exact
         from="/"
         to="/dashboard"
-      />
+      /> 
       <RouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
         path="/dashboard"
-      />
-      <RouteWithLayout
-        component={ScanView}
-        exact
-        layout={MainLayout}
-        path="/scan"
-      />
+      /> 
       <RouteWithLayout
         component={TiketView}
         exact
@@ -57,25 +48,25 @@ const Routes = () => {
         layout={MainLayout}
         path="/tiket/add"
       />
+      */}
+      <GuestRouteDjp
+        component={ScanView}
+        exact
+        layout={MainLayout}
+        path="/"
+      />
+      <UserRouteDjp
+        component={SignInView}
+        exact
+        layout={LoginLayout}
+        path="/sign-in"
+      />
       <RouteWithLayout
         component={NotFoundView}
         exact
         layout={LoginLayout}
         path="/not-found"
       />
-      { /*ABSENSI*/ }
-      { /* <RouteBbkLayout
-        component={MasukView}
-        exact
-        layout={BbkLayout}
-        path="/"
-      />
-      <RouteBbkLoggedLayout
-        component={SignInView}
-        exact
-        layout={LoginLayout}
-        path="/sign-in"
-      /> */}
       <Redirect to="/not-found" />
     </Switch>
   );
