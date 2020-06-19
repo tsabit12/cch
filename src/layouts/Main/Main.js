@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
-
+import { connect } from "react-redux";
 import { Sidebar, Topbar } from './components';
+import { setLogout } from "../../actions/djp";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,10 +51,14 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} />
+      <Topbar 
+        onSidebarOpen={handleSidebarOpen} 
+        logout={() => props.setLogout()}
+      />
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
+        user={props.user}
         variant={isDesktop ? 'persistent' : 'temporary'}
       />
       <main className={classes.content}>
@@ -64,7 +69,16 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  user: PropTypes.object.isRequired,
+  setLogout: PropTypes.func.isRequired
 };
 
-export default Main;
+
+function mapStateToProps(state) {
+  return{
+    user: state.djp.user
+  }
+}
+
+export default connect(mapStateToProps, { setLogout })(Main);

@@ -7,7 +7,8 @@ import {
 	ADD_SUCCESS_MESSAGE,
 	WAS_SCAN,
 	UPDATE_TO_VALID_DPS,
-	LOGIN_DJP
+	LOGIN_DJP,
+	LOGOUT_DJP
 } from "../types";
 import api from "../api";
 
@@ -157,3 +158,10 @@ export const setLogin = (payload) => dispatch =>
 			localStorage.djpToken = user.token;
 			dispatch(isLoggedIn(user))
 		})
+
+export const setLogout = () => dispatch => {
+	localStorage.removeItem('djpToken');
+	dispatch({
+		type: LOGOUT_DJP
+	})
+}

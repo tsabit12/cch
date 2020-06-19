@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
+  const { className, onSidebarOpen, logout, ...rest } = props;
 
   const classes = useStyles();
 
@@ -51,6 +51,7 @@ const Topbar = props => {
             </Badge>
           </IconButton>
           <IconButton
+            onClick={() => logout()}
             className={classes.signOutButton}
             color="inherit"
           >
@@ -72,7 +73,8 @@ const Topbar = props => {
 
 Topbar.propTypes = {
   className: PropTypes.string,
-  onSidebarOpen: PropTypes.func
+  onSidebarOpen: PropTypes.func,
+  logout: PropTypes.func.isRequired
 };
 
 export default Topbar;

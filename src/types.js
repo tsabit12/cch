@@ -9,3 +9,4 @@ export const ADD_SUCCESS_MESSAGE = 'ADD_SUCCESS_MESSAGE';
 export const WAS_SCAN = 'WAS_SCAN';
 export const UPDATE_TO_VALID_DPS = 'UPDATE_TO_VALID_DPS';
 export const LOGIN_DJP = 'LOGIN_DJP';
+export const LOGOUT_DJP = 'LOGOUT_DJP';

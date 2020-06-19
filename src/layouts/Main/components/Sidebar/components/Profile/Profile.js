@@ -22,15 +22,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
-  const { className, ...rest } = props;
+  const { className, data, ...rest } = props;
 
   const classes = useStyles();
 
-  const user = {
-    name: 'Shen Zhi',
-    avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director'
-  };
+  // const user = {
+  //   name: 'Shen Zhi',
+  //   avatar: '/images/avatars/avatar_11.png',
+  //   bio: 'Brain Director'
+  // };
 
   return (
     <div
@@ -41,22 +41,23 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        src={user.avatar}
+        src={`${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`}
         to="/settings"
       />
       <Typography
         className={classes.name}
         variant="h4"
       >
-        {user.name}
+        {data.nama}
       </Typography>
-      <Typography variant="body2">{user.bio}</Typography>
+      <Typography variant="body2">{data.username}</Typography>
     </div>
   );
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  data: PropTypes.object.isRequired
 };
 
 export default Profile;

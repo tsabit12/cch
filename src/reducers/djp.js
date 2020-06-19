@@ -7,7 +7,8 @@ import {
 	ADD_SUCCESS_MESSAGE,
 	WAS_SCAN,
 	UPDATE_TO_VALID_DPS,
-	LOGIN_DJP
+	LOGIN_DJP,
+	LOGOUT_DJP
 } from "../types";
 
 const initialState = {
@@ -80,6 +81,11 @@ export default function djp(state=initialState, action={}) {
 			return{
 				...state,
 				user: action.user
+			}
+		case LOGOUT_DJP:
+			return{
+				...state,
+				user: {}
 			}
 		default: return state;
 	}

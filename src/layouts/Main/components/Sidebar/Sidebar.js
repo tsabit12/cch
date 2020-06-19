@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Drawer } from '@material-ui/core';
 
-import { Profile, SidebarNav, UpgradePlan } from './components';
+import { 
+  Profile, 
+  SidebarNav, 
+  //UpgradePlan 
+} from './components';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -51,11 +55,13 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
+        <Profile 
+          data={props.user}
+        />
         <SidebarNav
           className={classes.nav}
         />
-        <UpgradePlan />
+        { /* <UpgradePlan /> */ }
       </div>
     </Drawer>
   );
@@ -65,7 +71,8 @@ Sidebar.propTypes = {
   className: PropTypes.string,
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired
+  variant: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default Sidebar;
