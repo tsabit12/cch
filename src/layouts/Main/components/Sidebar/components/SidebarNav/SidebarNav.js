@@ -82,7 +82,18 @@ const SidebarNav = props => {
         </ListItemIcon>
         <ListItemText primary="Tiket" />
       </ListItem>
-
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/scan"
+      >
+        <ListItemIcon>
+          <FileCopyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Scan DPS" />
+      </ListItem>
     </List>
   );
 };

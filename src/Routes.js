@@ -16,7 +16,8 @@ import {
   Dashboard as DashboardView,
   NotFound as NotFoundView,
   Tiket as TiketView,
-  AddTiket as AddTiketView
+  AddTiket as AddTiketView,
+  Scan as ScanView
 } from './views';
 
 // import {
@@ -37,6 +38,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/dashboard"
+      />
+      <RouteWithLayout
+        component={ScanView}
+        exact
+        layout={MainLayout}
+        path="/scan"
       />
       <RouteWithLayout
         component={TiketView}

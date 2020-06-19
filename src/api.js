@@ -1,12 +1,18 @@
 import axios from "axios";
+//import https from 'https';
 
 
 const urlBbk = 'http://103.78.208.98/api';
+//const urlDps  = 'https://10.28.3.72/pickupdjp/src';
 const configBbk = {
 	headers: {
 		'Content-Type': 'application/json'
 	}
 }
+
+// const agent = new https.Agent({  
+//   rejectUnauthorized: false
+// });
 
 export default{
 	trackAndTrace: (payload) => axios.post('https://api.posindonesia.co.id:8245/utilitas/1.0.1/getTrackAndTrace', {
@@ -68,5 +74,22 @@ export default{
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
 			param
 		}).then(res => res.data.result)
+	},
+	dps: {
+		scanDps: (param) => axios.post(`${process.env.REACT_APP_API}/getDps`, {
+			nodps: param
+		}).then(res => res.data),
+		insertBarcode: (payload) => axios.post(`${process.env.REACT_APP_API}/getDps/insertBarcode`, {
+			...payload
+		}).then(res => res.data),
+		getStatus: (nodps) => axios.post(`${process.env.REACT_APP_API}/getDps/getStatus`, {
+			nodps: nodps
+		}).then(res => res.data),
+		batalSerah: (payload) => axios.post(`${process.env.REACT_APP_API}/getDps/batalSerah`, {
+			...payload
+		}).then(res => res.data),
+		selesai: (nodps) => axios.post(`${process.env.REACT_APP_API}/getDps/selesai`, {
+			nodps: nodps
+		}).then(res => res.data)
 	}
 }
