@@ -4,7 +4,8 @@ import { Grid } from "@material-ui/core";
 import {
 	InputScan,
 	Loader,
-	InputBarcode
+	InputBarcode,
+	ModalScan
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -40,7 +41,12 @@ const Scan = props => {
 		entri: false,
 		isValidasi: false,
 		isDone: false,
-		isFocus: true
+		isFocus: true,
+		visible: {
+			show: false,
+			barcode: '',
+			newBarcode: ''
+		}
 	})
 
 	React.useEffect(() => {
@@ -246,22 +252,75 @@ const Scan = props => {
 	}
 
 	const onScanUlang = (barcode) => {
-		const payload = {
-			barcode,
-			nodps: state.data.no_dps,
-			status: 'VALID'
-		};
-		props.updateToValid(payload);
-		api.dps.insertBarcode(payload)
+		setState(prevState => ({
+			...prevState,
+			visible: {
+				...prevState.visible,
+				show: true,
+				barcode: barcode,
+				newBarcode:''
+			}
+		}))
+	}
+
+	const handleChangeBarcode = (e) => {
+		const { value } = e.target;
+		setState(prevState => ({
+			...prevState,
+			visible: {
+				...prevState.visible,
+				newBarcode: value
+			}
+		}))
+	}
+
+	const handleSubmitModal = (e) => {
+		e.preventDefault();
+		const { newBarcode, barcode } = state.visible;
+		const errors = validateUlang(newBarcode, barcode);
+		setState(prevState => ({
+			...prevState,
+			errors
+		}))
+		if (Object.keys(errors).length === 0) {
+			const payload = {
+				barcode: newBarcode,
+				nodps: state.data.no_dps,
+				status: 'VALID'
+			};
+			props.updateToValid(payload);
+			setState(prevState => ({
+				...prevState,
+				visible: {
+					...prevState.visible,
+					show: false
+				}
+			}))
+
+			api.dps.insertBarcode(payload)
 			.catch(err => {
 				const payload2 = {
-					barcode,
+					barcode: newBarcode,
 					nodps: state.data.no_dps,
 					status: 'Tidak ada di temp'
 				};
 				props.invalidAdd(err, payload2);
 			})
+		}
+
 	}
+
+	const validateUlang = (newBarcode, barcode) => {
+		const errors = {};
+		if (!newBarcode){
+			errors.globalBarcode = "Barcode is required";
+		}else{
+			if (newBarcode !== barcode) errors.globalBarcode = "Barcode tidak sama";
+		}
+		return errors;
+	}
+
+	console.log(errors);
 
 	return(
 		<div className={classes.root}>
@@ -278,7 +337,23 @@ const Scan = props => {
 				message={removed.success}
 				// onClose={onCloseAlert} 
 			/>
-
+			<ModalScan 
+				visible={state.visible.show}
+				barcode={state.visible.barcode}
+				value={state.visible.newBarcode}
+				onChange={handleChangeBarcode}
+				onClose={() => setState(prevState => ({ 
+					...prevState, 
+					visible: {
+						...prevState.visible,
+						show: false,
+						barcode: '',
+						newBarcode: ''
+					}
+				}))}
+				onSubmit={handleSubmitModal}
+				error={errors.globalBarcode}
+			/>
 			<Grid
 		        container
 		        spacing={4}

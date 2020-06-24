@@ -65,14 +65,23 @@ export const addBarcode = (payload) => dispatch => {
 							dispatch(addPayload(payload));
 						}, 100);
 					}else{
-						dispatch({
-							type: INVALID_ADD_BARCODE,
-							errors: err.response.data.errors,
-							payload
-						});
-						setTimeout(() => {
-							dispatch(addPayload(payload));
-						}, 100);
+						//handle duplicate
+						if (err.response.data.errors.global === 'Barcode tidak valid') {
+							dispatch({
+								type: INVALID_ADD_BARCODE,
+								errors: err.response.data.errors,
+								payload
+							});
+						}else{
+							dispatch({
+								type: INVALID_ADD_BARCODE,
+								errors: err.response.data.errors,
+								payload
+							});
+							setTimeout(() => {
+								dispatch(addPayload(payload));
+							}, 100);
+						}
 					}
 				}else{
 					dispatch({
