@@ -88,8 +88,9 @@ export default{
 		batalSerah: (payload) => axios.post(`${process.env.REACT_APP_API}/getDps/batalSerah`, {
 			...payload
 		}).then(res => res.data),
-		selesai: (nodps) => axios.post(`${process.env.REACT_APP_API}/getDps/selesai`, {
-			nodps: nodps
+		selesai: (nodps, idpegawai) => axios.post(`${process.env.REACT_APP_API}/getDps/selesai`, {
+			nodps: nodps,
+			idpegawai
 		}).then(res => res.data),
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/login`, {
 			...payload

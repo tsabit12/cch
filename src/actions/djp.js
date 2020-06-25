@@ -117,8 +117,8 @@ export const isDoneScan = (nodps) => ({
 	nodps
 })
 
-export const onDoneScan = (nodps) => dispatch => 
-	api.dps.selesai(nodps)
+export const onDoneScan = (nodps, idpegawai) => dispatch => 
+	api.dps.selesai(nodps, idpegawai)
 		.then(res => dispatch(isDoneScan(nodps)))
 
 export const updateToValid = (payload) => dispatch => {

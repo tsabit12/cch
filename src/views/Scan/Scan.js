@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const Scan = props => {
-	const { errorBarcode, dataBarcode, removed } = props;
+	const { errorBarcode, dataBarcode, removed, user } = props;
 	const [state, setState] = React.useState({
 		data: {
 			no_dps: '',
@@ -227,7 +227,7 @@ const Scan = props => {
 			...prevState,
 			loading: true
 		}))
-		props.onDoneScan(data.no_dps)
+		props.onDoneScan(data.no_dps, user.id_pegawai)
 			.then(() => setState({
 					data: {
 						no_dps: '',
@@ -238,7 +238,12 @@ const Scan = props => {
 					entri: false,
 					isValidasi: false,
 					isDone: false,
-					isFocus: true
+					isFocus: true,
+					visible: {
+						show: false,
+						barcode: '',
+						newBarcode: ''
+					}
 			}))
 			.catch(err => {
 				setState(prevState => ({
@@ -320,8 +325,6 @@ const Scan = props => {
 		return errors;
 	}
 
-	console.log(errors);
-
 	return(
 		<div className={classes.root}>
 			<Loader loading={state.loading} />
@@ -397,7 +400,8 @@ function mapStateToProps(state) {
 	return{
 		dataBarcode: state.djp.temp,
 		errorBarcode: state.djp.errors,
-		removed: state.djp.removed
+		removed: state.djp.removed,
+		user: state.djp.user  
 	}
 }
 
