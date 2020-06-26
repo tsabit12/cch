@@ -22,13 +22,13 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex'
 	},
 	button: {
-		backgroundColor: 'rgb(11, 174, 222)',
+		backgroundColor: '#EEBC06',
 		color: 'white',
 		borderTopLeftRadius: 0,
 		borderBottomLeftRadius: 0,
 		borderColor: "transparent",
 		"&:hover": {
-	      backgroundColor: "rgb(20, 127, 158)",
+	      backgroundColor: "#C89E03",
 	      color: "white",
 	      borderColor: "transparent"
 	    },
