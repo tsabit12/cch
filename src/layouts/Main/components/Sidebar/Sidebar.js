@@ -55,9 +55,7 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile 
-          data={props.user}
-        />
+        <Profile />
         <SidebarNav
           className={classes.nav}
         />
@@ -71,8 +69,7 @@ Sidebar.propTypes = {
   className: PropTypes.string,
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  variant: PropTypes.string.isRequired
 };
 
 export default Sidebar;

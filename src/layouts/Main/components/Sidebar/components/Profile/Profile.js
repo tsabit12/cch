@@ -48,16 +48,15 @@ const Profile = props => {
         className={classes.name}
         variant="h4"
       >
-        {data.nama}
+        Tsabit Abdul Aziz
       </Typography>
-      <Typography variant="body2">{data.username}</Typography>
+      <Typography variant="body2">zoldyck</Typography>
     </div>
   );
 };
 
 Profile.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.object.isRequired
+  className: PropTypes.string
 };
 
 export default Profile;

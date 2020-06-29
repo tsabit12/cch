@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { HashRouter } from 'react-router-dom';
-// import { createBrowserHistory } from 'history';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
-import decode from "jwt-decode";
+// import decode from "jwt-decode";
 
 import { chartjs } from './helpers';
 import theme from './theme';
@@ -18,7 +17,6 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducers from "./rootReducers"; 
-import { isLoggedIn } from "./actions/djp";
 
 const store = createStore(
   rootReducers,
@@ -35,15 +33,6 @@ validate.validators = {
   ...validate.validators,
   ...validators
 };
-
-if (localStorage.djpToken) {
-  const user   = decode(localStorage.djpToken);
-  const payload = {
-    ...user,
-    token: localStorage.djpToken
-  }
-  store.dispatch(isLoggedIn(payload));
-}
 
 class App extends Component {
   render() {

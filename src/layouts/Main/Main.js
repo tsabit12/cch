@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
-import { connect } from "react-redux";
 import { Sidebar, Topbar } from './components';
-import { setLogout } from "../../actions/djp";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,16 +67,8 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  children: PropTypes.node,
-  user: PropTypes.object.isRequired,
-  setLogout: PropTypes.func.isRequired
+  children: PropTypes.node
 };
 
 
-function mapStateToProps(state) {
-  return{
-    user: state.djp.user
-  }
-}
-
-export default connect(mapStateToProps, { setLogout })(Main);
+export default Main;
