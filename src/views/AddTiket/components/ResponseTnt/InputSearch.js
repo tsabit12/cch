@@ -18,7 +18,6 @@ const InputSearch = props => {
 	return(
 		<React.Fragment>
 			<Autocomplete
-		      id="combo-box-demo"
 		      options={props.option}
 		      inputValue={props.value}
 		      // getOptionLabel={(option) => props.option}

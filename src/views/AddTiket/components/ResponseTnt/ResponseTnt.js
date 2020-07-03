@@ -15,10 +15,10 @@ import {
 	InputLabel,
 	TextareaAutosize,
 	Button,
-	FormHelperText
+	FormHelperText,
+	TextField
 } from "@material-ui/core";
 import BootstrapInput from "../FormPengaduan/BootstrapInput";
-import FormChecked from "./FormChecked";
 import api from "../../../../api";
 import InputSearch from "./InputSearch";
 import clsx from "clsx";
@@ -34,6 +34,10 @@ const useStyles = makeStyles(theme => ({
 	field:{
 		width:'100%',
 		marginBottom: 15
+	},
+	fieldRow: {
+		width:'100%',
+		marginLeft: theme.spacing(1)
 	},
 	labelForm: {
 		marginBottom: theme.spacing(1),
@@ -69,6 +73,7 @@ const ResponseTnt = props => {
 			layanan: '',
 			tujuanPengaduan: '',
 			kantorTujuan: '',
+			kantorKirim: '',
 			channelpos: '0',
 			jeniscustomer: '0',
 			jenisbisnis: props.channel === 7 ? '1' : '0' 
@@ -77,42 +82,61 @@ const ResponseTnt = props => {
 		listkprk: [],
 		listkprk2: [],
 		catatan: '',
-		errors: {}
+		errors: {},
+		defaultLayanan: ''
 	})
 
 	React.useEffect(() => {
 		if (props.data.length > 0) {
-			const layananValue = props.data[0].description.split(";")[0].split(":")[1];
-			let toStringValue = "";
-			props.data.forEach((row, index) => {
-				// eslint-disable-next-line prefer-template
-				toStringValue = toStringValue + `Barcode = ${row.barcode} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Event Date = ${row.eventDate} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Event Name = ${row.eventName} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.office} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Description = ${row.description} \n`;
-				toStringValue = toStringValue + `================================== \n \n \n`;
-			})
-			
-			setState(prevState => ({
-				...prevState,
-				data: {
-					...prevState.data,
-					layanan: layananValue
-				},
-				checked: true,
-				catatan: toStringValue
-			}))
+			if (typeof props.data[0].description === 'object') {
+				setState(prevState => ({
+					...prevState,
+					data: {
+						...prevState.data,
+						layanan: 'Layanan not found',
+						kantorKirim: `${props.data[0].officeCode} - ${props.data[0].office}`
+					},
+					catatan: 'Description not found \n \n \n'
+				}))
+			}else{
+				const layananValue = props.data[0].description.split(";")[0].split(":")[1];
+				let toStringValue = "";
+				props.data.forEach((row, index) => {
+					// eslint-disable-next-line prefer-template
+					toStringValue = toStringValue + `Barcode = ${row.barcode} \n`;
+					toStringValue = toStringValue + `================================== \n`;
+					toStringValue = toStringValue + `Event Date = ${row.eventDate} \n`;
+					toStringValue = toStringValue + `================================== \n`;
+					toStringValue = toStringValue + `Event Name = ${row.eventName} \n`;
+					toStringValue = toStringValue + `================================== \n`;
+					toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.office} \n`;
+					toStringValue = toStringValue + `================================== \n`;
+					toStringValue = toStringValue + `Description = ${row.description} \n`;
+					toStringValue = toStringValue + `================================== \n \n \n`;
+				})
+				
+				setState(prevState => ({
+					...prevState,
+					data: {
+						...prevState.data,
+						layanan: layananValue,
+						kantorKirim: `${props.data[0].officeCode} - ${props.data[0].office}`
+					},
+					checked: true,
+					catatan: toStringValue,
+					defaultLayanan: layananValue
+				}))
+			}
 		}
 	}, [props.data])
 
 	const onCheckedChange = () => setState(prevState => ({
 		...prevState,
-		checked: !prevState.checked
+		checked: !prevState.checked,
+		data: {
+			...prevState.data,
+			layanan: prevState.defaultLayanan
+		}
 	}))
 
 	const handleChangeSearch = (value, name) => {
@@ -135,7 +159,7 @@ const ResponseTnt = props => {
 			.then(res => {
 				const options = [];
 				res.forEach(row => {
-					options.push(`${row.nopend} - ${row.NamaKtr}`)
+					options.push(`${row.NamaKtr}`)
 				});	
 
 				setState(prevState => ({
@@ -219,6 +243,7 @@ const ResponseTnt = props => {
 					    	value={data.layanan}
 					    	id="layanan-customized-input" 
 					    	disabled={checked}
+					    	onChange={handleChange}
 					    	style={{marginTop: -10}}
 					    	iserror={!!errors.layanan === true ? 1 : 0}
 					    />
@@ -235,15 +260,31 @@ const ResponseTnt = props => {
 							error={errors.tujuanPengaduan}
 						/>
 					</FormControl>
-					{ checked ? 
-						<FormChecked 
-							data={props.data} 
-							options={state.listkprk2}
-							handleChange={handleChangeSearch}
-							fetchKprk={fetchKprk}
-							kantorTujuan={data.kantorTujuan}
-							error={errors.kantorTujuan}
-						/> : <p>Oyy</p> }
+					<div className={clsx(classes.row, classes.topMargin)}>
+						<FormControl>
+							<TextField 
+								variant="outlined" 
+								size="small"
+								label="Kantor Kirim"
+								value={data.kantorKirim}
+								disabled
+							/>
+						</FormControl>
+						<FormControl className={classes.fieldRow}>
+							<InputSearch 
+					            name='kantorTujuan'
+					            handleChange={handleChangeSearch}
+					            value={data.kantorTujuan}
+					            option={state.listkprk}
+					            callApi={fetchKprk}
+					            label='Kantor Tujuan'
+					            apiValue='listkprk'
+					            error={errors.kantorTujuan}
+					        />
+						</FormControl>
+					</div>
+					
+					
 					<div className={clsx(classes.row, classes.topMargin)}>
 						<FormControl 
 							className={classes.fieldBootstrap}

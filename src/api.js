@@ -10,16 +10,25 @@ export default{
 		}
 	}).then(res => {
 		const { rs_tnt } = res.data;
+
 		if (rs_tnt === null) {
 			return Promise.reject(rs_tnt);
 		}else{
-			return Promise.resolve(rs_tnt);
+			if (rs_tnt.r_tnt.barcode) { //response is object
+				const result = {
+					r_tnt: Object.values(rs_tnt)
+				};
+
+				return Promise.resolve(result);
+			}else{
+				return Promise.resolve(rs_tnt);
+			}			
 		}
 	}),
 	cch: {
-		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
+		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
 			param
-		}).then(res => res.data.result),
+		}).then(res => res.data),
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
 		}).then(res => res.data.result)
