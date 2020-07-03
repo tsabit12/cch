@@ -1,6 +1,5 @@
 import axios from "axios";
 
-const url = 'http://10.28.0.72/cchAPI/service';
 
 export default{
 	trackAndTrace: (payload) => axios.post('https://api.posindonesia.co.id:8245/utilitas/1.0.1/getTrackAndTrace', {
@@ -21,8 +20,8 @@ export default{
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
 			param
 		}).then(res => res.data.result),
-		login: (payload) => axios.post(`${url}/authLogin`, { 
+		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
-		}).then(res => res.data)
+		}).then(res => res.data.result)
 	}
 }

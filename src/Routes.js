@@ -2,7 +2,9 @@ import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 
 import { 
-  RouteWithLayout
+  RouteWithLayout,
+  GuestRoute,
+  UserRoute
 } from './components';
 import { 
   Main as MainLayout, 
@@ -26,25 +28,25 @@ const Routes = () => {
         from="/"
         to="/dashboard"
       /> 
-      <RouteWithLayout
+      <GuestRoute
         component={DashboardView}
         exact
         layout={MainLayout}
         path="/dashboard"
       /> 
-      <RouteWithLayout
+      <GuestRoute
         component={TiketView}
         exact
         layout={MainLayout}
         path="/tiket"
       />
-      <RouteWithLayout
+      <GuestRoute
         component={AddTiketView}
         exact
         layout={MainLayout}
         path="/tiket/add"
       />
-      <RouteWithLayout
+      <UserRoute
         component={LoginView}
         exact
         layout={LoginLayout}

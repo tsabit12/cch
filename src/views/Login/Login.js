@@ -128,7 +128,6 @@ const Login = props => {
 					}, 100);
 				})
 				.catch(err => {
-					console.log(err.response.data.errors)
 					if (err.response.data.errors) {
 						setState(prevState => ({
 							...prevState,
