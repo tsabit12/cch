@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 import { Sidebar, Topbar } from './components';
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,8 +68,15 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  user: PropTypes.object.isRequired
 };
 
+function mapStateToProps(state) {
+  return{
+    user: state.auth.user
+  }
+}
 
-export default Main;
+
+export default connect(mapStateToProps, null)(Main);
