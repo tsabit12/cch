@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 import { Sidebar, Topbar } from './components';
 import { connect } from "react-redux";
+import { setLogout } from "../../actions/auth";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,7 +70,8 @@ const Main = props => {
 
 Main.propTypes = {
   children: PropTypes.node,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  setLogout: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -79,4 +81,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, null)(Main);
+export default connect(mapStateToProps, { setLogout })(Main);

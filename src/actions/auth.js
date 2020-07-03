@@ -1,5 +1,5 @@
 import api from "../api";
-import { SET_LOGIN } from "../types";
+import { SET_LOGIN, SET_LOGOUT } from "../types";
 
 export const isLoggedIn = (user) => ({
 	type: SET_LOGIN,
@@ -12,3 +12,10 @@ export const setLogin = (payload) => dispatch =>
 			localStorage.cchToken = user.token;
 			dispatch(isLoggedIn(user))
 		})
+
+export const setLogout = () => dispatch => {
+	localStorage.removeItem('cchToken');
+	dispatch({
+		type: SET_LOGOUT
+	})
+}
