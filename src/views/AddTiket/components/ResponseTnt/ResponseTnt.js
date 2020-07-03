@@ -23,6 +23,22 @@ import api from "../../../../api";
 import InputSearch from "./InputSearch";
 import clsx from "clsx";
 
+
+const getRefChannelPos = (channel) => {
+	switch(channel){
+		case 1:
+			return 'AGEN';
+		case 2:
+			return 'LOKET';
+		case 3:
+			return 'ORANG';
+		case 4:
+			return 'KORPORAT';
+		default: 
+			return 'PILIH';
+	}
+}
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		height: '100%'
@@ -193,9 +209,10 @@ const ResponseTnt = props => {
 		if (Object.keys(errors).length === 0) {
 			const payload = {
 				...state.data,
-				tujuanPengaduan: state.data.tujuanPengaduan.replace(/ /g, ""),
-				kantorTujuan: state.data.kantorTujuan.replace(/ /g, ""),
-				catatan: state.catatan.replace(/=/g, "")
+				jenisbisnis: state.data.jenisbisnis === 1 ? 'e-Commerce' : 'Non e-Commerce',
+				jeniscustomer: state.data.jeniscustomer === 1 ? 'RITEL' : 'CORPORATE',
+				catatan: state.catatan.replace(/=/g, ""),
+				channelpos: getRefChannelPos(state.data.channelpos)
 			};
 			props.onSubmit(payload);
 		}

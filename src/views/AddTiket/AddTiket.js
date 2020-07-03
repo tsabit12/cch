@@ -13,6 +13,9 @@ import {
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
+import { connect } from "react-redux";
+import { addTicket } from "../../actions/tiket";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -41,7 +44,8 @@ const AddTiket = props => {
 		errors: {},
 		data: {},
 		tnt: [],
-		disabledForm: false
+		disabledForm: false,
+		success: {}
 	})
 
 	const classes = useStyles();
@@ -105,28 +109,71 @@ const AddTiket = props => {
 		const payload = {
 			...values,
 			...state.data,
-			kantorTujuan: values.kantorTujuan.split("-")[0],
-			tujuanPengaduan: values.tujuanPengaduan.split("-")[0]
+			kantorTujuan: values.kantorTujuan.split(" ")[1],
+			tujuanPengaduan: values.tujuanPengaduan.split(" ")[1],
+			kantorKirim: values.kantorKirim.split("-")[0],
+			user: props.profile.email
 		};
-		console.log(payload);
+		// console.log(payload);
 		setState(prevState => ({
 			...prevState,
 			loading: true
 		}))
-		
-		setTimeout(() => {
-			setState(prevState => ({
-				...prevState,
-				loading: false
-			}))
-		}, 600)
+
+		props.addTicket(payload)
+			.then(res => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					success: {
+						status: true,
+						message: 'Tiket berhasil ditambah'
+					},
+					errors: {},
+					data: {},
+					tnt: [],
+					disabledForm: false
+				}));
+
+			})
+			.catch(err => {
+				if (err.response.data.status) {
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: err.response.data.msg
+						}
+					}))
+				}else{
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Terdapat kesalahan, silahkan cobalagi'
+						}
+					}))
+				}	
+			})
 	}
 
-	const { loading, errors, tnt } = state;
+	const { loading, errors, tnt, success } = state;
+
+	React.useEffect(() => {
+		if (success.status) {
+			setTimeout(() => {
+				setState(prevState => ({
+					...prevState,
+					success: {}
+				}))
+			}, 3000);
+		}
+	}, [success])
 
 	return(
 		<div className={classes.root}>
 			<Loader loading={loading} />
+
 			{ errors.global && 
 				<Alert 
 					open={!!errors.global} 
@@ -134,6 +181,11 @@ const AddTiket = props => {
 					message={errors.global}
 					onClose={onCloseAlert} 
 				/> }
+
+			{ success.status && <Alert 
+				open={!!success.status} 
+				variant="success" 
+				message={success.message} /> }
 			<Breadcrumbs aria-label="Breadcrumb">
 		        <Typography color="primary" onClick={() => props.history.push("/tiket")} className={classes.linkRoot}>
 		          <FileCopyIcon className={classes.icon} />
@@ -178,4 +230,15 @@ const AddTiket = props => {
 	);
 }
 
-export default AddTiket;
+AddTiket.propTypes = {
+	profile: PropTypes.object.isRequired,
+	addTicket: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
+	return{
+		profile: state.auth.user
+	}
+}
+
+export default connect(mapStateToProps, { addTicket })(AddTiket);

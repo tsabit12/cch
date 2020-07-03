@@ -31,6 +31,9 @@ export default{
 		}).then(res => res.data),
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
-		}).then(res => res.data.result)
+		}).then(res => res.data.result),
+		addTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/addTicket`, {
+			...payload
+		}).then(res => res.data)
 	}
 }
