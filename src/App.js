@@ -39,7 +39,7 @@ if (localStorage.cchToken) {
   const user   = decode(localStorage.cchToken);
   const payload = {
     ...user,
-    token: localStorage.djpToken
+    token: localStorage.cchToken
   };
 
   store.dispatch(isLoggedIn(payload));
