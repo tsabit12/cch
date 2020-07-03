@@ -112,7 +112,8 @@ const AddTiket = props => {
 			kantorTujuan: values.kantorTujuan.split(" ")[1],
 			tujuanPengaduan: values.tujuanPengaduan.split(" ")[1],
 			kantorKirim: values.kantorKirim.split("-")[0],
-			user: props.profile.email
+			user: props.profile.email,
+			kantorPengaduan: props.profile.kantor_pos
 		};
 		// console.log(payload);
 		setState(prevState => ({

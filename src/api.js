@@ -34,6 +34,9 @@ export default{
 		}).then(res => res.data.result),
 		addTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/addTicket`, {
 			...payload
+		}).then(res => res.data),
+		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/getTicket`, {
+			...payload
 		}).then(res => res.data)
 	}
 }

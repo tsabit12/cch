@@ -65,6 +65,7 @@ const StyledBadge = withStyles(theme => ({
 }))(Badge);
 
 const BtnPengaduan = props => {
+	const { total } = props;
 	const classes = useStyles();
 	return(
 		<Card className={classes.root}>
@@ -87,12 +88,12 @@ const BtnPengaduan = props => {
 			<ListItem 
 				className={props.activeLink === 1 ? classes.listActived : classes.list} 
 				button 
-				onClick={() => props.onClickTitle('Ticket Masuk', 1)}
+				onClick={() => props.onClickTitle('TICKET MASUK', 1)}
 			>
 			    <ListItemText primary="Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.masuk} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -102,12 +103,12 @@ const BtnPengaduan = props => {
 			<ListItem 
 				className={props.activeLink === 2 ? classes.listActived : classes.list} 
 				button 
-				onClick={() => props.onClickTitle('Ticket Keluar', 2)}
+				onClick={() => props.onClickTitle('TICKET KELUAR', 2)}
 			>
 			    <ListItemText primary="Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.keluar} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -116,13 +117,13 @@ const BtnPengaduan = props => {
 			<Divider/>
 			<ListItem 
 				button 
-				onClick={() => props.onClickTitle('Baru Diupdate', 3)}
+				onClick={() => props.onClickTitle('BARU DIUPDATE', 3)}
 				className={props.activeLink === 3 ? classes.listActived : classes.list} 
 			>
 			    <ListItemText primary="Baru Diupdate" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.updated} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -131,13 +132,13 @@ const BtnPengaduan = props => {
 			<Divider/>
 			<ListItem 
 				button 
-				onClick={() => props.onClickTitle('Permintaan Tutup Ticket', 4)}
+				onClick={() => props.onClickTitle('PERMINTAAN TUTUP TICKET', 4)}
 				className={props.activeLink === 4 ? classes.listActived : classes.list} 
 			>
 			    <ListItemText primary="Permintaan Tutup Ticket" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.closed} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -155,13 +156,13 @@ const BtnPengaduan = props => {
 			</div>
 			<ListItem 
 				button 
-				onClick={() => props.onClickTitle('Semua Ticket Masuk', 5)}
+				onClick={() => props.onClickTitle('SEMUA TICKET MASUK', 5)}
 				className={props.activeLink === 5 ? classes.listActived : classes.list} 
 			>
 			    <ListItemText primary="Semua Ticket Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.allKeluar} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -171,12 +172,12 @@ const BtnPengaduan = props => {
 			<ListItem 
 				className={props.activeLink === 6 ? classes.listActived : classes.list} 
 				button 
-				onClick={() => props.onClickTitle('Semua Ticket Keluar', 6)}
+				onClick={() => props.onClickTitle('SEMUA TICKET KELUAR', 6)}
 			>
 			    <ListItemText primary="Semua Ticket Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={4} color="primary">
+				      <StyledBadge badgeContent={total.allMasuk} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
