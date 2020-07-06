@@ -47,7 +47,12 @@ const TableTiket = props => {
               	</TableHead>
               	{ props.list.length > 0 && <TableBody>
               		{props.list.map((row, i) => (
-			            <TableRow key={i}>
+			            <TableRow 
+			            	key={i}
+			            	style={{
+			            		backgroundColor: row.statusRead === 'Belum di Baca' ? '#defeff' : ''
+			            	}}
+			            >
 			              <TableCell component="th" scope="row" className={classes.row}>
 			                {no++}
 			              </TableCell>

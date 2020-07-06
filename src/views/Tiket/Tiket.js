@@ -91,7 +91,7 @@ const Tiket = props => {
 	}))
 
 	const handleClickTicket = (noTiket) => {
-		alert(noTiket);
+		props.history.push(`/tiket/${noTiket}`);
 	}
 
 	const classes = useStyles();

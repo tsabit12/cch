@@ -80,6 +80,14 @@ const useStyles = makeStyles(theme => ({
 	},
 	actions: {
 	    justifyContent: 'flex-end'
+	},
+	textArea: {
+		"&:hover": {
+			border: ''
+		},
+		"&:focus": {
+			border: ''
+		}
 	}
 }))
 
@@ -106,7 +114,6 @@ const ResponseTnt = props => {
 		if (props.data.length > 0) {
 			
 			const layananValue = props.data[0].description.split(";")[0].split(":")[1];
-			console.log({ layananValue });
 
 			let toStringValue = "";
 			props.data.forEach((row, index) => {
@@ -120,7 +127,7 @@ const ResponseTnt = props => {
 				toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.officeName} \n`;
 				toStringValue = toStringValue + `================================== \n`;
 				toStringValue = toStringValue + `Description = ${row.description} \n`;
-				toStringValue = toStringValue + `================================== \n \n \n`;
+				toStringValue = toStringValue + `================================== \n`;
 			})
 			
 			setState(prevState => ({
@@ -131,7 +138,6 @@ const ResponseTnt = props => {
 					kantorKirim: `${props.data[0].officeCode} - ${props.data[0].officeName}`
 				},
 				checked: true,
-				catatan: toStringValue,
 				defaultLayanan: layananValue
 			}))
 		}
@@ -218,6 +224,14 @@ const ResponseTnt = props => {
 		if (!value.kantorTujuan) errors.kantorTujuan = "Kantor tujuan belum dipilih";
 		if (!value.tujuanPengaduan) errors.tujuanPengaduan = "Tujuan pengaduan belum dipilih";
 		return errors;
+	}
+
+	const handleChangeText = (e) => {
+		const { value } = e.target;
+		setState(prevState => ({
+			...prevState,
+			catatan: value
+		}))
 	}
 
 	const classes 	= useStyles();
@@ -384,9 +398,12 @@ const ResponseTnt = props => {
 						</FormLabel>
 						<TextareaAutosize
 							rowsMax={10}
+							className={classes.textArea}
+							rowsMin={5}
 							aria-label="maximum height"
-							placeholder="Maximum 4 rows"
+							placeholder="Masukan catatan disini"
 							value={state.catatan}
+							onChange={handleChangeText}
 						/>
 					</FormControl>
 				</div>

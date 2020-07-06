@@ -1,4 +1,9 @@
-import { GET_TICKET } from "../types";
+import { 
+	GET_TICKET, 
+	GET_TICKET_BY_ID,
+	ADD_RESPONSE_TIKET,
+	FETCH_RESPONSE
+} from "../types";
 
 const initialState = {
 	data: {
@@ -15,6 +20,12 @@ const initialState = {
 		closed: 0,
 		allKeluar: 0,
 		allMasuk: 0
+	},
+	detail: {
+		// [notiket]: {
+		// 	notes: [],
+		// 	data: {}
+		// }
 	}
 }
 
@@ -30,8 +41,41 @@ export default function ticket(state=initialState, action={}){
 				},
 				count: {
 					...state.count,
-					keluar: action.keluar.length,
-					masuk: action.masuk.length
+					keluar: action.keluar.filter(x => x.statusRead === 'Belum di Baca').length,
+					masuk: action.masuk.filter(x => x.statusRead === 'Belum di Baca').length
+				}
+			}
+		case GET_TICKET_BY_ID:
+			return{
+				...state,
+				detail: {
+					...state.detail,
+					[action.notiket]: {
+						data: action.detail,
+						notes: action.notes
+					} 
+				}
+			}
+		case ADD_RESPONSE_TIKET:
+			return{
+				...state,
+				detail: {
+					...state.detail,
+					[action.notiket]: {
+						...state.detail[action.notiket],
+						notes: [ action.payload, ...state.detail[action.notiket].notes ]
+					}
+				}
+			}
+		case FETCH_RESPONSE:
+			return{
+				...state,
+				detail: {
+					...state.detail,
+					[action.notiket]: {
+						...state.detail[action.notiket],
+						notes: action.notes
+					}
 				}
 			}
 		default: 

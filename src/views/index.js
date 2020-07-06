@@ -5,3 +5,4 @@ export { default as AddTiket } from "./AddTiket";
 export { default as Login } from "./Login";
 export { default as User } from "./User";
 export { default as AddUser } from "./AddUser";
+export { default as Chat } from "./Chat";

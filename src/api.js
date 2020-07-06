@@ -46,6 +46,9 @@ export default{
 		}).then(res => res.data),
 		addUser: (payload) => axios.post(`${process.env.REACT_APP_API}/addUser`, {
 			...payload
+		}).then(res => res.data),
+		getTiketById: (notiket) => axios.post(`${process.env.REACT_APP_API}/detailTicket`, {
+			noTicket: notiket
 		}).then(res => res.data)
 	},
 	getEmploye: (nippos) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
@@ -55,5 +58,11 @@ export default{
 		fetch: (payload) => axios.post(`${process.env.REACT_APP_API}/getUser`, {
 			...payload
 		}).then(res => res.data)
-	}
+	},
+	addResponseTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, {
+		...payload
+	}).then(res => res.data),
+	fetchNewResponse: (notiket) => axios.post(`${process.env.REACT_APP_API}/realtimeResponse`, {
+		noTicket: notiket
+	}).then(res => res.data)
 }
