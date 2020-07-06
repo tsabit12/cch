@@ -9,7 +9,8 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import {
 	FormPengaduan,
 	Loader,
-	ResponseTnt
+	ResponseTnt,
+	Tarif
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -62,22 +63,39 @@ const AddTiket = props => {
 		data: {},
 		tnt: [],
 		disabledForm: false,
-		success: {}
+		success: {},
+		channelForm: null
 	})
 
 	const classes = useStyles();
 
 	const handleSubmitPengaduan = (data) => {
+		const payload = {
+			resi: data.noresi
+		};
+
+		if (data.jenisChannel === 5) {
+			getResi(payload, data);
+		}else{
+			setState(prevState => ({
+				...prevState,
+				channelForm: data.jenisChannel
+			}))
+		}
+		
+	}
+
+	const getResi = (payload, data) => {
+
 		setState(prevState => ({
 			...prevState,
 			loading: true,
 			data,
 			errors: {},
-			tnt: []
-		}))
-		const payload = {
-			resi: data.noresi
-		};
+			tnt: [],
+			channelForm: 5
+		}));
+
 		api.trackAndTrace(payload)
 			.then(res => {
 				const { r_tnt } = res;
@@ -189,7 +207,7 @@ const AddTiket = props => {
 			})
 	}
 
-	const { loading, errors, tnt, success } = state;
+	const { loading, errors, tnt, success, channelForm } = state;
 
 	React.useEffect(() => {
 		if (success.status) {
@@ -200,7 +218,7 @@ const AddTiket = props => {
 				}))
 			}, 3000);
 		}
-	}, [success])
+	}, [success]);
 
 	return(
 		<div className={classes.root}>
@@ -241,21 +259,19 @@ const AddTiket = props => {
 			        		disabled={state.disabledForm}
 			        	/>
 			        </Grid>
-			        { tnt.length > 0 &&  
-			        	<Grid
-				          item
-				          lg={6}
-				          sm={6}
-				          xl={12}
-				          xs={12}
-				        >
-				        	<ResponseTnt 
-				        		data={state.tnt} 
-				        		channel={state.data.channel}
-				        		reset={handleResetForm}
-				        		onSubmit={handleSubmit}
-				        	/>
-				        </Grid> }
+			        <Grid item lg={6} sm={6} xl={12} xs={12}>
+			        	{ tnt.length > 0 && channelForm === 5 &&  <ResponseTnt 
+			        		data={state.tnt} 
+			        		channel={state.data.channel}
+			        		reset={handleResetForm}
+			        		onSubmit={handleSubmit}
+			        	/> }
+
+			        	{ channelForm === 2 && 
+			        		<Tarif 
+			        			callApiAddress={(payload) => api.cch.getAddress(payload)}
+			        		/> }
+				    </Grid>
 			    </Grid>
 		    </div>
 		</div>

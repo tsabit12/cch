@@ -45,20 +45,29 @@ const Tiket = props => {
 		}
 		props.getTicket(payload)
 			.catch(err => {
-				if (err.response.data.errors) {
+				if (err.request) {
 					setState(prevState => ({
 						...prevState,
 						errors: {
-							global: err.response.data.errors
+							global: 'Network Error, make sure you have connection'
 						}
 					}))
 				}else{
-					setState(prevState => ({
-						...prevState,
-						errors: {
-							global: 'Terdapat kesalahan, mohon coba beberapa saat lagi'
-						}
-					}))
+					if (err.response.data.errors) {
+						setState(prevState => ({
+							...prevState,
+							errors: {
+								global: err.response.data.errors
+							}
+						}))
+					}else{
+						setState(prevState => ({
+							...prevState,
+							errors: {
+								global: 'Terdapat kesalahan, mohon coba beberapa saat lagi'
+							}
+						}))
+					}
 				}
 			})
 		// eslint-disable-next-line react-hooks/exhaustive-deps

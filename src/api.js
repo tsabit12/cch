@@ -37,6 +37,9 @@ export default{
 		}).then(res => res.data),
 		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/getTicket`, {
 			...payload
-		}).then(res => res.data)
+		}).then(res => res.data),
+		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
+			...payload
+		}).then(res => res.data.result)
 	}
 }

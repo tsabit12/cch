@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 		height: '100%'
 	},
 	container:{
-		minHeight: '500px',
+		minHeight: '370px',
     	position: 'relative'
 	},
 	field:{

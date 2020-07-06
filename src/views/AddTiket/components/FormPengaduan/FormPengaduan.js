@@ -3,19 +3,18 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
+	CardActions,
 	Divider,
 	FormControl,
 	Select,
 	MenuItem,
 	InputLabel,
-	Grid,
 	FormLabel,
 	Button,
 	FormHelperText
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import BootstrapInput from "./BootstrapInput";
-import BootstrapInputWithButton from "./BootstrapInputWithButton";
 import RenderInput from "./RenderInput";
 
 const useStyles = makeStyles(theme => ({
@@ -36,10 +35,10 @@ const useStyles = makeStyles(theme => ({
   	display: 'flex'
   },
   button: {
-  	borderRadius: 0
+  	width: '100%'
   },
   container: {
-  	minHeight: '500px',
+  	minHeight: '300px',
     position: 'relative'
   },
   backdrop: {
@@ -51,6 +50,12 @@ const useStyles = makeStyles(theme => ({
     background: 'white',
     opacity: 0.5,
     pointerEvents: 'none'
+  },
+  viewButton: {
+  	marginTop: 20
+  },
+  row: {
+  	display: 'flex'
   }
 }));
 
@@ -58,7 +63,7 @@ const SelectChannel = props => {
 	const classes = useStyles();
 	
 	return(
-		<FormControl className={classes.field} error={!!props.error}>
+		<FormControl className={classes.field} style={{marginRight: 3}} error={!!props.error}>
 	        <InputLabel 
 	        	className={classes.label} 
 	        	htmlFor="channel-customized-select"
@@ -163,10 +168,7 @@ const FormPengaduan = props => {
 				nama: '',
 				channel: value
 			},
-			errors: {
-				...prevState.errors,
-				channel: undefined
-			}
+			errors: {}
 		}))	
 	}
 
@@ -194,13 +196,19 @@ const FormPengaduan = props => {
 			if ((field.channel === 6) || (field.channel === 7)) {
 				if (!field.nama) errors.nama = "Nama harap diisi";
 				if (!field.nik) errors.nik = "NIK harap diisi";
-				if (!field.alamat) errors.alamat = "Alamat harap diisi";
-				if (!field.nohp) errors.nohp = "Nomor handphone harap diisi";
 			}
+
 		}
 
-		if (!field.jenisChannel) errors.jenisChannel = "Harap pilih jenis";
-		if (!field.noresi) errors.noresi = "Nomor resi harap diisi";
+		if (!field.nohp) errors.nohp = "Nomor handphone harap diisi";
+		if (!field.alamat) errors.alamat = "Alamat harap diisi";
+		if (!field.jenisChannel){
+			errors.jenisChannel = "Harap pilih jenis";	
+		}else{
+			if (field.jenisChannel === 1 || field.jenisChannel === 5){
+				if (!field.noresi) errors.noresi = "Nomor resi harap diisi";
+			}
+		}
 		return errors;
 	}
 
@@ -210,7 +218,7 @@ const FormPengaduan = props => {
 	return(
 		<Card className={classes.root}>
 			<CardHeader
-				title='FORM PENGADUAN'
+				title='LENGKAPI DATA PELANGGAN'
 			/>
 			<Divider />
 			<div className={disabled ? classes.backdrop : ''}>
@@ -235,24 +243,49 @@ const FormPengaduan = props => {
 										errors={errors}
 								/> }
 						</React.Fragment> : 
-						<Grid container spacing={4}>
-							<Grid item lg={6} sm={6} xl={12} xs={12}>
-								<SelectChannel 
-									channel={data.channel}
-									handleChange={handleChangeChannel}
-									error={errors.channel}
-								/>
-							</Grid>
-							<Grid item lg={6} sm={6} xl={12} xs={12}>
-								<RenderInput 
-									jenis={data.channel} 
-									state={data}
-									handleChange={handleChange}
-									errors={errors}
-								/>
-							</Grid>
-						</Grid>
-					}
+						<div className={classes.row}>
+							<SelectChannel 
+								channel={data.channel}
+								handleChange={handleChangeChannel}
+								error={errors.channel}
+							/>
+							<RenderInput 
+								jenis={data.channel} 
+								state={data}
+								handleChange={handleChange}
+								errors={errors}
+							/>
+						</div> }
+
+					{ data.channel !== 1 && <FormControl className={classes.field} error={!!errors.nohp}>
+						<FormLabel component="legend" style={{marginBottom: 3}}>
+							Nomor Handphone
+						</FormLabel>
+						<BootstrapInput 
+			          		name="nohp" 
+			          		id="nohp"
+			          		value={data.nohp}
+			          		placeholder="Masukkan nomor handphone"
+			          		onChange={handleChange}
+			          		iserror={!!errors.nohp === true ? 1 : 0}
+			          	/>
+			          	{!!errors.nohp === true && <FormHelperText>{errors.nohp}</FormHelperText>}
+		          	</FormControl> }
+
+		          	<FormControl className={classes.field} error={!!errors.alamat}>
+						<FormLabel component="legend" style={{marginBottom: 3}}>
+							Alamat
+						</FormLabel>
+						<BootstrapInput 
+			          		name="alamat" 
+			          		id="alamat"
+			          		value={data.alamat}
+			          		placeholder="Masukkan alamat lengkap"
+			          		onChange={handleChange}
+			          		iserror={!!errors.alamat === true ? 1 : 0}
+			          	/>
+			          	{!!errors.alamat === true && <FormHelperText>{errors.alamat}</FormHelperText>}
+		          	</FormControl>
 
 					<FormControl className={classes.field} error={!!errors.jenisChannel}>
 				        <InputLabel 
@@ -282,7 +315,7 @@ const FormPengaduan = props => {
 				        </Select>
 				        {!!errors.jenisChannel === true && <FormHelperText>{errors.jenisChannel}</FormHelperText>}
 					</FormControl>
-					<FormControl className={classes.field} error={!!errors.noresi}>
+					{ ((data.jenisChannel === 1) || (data.jenisChannel === 5)) && <FormControl className={classes.field} error={!!errors.noresi}>
 						<FormLabel 
 							component="legend" 
 							className={classes.labelForm}
@@ -290,26 +323,30 @@ const FormPengaduan = props => {
 							Nomor Resi
 						</FormLabel>
 						<div className={classes.inputBtn}>
-							<BootstrapInputWithButton 
+							<BootstrapInput 
 						    	name='noresi'
 						    	value={data.noresi}
 						    	id="noresi-customized-input" 
 						    	placeholder="Masukkan nomor resi"
 						    	onChange={handleChange}
 						    	style={{width: '100%'}}
+						    	autoComplete="off"
 						    	iserror={!!errors.noresi === true ? 1 : 0}
 						    />
-						    <Button 
-						    	variant="contained" 
-						    	color="primary" 
-						    	className={classes.button}
-						    	onClick={onSubmit}
-						    >CEK</Button>
 					    </div>
 					    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
-					</FormControl>
+					</FormControl> }
 				</div>
 			</CardContent>
+			<Divider />
+			<CardActions>
+				<Button 
+					    	variant="contained" 
+					    	color="primary" 
+					    	className={classes.button}
+					    	onClick={onSubmit}
+					    >SUBMIT</Button>
+			</CardActions>
 			</div>
 		</Card>
 	);
