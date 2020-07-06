@@ -38,6 +38,23 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+const getRequestName = (channel, other) => {
+	switch(channel){
+		case 1:
+			return other.nohp;
+		case 2:
+			return other.instagram;
+		case 3:
+			return other.twitter;
+		case 4:
+			return other.fb;
+		case 5:
+			return other.email;
+		default:
+			return other.nama
+	}
+}
+
 const AddTiket = props => {
 	const [state, setState] = React.useState({
 		loading: false,
@@ -106,6 +123,17 @@ const AddTiket = props => {
 	}
 
 	const handleSubmit = (values) => {
+		const { data } = state;
+		const other = {
+			instagram: data.instagram,
+			twitter: data.twitter,
+			email: data.email,
+			fb: data.fb,
+			nohp: data.nohp,
+			nik: data.nik,
+			nama: data.nama
+		};
+
 		const payload = {
 			...values,
 			...state.data,
@@ -113,8 +141,11 @@ const AddTiket = props => {
 			tujuanPengaduan: values.tujuanPengaduan.split(" ")[1],
 			kantorKirim: values.kantorKirim.split("-")[0],
 			user: props.profile.email,
-			kantorPengaduan: props.profile.kantor_pos
+			kantorPengaduan: props.profile.kantor_pos,
+			requestName: getRequestName(state.data.channel, other),
+			catatan: values.catatan.replace(/(\r\n|\n|\r)/gm, "&")
 		};
+		
 		// console.log(payload);
 		setState(prevState => ({
 			...prevState,

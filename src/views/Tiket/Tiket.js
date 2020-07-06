@@ -81,6 +81,10 @@ const Tiket = props => {
 		active: active,
 	}))
 
+	const handleClickTicket = (noTiket) => {
+		alert(noTiket);
+	}
+
 	const classes = useStyles();
 	const { errors } = state;
 
@@ -97,7 +101,7 @@ const Tiket = props => {
 	      	<Grid
 	          item
 	          lg={3}
-	          sm={6}
+	          sm={3}
 	          xl={3}
 	          xs={12}
 	        >
@@ -111,13 +115,14 @@ const Tiket = props => {
 	        <Grid
 	          item
 	          lg={9}
-	          sm={6}
+	          sm={9}
 	          xl={3}
 	          xs={12}
 	        >
 	        	<TableTiket 
 	        		title={state.title} 
 	        		list={props.data[getListNameByActive(state.active)]}
+	        		onClickTiket={handleClickTicket}
 	        	/>
 	        </Grid>
 	      </Grid>

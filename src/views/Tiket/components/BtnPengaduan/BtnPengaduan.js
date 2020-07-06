@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
 		margin: 10
 	},
 	button: {
-		paddingLeft: 17,
-		paddingRight: 17
+		width: '100%'
 	},
 	leftIcon: {
 		marginRight: 2
@@ -70,20 +69,17 @@ const BtnPengaduan = props => {
 	return(
 		<Card className={classes.root}>
 			<CardHeader
-		        title="NOTIFIKASI"
+		        title={
+		        	<Button
+					    variant="outlined"
+					    className={classes.button}
+					    onClick={props.addTicket}
+					>
+				  		<AddIcon className={classes.leftIcon} />
+				    	Buat Pengajuan
+				</Button> }
 		    />
 		    <Divider/>
-			<div className={classes.divButton}>
-	        	<Button
-				    size="small"
-				    variant="outlined"
-				    className={classes.button}
-				    onClick={props.addTicket}
-				  >
-				  	<AddIcon className={classes.leftIcon} />
-				    Buat Pengajuan
-				</Button>
-			</div>
 			
 			<ListItem 
 				className={props.activeLink === 1 ? classes.listActived : classes.list} 

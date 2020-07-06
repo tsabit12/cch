@@ -14,8 +14,12 @@ import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 600
-	}
+		minHeight: 600,
+		overflowX: 'auto'
+	},
+	row: {
+		whiteSpace: 'nowrap'
+	}	
 }))
 
 const TableTiket = props => {
@@ -31,29 +35,36 @@ const TableTiket = props => {
 			<Table>
               	<TableHead>
 	                <TableRow>
-	                  <TableCell>No</TableCell>
-	                  <TableCell>No Ticket</TableCell>
-	                  <TableCell>Pelanggan</TableCell>
-	                  <TableCell>Asal Aduan</TableCell>
-	                  <TableCell>Tujuan Aduan</TableCell>
-	                  <TableCell>Jenis Ticket</TableCell>
-	                  <TableCell>Tanggal Aduan</TableCell>
-	                  <TableCell>Status</TableCell>
+	                  <TableCell className={classes.row}>NO</TableCell>
+	                  <TableCell className={classes.row}>NO TIKET</TableCell>
+	                  <TableCell className={classes.row}>PELANGGAN</TableCell>
+	                  <TableCell className={classes.row}>ASAL ADUAN</TableCell>
+	                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
+	                  <TableCell className={classes.row}>JENIS TIKET</TableCell>
+	                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
+	                  <TableCell className={classes.row}>STATUS</TableCell>
 	                </TableRow>
               	</TableHead>
               	{ props.list.length > 0 && <TableBody>
               		{props.list.map((row, i) => (
 			            <TableRow key={i}>
-			              <TableCell component="th" scope="row">
+			              <TableCell component="th" scope="row" className={classes.row}>
 			                {no++}
 			              </TableCell>
-			              <TableCell align="left">{row.no_ticket}</TableCell>
-			              <TableCell align="left">{row.pelanggan}</TableCell>
-			              <TableCell align="left">{row.asal_pengaduan}</TableCell>
-			              <TableCell align="left">{row.tujuan_pengaduan}</TableCell>
-			              <TableCell align="left">{row.jenisTicket}</TableCell>
-			              <TableCell align="left">{row.date}</TableCell>
-			              <TableCell align="left">{row.name}</TableCell>
+			              <TableCell 
+			              	className={classes.row} 
+			              	align="left"
+			              	style={{color: 'blue', cursor: 'pointer'}}
+			              	onClick={() => props.onClickTiket(row.no_ticket)}
+			              >
+			              	{row.no_ticket}
+			              </TableCell>
+			              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.asal_pengaduan}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.jenisTicket}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.date}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.name}</TableCell>
 			            </TableRow>
 			          ))}
               	</TableBody> }
@@ -64,7 +75,8 @@ const TableTiket = props => {
 
 TableTiket.propTypes = {
 	title: PropTypes.string.isRequired,
-	list: PropTypes.array.isRequired
+	list: PropTypes.array.isRequired,
+	onClickTiket: PropTypes.func.isRequired
 }
 
 export default TableTiket;
