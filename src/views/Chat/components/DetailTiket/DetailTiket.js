@@ -4,11 +4,13 @@ import { makeStyles } from "@material-ui/styles";
 import {
 	Card,
 	CardHeader,
+	CardActions,
 	Divider,
 	Table,
 	TableBody,
 	TableCell,
-	TableRow
+	TableRow,
+	Button
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -61,12 +63,21 @@ const DetailTiket = props => {
 					</TableRow>
 				</TableBody> 
 			</Table>
+			<CardActions>
+				<Button
+					fullWidth
+					variant='outlined'
+					color='default'
+					onClick={() => props.showModal()}
+				>SELESAI</Button>
+			</CardActions>
 		</Card>
 	);	
 }
 
 DetailTiket.propTypes = {
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	showModal: PropTypes.func.isRequired
 }
 
 export default DetailTiket;

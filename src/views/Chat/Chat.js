@@ -12,7 +12,8 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
 	DetailTiket,
-	Message
+	Message,
+	ModalForm
 } from "./components";
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +39,8 @@ const useStyles = makeStyles(theme => ({
 const Chat = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
-		mount: false
+		mount: false,
+		visible: false
 	})
 
 	React.useEffect(() => {
@@ -71,9 +73,25 @@ const Chat = props => {
 
 	const getNewResponse = (notiket) => props.fetchResponse(notiket)
 
+	const handleShowModal = () => {
+		setState(prevState => ({
+			...prevState,
+			visible: true
+		}))
+	}
+
+	const onCloseModal = () => setState(prevState => ({
+		...prevState,
+		visible: false
+	}))
+
 
 	return(
 		<div className={classes.root}>
+			<ModalForm 
+				visible={state.visible}
+				handleClose={onCloseModal}
+			/>
 			<div className={classes.header}>
 				<IconButton 
 					size="small" 
@@ -98,6 +116,7 @@ const Chat = props => {
 		      	<Grid item lg={4} sm={4} xl={12} xs={12}>
 		      		<DetailTiket 
 		      			data={props.dataTiket.data}
+		      			showModal={handleShowModal}
 		      		/>
 		        </Grid>	
 		        <Grid item lg={8} sm={8} xl={12} xs={12}>
@@ -107,6 +126,7 @@ const Chat = props => {
 		        		onSendMessage={handleSendMessage}
 		        		notiket={props.match.params.notiket}
 		        		getNewResponse={getNewResponse}
+		        		shouldFetch={state.visible}
 		        	/>
 		        </Grid>
 	        </Grid> }
