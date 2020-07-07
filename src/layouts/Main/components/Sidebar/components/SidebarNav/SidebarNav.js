@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 import { List, ListItem, ListItemIcon, ListItemText, colors } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -67,7 +68,7 @@ const SidebarNav = props => {
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Dashboard" />
       </ListItem>
 
       <ListItem 
@@ -81,6 +82,19 @@ const SidebarNav = props => {
           <FileCopyIcon />
         </ListItemIcon>
         <ListItemText primary="Tiket" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/user"
+      >
+        <ListItemIcon>
+          <PersonAddIcon />
+        </ListItemIcon>
+        <ListItemText primary="Users" />
       </ListItem>
     </List>
   );

@@ -16,7 +16,8 @@ import {
   NotFound as NotFoundView,
   Tiket as TiketView,
   AddTiket as AddTiketView,
-  Login as LoginView
+  Login as LoginView,
+  User as UserView
 } from './views';
 
 
@@ -45,6 +46,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/tiket/add"
+      />
+      <GuestRoute
+        component={UserView}
+        exact
+        layout={MainLayout}
+        path="/user"
       />
       <UserRoute
         component={LoginView}
