@@ -10,7 +10,8 @@ import {
 	FormPengaduan,
 	Loader,
 	ResponseTnt,
-	Tarif
+	Tarif,
+	TableTarif
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -64,7 +65,8 @@ const AddTiket = props => {
 		tnt: [],
 		disabledForm: false,
 		success: {},
-		channelForm: null
+		channelForm: null,
+		tarif: []
 	})
 
 	const classes = useStyles();
@@ -77,13 +79,74 @@ const AddTiket = props => {
 		if (data.jenisChannel === 5) {
 			getResi(payload, data);
 		}else{
-			setState(prevState => ({
-				...prevState,
-				channelForm: data.jenisChannel,
-				disabledForm: true
-			}))
+			addPelanggan(data);
 		}
 		
+	}
+
+	const addPelanggan = (data) => {
+		const payload = {
+			"requestName": getRequestName(data.channel, data),
+			"alamat": data.alamat,
+			"nohp": data.nohp,
+			"email": data.email,
+			"fb": data.fb,
+			"instagram": data.instagram,
+			"twitter": data.twitter,
+			"user": props.profile.email,
+			"nik":""
+		}
+
+		setState(prevState => ({
+			...prevState,
+			loading: true,
+			errors: {}
+		}))
+
+		api.cch.addPelanggan(payload)
+			.then(res => {
+				console.log(res);
+				const { status } = res;
+				if (status === 200) {
+					setState(prevState => ({
+						...prevState,
+						success: {
+							status: true,
+							message: 'User berhasil ditambah'
+						},
+						loading: false,
+						channelForm: data.jenisChannel,
+						disabledForm: true
+					}))
+				}else{
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						channelForm: data.jenisChannel,
+						disabledForm: true
+					}))
+				}
+			})
+			.catch(err => {
+				if (err.response) {
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Gagal insert pelanggan, silahkan cobalagi'
+						}
+					}))
+				}else{
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Network error!!'
+						}
+					}))
+				}
+			})
+
 	}
 
 	const getResi = (payload, data) => {
@@ -139,7 +202,8 @@ const AddTiket = props => {
 			disabledForm: false,
 			tnt: [],
 			channelForm: null,
-			data: {}
+			data: {},
+			tarif: []
 		}))
 	}
 
@@ -210,7 +274,7 @@ const AddTiket = props => {
 			})
 	}
 
-	const { loading, errors, tnt, success, channelForm } = state;
+	const { loading, errors, tnt, success, channelForm, tarif } = state;
 
 	React.useEffect(() => {
 		if (success.status) {
@@ -222,6 +286,37 @@ const AddTiket = props => {
 			}, 3000);
 		}
 	}, [success]);
+
+	const onCekTarif = (payload) => {
+		setState(prevState => ({
+			...prevState,
+			loading: true
+		}));
+
+		api.cch.cekTarif(payload)
+			.then(res => setState(prevState => ({
+				...prevState,
+				loading: false,
+				tarif: res
+			})))
+			.catch(err => {
+				if (err.global) {
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: err
+					}))
+				}else{
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						errors: {
+							global: 'Terdapat kesalahan'
+						}
+					}))
+				}
+			})
+	}
 
 	return(
 		<div className={classes.root}>
@@ -274,8 +369,14 @@ const AddTiket = props => {
 			        		<Tarif 
 			        			callApiAddress={(payload) => api.cch.getAddress(payload)}
 			        			onReset={handleResetForm}
+			        			cekTarif={onCekTarif}
 			        		/> }
 				    </Grid>
+				    	{ tarif.length > 0 && <Grid item lg={12} sm={12} xl={12} xs={12}>
+				    		<TableTarif 
+				    			list={tarif}
+				    		/>
+				    	</Grid> }
 			    </Grid>
 		    </div>
 		</div>

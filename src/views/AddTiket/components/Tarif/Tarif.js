@@ -56,7 +56,8 @@ const Tarif = props => {
 			senderAddr: false,
 			receiverAddr: false
 		},
-		errors: {}
+		errors: {},
+		disabled: false
 	});
 
 	React.useEffect(() => {
@@ -181,14 +182,42 @@ const Tarif = props => {
 			errors
 		}))
 		if (Object.keys(errors).length === 0) {
-			alert("oke");
+			const sender  	= data.senderAddr.split(",");
+			const receiver 	= data.receiverAddr.split(",");
+			const payload = {
+				"customerid": "",
+				"desttypeid": "1",
+				"itemtypeid": "1",
+				"shipperzipcode": sender[3].trim(),
+				"receiverzipcode": receiver[3].trim(),
+				"weight": data.berat.replace(/\D/g, ''),
+				"length": data.panjang.replace(/\D/g, ''),
+				"width": data.lebar.replace(/\D/g, ''),
+				"height": data.tinggi.replace(/\D/g, ''),
+				"diameter": "0",
+				"valuegoods": data.nilai.replace(/\D/g, '')
+			};
+
+			props.cekTarif(payload)
 		}
 	}
 
 	const validate = (data) => {
 		const errors = {};
-		if (!data.senderAddr) errors.senderAddr = "Kecamatan/Kota pengirim harap diisi";
-		if (!data.receiverAddr) errors.receiverAddr = "Kecamatan/Kota pengirim harap diisi";
+		if (!data.senderAddr){
+			errors.senderAddr = "Kecamatan/Kota pengirim harap diisi";
+		}else{
+			const sender = data.senderAddr.split(',');
+			if (sender.length !== 4) errors.senderAddr = "Format alamat yang benar adalah (kec, kab, prov, kodepos)";
+		}
+
+		if (!data.receiverAddr){
+			errors.receiverAddr = "Kecamatan/Kota pengirim harap diisi";	
+		}else{
+			const receiver = data.receiverAddr.split(',');
+			if (receiver.length !== 4) errors.receiverAddr = "Format alamat yang benar adalah (kec, kab, prov, kodepos)";
+		}
+		
 		if (!data.berat){
 			errors.berat = "Berat barang harap diisi";
 		}else{
@@ -299,7 +328,7 @@ const Tarif = props => {
 					<div className={classes.row}>
 						<FormControl className={classes.field} error={!!errors.berat}>
 							<TextField 
-								label='Berat'
+								label='Berat (gram)'
 								variant='outlined'
 								size='small'
 								value={data.berat}
@@ -342,7 +371,8 @@ const Tarif = props => {
 
 Tarif.propTypes = {
 	callApiAddress: PropTypes.func.isRequired,
-	onReset: PropTypes.func.isRequired
+	onReset: PropTypes.func.isRequired,
+	cekTarif: PropTypes.func.isRequired
 }
 
 export default Tarif;

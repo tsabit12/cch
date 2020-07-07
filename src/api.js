@@ -40,6 +40,30 @@ export default{
 		}).then(res => res.data),
 		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
 			...payload
-		}).then(res => res.data.result)
+		}).then(res => res.data.result),
+		cekTarif: (payload) => axios.post('https://api.posindonesia.co.id:8245/utilitas/1.0.1/getFee', {
+			...payload
+		}, {
+			headers: {
+				Authorization: 'Bearer b4480d74-5f4b-33e0-95e0-89fdce0e27a5'
+			}
+		}).then(res => {
+			const { r_fee } = res.data.rs_fee;
+
+			if (r_fee.serviceCode === 999) {
+				const response = {
+					errors: {
+						global: 'Tarif tidak ditemukan'
+					}
+				}
+				return Promise.reject(response);
+			}else{
+				return Promise.resolve(r_fee);
+			}
+		}),
+		addPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/addPelanggan`, {
+			...payload
+		}).then(res => res.data)
+
 	}
 }
