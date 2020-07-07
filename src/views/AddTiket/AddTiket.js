@@ -79,7 +79,8 @@ const AddTiket = props => {
 		}else{
 			setState(prevState => ({
 				...prevState,
-				channelForm: data.jenisChannel
+				channelForm: data.jenisChannel,
+				disabledForm: true
 			}))
 		}
 		
@@ -136,7 +137,9 @@ const AddTiket = props => {
 		setState(prevState => ({
 			...prevState,
 			disabledForm: false,
-			tnt: []
+			tnt: [],
+			channelForm: null,
+			data: {}
 		}))
 	}
 
@@ -270,6 +273,7 @@ const AddTiket = props => {
 			        	{ channelForm === 2 && 
 			        		<Tarif 
 			        			callApiAddress={(payload) => api.cch.getAddress(payload)}
+			        			onReset={handleResetForm}
 			        		/> }
 				    </Grid>
 			    </Grid>

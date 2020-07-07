@@ -267,6 +267,7 @@ const FormPengaduan = props => {
 			          		value={data.nohp}
 			          		placeholder="Masukkan nomor handphone"
 			          		onChange={handleChange}
+			          		autoComplete="off"
 			          		iserror={!!errors.nohp === true ? 1 : 0}
 			          	/>
 			          	{!!errors.nohp === true && <FormHelperText>{errors.nohp}</FormHelperText>}

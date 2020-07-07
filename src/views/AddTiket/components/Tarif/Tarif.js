@@ -8,7 +8,8 @@ import {
 	Divider,
 	FormControl,
 	TextField,
-	Button
+	Button,
+	ButtonGroup
 } from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import PropTypes from "prop-types";
@@ -197,6 +198,27 @@ const Tarif = props => {
 		return errors;
 	}
 
+	const handleReset = () => {
+		setState(prevState => ({
+			...prevState,
+			data: {
+				...prevState.data,
+				senderAddr: '',
+				receiverAddr: '',
+				panjang: '0',
+				lebar: '0',
+				tinggi: '0',
+				berat: '0',
+				nilai: '0'
+			},
+			errors: {}	
+		}));
+
+		setTimeout(() => {
+			props.onReset()
+		}, 10);
+	}
+
 	return(
 		<Card className={classes.root}>
 			<CardHeader title="FORM CEK TARIF" />
@@ -304,19 +326,23 @@ const Tarif = props => {
 			</CardContent>
 			<Divider />
 			<CardActions>
-				<Button 
-					variant="contained"
-					className={classes.button}
-					color='secondary'
-					onClick={onSubmit}
-				>TAMPILKAN</Button>
+				<ButtonGroup disableElevation variant="contained" color="primary" fullWidth>
+				  <Button 
+				  	style={{backgroundColor: 'rgb(220, 0, 78)', color: 'white'}}
+				  	onClick={handleReset}
+				  >
+				  	RESET
+				  </Button>
+				  <Button onClick={onSubmit}>TAMPILKAN</Button>
+				</ButtonGroup>
 			</CardActions>
 		</Card>
 	);
 }
 
 Tarif.propTypes = {
-	callApiAddress: PropTypes.func.isRequired
+	callApiAddress: PropTypes.func.isRequired,
+	onReset: PropTypes.func.isRequired
 }
 
 export default Tarif;
