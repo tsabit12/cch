@@ -63,7 +63,12 @@ export default{
 		}),
 		addPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/addPelanggan`, {
 			...payload
+		}).then(res => res.data),
+		addUser: (payload) => axios.post(`${process.env.REACT_APP_API}/addUser`, {
+			...payload
 		}).then(res => res.data)
-
-	}
+	},
+	getEmploye: (nippos) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
+		idPegawai: nippos
+	}).then(res => res.data)
 }
