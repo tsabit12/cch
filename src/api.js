@@ -70,5 +70,10 @@ export default{
 	},
 	getEmploye: (nippos) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
 		idPegawai: nippos
-	}).then(res => res.data)
+	}).then(res => res.data),
+	user: {
+		fetch: (payload) => axios.post(`${process.env.REACT_APP_API}/getUser`, {
+			...payload
+		}).then(res => res.data)
+	}
 }

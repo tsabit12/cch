@@ -14,6 +14,12 @@ import { connect } from "react-redux";
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import { removeMessage } from "../../actions/message";
+import { fetchUser } from "../../actions/user";
+import PropTypes from "prop-types";
+
+import {
+	TableUser
+} from "./components";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -22,9 +28,11 @@ const useStyles = makeStyles(theme => ({
 	action: {
 		marginTop: 5
 	},
-	content: {
+	contentEmpty: {
 		minHeight: 430,
-		position: 'relative'
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	message: {
 		marginTop: 10,
@@ -60,6 +68,24 @@ const User = props => {
 	const classes = useStyles();
 	const { history, message } = props;
 
+	React.useEffect(() => {
+		const payload = {
+			offset: 0,
+			limit: 15
+		};
+		props.fetchUser(payload);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	React.useEffect(() => {
+		if (message !== null) {
+			setTimeout(function() {
+				props.removeMessage();
+			}, 3000);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.message]);
+
 	return(
 		<div className={classes.root}>
 
@@ -94,11 +120,13 @@ const User = props => {
 								</Button> }
 						/>
 						<Divider />
-						<CardContent>
-							<div className={classes.content}>
-								<p>Data user kosong</p>
-							</div>
-						</CardContent>
+						
+							{ props.list.length > 0 ? 
+								<TableUser data={props.list} /> : <CardContent>
+								<div className={classes.contentEmpty}>
+									<p>Data user kosong</p>
+								</div> 
+							</CardContent>}
 					</Card>
 				</Grid>
 			</Grid>
@@ -106,10 +134,16 @@ const User = props => {
 	);
 }
 
+
+User.propTypes = {
+	list: PropTypes.array.isRequired	
+}
+
 function mapStateToProps(state) {
 	return{
-		message: state.message.text
+		message: state.message.text,
+		list: state.user.data
 	}
 }
 
-export default connect(mapStateToProps, { removeMessage })(User);
+export default connect(mapStateToProps, { removeMessage, fetchUser })(User);
