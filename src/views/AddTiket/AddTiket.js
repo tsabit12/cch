@@ -11,7 +11,8 @@ import {
 	Loader,
 	ResponseTnt,
 	Tarif,
-	TableTarif
+	TableTarif,
+	LacakKiriman
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -72,12 +73,12 @@ const AddTiket = props => {
 	const classes = useStyles();
 
 	const handleSubmitPengaduan = (data) => {
-		const payload = {
-			resi: data.noresi
-		};
+		// const payload = {
+		// 	resi: data.noresi
+		// };
 
 		if (data.jenisChannel === 5) {
-			getResi(payload, data);
+			getResi(data);
 		}else{
 			addPelanggan(data);
 		}
@@ -105,7 +106,6 @@ const AddTiket = props => {
 
 		api.cch.addPelanggan(payload)
 			.then(res => {
-				console.log(res);
 				const { status } = res;
 				if (status === 200) {
 					setState(prevState => ({
@@ -116,14 +116,22 @@ const AddTiket = props => {
 						},
 						loading: false,
 						channelForm: data.jenisChannel,
-						disabledForm: true
+						disabledForm: true,
+						data: {
+							...prevState.data,
+							...data
+						}
 					}))
 				}else{
 					setState(prevState => ({
 						...prevState,
 						loading: false,
 						channelForm: data.jenisChannel,
-						disabledForm: true
+						disabledForm: true,
+						data: {
+							...prevState.data,
+							...data
+						}
 					}))
 				}
 			})
@@ -149,7 +157,7 @@ const AddTiket = props => {
 
 	}
 
-	const getResi = (payload, data) => {
+	const getResi = (data) => {
 
 		setState(prevState => ({
 			...prevState,
@@ -160,34 +168,23 @@ const AddTiket = props => {
 			channelForm: 5
 		}));
 
-		api.trackAndTrace(payload)
+		api.trackAndTrace(data.noresi)
 			.then(res => {
-				const { r_tnt } = res;
 				setState(prevState => ({
 					...prevState,
 					loading: false,
-					tnt: r_tnt,
+					tnt: res,
 					disabledForm: true
 				}))
 			})
 			.catch(err => {
-				if (err === null) {
-					setState(prevState => ({
-						...prevState,
-						loading: false,
-						errors: {
-							global: 'Data tidak ditemukan, pastikan kembali nomor resi yang dientri'
-						}
-					}))
-				}else{
-					setState(prevState => ({
-						...prevState,
-						loading: false,
-						errors: {
-							global: 'Terdapat kesalahan, silahkan cobalagi nanti'
-						}
-					}))
-				}
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					errors: {
+						global: 'Terdapat kesalahan, silahkan cobalagi nanti'
+					}
+				}))
 			});
 	}
 
@@ -370,6 +367,12 @@ const AddTiket = props => {
 			        			callApiAddress={(payload) => api.cch.getAddress(payload)}
 			        			onReset={handleResetForm}
 			        			cekTarif={onCekTarif}
+			        		/> }
+
+			        	{ channelForm === 1 && 
+			        		<LacakKiriman 
+			        			noresi={state.data.noresi}
+			        			reset={handleResetForm}
 			        		/> }
 				    </Grid>
 				    	{ tarif.length > 0 && <Grid item lg={12} sm={12} xl={12} xs={12}>

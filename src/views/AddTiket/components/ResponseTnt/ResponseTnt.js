@@ -104,45 +104,36 @@ const ResponseTnt = props => {
 
 	React.useEffect(() => {
 		if (props.data.length > 0) {
-			if (typeof props.data[0].description === 'object') {
-				setState(prevState => ({
-					...prevState,
-					data: {
-						...prevState.data,
-						layanan: 'Layanan not found',
-						kantorKirim: `${props.data[0].officeCode} - ${props.data[0].office}`
-					},
-					catatan: 'Description not found \n \n \n'
-				}))
-			}else{
-				const layananValue = props.data[0].description.split(";")[0].split(":")[1];
-				let toStringValue = "";
-				props.data.forEach((row, index) => {
-					// eslint-disable-next-line prefer-template
-					toStringValue = toStringValue + `Barcode = ${row.barcode} \n`;
-					toStringValue = toStringValue + `================================== \n`;
-					toStringValue = toStringValue + `Event Date = ${row.eventDate} \n`;
-					toStringValue = toStringValue + `================================== \n`;
-					toStringValue = toStringValue + `Event Name = ${row.eventName} \n`;
-					toStringValue = toStringValue + `================================== \n`;
-					toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.office} \n`;
-					toStringValue = toStringValue + `================================== \n`;
-					toStringValue = toStringValue + `Description = ${row.description} \n`;
-					toStringValue = toStringValue + `================================== \n \n \n`;
-				})
-				
-				setState(prevState => ({
-					...prevState,
-					data: {
-						...prevState.data,
-						layanan: layananValue,
-						kantorKirim: `${props.data[0].officeCode} - ${props.data[0].office}`
-					},
-					checked: true,
-					catatan: toStringValue,
-					defaultLayanan: layananValue
-				}))
-			}
+			
+			const layananValue = props.data[0].description.split(";")[0].split(":")[1];
+			console.log({ layananValue });
+
+			let toStringValue = "";
+			props.data.forEach((row, index) => {
+				// eslint-disable-next-line prefer-template
+				toStringValue = toStringValue + `Barcode = ${row.barcode} \n`;
+				toStringValue = toStringValue + `================================== \n`;
+				toStringValue = toStringValue + `Event Date = ${row.eventDate} \n`;
+				toStringValue = toStringValue + `================================== \n`;
+				toStringValue = toStringValue + `Event Name = ${row.eventName} \n`;
+				toStringValue = toStringValue + `================================== \n`;
+				toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.officeName} \n`;
+				toStringValue = toStringValue + `================================== \n`;
+				toStringValue = toStringValue + `Description = ${row.description} \n`;
+				toStringValue = toStringValue + `================================== \n \n \n`;
+			})
+			
+			setState(prevState => ({
+				...prevState,
+				data: {
+					...prevState.data,
+					layanan: layananValue,
+					kantorKirim: `${props.data[0].officeCode} - ${props.data[0].officeName}`
+				},
+				checked: true,
+				catatan: toStringValue,
+				defaultLayanan: layananValue
+			}))
 		}
 	}, [props.data])
 
