@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import { getTiketById, addResponseTiket, fetchResponse } from "../../actions/tiket";
+import { 
+	getTiketById, 
+	addResponseTiket, 
+	fetchResponse, 
+	closeTiket 
+} from "../../actions/tiket";
 import {
 	Grid,
 	Breadcrumbs,
@@ -15,6 +20,13 @@ import {
 	Message,
 	ModalForm
 } from "./components";
+
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -40,7 +52,8 @@ const Chat = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
 		mount: false,
-		visible: false
+		visible: false,
+		loading: false
 	})
 
 	React.useEffect(() => {
@@ -85,13 +98,29 @@ const Chat = props => {
 		visible: false
 	}))
 
+	const handleCloseTiket = (value) => {
+		const { data } = props.dataTiket;
+		setState(prevState => ({
+			...prevState,
+			loading: true
+		}))
+
+		const payload = {
+			noTicket: data.no_ticket,
+			jenisAduan: value.intiMasalah,
+			lokusMasalah: value.status
+		}
+
+		props.closeTiket(payload)
+			.then(() => setState(prevState => ({
+				...prevState,
+				loading: false,
+				visible: false
+			})))
+	}
 
 	return(
 		<div className={classes.root}>
-			<ModalForm 
-				visible={state.visible}
-				handleClose={onCloseModal}
-			/>
 			<div className={classes.header}>
 				<IconButton 
 					size="small" 
@@ -112,24 +141,32 @@ const Chat = props => {
 			        </Typography>
 			    </Breadcrumbs>
 		    </div>
-			{ state.mount && <Grid container spacing={4}>
-		      	<Grid item lg={4} sm={4} xl={12} xs={12}>
-		      		<DetailTiket 
-		      			data={props.dataTiket.data}
-		      			showModal={handleShowModal}
-		      		/>
-		        </Grid>	
-		        <Grid item lg={8} sm={8} xl={12} xs={12}>
-		        	<Message 
-		        		data={props.dataTiket.notes}
-		        		dataUser={props.user}
-		        		onSendMessage={handleSendMessage}
-		        		notiket={props.match.params.notiket}
-		        		getNewResponse={getNewResponse}
-		        		shouldFetch={state.visible}
-		        	/>
-		        </Grid>
-	        </Grid> }
+		    <ModalForm 
+				visible={state.visible}
+				handleClose={onCloseModal}
+				onCloseTiket={handleCloseTiket}
+				loading={state.loading}
+			/>
+			{ props.isDone ? <Alert severity="success">TIKET SUDAH DITUTUP</Alert> : <React.Fragment>
+				{ state.mount && <Grid container spacing={4}>
+			      	<Grid item lg={4} sm={4} xl={12} xs={12}>
+			      		<DetailTiket 
+			      			data={props.dataTiket.data}
+			      			showModal={handleShowModal}
+			      		/>
+			        </Grid>	
+			        <Grid item lg={8} sm={8} xl={12} xs={12}>
+			        	<Message 
+			        		data={props.dataTiket.notes}
+			        		dataUser={props.user}
+			        		onSendMessage={handleSendMessage}
+			        		notiket={props.match.params.notiket}
+			        		getNewResponse={getNewResponse}
+			        		shouldFetch={state.visible}
+			        	/>
+			        </Grid>
+		        </Grid> }
+			</React.Fragment>}
 		</div>
 	);
 }
@@ -142,7 +179,9 @@ Chat.propTypes = {
 	}).isRequired,
 	getTiketById: PropTypes.func.isRequired,
 	dataTiket: PropTypes.object.isRequired,
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	closeTiket: PropTypes.func.isRequired,
+	isDone: PropTypes.bool
 }
 
 function mapStateToProps(state, props) {
@@ -150,7 +189,8 @@ function mapStateToProps(state, props) {
 	if (state.ticket.detail[notiket]) {
 		return{
 			dataTiket: state.ticket.detail[notiket],
-			user: state.auth.user
+			user: state.auth.user,
+			isDone: !!state.ticket.detail[notiket].isDone
 		}
 	}else{
 		return{
@@ -161,4 +201,9 @@ function mapStateToProps(state, props) {
 }
 
 
-export default connect(mapStateToProps, { getTiketById, addResponseTiket, fetchResponse })(Chat);
+export default connect(mapStateToProps, { 
+	getTiketById, 
+	addResponseTiket, 
+	fetchResponse,
+	closeTiket
+})(Chat);

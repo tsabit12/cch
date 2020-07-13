@@ -26,6 +26,12 @@ const TableTiket = props => {
 	const classes = useStyles();
 	var no = 1;
 
+	const handelClick = (noTiket, status) => {
+		if (status !== 'Selesai') {
+			props.onClickTiket(noTiket);
+		}
+	}
+
 	return(
 		<Card className={classes.root}>
 			<CardHeader
@@ -59,8 +65,11 @@ const TableTiket = props => {
 			              <TableCell 
 			              	className={classes.row} 
 			              	align="left"
-			              	style={{color: 'blue', cursor: 'pointer'}}
-			              	onClick={() => props.onClickTiket(row.no_ticket)}
+			              	style={{
+			              		color: row.name === 'Selesai' ? '' : 'blue', 
+			              		cursor: row.name === 'Selesai' ? '' : 'pointer'
+			              	}}
+			              	onClick={() => handelClick(row.no_ticket, row.name)}
 			              >
 			              	{row.no_ticket}
 			              </TableCell>

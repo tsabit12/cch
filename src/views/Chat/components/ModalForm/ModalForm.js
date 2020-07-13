@@ -81,8 +81,22 @@ const ModalForm = props => {
 		data: {
 			intiMasalah: '',
 			status: ''
-		}
+		},
+		errors: {}
 	})
+
+	//reset form
+	React.useEffect(() => {
+		if (!props.visible) {
+			setState(prevState => ({
+				...prevState,
+				data: {
+					intiMasalah: '',
+					status: ''
+				}
+			}))
+		}
+	}, [props.visible])
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -91,84 +105,114 @@ const ModalForm = props => {
 			data: {
 				...prevState.data,
 				[name]: value
+			},
+			errors: {
+				...prevState.errors,
+				[name]: undefined
 			}
 		}))
 	}
 
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return (
-	<Dialog aria-labelledby="customized-dialog-title" open={props.visible} fullScreen={fullScreen}>
-        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
-          KONFIRMASI TUTUP TIKET
-        </DialogTitle>
-        <DialogContent>
-          	<div className={classes.form}>
-	           	<FormControl fullWidth className={classes.formControl}>
-	           		<InputLabel shrink id="intiMasalah">
-			          INTI PERMASALAHAN
-			        </InputLabel>
-			        <Select
-			          labelId="intiMasalah"
-			          id="intiMasalah"
-			          name="intiMasalah"
-			          value={state.data.intiMasalah}
-			          onChange={handleChange}
-			          displayEmpty
-			          className={classes.selectEmpty}
-			        >
-			          <MenuItem value="">
-			            <em>--Pilih--</em>
-			          </MenuItem>
-			          <MenuItem value='Keterlambatan'>Keterlambatan</MenuItem>
-			          <MenuItem value='Kehilangan'>Kehilangan</MenuItem>
-			          <MenuItem value='Kiriman tidak utuh'>Kiriman tidak utuh</MenuItem>
-			          <MenuItem value='Salah Serah'>Salah Serah</MenuItem>
-			          <MenuItem value='Retur Kiriman'>Retur Kiriman</MenuItem>
-			          <MenuItem value='Salah Salur'>Salah Salur</MenuItem>
-			          <MenuItem value='Salah Tempel Resi'>Salah Tempel Resi</MenuItem>
-			          <MenuItem value='Pengaduan Layanan'>Pengaduan Layanan</MenuItem>
-			          <MenuItem value='Belum Terima'>Belum Terima</MenuItem>
-			          <MenuItem value='11'>Lainnya</MenuItem>
-			        </Select>
-			        <FormHelperText>Label + placeholder</FormHelperText>
-	           </FormControl>
-	           	<FormControl fullWidth className={classes.formControl}>
-	           		<InputLabel shrink id="">
-			          STATUS
-			        </InputLabel>
-			        <Select
-			          labelId="status"
-			          id="status"
-			          name='status'
-			          value={state.data.status}
-			          onChange={handleChange}
-			          displayEmpty
-			          className={classes.selectEmpty}
-			        >
-			          <MenuItem value="">
-			            <em>--Pilih--</em>
-			          </MenuItem>
-			          <MenuItem value={10}>Ten</MenuItem>
-			          <MenuItem value={20}>Twenty</MenuItem>
-			          <MenuItem value={30}>Thirty</MenuItem>
-			        </Select>
-			        <FormHelperText>Label + placeholder</FormHelperText>
-	           </FormControl>
-           </div>
-        </DialogContent>
-        <DialogActions>
-          <Button color="primary">
-            Save changes
-          </Button>
-        </DialogActions>
-	</Dialog>
-  );
+	const onSubmit = () => {
+		const errors = validate(state.data);
+		setState(prevState => ({
+			...prevState,
+			errors
+		}))
+		if (Object.keys(errors).length === 0) {
+			props.onCloseTiket(state.data);
+		}
+	}
+
+	const validate = (data) => {
+		const errors = {};
+		if (!data.intiMasalah) errors.intiMasalah = "Jenis aduan harap dipilih";
+		if (!data.status) errors.status = "Lokus masalah harap dipilih";
+		return errors;
+	}
+
+	const { errors } = state;
+
+  	return (
+		<Dialog aria-labelledby="customized-dialog-title" open={props.visible} fullScreen={fullScreen}>
+	        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
+	          KONFIRMASI TUTUP TIKET
+	        </DialogTitle>
+	        <DialogContent>
+	          	<div className={classes.form}>
+		           	<FormControl fullWidth className={classes.formControl} error={!!errors.intiMasalah}>
+		           		<InputLabel shrink id="intiMasalah">
+				          JENIS ADUAN
+				        </InputLabel>
+				        <Select
+				          labelId="intiMasalah"
+				          id="intiMasalah"
+				          name="intiMasalah"
+				          value={state.data.intiMasalah}
+				          onChange={handleChange}
+				          displayEmpty
+				          className={classes.selectEmpty}
+				        >
+				          <MenuItem value="">
+				            <em>--Pilih--</em>
+				          </MenuItem>
+				          <MenuItem value='Keterlambatan'>Keterlambatan</MenuItem>
+				          <MenuItem value='Kehilangan'>Kehilangan</MenuItem>
+				          <MenuItem value='Kiriman tidak utuh'>Kiriman tidak utuh</MenuItem>
+				          <MenuItem value='Salah Serah'>Salah Serah</MenuItem>
+				          <MenuItem value='Retur Kiriman'>Retur Kiriman</MenuItem>
+				          <MenuItem value='Salah Salur'>Salah Salur</MenuItem>
+				          <MenuItem value='Salah Tempel Resi'>Salah Tempel Resi</MenuItem>
+				          <MenuItem value='Pengaduan Layanan'>Pengaduan Layanan</MenuItem>
+				          <MenuItem value='Belum Terima'>Belum Terima</MenuItem>
+				          <MenuItem value='11'>Lainnya</MenuItem>
+				        </Select>
+				        { errors.intiMasalah && <FormHelperText>{errors.intiMasalah}</FormHelperText> }
+		           </FormControl>
+		           	<FormControl fullWidth className={classes.formControl} error={!!errors.status}>
+		           		<InputLabel shrink id="">
+				          LOKUS MASALAH
+				        </InputLabel>
+				        <Select
+				          labelId="status"
+				          id="status"
+				          name='status'
+				          value={state.data.status}
+				          onChange={handleChange}
+				          displayEmpty
+				          className={classes.selectEmpty}
+				        >
+				          <MenuItem value="">
+				            <em>--Pilih--</em>
+				          </MenuItem>
+				          <MenuItem value='Collecting'>Collecting</MenuItem>
+				          <MenuItem value='Processing'>Processing</MenuItem>
+				          <MenuItem value='Transporting'>Transporting</MenuItem>
+				          <MenuItem value='Delivery'>Delivery</MenuItem>
+				          <MenuItem value='Reporting'>Reporting</MenuItem>
+				        </Select>
+				        { errors.status && <FormHelperText>{errors.status}</FormHelperText> }
+		           </FormControl>
+	           </div>
+	        </DialogContent>
+	        <DialogActions>
+	        	{ !props.loading ? <Button color="primary" onClick={onSubmit}>
+	            	Simpan
+	          	</Button> : <Button color="primary" disabled>
+	            	Loading...
+	          	</Button> }
+	        </DialogActions>
+		</Dialog>
+	);
 }
 
 ModalForm.propTypes = {
 	visible: PropTypes.bool.isRequired,
-	handleClose: PropTypes.func.isRequired
+	handleClose: PropTypes.func.isRequired,
+	onCloseTiket: PropTypes.func.isRequired,
+	loading: PropTypes.bool.isRequired
 }
 
 export default ModalForm;

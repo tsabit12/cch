@@ -3,9 +3,10 @@ import { makeStyles } from "@material-ui/styles";
 import {
 	Breadcrumbs,
 	Typography,
-	Grid
+	Grid,
+	IconButton
 } from "@material-ui/core";
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
 	FormPengaduan,
 	Loader,
@@ -27,10 +28,6 @@ const useStyles = makeStyles(theme => ({
 	link: {
     	display: 'flex',
 	},
-	linkRoot: {
-		display: 'flex',
-		cursor: 'pointer'
-	},
 	icon: {
 		marginRight: theme.spacing(0.5),
 		width: 20,
@@ -38,6 +35,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	content: {
 		marginTop: 10
+	},
+	header: {
+		display: 'flex',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		marginBottom: 5
 	}
 }))
 
@@ -331,15 +334,25 @@ const AddTiket = props => {
 				open={!!success.status} 
 				variant="success" 
 				message={success.message} /> }
-			<Breadcrumbs aria-label="Breadcrumb">
-		        <Typography color="primary" onClick={() => props.history.push("/tiket")} className={classes.linkRoot}>
-		          <FileCopyIcon className={classes.icon} />
-		          Tiket
-		        </Typography>
-		        <Typography color="textPrimary" className={classes.link}>
-		          Pengajuan
-		        </Typography>
-		    </Breadcrumbs>
+
+			<div className={classes.header}>
+				<IconButton 
+					size="small" 
+					style={{marginRight: 10}} 
+					onClick={() => props.history.push("/tiket")}
+				>
+		            <ArrowBackIcon />
+		        </IconButton>
+				<Breadcrumbs aria-label="Breadcrumb">
+			        <Typography color="textPrimary" className={classes.link}>
+			          Tiket
+			        </Typography>
+			        <Typography color="textPrimary" className={classes.link}>
+			          Pengajuan
+			        </Typography>
+			    </Breadcrumbs>
+		    </div>
+
 		    <div className={classes.content}>
 			    <Grid container spacing={4}>
 			    	<Grid

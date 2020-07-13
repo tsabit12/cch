@@ -33,7 +33,7 @@ const getListNameByActive = (number) => {
 
 const Tiket = props => {
 	const [state, setState] = React.useState({
-		title: 'TICKET MASUK',
+		title: 'PENGADUAN MASUK',
 		active: 1,
 		errors: {}
 	})

@@ -64,5 +64,8 @@ export default{
 	}).then(res => res.data),
 	fetchNewResponse: (notiket) => axios.post(`${process.env.REACT_APP_API}/realtimeResponse`, {
 		noTicket: notiket
+	}).then(res => res.data),
+	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/ticketSelesai`, {
+		...payload
 	}).then(res => res.data)
 }

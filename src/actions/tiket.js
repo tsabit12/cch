@@ -3,7 +3,8 @@ import {
 	GET_TICKET, 
 	GET_TICKET_BY_ID,
 	ADD_RESPONSE_TIKET,
-	FETCH_RESPONSE
+	FETCH_RESPONSE,
+	ON_CLOSE_TIKET
 } from "../types";
 import api from "../api";
 
@@ -43,7 +44,8 @@ export const addResponseTiket = (payload) => dispatch =>
 				payload: {
 					response: payload.response,
 					date: res.curdate,
-					username: payload.user
+					username: payload.user,
+					status: 'Sending...'
 				},
 				notiket: payload.noTicket
 			})
@@ -58,3 +60,10 @@ export const fetchResponse = (notiket) => dispatch =>
 				notiket
 			})
 		})
+
+export const closeTiket = (payload) => dispatch => 
+	api.closeTiket(payload)
+		.then(() => dispatch({
+			type: ON_CLOSE_TIKET,
+			notiket: payload.noTicket
+		}))

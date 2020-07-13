@@ -2,7 +2,8 @@ import {
 	GET_TICKET, 
 	GET_TICKET_BY_ID,
 	ADD_RESPONSE_TIKET,
-	FETCH_RESPONSE
+	FETCH_RESPONSE,
+	ON_CLOSE_TIKET
 } from "../types";
 
 const initialState = {
@@ -24,7 +25,8 @@ const initialState = {
 	detail: {
 		// [notiket]: {
 		// 	notes: [],
-		// 	data: {}
+		// 	data: {},
+		// 	isDone: bool
 		// }
 	}
 }
@@ -75,6 +77,17 @@ export default function ticket(state=initialState, action={}){
 					[action.notiket]: {
 						...state.detail[action.notiket],
 						notes: action.notes
+					}
+				}
+			}
+		case ON_CLOSE_TIKET:
+			return{
+				...state,
+				detail: {
+					...state.detail,
+					[action.notiket]: {
+						...state.detail[action.notiket],
+						isDone: true
 					}
 				}
 			}

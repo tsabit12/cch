@@ -9,3 +9,4 @@ export const FETCH_USER = 'FETCH_USER';
 export const GET_TICKET_BY_ID = 'GET_TICKET_BY_ID';
 export const ADD_RESPONSE_TIKET = 'ADD_RESPONSE_TIKET';
 export const FETCH_RESPONSE = 'FETCH_RESPONSE';
+export const ON_CLOSE_TIKET = 'ON_CLOSE_TIKET';
