@@ -1,25 +1,22 @@
 import React from "react";
 import {
 	FormControl,
-	FormLabel,
 	FormHelperText,
 	TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import BootstrapInput from "./BootstrapInput";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles(theme => ({
 	root: {},
 	field: {
 		width: '96%',
-		marginTop: 17
+		marginBottom: 10
 	},
 	label: {
 		marginBottom: 3
 	},
 	inputWalkin: {
-		marginTop: 5,
 		display: 'flex'
 	},
 	fieldAutoC: {
@@ -87,21 +84,10 @@ const InputForm = props => {
 		        renderInput={(params) => 
 		        	<TextField 
 		        		{...params} 
-		        		label={`Masukkan ${label(props.jenis)}`} 
+		        		label={label(props.jenis)} 
 		        		variant="outlined" 
-		        		size="small"
 		        	/>}
 		    />
-			{ /* <BootstrapInput 
-		    	name={props.name}
-		    	value={props.value}
-		    	id="value-customized-input" 
-		    	autoComplete="off"
-		    	style={{marginLeft: 5}}
-		    	placeholder={`Masukkan ${label(props.jenis)}`}
-		    	onChange={props.handleChange}
-		    	iserror={!!props.error[props.name] === true ? 1 : 0}
-		    /> */ }
 		    {!!props.error[props.name] === true && <FormHelperText>{props.error[props.name]}</FormHelperText>}
 		</FormControl>
 	)
@@ -126,40 +112,29 @@ const RenderInput = props => {
 					handleChangeSelect={handleChangeSelect}
 				/> : <div className={classes.inputWalkin}>
 						<FormControl className={classes.field} style={{marginRight: 3}} error={!!props.errors.nik}>
-							<FormLabel 
-								component="legend" 
-								className={classes.label}
-							>
-								Nomor KTP
-							</FormLabel>
-								<BootstrapInput 
-							    	name="nik"
-							    	value={state.nik}
-							    	id="nohp-customized-input" 
-							    	placeholder='Masukkan nomor KTP'
-							    	autoComplete="off"
-							    	onChange={handleChange}
-							    	iserror={!!props.errors.nik === true ? 1 : 0}
-							    />
-							    {!!props.errors.nik === true && 
-							<FormHelperText>{props.errors.nik}</FormHelperText>}
+							<TextField 
+								id="nik"
+								name="nik"
+								value={state.nik} 
+								label="Nomor KTP"
+								variant="outlined"
+								error={!!props.errors.nik}
+								onChange={handleChange}
+								autoComplete="off"
+							/>
+							{!!props.errors.nik === true && <FormHelperText>{props.errors.nik}</FormHelperText>}
 						</FormControl>
-						<FormControl className={classes.field} error={!!props.errors.nohp}>
-							<FormLabel 
-								component="legend" 
-								className={classes.label}
-							>
-								Nama Pengadu
-							</FormLabel>
-							<BootstrapInput 
-						    	name='nama'
-						    	value={state.nama}
-						    	id="nama-customized-input" 
-						    	placeholder="Masukkan nama"
-						    	autoComplete="off"
-						    	onChange={handleChange}
-						    	iserror={!!props.errors.nama === true ? 1 : 0}
-						    />
+						<FormControl className={classes.field} error={!!props.errors.nama}>
+							<TextField 
+								id="nama"
+								name="nama"
+								value={state.nama} 
+								label="Nama Pengadu"
+								variant="outlined"
+								error={!!props.errors.nama}
+								onChange={handleChange}
+								autoComplete="off"
+							/>
 						    {!!props.errors.nama === true && <FormHelperText>{props.errors.nama}</FormHelperText>}
 						</FormControl>
 				</div>}

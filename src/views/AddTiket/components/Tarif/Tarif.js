@@ -267,7 +267,6 @@ const Tarif = props => {
 					      		label='Kecamatan/Kota pengirim'
 					      		name='senderAddr'
 					      		variant="outlined" 
-					      		size="small"
 					      		error={!!errors.senderAddr}
 					      		helperText={ errors.senderAddr ? errors.senderAddr : null }
 					      	/> }
@@ -285,7 +284,6 @@ const Tarif = props => {
 					      		label='Kecamatan/Kota Penerima'
 					      		name='receiverAddr'
 					      		variant="outlined" 
-					      		size="small"
 					      		helperText={ errors.receiverAddr ? errors.receiverAddr : null }
 					      		error={!!errors.receiverAddr}
 					      	/> }
@@ -296,7 +294,6 @@ const Tarif = props => {
 							<TextField 
 								label='Panjang'
 								variant="outlined" 
-								size="small"
 								value={data.panjang}
 								name='panjang'
 								onChange={handleChangeNumber}
@@ -306,7 +303,6 @@ const Tarif = props => {
 							<TextField 
 								label='Lebar'
 								variant="outlined" 
-								size="small"
 								style={{marginLeft: 3}}
 								value={data.lebar}
 								name='lebar'
@@ -317,7 +313,6 @@ const Tarif = props => {
 							<TextField 
 								label='Tinggi'
 								variant="outlined" 
-								size="small"
 								style={{marginLeft: 3}}
 								value={data.tinggi}
 								name='tinggi'
@@ -330,7 +325,6 @@ const Tarif = props => {
 							<TextField 
 								label='Berat (gram)'
 								variant='outlined'
-								size='small'
 								value={data.berat}
 								name='berat'
 								error={!!errors.berat}
@@ -342,7 +336,6 @@ const Tarif = props => {
 							<TextField 
 								label='Nilai barang'
 								variant='outlined'
-								size='small'
 								value={data.nilai}
 								name='nilai'
 								error={!!errors.nilai}

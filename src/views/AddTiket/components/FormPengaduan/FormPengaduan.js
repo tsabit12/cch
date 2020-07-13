@@ -9,12 +9,11 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
-	FormLabel,
 	Button,
-	FormHelperText
+	FormHelperText,
+	TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import BootstrapInput from "./BootstrapInput";
 import RenderInput from "./RenderInput";
 import api from "../../../../api";
 
@@ -56,7 +55,6 @@ const useStyles = makeStyles(theme => ({
   	width: '100%'
   },
   container: {
-  	minHeight: '300px',
     position: 'relative'
   },
   backdrop: {
@@ -82,16 +80,18 @@ const SelectChannel = props => {
 	
 	return(
 		<FormControl 
-			className={classes.field} 
-			style={{marginRight: 3}} 
-			error={!!props.error}
-			variant="outlined"
-			size="small"
+			variant="outlined" 
+			className={classes.field}
+			style={{marginRight: 3}}
 		>
+	        <InputLabel id="demo-simple-select-outlined-label">Channel</InputLabel>
 	        <Select
+	          labelId="demo-simple-select-outlined-label"
+	          id="demo-simple-select-outlined"
 	          value={props.channel}
 	          onChange={props.handleChange}
 	          autoWidth={true}
+	          label="Channel"
 	        >
 	          <MenuItem value={0}>--Pilih--</MenuItem>
 	          <MenuItem value={1}>Telepon</MenuItem>
@@ -102,8 +102,7 @@ const SelectChannel = props => {
 	          <MenuItem value={6}>Walk In</MenuItem>
 	          <MenuItem value={7}>Mitra e-Commerce</MenuItem>
 	        </Select>
-	        {!!props.error === true && <FormHelperText>{props.error}</FormHelperText>}
-		</FormControl>
+      </FormControl>
 	);
 } 
 
@@ -327,54 +326,43 @@ const FormPengaduan = props => {
 						</div> }
 
 					{ data.channel !== 1 && <FormControl className={classes.field} error={!!errors.nohp}>
-						<FormLabel component="legend" style={{marginBottom: 3}}>
-							Nomor Handphone
-						</FormLabel>
-						<BootstrapInput 
-			          		name="nohp" 
-			          		id="nohp"
-			          		value={data.nohp}
-			          		placeholder="Masukkan nomor handphone"
-			          		onChange={handleChange}
-			          		autoComplete="off"
-			          		iserror={!!errors.nohp === true ? 1 : 0}
-			          	/>
+						<TextField 
+							id="nohp"
+							name="nohp"
+							value={data.nohp} 
+							label="Nomor Handphone"
+							variant="outlined"
+							error={!!errors.nohp}
+							onChange={handleChange}
+							autoComplete="off"
+						/>
 			          	{!!errors.nohp === true && <FormHelperText>{errors.nohp}</FormHelperText>}
 		          	</FormControl> }
 
 		          	<FormControl className={classes.field} error={!!errors.alamat}>
-						<FormLabel component="legend" style={{marginBottom: 3}}>
-							Alamat
-						</FormLabel>
-						<BootstrapInput 
-			          		name="alamat" 
-			          		id="alamat"
-			          		value={data.alamat}
-			          		placeholder="Masukkan alamat lengkap"
-			          		onChange={handleChange}
-			          		iserror={!!errors.alamat === true ? 1 : 0}
-			          	/>
+						<TextField 
+							id="alamat"
+							name="alamat"
+							value={data.alamat} 
+							label="Alamat"
+							variant="outlined"
+							error={!!errors.alamat}
+							onChange={handleChange}
+							autoComplete="off"
+						/>
 			          	{!!errors.alamat === true && <FormHelperText>{errors.alamat}</FormHelperText>}
 		          	</FormControl>
 
-					<FormControl className={classes.field} error={!!errors.jenisChannel}>
-				        <InputLabel 
-				        	className={classes.label} 
-				        	htmlFor="jenis-customized-select"
-				        >
-				        	Jenis Pengaduan
-				        </InputLabel>
+					<FormControl className={classes.field} error={!!errors.jenisChannel} variant="outlined">
+				        <InputLabel id="jenis-customized-select">Jenis Pengaduan</InputLabel>
 				        <Select
 				          value={data.jenisChannel}
 				          onChange={handleChange}
-				          input={
-				          	<BootstrapInput 
-				          		name="jenisChannel" 
-				          		id="jenis-customized-select" 
-				          		iserror={!!errors.jenisChannel === true ? 1 : 0}
-				          	/>
-				          }
+				          label="Jenis Pengaduan"
 				          autoWidth={true}
+				          id="jenisChannel"
+				          name="jenisChannel"
+				          labelId="jenis-customized-select"
 				        >
 				          <MenuItem value={0}>--Pilih--</MenuItem>
 				          <MenuItem value={1}>Lacak Kiriman</MenuItem>
@@ -386,24 +374,16 @@ const FormPengaduan = props => {
 				        {!!errors.jenisChannel === true && <FormHelperText>{errors.jenisChannel}</FormHelperText>}
 					</FormControl>
 					{ ((data.jenisChannel === 1) || (data.jenisChannel === 5)) && <FormControl className={classes.field} error={!!errors.noresi}>
-						<FormLabel 
-							component="legend" 
-							className={classes.labelForm}
-						>
-							Nomor Resi
-						</FormLabel>
-						<div className={classes.inputBtn}>
-							<BootstrapInput 
-						    	name='noresi'
-						    	value={data.noresi}
-						    	id="noresi-customized-input" 
-						    	placeholder="Masukkan nomor resi"
-						    	onChange={handleChange}
-						    	style={{width: '100%'}}
-						    	autoComplete="off"
-						    	iserror={!!errors.noresi === true ? 1 : 0}
-						    />
-					    </div>
+						<TextField 
+							id="noresi"
+							name="noresi"
+							value={data.noresi} 
+							label="Nomor Resi"
+							variant="outlined"
+							error={!!errors.noresi}
+							onChange={handleChange}
+							autoComplete="off"
+						/>
 					    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
 					</FormControl> }
 				</div>
