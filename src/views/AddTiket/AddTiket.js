@@ -70,7 +70,8 @@ const AddTiket = props => {
 		disabledForm: false,
 		success: {},
 		channelForm: null,
-		tarif: []
+		tarif: [],
+		payloadBerat: {}
 	})
 
 	const classes = useStyles();
@@ -294,11 +295,18 @@ const AddTiket = props => {
 		}));
 
 		api.cch.cekTarif(payload)
-			.then(res => setState(prevState => ({
-				...prevState,
-				loading: false,
-				tarif: res
-			})))
+			.then(res => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					tarif: res,
+					payloadBerat: {
+						p: payload.length,
+						l: payload.width,
+						t: payload.height
+					}
+				}))
+			})
 			.catch(err => {
 				if (err.global) {
 					setState(prevState => ({
@@ -391,6 +399,7 @@ const AddTiket = props => {
 				    	{ tarif.length > 0 && <Grid item lg={12} sm={12} xl={12} xs={12}>
 				    		<TableTarif 
 				    			list={tarif}
+				    			payload={state.payloadBerat}
 				    		/>
 				    	</Grid> }
 			    </Grid>

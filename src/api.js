@@ -38,7 +38,12 @@ export default{
 				}
 				return Promise.reject(response);
 			}else{
-				return Promise.resolve(r_fee);
+				if (Array.isArray(r_fee) === true) {
+					return Promise.resolve(r_fee);
+				}else{
+					const toArr = Object.values(res.data.rs_fee);
+					return Promise.resolve(toArr);
+				}
 			}
 		}),
 		addPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/addPelanggan`, {

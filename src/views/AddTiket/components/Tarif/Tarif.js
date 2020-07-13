@@ -9,7 +9,10 @@ import {
 	FormControl,
 	TextField,
 	Button,
-	ButtonGroup
+	ButtonGroup,
+	MenuItem,
+	Select,
+	InputLabel
 } from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import PropTypes from "prop-types";
@@ -49,7 +52,8 @@ const Tarif = props => {
 			lebar: '0',
 			tinggi: '0',
 			berat: '0',
-			nilai: '0'
+			nilai: '0',
+			jenis: '1'
 		},
 		cities: [],
 		loading: {
@@ -172,6 +176,17 @@ const Tarif = props => {
 		}))
 	}
 
+	const onChangeJenis = (e) => {
+		const { value } = e.target;
+		setState(prevState => ({
+			...prevState,
+			data: {
+				...prevState.data,
+				jenis: value
+			}
+		}))
+	}
+
 	const classes 	= useStyles();
 	const { data, loading, errors } = state;
 
@@ -187,7 +202,7 @@ const Tarif = props => {
 			const payload = {
 				"customerid": "",
 				"desttypeid": "1",
-				"itemtypeid": "1",
+				"itemtypeid": data.jenis,
 				"shipperzipcode": sender[3].trim(),
 				"receiverzipcode": receiver[3].trim(),
 				"weight": data.berat.replace(/\D/g, ''),
@@ -288,6 +303,21 @@ const Tarif = props => {
 					      		error={!!errors.receiverAddr}
 					      	/> }
 					    />
+					</FormControl>
+					<FormControl className={classes.field} variant="outlined" >
+						<InputLabel id="paketLabel">Jenis Kiriman</InputLabel>
+				        <Select
+				          labelId="paketLabel"
+				          id="jenis"
+				          name="jenis"
+				          value={data.jenis}
+				          onChange={onChangeJenis}
+				          autoWidth={true}
+				          label="Jenis Kiriman"
+				        >
+				          <MenuItem value='1'>PAKET</MenuItem>
+				          <MenuItem value='0'>SURAT</MenuItem>
+				        </Select>
 					</FormControl>
 					<div className={classes.row}>
 						<FormControl className={classes.field}>
