@@ -2,10 +2,12 @@ import React from "react";
 import {
 	FormControl,
 	FormLabel,
-	FormHelperText
+	FormHelperText,
+	TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import BootstrapInput from "./BootstrapInput";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles(theme => ({
 	root: {},
@@ -19,6 +21,10 @@ const useStyles = makeStyles(theme => ({
 	inputWalkin: {
 		marginTop: 5,
 		display: 'flex'
+	},
+	fieldAutoC: {
+		width: '100%',
+		marginBottom: 15
 	}
 }))
 
@@ -63,13 +69,30 @@ const labelState = (jenis) => {
 const InputForm = props => {
 	const classes = useStyles();
 	return(
-		<FormControl className={classes.field} error={!!props.error[props.name]}>
-			{ props.label && 
-				<FormLabel 
-					component="legend" 
-					className={classes.label}>{label(props.jenis)}
-				</FormLabel> }
-			<BootstrapInput 
+		<FormControl className={classes.fieldAutoC} error={!!props.error[props.name]}>
+			<Autocomplete
+		        id="controlled-demo"
+		        options={props.listOptions.text}
+		        freeSolo
+		        disableClearable
+		        value={props.value}
+		        onChange={(event, newValue) => {
+		        	const choosed = props.listOptions.list.find(x => x.name_requester === newValue);
+		          	props.handleChangeSelect(choosed);
+		        }}
+		        inputValue={props.value}
+		        onInputChange={(event, newInputValue) => {
+		          props.handleChange(newInputValue, props.name);
+		        }}
+		        renderInput={(params) => 
+		        	<TextField 
+		        		{...params} 
+		        		label={`Masukkan ${label(props.jenis)}`} 
+		        		variant="outlined" 
+		        		size="small"
+		        	/>}
+		    />
+			{ /* <BootstrapInput 
 		    	name={props.name}
 		    	value={props.value}
 		    	id="value-customized-input" 
@@ -78,14 +101,14 @@ const InputForm = props => {
 		    	placeholder={`Masukkan ${label(props.jenis)}`}
 		    	onChange={props.handleChange}
 		    	iserror={!!props.error[props.name] === true ? 1 : 0}
-		    />
+		    /> */ }
 		    {!!props.error[props.name] === true && <FormHelperText>{props.error[props.name]}</FormHelperText>}
 		</FormControl>
 	)
 }
 
 const RenderInput = props => {
-	const { state, handleChange } = props;
+	const { state, handleChange, listOptions, handleChangeSelect } = props;
 
 	const classes = useStyles();
 
@@ -99,6 +122,8 @@ const RenderInput = props => {
 					name={labelState(props.jenis)}
 					handleChange={handleChange}
 					error={props.errors}
+					listOptions={listOptions}
+					handleChangeSelect={handleChangeSelect}
 				/> : <div className={classes.inputWalkin}>
 						<FormControl className={classes.field} style={{marginRight: 3}} error={!!props.errors.nik}>
 							<FormLabel 

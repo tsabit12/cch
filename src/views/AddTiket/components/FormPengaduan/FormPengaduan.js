@@ -16,6 +16,24 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import BootstrapInput from "./BootstrapInput";
 import RenderInput from "./RenderInput";
+import api from "../../../../api";
+
+const getValue = (jenis) => {
+	switch(jenis){
+		case 1:
+			return 'nohp';
+		case 2: 
+			return 'instagram';
+		case 3:
+			return 'twitter';
+		case 4:
+			return 'fb';
+		case 5:
+			return 'email';
+		default:
+			return 'empty';
+	}
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   field: {
   	width: '100%',
-  	marginTop: 10
+  	marginBottom: 15
   },
   label: {
   	fontSize: '20px'
@@ -63,22 +81,16 @@ const SelectChannel = props => {
 	const classes = useStyles();
 	
 	return(
-		<FormControl className={classes.field} style={{marginRight: 3}} error={!!props.error}>
-	        <InputLabel 
-	        	className={classes.label} 
-	        	htmlFor="channel-customized-select"
-	        >
-	        	Channel Pengaduan
-	        </InputLabel>
+		<FormControl 
+			className={classes.field} 
+			style={{marginRight: 3}} 
+			error={!!props.error}
+			variant="outlined"
+			size="small"
+		>
 	        <Select
 	          value={props.channel}
 	          onChange={props.handleChange}
-	          input={
-	          	<BootstrapInput 
-	          		name="channel" 
-	          		id="channel-customized-select" 
-	          		iserror={!!props.error === true ? 1 : 0}
-	          	/>}
 	          autoWidth={true}
 	        >
 	          <MenuItem value={0}>--Pilih--</MenuItem>
@@ -111,8 +123,15 @@ const FormPengaduan = props => {
 			alamat: '',
 			nama: ''
 		},
-		errors: {}
+		errors: {},
+		options: {
+			text: [],
+			list: []
+		}
 	});
+
+	const { data, errors } = state;
+	const { disabled } = props;
 
 	React.useEffect(() => {
 		if (!props.disabled) {
@@ -130,10 +149,41 @@ const FormPengaduan = props => {
 					alamat: '',
 					nama: ''
 				},
-				errors: {}
+				errors: {},
+				options: {
+					text: [],
+					list: []
+				}
 			})
 		}
 	}, [props.disabled])
+	
+	React.useEffect(() => {
+		const activeValue = getValue(data.channel);	
+		if (data.instagram || data.nohp || data.fb || data.twitter || data.email) {
+			const timeout = setTimeout(() => {
+		  		api.getPelanggan(data[activeValue])
+		  			.then(res => {
+		  				const options = [];
+		  				const list 	  = [];
+		  				res.forEach(row => {
+		  					options.push(row.name_requester)
+		  					list.push(row);
+		  				})
+		  				setState(prevState => ({
+		  					...prevState,
+		  					options: {
+		  						text: options,
+		  						list
+		  					}
+		  				}))
+		  			})
+		    }, 500);
+
+			return () => clearTimeout(timeout);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data.instagram, data.nohp, data.fb, data.twitter, data.email])
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -212,8 +262,23 @@ const FormPengaduan = props => {
 		return errors;
 	}
 
-	const { data, errors } = state;
-	const { disabled } = props;
+	const handleChangeRenderInput = (value, name) => setState(prevState => ({
+		...prevState,
+		data: {
+			...prevState.data,
+			[name]: value
+		}
+	}))
+
+	const onSelectChoosed = (obj) => setState(prevState => ({
+		...prevState,
+		data: {
+			...prevState.data,
+			alamat: obj.address,
+			nohp: obj.phone
+		}
+	}))
+
 
 	return(
 		<Card className={classes.root}>
@@ -241,6 +306,8 @@ const FormPengaduan = props => {
 										state={data}
 										handleChange={handleChange}
 										errors={errors}
+										listOptions={state.options}
+										handleChangeSelect={onSelectChoosed}
 								/> }
 						</React.Fragment> : 
 						<div className={classes.row}>
@@ -252,8 +319,10 @@ const FormPengaduan = props => {
 							<RenderInput 
 								jenis={data.channel} 
 								state={data}
-								handleChange={handleChange}
+								handleChange={handleChangeRenderInput}
 								errors={errors}
+								listOptions={state.options}
+								handleChangeSelect={onSelectChoosed}
 							/>
 						</div> }
 

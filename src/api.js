@@ -67,5 +67,8 @@ export default{
 	}).then(res => res.data),
 	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/ticketSelesai`, {
 		...payload
+	}).then(res => res.data),
+	getPelanggan: (value) => axios.post(`${process.env.REACT_APP_API}/getPelanggan`, {
+		requestName: value
 	}).then(res => res.data)
 }
