@@ -61,9 +61,13 @@ export const fetchResponse = (notiket) => dispatch =>
 			})
 		})
 
+export const setClose = (notiket) => ({
+	type: ON_CLOSE_TIKET,
+	notiket
+})
+
+export const closeTiketWithoutUpdate = (notiket) => dispatch => dispatch(setClose(notiket))
+
 export const closeTiket = (payload) => dispatch => 
 	api.closeTiket(payload)
-		.then(() => dispatch({
-			type: ON_CLOSE_TIKET,
-			notiket: payload.noTicket
-		}))
+		.then(() => dispatch(setClose(payload.noTicket)))

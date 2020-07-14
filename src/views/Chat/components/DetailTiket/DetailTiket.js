@@ -65,21 +65,23 @@ const DetailTiket = props => {
 					</TableRow>
 				</TableBody> 
 			</Table>
-			<CardActions>
+			{ data.pembuatanTicket === props.email && <CardActions>
 				<Button
+					disabled={data.status === 'Selesai' && true}
 					fullWidth
 					variant='outlined'
 					color='default'
 					onClick={() => props.showModal()}
 				>SELESAI</Button>
-			</CardActions>
+			</CardActions> }
 		</Card>
 	);	
 }
 
 DetailTiket.propTypes = {
 	data: PropTypes.object.isRequired,
-	showModal: PropTypes.func.isRequired
+	showModal: PropTypes.func.isRequired,
+	email: PropTypes.string.isRequired
 }
 
 export default DetailTiket;

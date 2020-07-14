@@ -27,9 +27,7 @@ const TableTiket = props => {
 	var no = 1;
 
 	const handelClick = (noTiket, status) => {
-		if (status !== 'Selesai') {
-			props.onClickTiket(noTiket);
-		}
+		props.onClickTiket(noTiket);
 	}
 
 	return(
@@ -66,8 +64,8 @@ const TableTiket = props => {
 			              	className={classes.row} 
 			              	align="left"
 			              	style={{
-			              		color: row.name === 'Selesai' ? '' : 'blue', 
-			              		cursor: row.name === 'Selesai' ? '' : 'pointer'
+			              		color: 'blue', 
+			              		cursor: 'pointer'
 			              	}}
 			              	onClick={() => handelClick(row.no_ticket, row.name)}
 			              >

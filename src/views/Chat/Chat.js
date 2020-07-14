@@ -6,7 +6,8 @@ import {
 	getTiketById, 
 	addResponseTiket, 
 	fetchResponse, 
-	closeTiket 
+	closeTiket,
+	closeTiketWithoutUpdate
 } from "../../actions/tiket";
 import {
 	Grid,
@@ -45,6 +46,9 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		marginBottom: 5
+	},
+	alert: {
+		marginBottom: 10
 	}
 }))
 
@@ -63,12 +67,17 @@ const Chat = props => {
 
 	React.useEffect(() => {
 		if (Object.keys(props.dataTiket).length > 0) {
+			const { status, no_ticket } = props.dataTiket.data;
+			if (status === 'Selesai') {
+				props.closeTiketWithoutUpdate(no_ticket);
+			}
+
 			setState(prevState => ({
 				...prevState,
 				mount: true
 			}))
 		}
-
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.dataTiket])
 
 
@@ -147,26 +156,32 @@ const Chat = props => {
 				onCloseTiket={handleCloseTiket}
 				loading={state.loading}
 			/>
-			{ props.isDone ? <Alert severity="success">TIKET SUDAH DITUTUP</Alert> : <React.Fragment>
-				{ state.mount && <Grid container spacing={4}>
-			      	<Grid item lg={4} sm={4} xl={12} xs={12}>
-			      		<DetailTiket 
-			      			data={props.dataTiket.data}
-			      			showModal={handleShowModal}
-			      		/>
-			        </Grid>	
-			        <Grid item lg={8} sm={8} xl={12} xs={12}>
-			        	<Message 
-			        		data={props.dataTiket.notes}
-			        		dataUser={props.user}
-			        		onSendMessage={handleSendMessage}
-			        		notiket={props.match.params.notiket}
-			        		getNewResponse={getNewResponse}
-			        		shouldFetch={state.visible}
-			        	/>
-			        </Grid>
-		        </Grid> }
-			</React.Fragment>}
+			
+				
+			{ props.isDone && <div className={classes.alert}>
+				<Alert severity="success">TIKET SUDAH DITUTUP</Alert>
+			</div> }
+
+			{ state.mount && <Grid container spacing={4}>
+		      	<Grid item lg={4} sm={4} xl={12} xs={12}>
+		      		<DetailTiket 
+		      			data={props.dataTiket.data}
+		      			showModal={handleShowModal}
+		      			email={props.user.email}
+		      		/>
+		        </Grid>	
+		        <Grid item lg={8} sm={8} xl={12} xs={12}>
+		        	<Message 
+		        		data={props.dataTiket.notes}
+		        		dataUser={props.user}
+		        		onSendMessage={handleSendMessage}
+		        		notiket={props.match.params.notiket}
+		        		getNewResponse={getNewResponse}
+		        		shouldFetch={state.visible}
+		        		status={props.dataTiket.data.status}
+		        	/>
+		        </Grid>
+	        </Grid> }
 		</div>
 	);
 }
@@ -205,5 +220,6 @@ export default connect(mapStateToProps, {
 	getTiketById, 
 	addResponseTiket, 
 	fetchResponse,
-	closeTiket
+	closeTiket,
+	closeTiketWithoutUpdate
 })(Chat);

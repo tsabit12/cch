@@ -138,7 +138,7 @@ const Message = props => {
 
 	//refresh after 3 second
 	React.useEffect(() => {
-		if (state.mount && !props.shouldFetch) {
+		if (state.mount && !props.shouldFetch && props.status !== 'Selesai') {
 			const timeoutID = setTimeout(() => {
 				//handle infinte loop
 		        setState(prevState => ({
@@ -151,7 +151,7 @@ const Message = props => {
 			return () => clearTimeout(timeoutID);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.shouldFetch, state.loading, state.mount, props.notiket])
+	}, [props.shouldFetch, state.loading, state.mount, props.notiket, props.status])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -166,13 +166,6 @@ const Message = props => {
 		inputFileRef.current.click();
 	}
 
-	// if (state.mount) {
-	// 	if (!inputFileRef.current.files) {
-	// 		console.log("koeosnh");	
-	// 	}else{
-	// 		console.log(inputFileRef.current.files);
-	// 	}
-	// }
 
 	return(
 		<Card className={classes.root}>
@@ -181,11 +174,10 @@ const Message = props => {
 				title='RESPONSE'
 				action={<Chip
 				        	icon={<InfoOutlinedIcon />}
-				        	label={`Status tiket ${data[0].status}`}
+				        	label={`Status tiket ${props.status}`}
 				        	// onClick={handleClick}
 				        	// onDelete={handleDelete}
-				        	variant="outlined"
-				        	color="primary"
+				        	color="secondary"
 				    	/> }
 			/>
 			{ state.mount ? <React.Fragment>
@@ -205,6 +197,7 @@ const Message = props => {
 							variant="outlined"
 							value={state.text}
 							onChange={handleChange}
+							disabled={props.status === 'Selesai' && true}
 						/>
 						<input 
 							ref={inputFileRef}
@@ -215,10 +208,16 @@ const Message = props => {
 							className={classes.iconButton} 
 							aria-label="search"
 							onClick={handleChooseFile}
+							disabled={props.status === 'Selesai' && true}
 						>
 							<AttachFileIcon />
 						</IconButton>
-						<IconButton type='submit' className={classes.iconButton} aria-label="search">
+						<IconButton 
+							type='submit' 
+							disabled={props.status === 'Selesai' && true}
+							className={classes.iconButton} 
+							aria-label="search"
+						>
 							<SendIcon />
 						</IconButton>
 					</Paper>
