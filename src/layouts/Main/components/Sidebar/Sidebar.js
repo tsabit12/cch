@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Drawer } from '@material-ui/core';
+import { Drawer, Divider } from '@material-ui/core';
 
 import { 
   Profile, 
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(2)
   },
   nav: {
-    //marginBottom: theme.spacing(1)
+    marginTop: -5
   }
 }));
 
@@ -58,6 +58,7 @@ const Sidebar = props => {
         <Profile 
           data={user}
         />
+        <Divider style={{marginTop: 3}}/>
         <SidebarNav
           className={classes.nav}
         />

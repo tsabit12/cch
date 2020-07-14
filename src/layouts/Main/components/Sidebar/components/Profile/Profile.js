@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     height: 60
   },
   name: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    textAlign: 'center'
   }
 }));
 
@@ -46,7 +47,7 @@ const Profile = props => {
       />
       <Typography
         className={classes.name}
-        variant="h4"
+        variant="h5"
       >
         { data.title }
       </Typography>
