@@ -145,8 +145,6 @@ const User = props => {
 		}))
 	}
 
-	console.log(paging);
-
 	return(
 		<div className={classes.root}>
 
