@@ -185,7 +185,7 @@ const AddUser = props => {
 		            <ArrowBackIcon />
 		        </IconButton>
 				<Breadcrumbs aria-label="Breadcrumb">
-			        <Typography color="primary" className={classes.link}>
+			        <Typography className={classes.link}>
 			          <PeopleIcon className={classes.icon} />
 			          User
 			        </Typography>

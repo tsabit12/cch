@@ -6,7 +6,6 @@ import {
 	CardHeader,
 	CardContent,
 	Divider,
-	Button,
 	Collapse,
 	IconButton,
 	CardActions
@@ -20,7 +19,8 @@ import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
 
 import {
-	TableUser
+	TableUser,
+	SearchForm
 } from "./components";
 
 const useStyles = makeStyles(theme => ({
@@ -145,6 +145,17 @@ const User = props => {
 		}))
 	}
 
+	const handleSearch = (param) => {
+		if (props.list[`page${activePage}`]) {
+			const defaultData = props.list[`page${activePage}`];	
+			
+			setState(prevState => ({
+				...prevState,
+				data: defaultData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(param.toLowerCase())))
+			}))
+		}
+	}
+
 	return(
 		<div className={classes.root}>
 
@@ -168,15 +179,10 @@ const User = props => {
 					<Card>
 						<CardHeader 
 							title='KELOLA DATA USER' 
-							action={
-								<Button 
-									variant='contained' 
-									color='primary'
-									className={classes.action}
-									onClick={() => history.push("/user/add")}
-								>
-									TAMBAH
-								</Button> }
+							action={<SearchForm 
+								history={history} 
+								onSearch={handleSearch}
+							/>}
 						/>
 						<Divider />
 						{ data.length > 0 ? 

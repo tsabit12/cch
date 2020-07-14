@@ -77,14 +77,13 @@ const SearchInput = props => {
 				component="form" 
 				onSubmit={props.onSearch} 
 				className={classes.form} 
-				elevation={3}
 				style={{
 					border: errors.nippos ? '1px solid red' : ''
 				}}
 			>
 				<InputBase
 					className={classes.input}
-					placeholder="Cari Nippos Pegawaii"
+					placeholder="Cari Nippos Pegawai"
 					value={props.value}
 					name='nippos'
 					autoComplete='off'
