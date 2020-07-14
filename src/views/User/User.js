@@ -8,14 +8,16 @@ import {
 	Divider,
 	Button,
 	Collapse,
-	IconButton
+	IconButton,
+	CardActions
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import Alert from '@material-ui/lab/Alert';
 import CloseIcon from '@material-ui/icons/Close';
 import { removeMessage } from "../../actions/message";
-import { fetchUser } from "../../actions/user";
+import { fetchUser, getJumlahUser } from "../../actions/user";
 import PropTypes from "prop-types";
+import Pagination from '@material-ui/lab/Pagination';
 
 import {
 	TableUser
@@ -37,6 +39,12 @@ const useStyles = makeStyles(theme => ({
 	message: {
 		marginTop: 10,
 		marginBottom: 10
+	},
+	cardAction: {
+		justifyContent: 'flex-end'
+	},
+	paging: {
+		margin: 3
 	}
 }))
 
@@ -65,17 +73,34 @@ const TextMessage = props => {
 }
 
 const User = props => {
+
+	const [state, setState] = React.useState({
+		activePage: 1,
+		data: [],
+		paging: {
+			offset: 0,
+			limit: 10
+		}
+	})
+
 	const classes = useStyles();
-	const { history, message } = props;
+	const { history, message, jumlah } = props;
+	const { activePage, data, paging } = state;
 
 	React.useEffect(() => {
-		const payload = {
-			offset: 0,
-			limit: 15
-		};
-		props.fetchUser(payload);
+		(async () => {
+			const payload = {
+				...state.paging,
+				page: activePage
+			};
+
+			await props.getJumlahUser();
+
+			await props.fetchUser(payload);
+		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
 
 	React.useEffect(() => {
 		if (message !== null) {
@@ -85,6 +110,42 @@ const User = props => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.message]);
+
+	//using state to display data from store
+	React.useEffect(() => {
+		if (props.list[`page${activePage}`]) {
+			setState(prevState => ({
+				...prevState,
+				data: props.list[`page${activePage}`]
+			}))
+		}
+	}, [props.list, activePage]);
+
+	React.useEffect(() => {
+		const { offset } = state.paging;
+		if (offset !== 0) {
+			const payload = {
+				...state.paging,
+				page: activePage
+			};
+
+			props.fetchUser(payload);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.paging]);
+
+	const handleChangePage = (e, page) => {
+		setState(prevState => ({
+			...prevState,
+			activePage: page,
+			paging: {
+				...prevState.paging,
+				offset: page === 1 ? (page * paging.limit) - 10 : (page * paging.limit) - 10 + 1
+			}
+		}))
+	}
+
+	console.log(paging);
 
 	return(
 		<div className={classes.root}>
@@ -120,13 +181,28 @@ const User = props => {
 								</Button> }
 						/>
 						<Divider />
-						
-							{ props.list.length > 0 ? 
-								<TableUser data={props.list} /> : <CardContent>
-								<div className={classes.contentEmpty}>
-									<p>Data user kosong</p>
-								</div> 
-							</CardContent>}
+						{ data.length > 0 ? 
+							<TableUser 
+								data={data}  
+								activePage={activePage}
+								limit={paging.limit}
+							/> : <CardContent>
+							<div className={classes.contentEmpty}>
+								<p>Data user kosong</p>
+							</div> 
+						</CardContent>}
+						<Divider/>
+						<CardActions className={classes.cardAction}>
+							<div className={classes.paging}>
+						      <Pagination 
+						      	page={activePage}
+						      	count={Math.round(jumlah / paging.limit)} 
+						      	variant="outlined" 
+						      	shape="rounded" 
+						      	onChange={handleChangePage}
+						      />
+						    </div>
+						</CardActions>
 					</Card>
 				</Grid>
 			</Grid>
@@ -136,14 +212,16 @@ const User = props => {
 
 
 User.propTypes = {
-	list: PropTypes.array.isRequired	
+	list: PropTypes.object.isRequired,
+	jumlah: PropTypes.number.isRequired	
 }
 
 function mapStateToProps(state) {
 	return{
 		message: state.message.text,
-		list: state.user.data
+		list: state.user.data,
+		jumlah: state.user.jumlah
 	}
 }
 
-export default connect(mapStateToProps, { removeMessage, fetchUser })(User);
+export default connect(mapStateToProps, { removeMessage, fetchUser, getJumlahUser })(User);

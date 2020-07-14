@@ -1,7 +1,10 @@
-import { FETCH_USER } from "../types";
+import { FETCH_USER, GET_JUMLAH_USER } from "../types";
 
 const intialState = {
-	data: []
+	data: {
+		// [page]: [],
+	},
+	jumlah: 0
 }
 
 export default function auth(state=intialState, action={}) {
@@ -9,7 +12,15 @@ export default function auth(state=intialState, action={}) {
 		case FETCH_USER:
 			return{
 				...state,
-				data: action.users
+				data: {
+					...state.data,
+					[`page${action.page}`]: action.users
+				}
+			}
+		case GET_JUMLAH_USER:
+			return{
+				...state,
+				jumlah: Number(action.jumlah)
 			}
 		default: return state;
 	}

@@ -62,7 +62,8 @@ export default{
 	user: {
 		fetch: (payload) => axios.post(`${process.env.REACT_APP_API}/getUser`, {
 			...payload
-		}).then(res => res.data)
+		}).then(res => res.data),
+		count: () => axios.post(`${process.env.REACT_APP_API}/countUser`).then(res => res.data.jumlUser)
 	},
 	addResponseTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, {
 		...payload
