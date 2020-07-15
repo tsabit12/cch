@@ -82,5 +82,10 @@ export default{
 	}).then(res => res.data),
 	getKprk: (reg) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
 		regional: reg
+	}).then(res => res.data),
+	testUpload: (formData) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, formData, {
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded'
+		}
 	}).then(res => res.data)
 }

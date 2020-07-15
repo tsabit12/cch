@@ -12,7 +12,9 @@ import {
 	InputBase,
 	IconButton,
 	Paper,
-	Chip
+	Chip,
+	CardContent,
+	CardMedia
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -21,6 +23,10 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Loader from "../Loader";
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import CancelIcon from '@material-ui/icons/Cancel';
+
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -74,36 +80,120 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: '90%'
+	},
+	file: {
+		marginLeft: 10,
+		marginTop: 6
+	},
+	right: {
+		display: 'flex',
+		justifyContent: 'flex-end'
 	}
 }))
+
+const useStylesImage = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		margin: '5px',
+		width: '296px'
+	},
+	details: {
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	content: {
+		flex: '1 0 auto',
+	},
+	cover: {
+		width: 151,
+	},
+	controls: {
+		display: 'flex',
+		alignItems: 'center',
+		paddingLeft: theme.spacing(1),
+		paddingBottom: theme.spacing(1),
+	},
+	playIcon: {
+		height: 38,
+		width: 38,
+	}
+}))
+
+const RenderImage = (props) => {
+	const classes = useStylesImage();
+	const types  = props.file.split(".")[1];
+	let image = '';
+	if (types === 'png' || types === 'jpg' || types === 'jpeg') {
+		image = `http://10.28.0.72/cchAPI/assets/${props.file}`;
+	}else{
+		image = `${process.env.REACT_APP_PUBLIC_URL}/images/file.png`;
+	}
+
+	const handleClick = () => {
+		window.open(`http://10.28.0.72/cchAPI/assets/${props.file}`, "_blank")
+	}
+	
+	return(
+		<Card className={classes.root}>
+	      <div className={classes.details}>
+	        <CardContent className={classes.content}>
+	          <Typography component="h5" variant="h5">
+	            {props.text}
+	          </Typography>
+	           <Typography variant="body2" color="textSecondary">{props.date}</Typography>
+	        </CardContent>
+	        <div className={classes.controls}>
+	          <IconButton aria-label="play/pause">
+	            <GetAppIcon 
+	            	className={classes.playIcon} 
+	            	onClick={handleClick}
+	            />
+	          </IconButton>
+	        </div>
+	      </div>
+	      <CardMedia
+	        className={classes.cover}
+	        image={image}
+	      />
+	    </Card>
+	);
+} 
 
 const Text = props => {
 	const classes = useStyles();
 	return(
 		<React.Fragment>
-			<div className={ props.align === "right" ? classes.rightText : classes.text}>
-	          <Typography
-	            component="span"
-	            variant="body2"
-	            className={classes.inline}
-	            color="inherit"
-	          >
-	            {`${props.msg.split("&").join("\n")}`}
-	          </Typography>
-	        </div>  
-	        <div className={ props.align === "right" ? classes.rightText : classes.text}>
-	        	<Typography
+			{ props.file === null ? <React.Fragment>
+				<div className={ props.align === "right" ? classes.rightText : classes.text}>
+		          <Typography
 		            component="span"
 		            variant="body2"
 		            className={classes.inline}
-		            color="initial"
-		            style={{
-		            	fontSize: '10px'
-		            }}
-		        >
-	            	{props.date}
-	          </Typography>
-	        </div>
+		            color="inherit"
+		          >
+		            {`${props.msg.split("&").join("\n")}`}
+		          </Typography>
+		        </div>  
+		        <div className={ props.align === "right" ? classes.rightText : classes.text}>
+		        	<Typography
+			            component="span"
+			            variant="body2"
+			            className={classes.inline}
+			            color="initial"
+			            style={{
+			            	fontSize: '10px'
+			            }}
+			        >
+		            	{props.date}
+		          </Typography>
+		        </div>
+	        </React.Fragment> : <div className={props.align === "right" ? classes.rightText : ''}>
+		        	<RenderImage 
+		        		file={props.file}
+		        		date={props.date}
+		        		text={props.msg}
+		        	/>
+		       	</div>}
         </React.Fragment>
 	);
 }
@@ -116,7 +206,9 @@ const Message = props => {
 	const [state, setState] = React.useState({
 		text: '',
 		loading: false,
-		mount: false
+		mount: false,
+		fileName: '',
+		placeholder: 'Masukkan text'
 	})
 
 	const handleChange = (e) => {
@@ -155,17 +247,51 @@ const Message = props => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await props.onSendMessage(state.text);
-		setState(prevState => ({
-			...prevState,
-			text: ''
-		}))
+		if (state.text) {
+			if (state.fileName) { //upload
+				const { files } = inputFileRef.current;
+				await props.onUpload(files[0], state.text);
+				setState(prevState => ({
+					...prevState,
+					text: '',
+					fileName: '',
+					placeholder: 'Masukkan text'
+				}))
+				inputFileRef.current.value = null;
+			}else{
+				await props.onSendMessage(state.text);
+				setState(prevState => ({
+					...prevState,
+					text: ''
+				}));
+			}	
+		}else{
+			alert("Text harap diisi");
+		}
 	}
 
 	const handleChooseFile = () => {
 		inputFileRef.current.click();
 	}
 
+
+	const handleChangeFile = () => {
+		const { files } = inputFileRef.current;
+		setState(prevState => ({
+			...prevState,
+			fileName: files[0].name,
+			placeholder: 'Masukkan keterangan gambar'
+		}))
+	}
+
+	const handleDeleteFile = () => {
+		inputFileRef.current.value = null;
+		setState(prevState => ({
+			...prevState,
+			fileName: '',
+			placeholder: 'Masukkan text'
+		}))
+	}
 
 	return(
 		<Card className={classes.root}>
@@ -180,6 +306,16 @@ const Message = props => {
 				        	color="secondary"
 				    	/> }
 			/>
+			{state.fileName && <div className={classes.file}>
+				<Chip
+			        icon={<PhotoCameraIcon />}
+			        label={`File Name : ${state.fileName}`}
+			        color="secondary"
+			        onDelete={handleDeleteFile}
+			        deleteIcon={<CancelIcon />}
+			    />
+			</div>}
+
 			{ state.mount ? <React.Fragment>
 				<div className={classes.contentForm}>
 					<Paper 
@@ -189,7 +325,7 @@ const Message = props => {
 						onSubmit={handleSubmit}
 					>
 						<InputBase 
-							placeholder='Masukkan text'
+							placeholder={state.placeholder}
 							label='Add Message'
 							className={classes.input}
 							autoComplete='off'
@@ -203,6 +339,7 @@ const Message = props => {
 							ref={inputFileRef}
 							type='file' 
 							hidden
+							onChange={handleChangeFile}
 						/>
 						<IconButton 
 							className={classes.iconButton} 
@@ -223,6 +360,7 @@ const Message = props => {
 					</Paper>
 				</div>
 				<Divider />
+
 				<div className={classes.content}>
 					<List className={classes.list}>
 						{data.map((row, index) => (
@@ -246,6 +384,7 @@ const Message = props => {
 									      secondary={<Text 
 									      	date={row.date} 
 									      	msg={row.response}
+									      	file={row.file_name}
 									      />}
 									      disableTypography={true}
 								    	/>
@@ -264,6 +403,7 @@ const Message = props => {
 									      secondary={ <Text 
 									      	date={row.date} 
 									      	msg={row.response}
+									      	file={row.file_name}
 									      	align="right"
 									      /> }
 									      disableTypography={true}

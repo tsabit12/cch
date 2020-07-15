@@ -7,7 +7,8 @@ import {
 	addResponseTiket, 
 	fetchResponse, 
 	closeTiket,
-	closeTiketWithoutUpdate
+	closeTiketWithoutUpdate,
+	uploadResponse
 } from "../../actions/tiket";
 import {
 	Grid,
@@ -85,6 +86,25 @@ const Chat = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.dataTiket])
 
+	const handleUpload = (file, text) => {
+		const { data } = props.dataTiket;
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append('noTicket', data.no_ticket);
+		formData.append('user', props.user.email);
+		formData.append('tujuanPengaduan', data.tujuan_pengaduan);
+		formData.append('response', text);
+
+		const payload = {
+			noTicket: data.no_ticket,
+			response: text,
+			user: props.user.email,
+			tujuanPengaduan: data.tujuan_pengaduan
+		}
+
+		props.uploadResponse(formData, payload);
+	} 
+
 
 	const handleSendMessage = (text) => {
 		const { data } = props.dataTiket;
@@ -92,7 +112,6 @@ const Chat = props => {
 			noTicket: data.no_ticket,
 			response: text,
 			user: props.user.email,
-			status: '2',
 			tujuanPengaduan: data.tujuan_pengaduan
 		}
 		props.addResponseTiket(payload);
@@ -188,6 +207,7 @@ const Chat = props => {
 		        		getNewResponse={getNewResponse}
 		        		shouldFetch={state.visible}
 		        		status={props.dataTiket.data.status}
+		        		onUpload={handleUpload}
 		        	/>
 		        </Grid>
 	        </Grid> }
@@ -205,7 +225,8 @@ Chat.propTypes = {
 	dataTiket: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
 	closeTiket: PropTypes.func.isRequired,
-	isDone: PropTypes.bool
+	isDone: PropTypes.bool,
+	uploadResponse: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
@@ -230,5 +251,6 @@ export default connect(mapStateToProps, {
 	addResponseTiket, 
 	fetchResponse,
 	closeTiket,
-	closeTiketWithoutUpdate
+	closeTiketWithoutUpdate,
+	uploadResponse
 })(Chat);

@@ -36,19 +36,37 @@ export const getTiketById = (notiket) => dispatch =>
 			})
 		})
 
+export const responseAdded = (payload, notiket) => ({
+	type: ADD_RESPONSE_TIKET,
+	payload,
+	notiket
+}) 
+
 export const addResponseTiket = (payload) => dispatch => 
 	api.addResponseTiket(payload)
 		.then(res => {
-			dispatch({
-				type: ADD_RESPONSE_TIKET,
-				payload: {
-					response: payload.response,
-					date: res.curdate,
-					username: payload.user,
-					status: 'Sending...'
-				},
-				notiket: payload.noTicket
-			})
+			const payloadRes = {
+				response: payload.response,
+				date: res.curdate,
+				username: payload.user,
+				status: 'Sending...',
+				file_name: null
+			}; 
+			dispatch(responseAdded(payloadRes, payload.noTicket))
+		})
+
+export const uploadResponse = (formData, param) => dispatch => 
+	api.testUpload(formData)
+		.then(res => {
+			const payload = {
+				response: param.response,
+				date: res.curdate,
+				username: param.user,
+				status: 'Sending...',
+				file_name: res.file_name
+			}; 
+
+			dispatch(responseAdded(payload, param.noTicket))
 		})
 
 export const fetchResponse = (notiket) => dispatch => 
