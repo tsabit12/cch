@@ -19,7 +19,8 @@ import {
   Login as LoginView,
   User as UserView,
   AddUser as AddUserView,
-  Chat as ChatView
+  Chat as ChatView,
+  Pelanggan as PelangganView
 } from './views';
 
 
@@ -66,6 +67,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/user/add"
+      />
+      <GuestRoute
+        component={PelangganView}
+        exact
+        layout={MainLayout}
+        path="/pelanggan"
       />
       <UserRoute
         component={LoginView}

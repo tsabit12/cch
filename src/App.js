@@ -37,12 +37,14 @@ validate.validators = {
 
 if (localStorage.cchToken) {
   const user   = decode(localStorage.cchToken);
-  const payload = {
-    ...user,
-    token: localStorage.cchToken
-  };
+  if (user.jabatan) {
+    const payload = {
+      ...user,
+      token: localStorage.cchToken
+    };
 
-  store.dispatch(isLoggedIn(payload));
+    store.dispatch(isLoggedIn(payload));
+  }
 }
 
 class App extends Component {

@@ -9,6 +9,7 @@ import { List, ListItem, ListItemIcon, ListItemText, colors } from '@material-ui
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -95,6 +96,19 @@ const SidebarNav = props => {
           <PersonAddIcon />
         </ListItemIcon>
         <ListItemText primary="Users" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/pelanggan"
+      >
+        <ListItemIcon>
+          <SupervisorAccountIcon />
+        </ListItemIcon>
+        <ListItemText primary="Pelanggan" />
       </ListItem>
     </List>
   );

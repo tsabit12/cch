@@ -6,3 +6,4 @@ export { default as Login } from "./Login";
 export { default as User } from "./User";
 export { default as AddUser } from "./AddUser";
 export { default as Chat } from "./Chat";
+export { default as Pelanggan } from "./Pelanggan";

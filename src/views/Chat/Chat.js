@@ -55,15 +55,25 @@ const useStyles = makeStyles(theme => ({
 const Chat = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
-		mount: false,
 		visible: false,
-		loading: false
+		loading: false,
+		errors: {}
 	})
 
 	React.useEffect(() => {
-		props.getTiketById(props.match.params.notiket);
+		props.getTiketById(props.match.params.notiket)
+			.then(() => setState(prevState => ({
+				...prevState,
+				errors: {}
+			})))
+			.catch(err => setState(prevState => ({
+				...prevState,
+				errors: {
+					global: 'TIKET TIDAK DITEMUKAN'
+				}
+			})))
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [props.match.params.notiket]);
 
 	React.useEffect(() => {
 		if (Object.keys(props.dataTiket).length > 0) {
@@ -71,11 +81,6 @@ const Chat = props => {
 			if (status === 'Selesai') {
 				props.closeTiketWithoutUpdate(no_ticket);
 			}
-
-			setState(prevState => ({
-				...prevState,
-				mount: true
-			}))
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.dataTiket])
@@ -162,7 +167,11 @@ const Chat = props => {
 				<Alert severity="success">TIKET SUDAH DITUTUP</Alert>
 			</div> }
 
-			{ state.mount && <Grid container spacing={4}>
+			{ state.errors.global && <div className={classes.alert}>
+				<Alert severity="error">{state.errors.global}</Alert>
+			</div> }
+
+			{ Object.keys(props.dataTiket).length > 0 && <Grid container spacing={4}>
 		      	<Grid item lg={4} sm={4} xl={12} xs={12}>
 		      		<DetailTiket 
 		      			data={props.dataTiket.data}
