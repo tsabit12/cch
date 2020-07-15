@@ -112,34 +112,37 @@ const ResponseTnt = props => {
 
 	React.useEffect(() => {
 		if (props.data.length > 0) {
+			const firstData 		= props.data[0].description.split(";");
+			const layananValue 		= firstData[0].split(":")[1];
+			const kodeposReceiver 	= firstData[11]; 		
 			
-			const layananValue = props.data[0].description.split(";")[0].split(":")[1];
-
-			let toStringValue = "";
-			props.data.forEach((row, index) => {
-				// eslint-disable-next-line prefer-template
-				toStringValue = toStringValue + `Barcode = ${row.barcode} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Event Date = ${row.eventDate} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Event Name = ${row.eventName} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Office Name = ${row.officeCode}-${row.officeName} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-				toStringValue = toStringValue + `Description = ${row.description} \n`;
-				toStringValue = toStringValue + `================================== \n`;
-			})
-			
-			setState(prevState => ({
-				...prevState,
-				data: {
-					...prevState.data,
-					layanan: layananValue,
-					kantorKirim: `${props.data[0].officeCode} - ${props.data[0].officeName}`
-				},
-				checked: true,
-				defaultLayanan: layananValue
-			}))
+			api.mappingPos(kodeposReceiver)
+				.then(res => {
+					setState(prevState => ({
+						...prevState,
+						data: {
+							...prevState.data,
+							layanan: layananValue,
+							kantorKirim: `${props.data[0].officeCode} - ${props.data[0].officeName}`,
+							kantorTujuan: `${res.destoffice} - ${res.descdestoffice}`
+						},
+						checked: true,
+						defaultLayanan: layananValue
+					}))
+				})
+				.catch(err => {
+					setState(prevState => ({
+						...prevState,
+						data: {
+							...prevState.data,
+							layanan: layananValue,
+							kantorKirim: `${props.data[0].officeCode} - ${props.data[0].officeName}`,
+							kantorTujuan: ''
+						},
+						checked: true,
+						defaultLayanan: layananValue
+					}))
+				})
 		}
 	}, [props.data])
 
@@ -293,16 +296,13 @@ const ResponseTnt = props => {
 							/>
 						</FormControl>
 						<FormControl className={classes.fieldRow}>
-							<InputSearch 
-					            name='kantorTujuan'
-					            handleChange={handleChangeSearch}
-					            value={data.kantorTujuan}
-					            option={state.listkprk}
-					            callApi={fetchKprk}
-					            label='Kantor Tujuan'
-					            apiValue='listkprk'
-					            error={errors.kantorTujuan}
-					        />
+							<TextField 
+								variant="outlined" 
+								size="small"
+								label="Kantor Tujuan"
+								value={data.kantorTujuan}
+								disabled
+							/>
 						</FormControl>
 					</div>
 					

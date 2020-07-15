@@ -5,6 +5,9 @@ export default{
 	trackAndTrace: (resi) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
 		barcode: resi
 	}).then(res => res.data.result),
+	mappingPos: (kodepos) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
+		kodepos
+	}).then(res => res.data.result),
 	cch: {
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
 			param
