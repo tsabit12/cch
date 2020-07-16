@@ -54,7 +54,7 @@ const TableTiket = props => {
 			            <TableRow 
 			            	key={i}
 			            	style={{
-			            		backgroundColor: row.statusRead === 'Belum di Baca' ? '#defeff' : ''
+			            		backgroundColor: row.statusRead === 'Belum di Baca' ? 'rgb(171, 231, 232)' : ''
 			            	}}
 			            >
 			              <TableCell component="th" scope="row" className={classes.row}>

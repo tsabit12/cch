@@ -10,8 +10,11 @@ import {
 	TableBody,
 	TableCell,
 	TableRow,
-	Button
+	Button,
+	Chip
 } from "@material-ui/core";
+
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 const useStyles = makeStyles(theme => ({
 	root:{
@@ -31,6 +34,13 @@ const DetailTiket = props => {
 			<CardHeader 
 				className={classes.header}
 				title='INFORMASI TIKET'
+				action={<Chip
+				        	icon={<InfoOutlinedIcon />}
+				        	label={`Status ${data.status}`}
+				        	// onClick={handleClick}
+				        	// onDelete={handleDelete}
+				        	color="secondary"
+				    	/> }
 			/>
 			<Divider />
 			<Table>
@@ -67,7 +77,7 @@ const DetailTiket = props => {
 			</Table>
 			{ data.pembuatanTicket === props.email && <CardActions>
 				<Button
-					disabled={data.status === 'Selesai' && true}
+					disabled={props.disabled}
 					fullWidth
 					variant='outlined'
 					color='default'
@@ -81,7 +91,8 @@ const DetailTiket = props => {
 DetailTiket.propTypes = {
 	data: PropTypes.object.isRequired,
 	showModal: PropTypes.func.isRequired,
-	email: PropTypes.string.isRequired
+	email: PropTypes.string.isRequired,
+	disabled: PropTypes.bool.isRequired
 }
 
 export default DetailTiket;

@@ -79,7 +79,7 @@ const Chat = props => {
 	React.useEffect(() => {
 		if (Object.keys(props.dataTiket).length > 0) {
 			const { status, no_ticket } = props.dataTiket.data;
-			if (status === 'Selesai') {
+			if (status === 'Selesai' && !props.isDone) {
 				props.closeTiketWithoutUpdate(no_ticket);
 			}
 		}
@@ -104,7 +104,6 @@ const Chat = props => {
 
 		props.uploadResponse(formData, payload);
 	} 
-
 
 	const handleSendMessage = (text) => {
 		const { data } = props.dataTiket;
@@ -152,6 +151,7 @@ const Chat = props => {
 			})))
 	}
 
+
 	return(
 		<div className={classes.root}>
 			<div className={classes.header}>
@@ -196,6 +196,7 @@ const Chat = props => {
 		      			data={props.dataTiket.data}
 		      			showModal={handleShowModal}
 		      			email={props.user.email}
+		      			disabled={!!props.isDone}
 		      		/>
 		        </Grid>	
 		        <Grid item lg={8} sm={8} xl={12} xs={12}>
@@ -206,7 +207,7 @@ const Chat = props => {
 		        		notiket={props.match.params.notiket}
 		        		getNewResponse={getNewResponse}
 		        		shouldFetch={state.visible}
-		        		status={props.dataTiket.data.status}
+		        		status={!!props.isDone}
 		        		onUpload={handleUpload}
 		        	/>
 		        </Grid>

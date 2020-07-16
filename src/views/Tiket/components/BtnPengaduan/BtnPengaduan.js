@@ -80,7 +80,16 @@ const BtnPengaduan = props => {
 				</Button> }
 		    />
 		    <Divider/>
-			
+			<div className={classes.bottom}>
+				<Typography
+	              className={classes.title}
+	              color="inherit"
+	              gutterBottom
+	              variant="h5"
+	            >
+	            	DALAM PROSES
+	            </Typography>
+			</div>
 			<ListItem 
 				className={props.activeLink === 1 ? classes.listActived : classes.list} 
 				button 
@@ -125,6 +134,7 @@ const BtnPengaduan = props => {
 				    </IconButton>
 			    </ListItemIcon>
 			</ListItem>
+			<Divider/>
 			<div className={classes.bottom}>
 				<Typography
 	              className={classes.title}
@@ -132,18 +142,18 @@ const BtnPengaduan = props => {
 	              gutterBottom
 	              variant="h5"
 	            >
-	            	Semua Ticket
+	            	SUDAH SELESAI
 	            </Typography>
 			</div>
 			<ListItem 
 				button 
-				onClick={() => props.onClickTitle('SEMUA PENGADUAN MASUK', 5)}
+				onClick={() => props.onClickTitle('PENGADUAN MASUK', 5)}
 				className={props.activeLink === 5 ? classes.listActived : classes.list} 
 			>
-			    <ListItemText primary="Semua Pengaduan Masuk" />
+			    <ListItemText primary="Pengaduan Masuk" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={total.allKeluar} color="primary">
+				      <StyledBadge badgeContent={total.allMasuk} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -153,17 +163,18 @@ const BtnPengaduan = props => {
 			<ListItem 
 				className={props.activeLink === 6 ? classes.listActived : classes.list} 
 				button 
-				onClick={() => props.onClickTitle('SEMUA PENGADUAN KELUAR', 6)}
+				onClick={() => props.onClickTitle('PENGADUAN KELUAR', 6)}
 			>
-			    <ListItemText primary="Semua Pengaduan Keluar" />
+			    <ListItemText primary="Pengaduan Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={total.allMasuk} color="primary">
+				      <StyledBadge badgeContent={total.allKeluar} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
 			</ListItem>
+			<Divider/>
 	    </Card>
 	);
 }	

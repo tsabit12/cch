@@ -3,16 +3,17 @@ import {
 	GET_TICKET_BY_ID,
 	ADD_RESPONSE_TIKET,
 	FETCH_RESPONSE,
-	ON_CLOSE_TIKET
+	ON_CLOSE_TIKET,
+	SET_ACTIVE_LINK_TIKET
 } from "../types";
 
 const initialState = {
 	data: {
 		masuk: [],
 		keluar: [],
-		updated: [],
 		closed: [],
-		all: []
+		allMasuk: [],
+		allKeluar: []
 	},
 	count: {
 		keluar: 0,
@@ -28,7 +29,8 @@ const initialState = {
 		// 	data: {},
 		// 	isDone: bool
 		// }
-	}
+	},
+	activeLink: {}
 }
 
 export default function ticket(state=initialState, action={}){
@@ -38,13 +40,17 @@ export default function ticket(state=initialState, action={}){
 				...state,
 				data: {
 					...state.data,
-					masuk: action.masuk,
-					keluar: action.keluar
+					masuk: action.masuk.filter(x => x.name !== 'Selesai'),
+					keluar: action.keluar.filter(x => x.name !== 'Selesai'),
+					allKeluar: action.keluar.filter(x => x.name === 'Selesai'),
+					allMasuk: action.masuk.filter(x => x.name === 'Selesai')
 				},
 				count: {
 					...state.count,
-					keluar: action.keluar.filter(x => x.statusRead === 'Belum di Baca').length,
-					masuk: action.masuk.filter(x => x.statusRead === 'Belum di Baca').length
+					keluar: action.keluar.filter(x => x.name !== 'Selesai').length,
+					masuk: action.masuk.filter(x => x.name !== 'Selesai').length,
+					allKeluar: action.keluar.filter(x => x.name === 'Selesai').length,
+					allMasuk: action.masuk.filter(x => x.name === 'Selesai').length
 				}
 			}
 		case GET_TICKET_BY_ID:
@@ -90,6 +96,11 @@ export default function ticket(state=initialState, action={}){
 						isDone: true
 					}
 				}
+			}
+		case SET_ACTIVE_LINK_TIKET:
+			return{
+				...state,
+				activeLink: action.param
 			}
 		default: 
 			return state;

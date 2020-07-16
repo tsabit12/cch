@@ -4,7 +4,8 @@ import {
 	GET_TICKET_BY_ID,
 	ADD_RESPONSE_TIKET,
 	FETCH_RESPONSE,
-	ON_CLOSE_TIKET
+	ON_CLOSE_TIKET,
+	SET_ACTIVE_LINK_TIKET
 } from "../types";
 import api from "../api";
 
@@ -89,3 +90,11 @@ export const closeTiketWithoutUpdate = (notiket) => dispatch => dispatch(setClos
 export const closeTiket = (payload) => dispatch => 
 	api.closeTiket(payload)
 		.then(() => dispatch(setClose(payload.noTicket)))
+
+//set active link tiket
+export const setActiveLink = (param) => dispatch => {
+	dispatch({
+		type: SET_ACTIVE_LINK_TIKET,
+		param
+	})
+}

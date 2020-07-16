@@ -7,7 +7,7 @@ import {
 } from "./components";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getTicket } from "../../actions/tiket";
+import { getTicket, setActiveLink } from "../../actions/tiket";
 import Alert from "../Alert";
 
 const useStyles = makeStyles(theme => ({
@@ -22,12 +22,14 @@ const getListNameByActive = (number) => {
 			return 'masuk';
 		case 2:
 			return 'keluar';
-		case 3:
-			return 'updated';
 		case 4: 
 			return 'closed';
+		case 5:
+			return 'allMasuk';
+		case 6:
+			return 'allKeluar';
 		default:
-			return 'all';
+			return 'empty';
 	}
 }
 
@@ -37,6 +39,16 @@ const Tiket = props => {
 		active: 1,
 		errors: {}
 	})
+
+	React.useEffect(() => {
+		if (Object.keys(props.activedLink).length > 0) {
+			setState(prevState => ({
+				...prevState,
+				title: props.activedLink.text,
+				active: props.activedLink.active
+			}))
+		}
+	}, [props.activedLink]);
 
 	React.useEffect(() => {
 		const payload = {
@@ -91,6 +103,12 @@ const Tiket = props => {
 	}))
 
 	const handleClickTicket = (noTiket) => {
+		const param = {
+			active: state.active,
+			text: state.title
+		}
+
+		props.setActiveLink(param);
 		props.history.push(`/tiket/${noTiket}`);
 	}
 
@@ -141,15 +159,18 @@ const Tiket = props => {
 
 Tiket.propTypes = {
 	count: PropTypes.object.isRequired,
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	setActiveLink: PropTypes.func.isRequired,
+	activedLink: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		count: state.ticket.count,
 		data: state.ticket.data,
-		user: state.auth.user
+		user: state.auth.user,
+		activedLink: state.ticket.activeLink
 	}
 }
 
-export default connect(mapStateToProps, { getTicket })(Tiket);
+export default connect(mapStateToProps, { getTicket, setActiveLink })(Tiket);

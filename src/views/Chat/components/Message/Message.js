@@ -19,7 +19,6 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Loader from "../Loader";
@@ -143,10 +142,9 @@ const RenderImage = (props) => {
 	           <Typography variant="body2" color="textSecondary">{props.date}</Typography>
 	        </CardContent>
 	        <div className={classes.controls}>
-	          <IconButton aria-label="play/pause">
+	          <IconButton aria-label="play/pause" onClick={handleClick}>
 	            <GetAppIcon 
 	            	className={classes.playIcon} 
-	            	onClick={handleClick}
 	            />
 	          </IconButton>
 	        </div>
@@ -230,7 +228,8 @@ const Message = props => {
 
 	//refresh after 3 second
 	React.useEffect(() => {
-		if (state.mount && !props.shouldFetch && props.status !== 'Selesai') {
+		//props status is mean tiket was done
+		if (state.mount && !props.shouldFetch && !props.status) {
 			const timeoutID = setTimeout(() => {
 				//handle infinte loop
 		        setState(prevState => ({
@@ -298,13 +297,6 @@ const Message = props => {
 			<CardHeader 
 				className={classes.header}
 				title='RESPONSE'
-				action={<Chip
-				        	icon={<InfoOutlinedIcon />}
-				        	label={`Status tiket ${props.status}`}
-				        	// onClick={handleClick}
-				        	// onDelete={handleDelete}
-				        	color="secondary"
-				    	/> }
 			/>
 			{state.fileName && <div className={classes.file}>
 				<Chip
@@ -333,7 +325,7 @@ const Message = props => {
 							variant="outlined"
 							value={state.text}
 							onChange={handleChange}
-							disabled={props.status === 'Selesai' && true}
+							disabled={props.status}
 						/>
 						<input 
 							ref={inputFileRef}
@@ -345,13 +337,13 @@ const Message = props => {
 							className={classes.iconButton} 
 							aria-label="search"
 							onClick={handleChooseFile}
-							disabled={props.status === 'Selesai' && true}
+							disabled={props.status}
 						>
 							<AttachFileIcon />
 						</IconButton>
 						<IconButton 
 							type='submit' 
-							disabled={props.status === 'Selesai' && true}
+							disabled={props.status}
 							className={classes.iconButton} 
 							aria-label="search"
 						>
