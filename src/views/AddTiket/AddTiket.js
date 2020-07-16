@@ -231,6 +231,11 @@ const AddTiket = props => {
 			requestName: getRequestName(state.data.channel, other),
 			catatan: values.catatan.replace(/(\r\n|\n|\r)/gm, "&")
 		};
+
+		const formData = new FormData();
+		for(var key in payload){
+			formData.append(key, payload[key]);
+		}
 		
 		// console.log(payload);
 		setState(prevState => ({
@@ -238,7 +243,7 @@ const AddTiket = props => {
 			loading: true
 		}))
 
-		props.addTicket(payload)
+		props.addTicket(formData)
 			.then(res => {
 				setState(prevState => ({
 					...prevState,

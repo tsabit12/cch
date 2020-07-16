@@ -9,8 +9,8 @@ import {
 } from "../types";
 import api from "../api";
 
-export const addTicket = (payload) => dispatch => 
-	api.cch.addTicket(payload)
+export const addTicket = (formData) => dispatch => 
+	api.cch.addTicket(formData)
 		.then(res => dispatch({
 			type: ADD_TICKET,
 			res

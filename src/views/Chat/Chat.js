@@ -149,6 +149,14 @@ const Chat = props => {
 				loading: false,
 				visible: false
 			})))
+			.catch(err => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					visible: false
+				}));
+				alert("Error");
+			})
 	}
 
 

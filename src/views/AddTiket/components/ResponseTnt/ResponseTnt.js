@@ -22,6 +22,7 @@ import BootstrapInput from "../FormPengaduan/BootstrapInput";
 import api from "../../../../api";
 import InputSearch from "./InputSearch";
 import clsx from "clsx";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
 const getRefChannelPos = (channel) => {
@@ -92,6 +93,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ResponseTnt = props => {
+	const inputFileRef = React.useRef();
 	const [state, setState] = React.useState({
 		data: {
 			layanan: '',
@@ -107,7 +109,8 @@ const ResponseTnt = props => {
 		listkprk2: [],
 		catatan: '',
 		errors: {},
-		defaultLayanan: ''
+		defaultLayanan: '',
+		fileName: ''
 	})
 
 	React.useEffect(() => {
@@ -201,7 +204,8 @@ const ResponseTnt = props => {
 	}
 
 	const onSubmit = () => {
-		const errors = validate(state.data);
+		const { files } = inputFileRef.current; 
+		const errors 	= validate(state.data);
 		setState(prevState => ({
 			...prevState,
 			errors
@@ -212,7 +216,8 @@ const ResponseTnt = props => {
 				jenisbisnis: state.data.jenisbisnis === 1 ? 'e-Commerce' : 'Non e-Commerce',
 				jeniscustomer: state.data.jeniscustomer === 1 ? 'RITEL' : 'CORPORATE',
 				catatan: state.catatan.replace(/=/g, ""),
-				channelpos: getRefChannelPos(state.data.channelpos)
+				channelpos: getRefChannelPos(state.data.channelpos),
+				file: state.fileName ? files[0] : null 
 			};
 			props.onSubmit(payload);
 		}
@@ -234,6 +239,18 @@ const ResponseTnt = props => {
 		setState(prevState => ({
 			...prevState,
 			catatan: value
+		}))
+	}
+
+	const handleClickUpload = () => {
+		inputFileRef.current.click();
+	}
+
+	const handleChangeFile = () => {
+		const { files } = inputFileRef.current;
+		setState(prevState => ({
+			...prevState,
+			fileName: files[0].name
 		}))
 	}
 
@@ -406,6 +423,21 @@ const ResponseTnt = props => {
 							onChange={handleChangeText}
 						/>
 					</FormControl>
+					<input 
+						type="file"
+						hidden
+						ref={inputFileRef}
+						onChange={handleChangeFile}
+					/>
+					<Button
+				        variant="outlined"
+				        color="primary"
+				        className={classes.button}
+				        endIcon={<CloudUploadIcon/>}
+				        onClick={handleClickUpload}
+				    >
+				    	{ state.fileName ? state.fileName : 'Upload File' }
+				    </Button>
 				</div>
 			</CardContent>
 			<Divider />
