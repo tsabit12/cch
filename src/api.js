@@ -97,6 +97,8 @@ export default{
 		getPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/getPelangganByKprk`, {
 			...payload
 		}).then(res => res.data),
-		countPelanggan: () => axios.post(`${process.env.REACT_APP_API}/countPelanggan`).then(res => res.data.jmlPelanggan)
+		countPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/countPelanggan`, {
+			...payload
+		}).then(res => res.data.jmlPelanggan)
 	}
 }

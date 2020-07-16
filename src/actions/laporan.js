@@ -16,6 +16,6 @@ export const jumlahPelangganFetched = (jumlah) => ({
 	jumlah: Number(jumlah)
 })
 
-export const getTotalPelanggan = () => dispatch => 
-	api.laporan.countPelanggan()
+export const getTotalPelanggan = (payload) => dispatch => 
+	api.laporan.countPelanggan(payload)
 		.then(jumlah => dispatch(jumlahPelangganFetched(jumlah)))

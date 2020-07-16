@@ -61,6 +61,14 @@ const SearchParam = props => {
 		}))
 	}
 
+	const handleClick = () => {
+		const payload = {
+			reg: state.reg,
+			kprk: state.kprk
+		}
+		props.onSubmit(payload)
+	}
+
 	const { listKprk } = state;
 
 	return(
@@ -123,7 +131,12 @@ const SearchParam = props => {
 		        	</Select> }
 		    </FormControl>
 		    
-		    <Button variant="contained" className={classes.button} color="primary">
+		    <Button 
+		    	variant="contained" 
+		    	className={classes.button} 
+		    	color="primary"
+		    	onClick={handleClick}
+		    >
 		    	Tampilkan
 		    </Button>
 	    </div>

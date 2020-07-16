@@ -31,7 +31,9 @@ const Pelanggan = props => {
 		activePage: 1,
 		data: [],
 		offset: 0,
-		kprk: '00'
+		kprk: '00',
+		mount: false,
+		loading: true
 	});
 
 	const { activePage, data } = state;
@@ -43,9 +45,15 @@ const Pelanggan = props => {
 				offset: 0
 			}
 			
-			await props.getTotalPelanggan();
+			await props.getTotalPelanggan(payload);
 
-			props.getPelanggan(payload, 'page1');
+			await props.getPelanggan(payload, 'page1');
+
+			setState(prevState => ({
+				...prevState,
+				mount: true,
+				loading: false
+			}))
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -59,26 +67,56 @@ const Pelanggan = props => {
 		}
 	}, [props.listPelanggan, activePage])
 
-	React.useEffect(() => {
-		if (state.offset !== 0) {
-			const payload = {
-				offset: state.offset,
-				kprk: state.kprk
-			}
-			props.getPelanggan(payload, `page${activePage}`)
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.offset, activePage]);
-
 	const handleGetKprk = (reg) => api.getKprk(reg)
 
-	const handleSearch = (payload) => console.log(payload)
+	const handleSearch = async (payload) => {
+		//reset jumlah
+		setState(prevState => ({
+			...prevState,
+			data: [],
+			loading: true,
+			offset: 0,
+			activePage: 1,
+			kprk: payload.kprk
+		}))
+
+		const payloadW = {
+			...payload,
+			offset: 0
+		} 
+
+		await props.getTotalPelanggan(payload);
+
+		//back to page 1
+		props.getPelanggan(payloadW, 'page1')
+			.then(() => {
+				setState(prevState => ({
+					...prevState,
+					loading: false
+				}))
+			})
+			.catch(err => {
+				setState(prevState => ({
+					...prevState,
+					loading: false
+				}))
+			})
+	}
 
 	const handleChangePage = (event, page) => {
+		const offsetValue = page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1;
+		
+		const payload = {
+			offset: offsetValue,
+			kprk: state.kprk,
+		}
+
+		props.getPelanggan(payload, `page${page}`);
+
 		setState(prevState => ({
 			...prevState,
 			activePage: page,
-			offset: page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1
+			offset: offsetValue
 		}))
 	}
 
@@ -97,6 +135,7 @@ const Pelanggan = props => {
 				<Divider/>
 				<DataPelanggan 
 					list={data}
+					loading={state.loading}
 				/>
 				<CardActions className={classes.action}>
 					<Pagination 

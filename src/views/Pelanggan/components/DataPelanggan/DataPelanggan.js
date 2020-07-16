@@ -59,7 +59,7 @@ const DataPelanggan = props => {
               	</TableBody>}
 			</Table>
 			{ list.length <= 0 && <div className={classes.container}>
-				<p>Data pelanggan kosong</p>
+				{ !props.loading ? <p>Data pelanggan kosong</p> : <p>Loading...</p> }
 			</div>}
 			<Divider />
 		</div>
@@ -67,7 +67,8 @@ const DataPelanggan = props => {
 }
 
 DataPelanggan.propTypes = {
-	list: PropTypes.array.isRequired
+	list: PropTypes.array.isRequired,
+	loading: PropTypes.bool.isRequired
 }
 
 export default DataPelanggan;
