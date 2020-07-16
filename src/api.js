@@ -92,5 +92,11 @@ export default{
 	}).then(res => res.data),
 	addNotes: (payload) => axios.post(`${process.env.REACT_APP_API}/addNotes`, {
 		...payload		
-	}).then(res => res.data)
+	}).then(res => res.data),
+	laporan: {
+		getPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/getPelangganByKprk`, {
+			...payload
+		}).then(res => res.data),
+		countPelanggan: () => axios.post(`${process.env.REACT_APP_API}/countPelanggan`).then(res => res.data.jmlPelanggan)
+	}
 }

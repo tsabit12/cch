@@ -29,14 +29,14 @@ const SearchParam = props => {
 	})
 	const classes = useStyles();
 
-	React.useEffect(() => {
-		const payload = {
-			reg: '00',
-			kprk: '00'
-		};
-		props.onSubmit(payload);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	// React.useEffect(() => {
+	// 	const payload = {
+	// 		reg: '00',
+	// 		kprk: '00'
+	// 	};
+	// 	props.onSubmit(payload);
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [])
 
 	const handleChangeReg = (e) => {
 		const { value } = e.target;
