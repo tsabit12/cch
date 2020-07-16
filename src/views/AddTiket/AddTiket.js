@@ -110,7 +110,8 @@ const AddTiket = props => {
 			"twitter": data.twitter,
 			"user": props.profile.email,
 			"nik":"",
-			notes: data.notes.replace(/(\r\n|\n|\r)/gm, "&")
+			notes: data.notes.replace(/(\r\n|\n|\r)/gm, "&"),
+			jenisChannel: data.channel
 		}
 
 		api.addNotes(payload)
@@ -145,7 +146,8 @@ const AddTiket = props => {
 			"instagram": data.instagram,
 			"twitter": data.twitter,
 			"user": props.profile.email,
-			"nik":""
+			"nik":"",
+			jenisChannel: data.channel
 		}
 
 		setState(prevState => ({
