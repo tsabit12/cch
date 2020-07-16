@@ -11,7 +11,9 @@ import {
 	InputLabel,
 	Button,
 	FormHelperText,
-	TextField
+	TextField,
+	TextareaAutosize,
+	FormLabel
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import RenderInput from "./RenderInput";
@@ -120,7 +122,8 @@ const FormPengaduan = props => {
 			fb: '',
 			nik: '',
 			alamat: '',
-			nama: ''
+			nama: '',
+			notes: ''
 		},
 		errors: {},
 		options: {
@@ -146,7 +149,8 @@ const FormPengaduan = props => {
 					fb: '',
 					nik: '',
 					alamat: '',
-					nama: ''
+					nama: '',
+					notes: ''
 				},
 				errors: {},
 				options: {
@@ -183,6 +187,28 @@ const FormPengaduan = props => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data.instagram, data.nohp, data.fb, data.twitter, data.email])
+
+	React.useEffect(() => {
+		if (props.isReset) {
+			setState(prevState => ({
+				...prevState,
+				data: {
+					channel: 0,
+					jenisChannel: 0,
+					noresi: '',
+					instagram: '',
+					nohp: '',
+					email: '',
+					twitter: '',
+					fb: '',
+					nik: '',
+					alamat: '',
+					nama: '',
+					notes: ''
+				}
+			}))
+		}
+	}, [props.isReset])
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -256,6 +282,8 @@ const FormPengaduan = props => {
 		}else{
 			if (field.jenisChannel === 1 || field.jenisChannel === 5){
 				if (!field.noresi) errors.noresi = "Nomor resi harap diisi";
+			}else if(field.jenisChannel === 6){
+				if (!field.notes) errors.notes = "Catatan harap dilengkapi";
 			}
 		}
 		return errors;
@@ -277,6 +305,17 @@ const FormPengaduan = props => {
 			nohp: obj.phone
 		}
 	}))
+
+	const handleChangeText = (e) => {
+		const { value } = e.target;
+		setState(prevState => ({
+			...prevState,
+			data: {
+				...prevState.data,
+				notes: value
+			}
+		}))
+	}
 
 
 	return(
@@ -367,9 +406,9 @@ const FormPengaduan = props => {
 				          <MenuItem value={0}>--Pilih--</MenuItem>
 				          <MenuItem value={1}>Lacak Kiriman</MenuItem>
 				          <MenuItem value={2}>Info Tarif</MenuItem>
-				          <MenuItem value={3}>Layanan</MenuItem>
 				          <MenuItem value={4}>Kantor Pos & Kode Pos</MenuItem>
-				          <MenuItem value={5}>Lainnya</MenuItem>
+				          <MenuItem value={5}>Pengaduan</MenuItem>
+				          <MenuItem value={6}>Lainnya</MenuItem>
 				        </Select>
 				        {!!errors.jenisChannel === true && <FormHelperText>{errors.jenisChannel}</FormHelperText>}
 					</FormControl>
@@ -386,16 +425,31 @@ const FormPengaduan = props => {
 						/>
 					    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
 					</FormControl> }
+					{ data.jenisChannel === 6 && <FormControl className={classes.field} error={!!errors.notes}>
+						<FormLabel component="legend" style={{marginBottom: 5}}>
+							Catatan
+						</FormLabel>
+						<TextareaAutosize
+							rowsMax={10}
+							// className={classes.textArea}
+							rowsMin={5}
+							aria-label="maximum height"
+							placeholder="Masukan catatan disini"
+							value={data.notes}
+							onChange={handleChangeText}
+						/>
+						{errors.notes && <FormHelperText>{errors.notes}</FormHelperText>}
+					</FormControl> }
 				</div>
 			</CardContent>
 			<Divider />
 			<CardActions>
 				<Button 
-					    	variant="contained" 
-					    	color="primary" 
-					    	className={classes.button}
-					    	onClick={onSubmit}
-					    >SUBMIT</Button>
+			    	variant="contained" 
+			    	color="primary" 
+			    	className={classes.button}
+			    	onClick={onSubmit}
+			    >SUBMIT</Button>
 			</CardActions>
 			</div>
 		</Card>

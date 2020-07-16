@@ -71,7 +71,8 @@ const AddTiket = props => {
 		success: {},
 		channelForm: null,
 		tarif: [],
-		payloadBerat: {}
+		payloadBerat: {},
+		resetForm: false
 	})
 
 	const classes = useStyles();
@@ -83,10 +84,55 @@ const AddTiket = props => {
 
 		if (data.jenisChannel === 5) {
 			getResi(data);
+		}else if(data.jenisChannel === 6){
+			addPelangganAndNotes(data);
 		}else{
 			addPelanggan(data);
 		}
 		
+	}
+
+	const addPelangganAndNotes = (data) => {
+		setState(prevState => ({
+			...prevState,
+			loading: true,
+			errors: {},
+			resetForm: false
+		}))
+
+		const payload = {
+			"requestName": getRequestName(data.channel, data),
+			"alamat": data.alamat,
+			"nohp": data.nohp,
+			"email": data.email,
+			"fb": data.fb,
+			"instagram": data.instagram,
+			"twitter": data.twitter,
+			"user": props.profile.email,
+			"nik":"",
+			notes: data.notes.replace(/(\r\n|\n|\r)/gm, "&")
+		}
+
+		api.addNotes(payload)
+			.then(res => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					success: {
+						status: true,
+						message: 'Report berhasil dikirim'
+					},
+					resetForm: true
+				}))
+			})
+			.catch(err => {
+				console.log(err);
+				setState(prevState => ({
+					...prevState,
+					errors: {},
+					loading: false
+				}))
+			})
 	}
 
 	const addPelanggan = (data) => {
@@ -378,6 +424,7 @@ const AddTiket = props => {
 			        	<FormPengaduan 
 			        		onSubmit={handleSubmitPengaduan}
 			        		disabled={state.disabledForm}
+			        		isReset={state.resetForm}
 			        	/>
 			        </Grid>
 			        <Grid item lg={6} sm={6} xl={12} xs={12}>
