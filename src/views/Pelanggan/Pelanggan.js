@@ -141,6 +141,7 @@ const Pelanggan = props => {
 		const payload = {
 			offset: offsetValue,
 			kprk: state.kprk,
+			regional: state.regional
 		}
 
 		props.getPelanggan(payload, `page${page}`);
