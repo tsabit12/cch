@@ -1,5 +1,5 @@
 import api from "../api";
-import { GET_DATA_PELANGGAN, GET_JUMLAH_PELANGGAN } from "../types";
+import { GET_DATA_PELANGGAN, GET_JUMLAH_PELANGGAN, REMOVE_ALL_PELANGGAN } from "../types";
 
 export const getPelanggan = (payload, page) => dispatch => 
 	api.laporan.getPelanggan(payload)
@@ -19,3 +19,7 @@ export const jumlahPelangganFetched = (jumlah) => ({
 export const getTotalPelanggan = (payload) => dispatch => 
 	api.laporan.countPelanggan(payload)
 		.then(jumlah => dispatch(jumlahPelangganFetched(jumlah)))
+
+export const resetData = () => dispatch => dispatch({
+	type: REMOVE_ALL_PELANGGAN
+})

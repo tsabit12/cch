@@ -11,7 +11,7 @@ import {
 	DataPelanggan
 } from "./components";
 import api from "../../api";
-import { getPelanggan, getTotalPelanggan } from "../../actions/laporan";
+import { getPelanggan, getTotalPelanggan, resetData } from "../../actions/laporan";
 import Pagination from '@material-ui/lab/Pagination';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -55,6 +55,10 @@ const Pelanggan = props => {
 				loading: false
 			}))
 		})();
+
+		return () => {
+			props.resetData();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -70,13 +74,13 @@ const Pelanggan = props => {
 	const handleGetKprk = (reg) => api.getKprk(reg)
 
 	const handleSearch = async (payload) => {
-		//reset jumlah
+		props.resetData();
+
 		setState(prevState => ({
 			...prevState,
 			data: [],
 			loading: true,
 			offset: 0,
-			activePage: 1,
 			kprk: payload.kprk
 		}))
 
@@ -92,13 +96,15 @@ const Pelanggan = props => {
 			.then(() => {
 				setState(prevState => ({
 					...prevState,
-					loading: false
+					loading: false,
+					activePage: 1
 				}))
 			})
 			.catch(err => {
 				setState(prevState => ({
 					...prevState,
-					loading: false
+					loading: false,
+					activePage: 1
 				}))
 			})
 	}
@@ -155,7 +161,8 @@ Pelanggan.propTypes = {
 	getPelanggan: PropTypes.func.isRequired,
 	getTotalPelanggan: PropTypes.func.isRequired,
 	total: PropTypes.number.isRequired,
-	listPelanggan: PropTypes.object.isRequired
+	listPelanggan: PropTypes.object.isRequired,
+	resetData: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -165,4 +172,8 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getPelanggan, getTotalPelanggan })(Pelanggan);
+export default connect(mapStateToProps, { 
+	getPelanggan, 
+	getTotalPelanggan,
+	resetData
+})(Pelanggan);
