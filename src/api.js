@@ -68,7 +68,12 @@ export default{
 		fetch: (payload) => axios.post(`${process.env.REACT_APP_API}/getUser`, {
 			...payload
 		}).then(res => res.data),
-		count: () => axios.post(`${process.env.REACT_APP_API}/countUser`).then(res => res.data.jumlUser)
+		count: () => axios.post(`${process.env.REACT_APP_API}/countUser`).then(res => res.data.jumlUser),
+		addImage: (formData) => axios.post(`${process.env.REACT_APP_API}/uploadImg`, formData, {
+			headers: {
+				'content-type': 'application/x-www-form-urlencoded'
+			}
+		}).then(res => res.data.file_name)
 	},
 	addResponseTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, {
 		...payload

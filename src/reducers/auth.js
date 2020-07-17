@@ -1,4 +1,4 @@
-import { SET_LOGIN, SET_LOGOUT } from "../types"; 
+import { SET_LOGIN, SET_LOGOUT, IMAGE_UPLOADED } from "../types"; 
 
 const initialState = {
 	user: {}
@@ -15,6 +15,14 @@ export default function auth(state=initialState, action={}) {
 			return {
 				...state,
 				user: {}
+			}
+		case IMAGE_UPLOADED:
+			return {
+				...state,
+				user: {
+					...state.user,
+					img: action.fileName
+				}
 			}
 		default: return state;
 	}

@@ -33,6 +33,8 @@ const Profile = props => {
   //   bio: 'Brain Director'
   // };
 
+  const urlImage = data.img ? `${process.env.REACT_APP_IMAGE}/profile/${data.img}` : `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`;
+
   return (
     <div
       {...rest}
@@ -42,8 +44,8 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        src={`${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`}
-        to="/settings"
+        src={urlImage}
+        to="/profile"
       />
       <Typography
         className={classes.name}
