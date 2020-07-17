@@ -57,7 +57,14 @@ const Tiket = props => {
 		}
 		props.getTicket(payload)
 			.catch(err => {
-				if (err.request) {
+				if (err.response) {
+					setState(prevState => ({
+						...prevState,
+						errors: {
+							global: 'Data tiket kosong'
+						}
+					}))
+				}else if(err.request){
 					setState(prevState => ({
 						...prevState,
 						errors: {
@@ -65,21 +72,12 @@ const Tiket = props => {
 						}
 					}))
 				}else{
-					if (err.response.data.errors) {
-						setState(prevState => ({
-							...prevState,
-							errors: {
-								global: err.response.data.errors
-							}
-						}))
-					}else{
-						setState(prevState => ({
-							...prevState,
-							errors: {
-								global: 'Terdapat kesalahan, mohon coba beberapa saat lagi'
-							}
-						}))
-					}
+					setState(prevState => ({
+						...prevState,
+						errors: {
+							global: 'Terdapat kesalahan, mohon coba beberapa saat lagi'
+						}
+					}))
 				}
 			})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
