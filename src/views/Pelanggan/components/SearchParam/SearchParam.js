@@ -77,7 +77,7 @@ const SearchParam = props => {
 
 	const handleClick = () => {
 		const payload = {
-			reg: state.reg,
+			regional: state.reg,
 			kprk: state.kprk
 		}
 		props.onSubmit(payload)

@@ -41,6 +41,7 @@ const Pelanggan = props => {
 		data: [],
 		offset: 0,
 		kprk: '00',
+		regional: '00',
 		mount: false,
 		loading: true
 	});
@@ -50,11 +51,12 @@ const Pelanggan = props => {
 
 	React.useEffect(() => {
 		(async () => {
-			const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);
-
+			const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);		
+			const regValue 	= dataUser.jabatan === 'Administrator' ? '00' : dataUser.regional;
 			const payload = {
 				kprk: kprkValue,
-				offset: 0
+				offset: 0,
+				regional: regValue
 			}
 			
 			await props.getTotalPelanggan(payload);
@@ -65,14 +67,16 @@ const Pelanggan = props => {
 						...prevState,
 						mount: true,
 						loading: false,
-						kprk: kprkValue
+						kprk: kprkValue,
+						regional: regValue
 					}))
 				})
 				.catch(err => {
 					setState(prevState => ({
 						...prevState,
 						loading: false,
-						kprk: kprkValue
+						kprk: kprkValue,
+						regional: regValue
 					}))
 				})
 		})();
@@ -102,7 +106,8 @@ const Pelanggan = props => {
 			data: [],
 			loading: true,
 			offset: 0,
-			kprk: payload.kprk
+			kprk: payload.kprk,
+			regional: payload.regional
 		}))
 
 		const payloadW = {
