@@ -25,6 +25,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+const getKprkByJabatan = (jabatan, kprk) => {
+	switch(jabatan){
+		case 'AGENT / CS':
+			return kprk;
+		default: 
+			return '00';
+	}
+}
+
 const Pelanggan = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
@@ -37,23 +46,35 @@ const Pelanggan = props => {
 	});
 
 	const { activePage, data } = state;
+	const { dataUser } = props;
 
 	React.useEffect(() => {
 		(async () => {
+			const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);
+
 			const payload = {
-				kprk: '00',
+				kprk: kprkValue,
 				offset: 0
 			}
 			
 			await props.getTotalPelanggan(payload);
 
-			await props.getPelanggan(payload, 'page1');
-
-			setState(prevState => ({
-				...prevState,
-				mount: true,
-				loading: false
-			}))
+			props.getPelanggan(payload, 'page1')
+				.then(() => {
+					setState(prevState => ({
+						...prevState,
+						mount: true,
+						loading: false,
+						kprk: kprkValue
+					}))
+				})
+				.catch(err => {
+					setState(prevState => ({
+						...prevState,
+						loading: false,
+						kprk: kprkValue
+					}))
+				})
 		})();
 
 		return () => {
@@ -136,6 +157,8 @@ const Pelanggan = props => {
 					action={<SearchParam 
 						getKprk={handleGetKprk} 
 						onSubmit={handleSearch}
+						jabatan={dataUser.jabatan}
+						user={dataUser}
 					/>} 
 				/>
 				<Divider/>
@@ -163,13 +186,15 @@ Pelanggan.propTypes = {
 	getTotalPelanggan: PropTypes.func.isRequired,
 	total: PropTypes.number.isRequired,
 	listPelanggan: PropTypes.object.isRequired,
-	resetData: PropTypes.func.isRequired
+	resetData: PropTypes.func.isRequired,
+	dataUser: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		total: state.laporan.jumlahPelanggan,
-		listPelanggan: state.laporan.pelanggan
+		listPelanggan: state.laporan.pelanggan,
+		dataUser: state.auth.user
 	}
 }
 

@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 500,
+		height: 508,
 		position: 'relative',
 		overflowX: 'auto'
 	},
