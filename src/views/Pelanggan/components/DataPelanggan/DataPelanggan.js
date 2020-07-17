@@ -30,8 +30,10 @@ const useStyles = makeStyles(theme => ({
 
 const DataPelanggan = props => {
 	const classes = useStyles();
-	const { list } = props;
-	var no = 1;
+	const { list, activePage } = props;
+	
+	var no = (activePage * 10) - 10 + 1;
+
 	return(
 		<div className={classes.root}>
 			<Table>
@@ -68,7 +70,8 @@ const DataPelanggan = props => {
 
 DataPelanggan.propTypes = {
 	list: PropTypes.array.isRequired,
-	loading: PropTypes.bool.isRequired
+	loading: PropTypes.bool.isRequired,
+	activePage: PropTypes.number.isRequired
 }
 
 export default DataPelanggan;

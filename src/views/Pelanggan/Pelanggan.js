@@ -142,6 +142,7 @@ const Pelanggan = props => {
 				<DataPelanggan 
 					list={data}
 					loading={state.loading}
+					activePage={activePage}
 				/>
 				<CardActions className={classes.action}>
 					<Pagination 
