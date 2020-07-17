@@ -37,7 +37,7 @@ validate.validators = {
 
 if (localStorage.cchToken) {
   const user   = decode(localStorage.cchToken);
-  if (user.jabatan) {
+  if (user.regional) {
     const payload = {
       ...user,
       token: localStorage.cchToken
