@@ -105,5 +105,8 @@ export default{
 		countPelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/countPelanggan`, {
 			...payload
 		}).then(res => res.data.jmlPelanggan)
-	}
+	},
+	getProfile: (email) => axios.post(`${process.env.REACT_APP_API}/getProfile`, {
+		user: email
+	}).then(res => res.data)
 }

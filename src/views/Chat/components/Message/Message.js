@@ -14,7 +14,9 @@ import {
 	Paper,
 	Chip,
 	CardContent,
-	CardMedia
+	CardMedia,
+	Dialog,
+	DialogTitle
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -26,6 +28,38 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 import GetAppIcon from '@material-ui/icons/GetApp';
+
+import api from "../../../../api";
+
+const DetailProfile = props => {
+	const { user } = props;
+	return(
+		<Dialog 
+			onClose={props.handleClose} 
+			aria-labelledby="simple-dialog-title" 
+			open={Object.keys(props.user).length > 0 ? true : false }
+		>
+	      <DialogTitle id="simple-dialog-title">{user.title}</DialogTitle>
+	      <List>
+	        <ListItem disabled>
+	          <ListItemText 
+	          	primary={`Kantor : ${user.regional} (${user.fullname})`}
+	          />
+	        </ListItem>
+	        <ListItem disabled>
+	          <ListItemText 
+	          	primary={`Jabatan : ${user.jabatan}`}
+	          />
+	        </ListItem>
+	        <ListItem disabled>
+	          <ListItemText 
+	          	primary={`Nippos : ${user.username}`}
+	          />
+	        </ListItem>
+	      </List>
+	    </Dialog>
+	);
+} 
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -206,8 +240,20 @@ const Message = props => {
 		loading: false,
 		mount: false,
 		fileName: '',
-		placeholder: 'Masukkan text'
+		placeholder: 'Masukkan text',
+		photoProfileValue: '',
+		profile: {}
 	})
+
+	React.useEffect(() => {
+		if (data.length > 0 && state.photoProfileValue === '') {
+			const userProfile = data.find(row => row.username === props.dataUser.email);
+			setState(prevState => ({
+				...prevState,
+				photoProfileValue: userProfile.photoProfile
+			}))
+		}
+	}, [data, state.photoProfileValue, props.dataUser]);
 
 	const handleChange = (e) => {
 		const { value } = e.target;
@@ -229,7 +275,7 @@ const Message = props => {
 	//refresh after 3 second
 	React.useEffect(() => {
 		//props status is mean tiket was done
-		if (state.mount && !props.shouldFetch && !props.status) {
+		if (state.mount && !props.shouldFetch && !props.status && Object.keys(state.profile).length === 0) {
 			const timeoutID = setTimeout(() => {
 				//handle infinte loop
 		        setState(prevState => ({
@@ -242,14 +288,14 @@ const Message = props => {
 			return () => clearTimeout(timeoutID);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.shouldFetch, state.loading, state.mount, props.notiket, props.status])
+	}, [props.shouldFetch, state.loading, state.mount, props.notiket, props.status, state.profile])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (state.text) {
 			if (state.fileName) { //upload
 				const { files } = inputFileRef.current;
-				await props.onUpload(files[0], state.text);
+				await props.onUpload(files[0], state.text, state.photoProfileValue);
 				setState(prevState => ({
 					...prevState,
 					text: '',
@@ -258,7 +304,7 @@ const Message = props => {
 				}))
 				inputFileRef.current.value = null;
 			}else{
-				await props.onSendMessage(state.text);
+				await props.onSendMessage(state.text, state.photoProfileValue);
 				setState(prevState => ({
 					...prevState,
 					text: ''
@@ -292,8 +338,24 @@ const Message = props => {
 		}))
 	}
 
+	const showDetailUser = (username) => {
+		api.getProfile(username)
+			.then(user => setState(prevState => ({
+				...prevState,
+				profile: user
+			})))
+			.catch(err => alert("Terdapat kesalahan saat memuat profile pengguna"))
+	}
+
 	return(
 		<Card className={classes.root}>
+			<DetailProfile 
+				user={state.profile}
+				handleClose={() => setState(prevState => ({
+					...prevState,
+					profile: {}
+				}))}
+			/>
 			<CardHeader 
 				className={classes.header}
 				title='RESPONSE'
@@ -352,7 +414,7 @@ const Message = props => {
 					</Paper>
 				</div>
 				<Divider />
-
+				
 				<div className={classes.content}>
 					<List className={classes.list}>
 						{data.map((row, index) => (
@@ -360,7 +422,12 @@ const Message = props => {
 								{ row.username !== props.dataUser.email ? 
 									<ListItem alignItems="center" >
 									 	<ListItemAvatar>
-								          	<Avatar alt="Remy Sharp" src={`${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_7.png`} />
+								          	<Avatar 
+								          		alt="Remy Sharp" 
+								          		src={row.photoProfile === null ? `${process.env.REACT_APP_PUBLIC_URL}/images/` : `${process.env.REACT_APP_IMAGE}/profile/${row.photoProfile}`} 
+								          		style={{cursor: 'pointer'}}
+								          		onClick={() => showDetailUser(row.username)}
+								          	/>
 								        </ListItemAvatar>
 								    	<ListItemText
 									      primary={<React.Fragment>
@@ -401,7 +468,10 @@ const Message = props => {
 									      disableTypography={true}
 								    	/>
 								    	<ListItemAvatar>
-								          	<Avatar alt="Remy Sharp" src={`${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_6.png`} />
+								          	<Avatar 
+								          		alt="Remy Sharp" 
+								          		src={row.photoProfile === null ? `${process.env.REACT_APP_PUBLIC_URL}/images/` : `${process.env.REACT_APP_IMAGE}/profile/${row.photoProfile}`} 
+								          	/>
 								        </ListItemAvatar>
 								    </ListItem> }
 

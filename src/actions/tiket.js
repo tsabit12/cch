@@ -51,7 +51,8 @@ export const addResponseTiket = (payload) => dispatch =>
 				date: res.curdate,
 				username: payload.user,
 				status: 'Sending...',
-				file_name: null
+				file_name: null,
+				photoProfile: payload.photoProfile
 			}; 
 			dispatch(responseAdded(payloadRes, payload.noTicket))
 		})
@@ -64,7 +65,8 @@ export const uploadResponse = (formData, param) => dispatch =>
 				date: res.curdate,
 				username: param.user,
 				status: 'Sending...',
-				file_name: res.file_name
+				file_name: res.file_name,
+				photoProfile: param.photoProfile
 			}; 
 
 			dispatch(responseAdded(payload, param.noTicket))

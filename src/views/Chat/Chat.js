@@ -86,7 +86,7 @@ const Chat = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.dataTiket])
 
-	const handleUpload = (file, text) => {
+	const handleUpload = (file, text, photoName) => {
 		const { data } = props.dataTiket;
 		const formData = new FormData();
 		formData.append('file', file);
@@ -99,19 +99,21 @@ const Chat = props => {
 			noTicket: data.no_ticket,
 			response: text,
 			user: props.user.email,
-			tujuanPengaduan: data.tujuan_pengaduan
+			tujuanPengaduan: data.tujuan_pengaduan,
+			photoProfile: photoName
 		}
 
 		props.uploadResponse(formData, payload);
 	} 
 
-	const handleSendMessage = (text) => {
+	const handleSendMessage = (text, photoName) => {
 		const { data } = props.dataTiket;
 		const payload = {
 			noTicket: data.no_ticket,
 			response: text,
 			user: props.user.email,
-			tujuanPengaduan: data.tujuan_pengaduan
+			tujuanPengaduan: data.tujuan_pengaduan,
+			photoProfile: photoName
 		}
 		props.addResponseTiket(payload);
 	}
