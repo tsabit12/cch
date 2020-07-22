@@ -248,10 +248,12 @@ const Message = props => {
 	React.useEffect(() => {
 		if (data.length > 0 && state.photoProfileValue === '') {
 			const userProfile = data.find(row => row.username === props.dataUser.email);
-			setState(prevState => ({
-				...prevState,
-				photoProfileValue: userProfile.photoProfile
-			}))
+			if (userProfile) {
+				setState(prevState => ({
+					...prevState,
+					photoProfileValue: userProfile.photoProfile
+				}))
+			}
 		}
 	}, [data, state.photoProfileValue, props.dataUser]);
 

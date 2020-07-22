@@ -14,6 +14,7 @@ import {
 import { makeStyles, withStyles } from "@material-ui/styles";
 import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/Mail';
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -66,6 +67,7 @@ const StyledBadge = withStyles(theme => ({
 const BtnPengaduan = props => {
 	const { total } = props;
 	const classes = useStyles();
+	
 	return(
 		<Card className={classes.root}>
 			<CardHeader
@@ -90,21 +92,23 @@ const BtnPengaduan = props => {
 	            	DALAM PROSES
 	            </Typography>
 			</div>
-			<ListItem 
-				className={props.activeLink === 1 ? classes.listActived : classes.list} 
-				button 
-				onClick={() => props.onClickTitle('PENGADUAN MASUK', 1)}
-			>
-			    <ListItemText primary="Pengaduan Masuk" />
-				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={total.masuk} color="primary">
-				        <MailIcon />
-				      </StyledBadge>
-				    </IconButton>
-			    </ListItemIcon>
-			</ListItem>
-			<Divider/>
+			{ props.jabatan !== 'Administrator' && <React.Fragment>
+				<ListItem 
+					className={props.activeLink === 1 ? classes.listActived : classes.list} 
+					button 
+					onClick={() => props.onClickTitle('PENGADUAN MASUK', 1)}
+				>
+				    <ListItemText primary="Pengaduan Masuk" />
+					<ListItemIcon>
+						<IconButton aria-label="Cart" disabled>
+					      <StyledBadge badgeContent={total.masuk} color="primary">
+					        <MailIcon />
+					      </StyledBadge>
+					    </IconButton>
+				    </ListItemIcon>
+				</ListItem>
+				<Divider/>
+			</React.Fragment> }
 			<ListItem 
 				className={props.activeLink === 2 ? classes.listActived : classes.list} 
 				button 
@@ -114,21 +118,6 @@ const BtnPengaduan = props => {
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
 				      <StyledBadge badgeContent={total.keluar} color="primary">
-				        <MailIcon />
-				      </StyledBadge>
-				    </IconButton>
-			    </ListItemIcon>
-			</ListItem>
-			<Divider/>
-			<ListItem 
-				button 
-				onClick={() => props.onClickTitle('PERMINTAAN TUTUP TICKET', 4)}
-				className={props.activeLink === 4 ? classes.listActived : classes.list} 
-			>
-			    <ListItemText primary="Permintaan Tutup Ticket" />
-				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={total.closed} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
@@ -145,21 +134,24 @@ const BtnPengaduan = props => {
 	            	SUDAH SELESAI
 	            </Typography>
 			</div>
-			<ListItem 
-				button 
-				onClick={() => props.onClickTitle('PENGADUAN MASUK', 5)}
-				className={props.activeLink === 5 ? classes.listActived : classes.list} 
-			>
-			    <ListItemText primary="Pengaduan Masuk" />
-				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={total.allMasuk} color="primary">
-				        <MailIcon />
-				      </StyledBadge>
-				    </IconButton>
-			    </ListItemIcon>
-			</ListItem>
-			<Divider/>
+			{ props.jabatan !== 'Administrator' && <React.Fragment>
+				<ListItem 
+					button 
+					onClick={() => props.onClickTitle('PENGADUAN MASUK', 5)}
+					className={props.activeLink === 5 ? classes.listActived : classes.list} 
+				>
+				    <ListItemText primary="Pengaduan Masuk" />
+					<ListItemIcon>
+						<IconButton aria-label="Cart" disabled>
+					      <StyledBadge badgeContent={total.allMasuk} color="primary">
+					        <MailIcon />
+					      </StyledBadge>
+					    </IconButton>
+				    </ListItemIcon>
+				</ListItem>
+				<Divider/>
+			</React.Fragment> }
+
 			<ListItem 
 				className={props.activeLink === 6 ? classes.listActived : classes.list} 
 				button 
@@ -178,5 +170,9 @@ const BtnPengaduan = props => {
 	    </Card>
 	);
 }	
+
+BtnPengaduan.propTypes = {
+	jabatan: PropTypes.string.isRequired
+}
 
 export default BtnPengaduan;

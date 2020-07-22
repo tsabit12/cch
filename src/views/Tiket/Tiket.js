@@ -47,8 +47,16 @@ const Tiket = props => {
 				title: props.activedLink.text,
 				active: props.activedLink.active
 			}))
+		}else{
+			if (props.user.jabatan === 'Administrator') {
+				setState(prevState => ({
+					...prevState,
+					title: 'PENGADUAN KELUAR',
+					active: 2
+				}))
+			}
 		}
-	}, [props.activedLink]);
+	}, [props.activedLink, props.user.jabatan]);
 
 	React.useEffect(() => {
 		const payload = {
@@ -135,6 +143,7 @@ const Tiket = props => {
 	        		addTicket={() => props.history.push("/tiket/add")}
 	        		activeLink={state.active}
 	        		total={props.count}
+	        		jabatan={props.user.jabatan}
 	        	/>
 	        </Grid>
 	        <Grid

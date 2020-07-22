@@ -4,7 +4,8 @@ import {
 	ADD_RESPONSE_TIKET,
 	FETCH_RESPONSE,
 	ON_CLOSE_TIKET,
-	SET_ACTIVE_LINK_TIKET
+	SET_ACTIVE_LINK_TIKET,
+	SET_LOGOUT
 } from "../types";
 
 const initialState = {
@@ -35,6 +36,25 @@ const initialState = {
 
 export default function ticket(state=initialState, action={}){
 	switch(action.type){
+		case SET_LOGOUT:
+			return{
+				...state,
+				data: {
+					masuk: [],
+					keluar: [],
+					closed: [],
+					allMasuk: [],
+					allKeluar: []
+				},
+				count: {
+					keluar: 0,
+					masuk: 0,
+					updated: 0,
+					closed: 0,
+					allKeluar: 0,
+					allMasuk: 0
+				}
+			}
 		case GET_TICKET:
 			return {
 				...state,
