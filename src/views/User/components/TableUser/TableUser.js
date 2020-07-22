@@ -45,7 +45,7 @@ const TableUser = props => {
 		        	{ props.data.map((row, index) => (
 		        		<TableRow key={index}>
 			              <TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.namaLengkap}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.NamaLengkap}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.username}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.email}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.kantorPos}</TableCell>

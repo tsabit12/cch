@@ -1,99 +1,112 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
-	Paper,
-	IconButton,
-	InputBase,
-	Divider
+	FormControl,
+	Select,
+	InputLabel,
+	MenuItem,
+	Button,
+	ButtonGroup
 } from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import PropTypes from "prop-types";
+import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme => ({
-	headerAction: {
-		padding: '2px 4px',
-	    display: 'flex',
-	    alignItems: 'center'
+	formControl: {
+		marginTop: 10,
+		marginLeft: 8,
+		marginRight: 8,
+		minWidth: 200
 	},
-	input: {
-		marginLeft: theme.spacing(1),
-		flex: 1,
-	},
-	iconButton: {
-		padding: 10,
-	},
-	divider: {
-		height: 28,
-		margin: 4,
-	},
+	button: {
+		marginTop: 10
+	}
 }))
 
 const SearchForm = props => {
-	const { history } = props;
+	const { history, kprkList } = props;
 	const classes = useStyles();
-	const [state, setState] = React.useState({
-		param: ''
-	})
-
-	React.useEffect(() => {
-		const timeout = setTimeout(() => {
-			props.onSearch(state.param);
-	    }, 300);
-
-	    return () => clearTimeout(timeout);		
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.param])
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		alert("oke");
-	}
-
-	const handleChange = (e) => {
-		const { value } = e.target;
-		setState(prevState => ({
-			...prevState,
-			param: value
-		}))
-	}
 
 	return(
-		<Paper 
-			component="form" 
-			className={classes.headerAction}
-			onSubmit={handleSubmit}
-		>
-	      <IconButton className={classes.iconButton} aria-label="menu" disabled>
-	        <MenuIcon />
-	      </IconButton>
-	      <InputBase
-	        className={classes.input}
-	        placeholder="Masukkan Email Pengguna"
-	        value={state.param}
-	        onChange={handleChange}
-	        inputProps={{ 'aria-label': 'masukkan email pengguna' }}
-	      />
-	      <IconButton type="submit" className={classes.iconButton} aria-label="search">
-	        <SearchIcon />
-	      </IconButton>
-	      <Divider className={classes.divider} orientation="vertical" />
-	      <IconButton 
-	      	color="primary" 
-	      	className={classes.iconButton} 
-	      	aria-label="directions"
-	      	onClick={() => history.push("/user/add")}
-	      >
-	        <AddCircleIcon />
-	      </IconButton>
-	    </Paper>
+		<div>
+			<FormControl 
+				variant="outlined" 
+				size="small" 
+				className={classes.formControl}
+			>
+				<InputLabel id="labelArea">REGIONAL</InputLabel>
+				<Select
+		          labelId="labelArea"
+		          id="demo-simple-select-outlined"
+		          value={props.value.reg}
+		          onChange={props.handleChange}
+		          label="REGIONAL"
+		          name="reg"
+		          disabled={props.user.jabatan === 'MANAGEMENT' ? true : false }
+		        >
+		        	<MenuItem value="00">SEMUA REGIONAL</MenuItem>
+					<MenuItem value="REGIONAL 1">Regional 01</MenuItem>
+					<MenuItem value="REGIONAL 2">Regional 02</MenuItem>
+					<MenuItem value="REGIONAL 3">Regional 03</MenuItem>
+					<MenuItem value="REGIONAL 4">Regional 04</MenuItem>
+					<MenuItem value="REGIONAL 5">Regional 05</MenuItem>
+					<MenuItem value="REGIONAL 6">Regional 06</MenuItem>
+					<MenuItem value="REGIONAL 7">Regional 07</MenuItem>
+					<MenuItem value="REGIONAL 8">Regional 08</MenuItem>
+					<MenuItem value="REGIONAL 9">Regional 09</MenuItem>
+					<MenuItem value="REGIONAL 10">Regional 10</MenuItem>
+					<MenuItem value="REGIONAL 11">Regional 11</MenuItem>
+		        </Select>
+			</FormControl>
+			<FormControl 
+				variant="outlined" 
+				size="small" 
+				className={classes.formControl}
+			>
+				<InputLabel id="labelKprk">KPRK</InputLabel>
+				<Select
+		          labelId="labelKprk"
+		          id="kprk"
+		          name="kprk"
+		          value={props.value.kprk}
+		          onChange={props.handleChange}
+		          label="KPRK"
+		          disabled={props.user.jabatan === 'MANAGEMENT' ? true : false }
+		        >
+		        	<MenuItem value="00">SEMUA KPRK</MenuItem>
+
+		        	{props.user.jabatan === 'MANAGEMENT' && <MenuItem value={props.user.kantor_pos}>
+		        		{props.user.fullname}
+		        	</MenuItem>}
+		        	
+		        	{props.user.jabatan === 'Administrator' &&  kprkList.length > 0 && kprkList.map((row, index) => (
+			        	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>
+			        ))	}
+		        </Select>
+			</FormControl>
+			<ButtonGroup 
+				color="primary" 
+				aria-label="outlined secondary button group"
+				className={classes.button}
+			>
+			  <Button>
+			  	<SearchIcon style={{marginRight: 3}} /> Tampilkan
+			  </Button>
+			  <Button onClick={() => history.push("/user/add")}>
+			  	<AddIcon style={{marginRight: 3}}/> Tambah User
+			  </Button>
+			</ButtonGroup>
+		</div>
 	);
 }
 
 
 SearchForm.propTypes = {
-	onSearch: PropTypes.func.isRequired
+	value: PropTypes.object.isRequired,
+	handleChange: PropTypes.func.isRequired,
+	kprkList: PropTypes.array.isRequired,
+	user: PropTypes.object.isRequired
 }
 
 export default SearchForm;

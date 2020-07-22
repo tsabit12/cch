@@ -29,6 +29,8 @@ const getKprkByJabatan = (jabatan, kprk) => {
 	switch(jabatan){
 		case 'AGENT / CS':
 			return kprk;
+		case 'MANAGEMENT':
+			return kprk;
 		default: 
 			return '00';
 	}

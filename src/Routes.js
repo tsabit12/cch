@@ -4,7 +4,8 @@ import { Switch, Redirect } from 'react-router-dom';
 import { 
   RouteWithLayout,
   GuestRoute,
-  UserRoute
+  UserRoute,
+  NotCsRoute
 } from './components';
 import { 
   Main as MainLayout, 
@@ -57,13 +58,13 @@ const Routes = () => {
         layout={MainLayout}
         path="/tiket/:notiket"
       />
-      <GuestRoute
+      <NotCsRoute
         component={UserView}
         exact
         layout={MainLayout}
         path="/user"
       />
-      <GuestRoute
+      <NotCsRoute
         component={AddUserView}
         exact
         layout={MainLayout}

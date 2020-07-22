@@ -123,7 +123,11 @@ const UserForm = props => {
 		const {  value } = e.target;
 		setState(prevState => ({
 			...prevState,
-			nippos: value
+			nippos: value,
+			errors: {
+				...prevState.errors,
+				nippos: undefined
+			}
 		}))
 	}
 

@@ -50,8 +50,8 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const {className, ...rest } = props;
-
+  const {className, jabatan, ...rest } = props;
+  
   const classes = useStyles();
 
   return (
@@ -84,8 +84,7 @@ const SidebarNav = props => {
         </ListItemIcon>
         <ListItemText primary="Tiket" />
       </ListItem>
-
-      <ListItem 
+      { jabatan !== 'AGENT / CS' && <ListItem 
         button
         activeClassName={classes.active}
         className={classes.button}
@@ -96,7 +95,7 @@ const SidebarNav = props => {
           <PersonAddIcon />
         </ListItemIcon>
         <ListItemText primary="Users" />
-      </ListItem>
+      </ListItem> }
 
       <ListItem 
         button
@@ -115,7 +114,8 @@ const SidebarNav = props => {
 };
 
 SidebarNav.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  jabatan: PropTypes.string.isRequired
 };
 
 export default SidebarNav;

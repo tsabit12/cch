@@ -17,6 +17,7 @@ import { removeMessage } from "../../actions/message";
 import { fetchUser, getJumlahUser } from "../../actions/user";
 import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
+import api from "../../api";
 
 import {
 	TableUser,
@@ -80,23 +81,51 @@ const User = props => {
 		paging: {
 			offset: 0,
 			limit: 10
-		}
+		},
+		search:{
+			reg: '00',
+			kprk: '00'
+		},
+		listKprk: []
 	})
 
 	const classes = useStyles();
-	const { history, message, jumlah } = props;
+	const { history, message, jumlah, userData } = props;
 	const { activePage, data, paging } = state;
 
+	//this page is only for management and admin
+	//so set kprk to 00
+	//cause cs cannot access this route
 	React.useEffect(() => {
 		(async () => {
+			const regValue 	= userData.jabatan === 'Administrator' ? '00' : userData.regional;
+			const kprkValue = userData.jabatan === 'Administrator' ? '00' : userData.kantor_pos;
 			const payload = {
 				...state.paging,
-				page: activePage
+				page: activePage,
+				regional: regValue,
+				kprk: kprkValue
 			};
 
-			await props.getJumlahUser();
+			await props.getJumlahUser(payload.regional, payload.kprk);
 
-			await props.fetchUser(payload);
+			props.fetchUser(payload)
+				.then(() => setState(prevState => ({
+					...prevState,
+					search:{
+						...prevState.search,
+						reg: regValue,
+						kprk: kprkValue
+					}
+				})))
+				.catch(() => setState(prevState => ({
+					...prevState,
+					search: {
+						...prevState.search,
+						reg: regValue,
+						kprk: kprkValue
+					}
+				})))
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -145,13 +174,30 @@ const User = props => {
 		}))
 	}
 
-	const handleSearch = (param) => {
-		if (props.list[`page${activePage}`]) {
-			const defaultData = props.list[`page${activePage}`];	
-			
+	const onChangeSearch = (e) => {
+		const { name, value } = e.target;
+		if (name === 'reg') {
 			setState(prevState => ({
 				...prevState,
-				data: defaultData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(param.toLowerCase())))
+				search: {
+					...prevState.search,
+					reg: value,
+					kprk: '00'
+				}
+			}))
+
+			api.getKprk(value)
+				.then(res => setState(prevState => ({
+					...prevState,
+					listKprk: res
+				})))
+		}else{
+			setState(prevState => ({
+				...prevState,
+				search: {
+					...prevState.search,
+					[name]: value
+				}
 			}))
 		}
 	}
@@ -181,7 +227,10 @@ const User = props => {
 							title='KELOLA DATA USER' 
 							action={<SearchForm 
 								history={history} 
-								onSearch={handleSearch}
+								value={state.search}
+								handleChange={onChangeSearch}
+								kprkList={state.listKprk}
+								user={userData}
 							/>}
 						/>
 						<Divider />
@@ -217,14 +266,16 @@ const User = props => {
 
 User.propTypes = {
 	list: PropTypes.object.isRequired,
-	jumlah: PropTypes.number.isRequired	
+	jumlah: PropTypes.number.isRequired,
+	userData: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		message: state.message.text,
 		list: state.user.data,
-		jumlah: state.user.jumlah
+		jumlah: state.user.jumlah,
+		userData: state.auth.user
 	}
 }
 

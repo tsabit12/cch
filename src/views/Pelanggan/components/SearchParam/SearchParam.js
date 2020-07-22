@@ -31,26 +31,30 @@ const SearchParam = props => {
 	const { user } = props;
 
 	React.useEffect(() => {
-		if (user.jabatan === 'AGENT / CS') {
+		if (user.jabatan === 'AGENT / CS' || user.jabatan === 'MANAGEMENT') {
+			
 			setState(prevState => ({
 				...prevState,
-				reg: user.regional,
+				reg: user.regional === 'KANTORPUSAT' ? '00' : user.regional,
 				kprk: user.kantor_pos
 			}))
-		}else if(user.jabatan === 'MANAGEMENT'){
-			setState(prevState => ({
-				...prevState,
-				reg: user.regional
-			}))
-
-			props.getKprk(user.regional)
-				.then(res => setState(prevState => ({
-					...prevState,
-					listKprk: res
-				})))
 		}
+		// else if(user.jabatan === 'MANAGEMENT'){
+		// 	setState(prevState => ({
+		// 		...prevState,
+		// 		reg: user.regional === 'KANTORPUSAT' ? '00' : user.regional
+		// 	}))
+
+		// 	props.getKprk(user.regional)
+		// 		.then(res => setState(prevState => ({
+		// 			...prevState,
+		// 			listKprk: res
+		// 		})))
+		// }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
+
+	console.log(state.kprk);
 
 	const handleChangeReg = (e) => {
 		const { value } = e.target;
@@ -137,7 +141,7 @@ const SearchParam = props => {
 			          ))}
 					</Select> : 
 					<React.Fragment>
-						{ user.jabatan === 'AGENT / CS' ? 
+						{ user.jabatan === 'AGENT / CS' || user.jabatan === 'MANAGEMENT' ? 
 							<Select
 					          labelId="labelKprk"
 					          id="kprk"

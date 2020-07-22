@@ -35,14 +35,6 @@ const Sidebar = props => {
 
   const classes = useStyles();
 
-  // const pages = [
-  //   {
-  //     title: 'Home',
-  //     href: '/',
-  //     icon: <DashboardIcon />
-  //   }
-  // ];
-
   return (
     <Drawer
       anchor="left"
@@ -61,6 +53,7 @@ const Sidebar = props => {
         <Divider style={{marginTop: 3}}/>
         <SidebarNav
           className={classes.nav}
+          jabatan={user.jabatan}
         />
         { /* <UpgradePlan /> */ }
       </div>
