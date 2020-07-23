@@ -124,7 +124,7 @@ const Login = props => {
 						loading: false
 					}))
 					setTimeout(() => {
-						history.push("/");
+						history.push("/dashboard");
 					}, 100);
 				})
 				.catch(err => {

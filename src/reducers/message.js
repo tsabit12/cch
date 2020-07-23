@@ -1,18 +1,26 @@
-import { ADD_FLASH_MESSAGE, REMOVE_FLASH_MESSAGE } from "../types"; 
+import { ADD_FLASH_MESSAGE, REMOVE_FLASH_MESSAGE, SET_LOGIN } from "../types"; 
 
 const intialState = {
-	text: null
+	text: '',
+	display: false
 }
 
 export default function auth(state=intialState, action={}) {
 	switch(action.type){
 		case ADD_FLASH_MESSAGE:
 			return {
-				text: action.message	
+				text: action.message,
+				display: true
+			}
+		case SET_LOGIN:
+			return{
+				text: 'Selamat datang..',
+				display: true
 			}
 		case REMOVE_FLASH_MESSAGE:
 			return {
-				text: null
+				text: '',
+				display: false
 			}
 		default: return state;
 	}

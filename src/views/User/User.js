@@ -6,18 +6,15 @@ import {
 	CardHeader,
 	CardContent,
 	Divider,
-	Collapse,
-	IconButton,
 	CardActions
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import Alert from '@material-ui/lab/Alert';
-import CloseIcon from '@material-ui/icons/Close';
 import { removeMessage } from "../../actions/message";
 import { fetchUser, getJumlahUser } from "../../actions/user";
 import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
 import api from "../../api";
+import CollapseMessage from "../CollapseMessage";
 
 import {
 	TableUser,
@@ -48,30 +45,6 @@ const useStyles = makeStyles(theme => ({
 		margin: 3
 	}
 }))
-
-const TextMessage = props => {
-
-	return(
-        <Alert
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                props.closeMessage()
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-          variant="filled"
-          severity="success"
-        >
-          { props.text ? props.text : 'No message'}
-        </Alert>
-	);
-}
 
 const convertKprkValue = (user) => {
 	if (user.utype === 'Kprk') {
@@ -159,7 +132,7 @@ const User = props => {
 
 
 	React.useEffect(() => {
-		if (message !== null) {
+		if (message.display) {
 			setTimeout(function() {
 				props.removeMessage();
 			}, 3000);
@@ -283,16 +256,11 @@ const User = props => {
 
 	return(
 		<div className={classes.root}>
-
-			<Collapse in={message === null ? false : true }>
-				<div className={classes.message}>
-				  <TextMessage 
-				  	text={message}
-				  	closeMessage={() => props.removeMessage()}
-				  />
-				</div>
-			</Collapse>
-
+			<CollapseMessage 
+				visible={message.display}
+				message={message.text}
+				onClose={props.removeMessage}
+			/>
 			<Grid container spacing={4}>
 				<Grid
 		          item
@@ -347,12 +315,13 @@ const User = props => {
 User.propTypes = {
 	list: PropTypes.object.isRequired,
 	jumlah: PropTypes.number.isRequired,
-	userData: PropTypes.object.isRequired
+	userData: PropTypes.object.isRequired,
+	message: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
-		message: state.message.text,
+		message: state.message,
 		list: state.user.data,
 		jumlah: state.user.jumlah,
 		userData: state.auth.user
