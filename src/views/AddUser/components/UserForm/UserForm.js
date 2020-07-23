@@ -181,6 +181,7 @@ const UserForm = props => {
 						          onChange={props.onChange}
 						          name='jenisKantor'
 						        >
+						          <MenuItem value='KANTORPUSAT'>KANTOR PUSAT</MenuItem>
 						          <MenuItem value='Kprk'>KPRK</MenuItem>
 						          <MenuItem value='Regional'>REGIONAL</MenuItem>
 						        </Select>
@@ -204,6 +205,7 @@ const UserForm = props => {
 						          <MenuItem value={0}>PILIH JABATAN</MenuItem>
 						          <MenuItem value={2}>CUSTOMER SERVICE</MenuItem>
 						          <MenuItem value={5}>MANAGEMENT</MenuItem>
+						          <MenuItem value={1}>ADMINISTATOR</MenuItem>
 						        </Select>
 						        { errors.jabatan && <FormHelperText>{errors.jabatan}</FormHelperText>}
 							</FormControl>

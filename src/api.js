@@ -71,7 +71,7 @@ export default{
 		count: (reg, kprk) => axios.post(`${process.env.REACT_APP_API}/countUser`, {
 			regional: reg,
 			kprk: kprk
-		}).then(res => res.data.jumlUser),
+		}).then(res => res.data.jmlUser),
 		addImage: (formData) => axios.post(`${process.env.REACT_APP_API}/uploadImg`, formData, {
 			headers: {
 				'content-type': 'application/x-www-form-urlencoded'

@@ -39,6 +39,17 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+const convertKantor = (refName) => {
+	switch(refName){
+		case 'Divre':
+			return 'Regional';
+		case 'KP':
+			return 'KANTORPUSAT';
+		default:
+			return 'Kprk';
+	}
+}
+
 const AddUser = props => {
 	const [state, setState] = React.useState({
 		loading: false,
@@ -62,7 +73,8 @@ const AddUser = props => {
 					loading: false,
 					data: {
 						...res,
-						jabatan: 0
+						jabatan: 0,
+						jenisKantor: convertKantor(res.jenisKantor)
 					}
 				}))
 			})

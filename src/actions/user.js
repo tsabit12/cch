@@ -13,10 +13,12 @@ export const fetchUser = (payload) => dispatch =>
 
 export const getJumlahUser = (reg, kprk) => dispatch => 
 	api.user.count(reg, kprk)
-		.then(jumlah => dispatch({
-		type: GET_JUMLAH_USER,
-		jumlah
-	}))
+		.then(jumlah => {
+			dispatch({
+				type: GET_JUMLAH_USER,
+				jumlah
+			})	
+		})
 
 export const imageUploaded = (fileName) => ({
 	type: IMAGE_UPLOADED,

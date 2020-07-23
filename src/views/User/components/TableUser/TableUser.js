@@ -25,7 +25,7 @@ const TableUser = props => {
 	const classes = useStyles();
 	const { activePage, limit } = props;
 
-	var no = (activePage * limit) - 10 + 1;
+	var no = (activePage * limit) - limit + 1;
 
 	return(
 		<div className={classes.root}>

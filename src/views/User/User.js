@@ -73,6 +73,14 @@ const TextMessage = props => {
 	);
 }
 
+const convertKprkValue = (user) => {
+	if (user.utype === 'Kprk') {
+		return user.kantor_pos;
+	}else{
+		return '00';
+	}
+}
+
 const User = props => {
 
 	const [state, setState] = React.useState({
@@ -86,7 +94,8 @@ const User = props => {
 			reg: '00',
 			kprk: '00'
 		},
-		listKprk: []
+		listKprk: [],
+		loading: false
 	})
 
 	const classes = useStyles();
@@ -99,13 +108,18 @@ const User = props => {
 	React.useEffect(() => {
 		(async () => {
 			const regValue 	= userData.jabatan === 'Administrator' ? '00' : userData.regional;
-			const kprkValue = userData.jabatan === 'Administrator' ? '00' : userData.kantor_pos;
+			const kprkValue = convertKprkValue(userData);
 			const payload = {
 				...state.paging,
 				page: activePage,
 				regional: regValue,
 				kprk: kprkValue
 			};
+
+			setState(prevState => ({
+				...prevState,
+				loading: true
+			}))
 
 			await props.getJumlahUser(payload.regional, payload.kprk);
 
@@ -116,7 +130,8 @@ const User = props => {
 						...prevState.search,
 						reg: regValue,
 						kprk: kprkValue
-					}
+					},
+					loading: false
 				})))
 				.catch(() => setState(prevState => ({
 					...prevState,
@@ -124,11 +139,23 @@ const User = props => {
 						...prevState.search,
 						reg: regValue,
 						kprk: kprkValue
-					}
+					},
+					loading: false
 				})))
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	//fetch kprk for user regional
+	React.useEffect(() => {
+		if (props.userData.utype === 'Regional') {
+			api.getKprk(props.userData.regional)
+				.then(res => setState(prevState => ({
+					...prevState,
+					listKprk: res
+				})));			
+		}
+	}, [props.userData]);
 
 
 	React.useEffect(() => {
@@ -150,28 +177,45 @@ const User = props => {
 		}
 	}, [props.list, activePage]);
 
-	React.useEffect(() => {
-		const { offset } = state.paging;
-		if (offset !== 0) {
-			const payload = {
-				...state.paging,
-				page: activePage
-			};
-
-			props.fetchUser(payload);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.paging]);
 
 	const handleChangePage = (e, page) => {
+		//const offsetValue = page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1;
+		const offsetValue = (page * paging.limit) - paging.limit;
+		const { reg, kprk } = state.search;
+
+		const payload = {
+			regional: reg,
+			offset: offsetValue,
+			kprk: kprk,
+			limit: paging.limit,
+			page: page
+		}
+
 		setState(prevState => ({
 			...prevState,
 			activePage: page,
-			paging: {
-				...prevState.paging,
-				offset: page === 1 ? (page * paging.limit) - 10 : (page * paging.limit) - 10 + 1
-			}
+			loading: true
 		}))
+
+		props.fetchUser(payload)
+			.then(() => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					paging: {
+						...prevState.paging,
+						offset: offsetValue
+					}
+				}))	
+			})
+			.catch(err => setState(prevState => ({
+				...prevState,
+				loading: false,
+				paging: {
+					...prevState.paging,
+					offset: offsetValue
+				}
+			})))
 	}
 
 	const onChangeSearch = (e) => {
@@ -202,6 +246,41 @@ const User = props => {
 		}
 	}
 
+	const handleSearch = async () => {
+		const { reg, kprk } = state.search;
+		setState(prevState => ({
+			...prevState,
+			loading: true,
+			offset: 0,
+			data: []
+		}))
+
+		await props.getJumlahUser(reg, kprk);
+
+		const payload = {
+			regional: reg,
+			offset: 0,
+			kprk: kprk,
+			limit: state.paging.limit,
+			page: 1
+		}
+
+		props.fetchUser(payload)
+			.then(() => {
+				setState(prevState => ({
+					...prevState,
+					loading: false,
+					activePage: 1
+				}))	
+			})
+			.catch(err => setState(prevState => ({
+				...prevState,
+				loading: false,
+				activePage: 1
+			})))
+	}
+
+
 	return(
 		<div className={classes.root}>
 
@@ -231,6 +310,7 @@ const User = props => {
 								handleChange={onChangeSearch}
 								kprkList={state.listKprk}
 								user={userData}
+								onSearch={handleSearch}
 							/>}
 						/>
 						<Divider />
@@ -241,7 +321,7 @@ const User = props => {
 								limit={paging.limit}
 							/> : <CardContent>
 							<div className={classes.contentEmpty}>
-								<p>Data user kosong</p>
+								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }
 							</div> 
 						</CardContent>}
 						<Divider/>
@@ -249,7 +329,7 @@ const User = props => {
 							<div className={classes.paging}>
 						      <Pagination 
 						      	page={activePage}
-						      	count={Math.round(jumlah / paging.limit)} 
+						      	count={Math.ceil(jumlah / paging.limit)} 
 						      	variant="outlined" 
 						      	shape="rounded" 
 						      	onChange={handleChangePage}

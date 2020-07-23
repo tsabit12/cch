@@ -72,15 +72,15 @@ const SearchForm = props => {
 		          value={props.value.kprk}
 		          onChange={props.handleChange}
 		          label="KPRK"
-		          disabled={props.user.jabatan === 'MANAGEMENT' ? true : false }
+		          disabled={props.user.utype === 'Kprk' ? true : false }
 		        >
 		        	<MenuItem value="00">SEMUA KPRK</MenuItem>
 
-		        	{props.user.jabatan === 'MANAGEMENT' && <MenuItem value={props.user.kantor_pos}>
+		        	{props.user.utype === 'Kprk' && <MenuItem value={props.user.kantor_pos}>
 		        		{props.user.fullname}
 		        	</MenuItem>}
 		        	
-		        	{props.user.jabatan === 'Administrator' &&  kprkList.length > 0 && kprkList.map((row, index) => (
+		        	{kprkList.length > 0 && kprkList.map((row, index) => (
 			        	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>
 			        ))	}
 		        </Select>
@@ -89,6 +89,7 @@ const SearchForm = props => {
 				color="primary" 
 				aria-label="outlined secondary button group"
 				className={classes.button}
+				onClick={props.onSearch}
 			>
 			  <Button>
 			  	<SearchIcon style={{marginRight: 3}} /> Tampilkan
@@ -106,7 +107,8 @@ SearchForm.propTypes = {
 	value: PropTypes.object.isRequired,
 	handleChange: PropTypes.func.isRequired,
 	kprkList: PropTypes.array.isRequired,
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	onSearch: PropTypes.func.isRequired
 }
 
 export default SearchForm;

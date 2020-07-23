@@ -54,8 +54,6 @@ const SearchParam = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
 
-	console.log(state.kprk);
-
 	const handleChangeReg = (e) => {
 		const { value } = e.target;
 		setState(prevState => ({
