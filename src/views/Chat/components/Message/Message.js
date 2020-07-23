@@ -63,7 +63,7 @@ const DetailProfile = props => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: '100%'
+		
 	},
 	header: {
 		backgroundColor: '#f3f1ee'

@@ -18,6 +18,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducers from "./rootReducers"; 
 import { isLoggedIn } from "./actions/auth";
+import 'chartjs-plugin-datalabels';
 
 const store = createStore(
   rootReducers,

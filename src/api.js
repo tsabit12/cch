@@ -111,5 +111,8 @@ export default{
 	},
 	getProfile: (email) => axios.post(`${process.env.REACT_APP_API}/getProfile`, {
 		user: email
+	}).then(res => res.data),
+	getAllDashboard: (payload) => axios.post(`${process.env.REACT_APP_API}/dashboard`, {
+		...payload
 	}).then(res => res.data)
 }
