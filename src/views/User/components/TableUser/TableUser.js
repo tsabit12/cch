@@ -48,7 +48,7 @@ const TableUser = props => {
 			              <TableCell className={classes.row} align="left">{row.NamaLengkap}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.username}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.email}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.kantorPos}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.kprk}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.regional}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.jabatan}</TableCell>
 			            </TableRow>

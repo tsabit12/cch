@@ -25,17 +25,6 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-const getKprkByJabatan = (jabatan, kprk) => {
-	switch(jabatan){
-		case 'AGENT / CS':
-			return kprk;
-		case 'MANAGEMENT':
-			return kprk;
-		default: 
-			return '00';
-	}
-}
-
 const Pelanggan = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
@@ -53,8 +42,9 @@ const Pelanggan = props => {
 
 	React.useEffect(() => {
 		(async () => {
-			const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);		
 			const regValue 	= dataUser.jabatan === 'Administrator' ? '00' : dataUser.regional;
+			// const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);	
+			const kprkValue = data.utype === 'Kprk' ? dataUser.kantor_pos : '00';	
 			const payload = {
 				kprk: kprkValue,
 				offset: 0,

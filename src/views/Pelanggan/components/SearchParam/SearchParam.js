@@ -31,26 +31,24 @@ const SearchParam = props => {
 	const { user } = props;
 
 	React.useEffect(() => {
-		if (user.jabatan === 'AGENT / CS' || user.jabatan === 'MANAGEMENT') {
-			
+		if (user.utype === 'Kprk') {
 			setState(prevState => ({
 				...prevState,
-				reg: user.regional === 'KANTORPUSAT' ? '00' : user.regional,
+				reg: user.regional,
 				kprk: user.kantor_pos
 			}))
-		}
-		// else if(user.jabatan === 'MANAGEMENT'){
-		// 	setState(prevState => ({
-		// 		...prevState,
-		// 		reg: user.regional === 'KANTORPUSAT' ? '00' : user.regional
-		// 	}))
+		}else if (user.utype === 'Regional') {
+			setState(prevState => ({
+				...prevState,
+				reg: user.regional
+			}))
 
-		// 	props.getKprk(user.regional)
-		// 		.then(res => setState(prevState => ({
-		// 			...prevState,
-		// 			listKprk: res
-		// 		})))
-		// }
+			props.getKprk(user.regional)
+				.then(res => setState(prevState => ({
+					...prevState,
+					listKprk: res
+				})))
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
 
@@ -124,40 +122,24 @@ const SearchParam = props => {
 				className={classes.formControl}
 			>
 		        <InputLabel id="labelKprk">KPRK</InputLabel>
-		        { listKprk.length > 0 ?  
-		        	<Select
+		        <Select
 			          labelId="labelKprk"
 			          id="kprk"
 			          value={state.kprk}
 			          onChange={handleChangeKprk}
 			          label="KPRK"
-			          disabled={user.jabatan === 'AGENT / CS' ? true : false }
+			          disabled={user.utype === 'Kprk' ? true : false }
+			          
 			        >
-			          <MenuItem value="00">SEMUA KPRK</MenuItem>
-			          { listKprk.map((row, index) => (
-			          	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>
-			          ))}
-					</Select> : 
-					<React.Fragment>
-						{ user.jabatan === 'AGENT / CS' || user.jabatan === 'MANAGEMENT' ? 
-							<Select
-					          labelId="labelKprk"
-					          id="kprk"
-					          value={state.kprk}
-					          label="KPRK"
-					          disabled
-					        >
-			          			<MenuItem value={user.kantor_pos}>{user.fullname}</MenuItem>
-				        	</Select> : 
-				        	<Select
-					          labelId="labelKprk"
-					          id="kprk"
-					          value={state.kprk}
-					          label="KPRK"
-					        >
-				          		<MenuItem value="00">SEMUA KPRK</MenuItem>
-				        </Select> }
-					</React.Fragment> }
+			         	<MenuItem value="00">SEMUA KPRK</MenuItem>
+			         	{user.utype === 'Kprk' && <MenuItem value={user.kantor_pos}>
+			        		{user.fullname}
+			        	</MenuItem>}
+
+				        {listKprk.length > 0 && listKprk.map((row, index) => (
+				        	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>
+				        ))}
+				</Select>
 		    </FormControl>
 		    
 		    <Button 
