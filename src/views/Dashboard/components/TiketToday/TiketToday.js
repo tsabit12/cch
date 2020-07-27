@@ -10,7 +10,9 @@ const numberWithCommas = (number) => {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%'
+    height: '100%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText
   },
   content: {
     alignItems: 'center',
@@ -20,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 700
   },
   avatar: {
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: theme.palette.white,
+    color: theme.palette.primary.main,
     height: 56,
     width: 56
   },
@@ -49,19 +52,19 @@ const TiketToday = props => {
           <Grid item>
             <Typography
               className={classes.title}
-              color="textSecondary"
+              color="inherit"
               gutterBottom
               variant="body2"
             >
               HARI INI
             </Typography>
             <div className={classes.difference}>
-              <Typography variant="h5">{numberWithCommas(props.total)}</Typography> 
-              <Typography variant="body2" color="textSecondary">&nbsp;&nbsp; Tiket</Typography>
+              <Typography variant="h5" color="inherit">{numberWithCommas(props.total)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Tiket</Typography>
             </div>
             <div className={classes.difference}>
-              <Typography variant="h5">{numberWithCommas(props.totalLain)}</Typography> 
-              <Typography variant="body2" color="textSecondary">&nbsp;&nbsp; Lainnya</Typography>
+              <Typography variant="h5" color="inherit">{numberWithCommas(props.totalLain)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Lainnya</Typography>
             </div>
           </Grid>
           <Grid item>

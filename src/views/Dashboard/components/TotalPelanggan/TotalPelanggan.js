@@ -1,12 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
-import PropTypes from "prop-types";
-
-const numberWithCommas = (number) => {
-	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
+import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,13 +29,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalUser = props => {
+const TotalPelanggan = props => {
   const classes = useStyles();
 
   return (
-    <Card
-      className={classes.root}
-    >
+    <Card className={classes.root}>
       <CardContent>
         <Grid
           container
@@ -52,13 +46,18 @@ const TotalUser = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL USERS
+              TOTAL PELANGGAN
             </Typography>
-            <Typography variant="h3" color="inherit">{numberWithCommas(props.total)}</Typography>
+            <Typography
+              color="inherit"
+              variant="h3"
+            >
+              {props.total}
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <ContactMailIcon className={classes.icon} />
+              <PeopleIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -67,8 +66,8 @@ const TotalUser = props => {
   );
 };
 
-TotalUser.propTypes = {
-	total: PropTypes.number.isRequired
-}
+TotalPelanggan.propTypes = {
+  total: PropTypes.number.isRequired
+};
 
-export default TotalUser;
+export default TotalPelanggan;

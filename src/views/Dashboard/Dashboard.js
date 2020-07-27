@@ -5,11 +5,13 @@ import {
 	TotalUser,
 	Pencapaian,
 	TiketToday,
-	Statistik
+	Statistik,
+	TotalPelanggan
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
 import { removeMessage } from "../../actions/message";
+import { getTotalPelanggan } from "../../actions/laporan";
 import { getAll } from "../../actions/dashboard";
 import PropTypes from "prop-types";
 import CollapseMessage from "../CollapseMessage";
@@ -70,52 +72,51 @@ const Dashboard = props => {
   })
 
   React.useEffect(() => {
-  	const defaultValue = {};
+  	(async () => {
+  		const defaultValue = {};
 
-  	if (props.dataUser.utype === 'Regional') {
-  		defaultValue.regional = props.dataUser.regional;
-  		defaultValue.kprk = '00';
-  		setState(state => ({
-  			...state,
-  			search: {
-  				...state.search,
-  				regional: capitalize(props.dataUser.regional)
-  			},
-  			disabled: {
-  				...state.disabled,
-  				reg: true
-  			}
-  		}))
+	  	if (props.dataUser.utype === 'Regional') {
+	  		defaultValue.regional = props.dataUser.regional;
+	  		defaultValue.kprk = '00';
+	  		setState(state => ({
+	  			...state,
+	  			search: {
+	  				...state.search,
+	  				regional: capitalize(props.dataUser.regional)
+	  			},
+	  			disabled: {
+	  				...state.disabled,
+	  				reg: true
+	  			}
+	  		}))
 
-  		getListKprk(props.dataUser.regional);
-  	}else if(props.dataUser.utype === 'Kprk'){
-  		defaultValue.regional = props.dataUser.regional;
-  		defaultValue.kprk = props.dataUser.kantor_pos;
+	  		getListKprk(props.dataUser.regional);
+	  	}else if(props.dataUser.utype === 'Kprk'){
+	  		defaultValue.regional = props.dataUser.regional;
+	  		defaultValue.kprk = props.dataUser.kantor_pos;
 
-  		setState(state => ({
-  			...state,
-  			search: {
-  				...state.search,
-  				regional: capitalize(props.dataUser.regional),
-  				kprk: props.dataUser.kantor_pos
-  			},
-  			disabled: {
-  				reg: true,
-  				kprk: true
-  			}
-  		}))
-  	}else{
-  		defaultValue.regional = '00';
-  		defaultValue.kprk = '00';
-  	}
+	  		setState(state => ({
+	  			...state,
+	  			search: {
+	  				...state.search,
+	  				regional: capitalize(props.dataUser.regional),
+	  				kprk: props.dataUser.kantor_pos
+	  			},
+	  			disabled: {
+	  				reg: true,
+	  				kprk: true
+	  			}
+	  		}))
+	  	}else{
+	  		defaultValue.regional = '00';
+	  		defaultValue.kprk = '00';
+	  	}
 
-  	props.getJumlahUser(defaultValue.regional, defaultValue.kprk);
+	  	await props.getJumlahUser(defaultValue.regional, defaultValue.kprk);
+	  	await props.getTotalPelanggan(defaultValue);
+	  	props.getAll(defaultValue);
 
-  	props.getAll(defaultValue);
-
-  	return () => {
-		props.removeMessage();
-	}
+  	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
 
@@ -172,7 +173,7 @@ const Dashboard = props => {
 
   const handleClick = async () => {
   	await props.getJumlahUser(search.regional, search.kprk);
-
+  	await props.getTotalPelanggan(state.search);
   	props.getAll(state.search);
 
   }
@@ -231,35 +232,42 @@ const Dashboard = props => {
 				TAMPILKAN	
 			</Button>
 		</Paper>
-      	<Grid
-        	container
-        	spacing={4}
-		>
-	        <Grid item lg={6} sm={6} xl={3} xs={12}>
-	          <TotalUser 
-	          	total={props.totUser}
-	          />
-	        </Grid>
-	        <Grid item lg={6} sm={6} xl={3} xs={12}>
-	        	<TiketToday 
-	        		total={today.TiketHariIni}
-	        		totalLain={today.lainnyaHariIni}
-	        	/>
-	        </Grid>
-		</Grid>
-		<Grid container spacing={4}>
-			<Grid item lg={4} sm={12} xl={6} xs={12}>
-	          <Pencapaian 
-	          	lebih={pencapaian.selesaiLbh24}
-	          	kurang={pencapaian.selesaiKrg24}
-	          />
-	        </Grid>
-	        <Grid item lg={4} sm={12} xl={6} xs={12}>
-	        	<Statistik 
-	        		listData={props.data.statistik}
-	        	/>
-	        </Grid>
-		</Grid>
+		<Paper style={{padding: 10}}>
+	      	<Grid
+	        	container
+	        	spacing={4}
+			>
+		        <Grid item lg={4} sm={4} xl={3} xs={12}>
+		          <TotalUser 
+		          	total={props.totUser}
+		          />
+		        </Grid>
+		        <Grid item lg={4} sm={4} xl={3} xs={12}>
+		        	<TotalPelanggan 
+		        		total={props.totPel}
+		        	/>
+		        </Grid>
+		        <Grid item lg={4} sm={4} xl={3} xs={12}>
+		        	<TiketToday 
+		        		total={today.TiketHariIni}
+		        		totalLain={today.lainnyaHariIni}
+		        	/>
+		        </Grid>
+			</Grid>
+			<Grid container spacing={4}>
+				<Grid item lg={6} sm={12} xl={6} xs={12}>
+		          <Pencapaian 
+		          	lebih={pencapaian.selesaiLbh24}
+		          	kurang={pencapaian.selesaiKrg24}
+		          />
+		        </Grid>
+		        <Grid item lg={6} sm={12} xl={6} xs={12}>
+		        	<Statistik 
+		        		listData={props.data.statistik}
+		        	/>
+		        </Grid>
+			</Grid>
+		</Paper>
     </div>
   );
 };
@@ -270,7 +278,9 @@ Dashboard.propTypes = {
 	flashMessage: PropTypes.object.isRequired,
 	getAll: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired,
-	dataUser: PropTypes.object.isRequired
+	dataUser: PropTypes.object.isRequired,
+	getTotalPelanggan: PropTypes.func.isRequired,
+	totPel: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
@@ -278,12 +288,14 @@ function mapStateToProps(state) {
 		totUser: state.user.jumlah,
 		flashMessage: state.message,
 		data: state.dashboard,
-		dataUser: state.auth.user
+		dataUser: state.auth.user,
+		totPel: state.laporan.jumlahPelanggan
 	}
 }
 
 export default connect(mapStateToProps, { 
 	getJumlahUser, 
 	removeMessage,
-	getAll
+	getAll,
+	getTotalPelanggan
 })(Dashboard);
