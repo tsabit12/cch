@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 600
+		minHeight: 500
 	},
 	divButton: {
 		display: 'flex',

@@ -19,6 +19,7 @@ const InputSearch = props => {
 		<React.Fragment>
 			<Autocomplete
 		      options={props.option}
+		      multiple
 		      inputValue={props.value}
 		      // getOptionLabel={(option) => props.option}
 		      style={{ width: '100%' }}

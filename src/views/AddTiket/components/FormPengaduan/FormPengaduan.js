@@ -123,7 +123,8 @@ const FormPengaduan = props => {
 			nik: '',
 			alamat: '',
 			nama: '',
-			notes: ''
+			notes: '',
+			city: ''
 		},
 		errors: {},
 		options: {
@@ -150,7 +151,8 @@ const FormPengaduan = props => {
 					nik: '',
 					alamat: '',
 					nama: '',
-					notes: ''
+					notes: '',
+					city: ''
 				},
 				errors: {},
 				options: {
@@ -165,7 +167,7 @@ const FormPengaduan = props => {
 		const activeValue = getValue(data.channel);	
 		if (data.instagram || data.nohp || data.fb || data.twitter || data.email) {
 			const timeout = setTimeout(() => {
-		  		api.getPelanggan(data[activeValue])
+		  		api.getPelanggan(data[activeValue], props.nopend)
 		  			.then(res => {
 		  				const options = [];
 		  				const list 	  = [];
@@ -186,7 +188,7 @@ const FormPengaduan = props => {
 			return () => clearTimeout(timeout);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data.instagram, data.nohp, data.fb, data.twitter, data.email])
+	}, [data.instagram, data.nohp, data.fb, data.twitter, data.email, props.nopend])
 
 	React.useEffect(() => {
 		if (props.isReset) {
@@ -374,6 +376,10 @@ const FormPengaduan = props => {
 							error={!!errors.nohp}
 							onChange={handleChange}
 							autoComplete="off"
+							InputLabelProps={{
+					            shrink: true,
+					        }}
+					        placeholder='Masukan nomor hp pelanggan'
 						/>
 			          	{!!errors.nohp === true && <FormHelperText>{errors.nohp}</FormHelperText>}
 		          	</FormControl> }
@@ -388,6 +394,10 @@ const FormPengaduan = props => {
 							error={!!errors.alamat}
 							onChange={handleChange}
 							autoComplete="off"
+							InputLabelProps={{
+					            shrink: true,
+					        }}
+					        placeholder='Masukan alamat pelanggan'
 						/>
 			          	{!!errors.alamat === true && <FormHelperText>{errors.alamat}</FormHelperText>}
 		          	</FormControl>
@@ -422,6 +432,10 @@ const FormPengaduan = props => {
 							error={!!errors.noresi}
 							onChange={handleChange}
 							autoComplete="off"
+							InputLabelProps={{
+					            shrink: true,
+					        }}
+					        placeholder='Masukan nomor resi'
 						/>
 					    {!!errors.noresi === true && <FormHelperText>{errors.noresi}</FormHelperText>}
 					</FormControl> }
@@ -439,6 +453,23 @@ const FormPengaduan = props => {
 							onChange={handleChangeText}
 						/>
 						{errors.notes && <FormHelperText>{errors.notes}</FormHelperText>}
+					</FormControl> }
+
+					{ data.jenisChannel === 4 && <FormControl className={classes.field}>
+						<TextField 
+							name="city"
+							value={data.city} 
+							label="Kota"
+							variant="outlined"
+							placeholder='Masukan kota'
+							error={!!errors.city}
+							onChange={handleChange}
+							autoComplete="off"
+							InputLabelProps={{
+					            shrink: true,
+					        }}
+					        helperText={ errors.city ? errors.city : null }
+						/>
 					</FormControl> }
 				</div>
 			</CardContent>

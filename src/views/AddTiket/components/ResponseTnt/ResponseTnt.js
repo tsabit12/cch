@@ -20,9 +20,10 @@ import {
 } from "@material-ui/core";
 import BootstrapInput from "../FormPengaduan/BootstrapInput";
 import api from "../../../../api";
-import InputSearch from "./InputSearch";
+// import InputSearch from "./InputSearch";
 import clsx from "clsx";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const getRefChannelPos = (channel) => {
@@ -97,7 +98,7 @@ const ResponseTnt = props => {
 	const [state, setState] = React.useState({
 		data: {
 			layanan: '',
-			tujuanPengaduan: '',
+			tujuanPengaduan: [],
 			kantorTujuan: '',
 			kantorKirim: '',
 			channelpos: '0',
@@ -110,8 +111,20 @@ const ResponseTnt = props => {
 		catatan: '',
 		errors: {},
 		defaultLayanan: '',
-		fileName: ''
+		fileName: '',
+		paramTujuan: ''
 	})
+	const { data, checked, errors } = state;
+
+	React.useEffect(() => {
+		if (state.paramTujuan !== '') {
+			const timeoutID = setTimeout(() => {
+		        fetchKprk('listkprk');
+		    }, 500);
+
+		    return () => clearTimeout(timeoutID);
+		}
+	}, [state.paramTujuan]); //eslint-disable-line
 
 	React.useEffect(() => {
 		if (props.data.length > 0) {
@@ -158,32 +171,26 @@ const ResponseTnt = props => {
 		}
 	}))
 
-	const handleChangeSearch = (value, name) => {
-		// const { name, value } = e.target;
-		setState(prevState => ({ 
-			...prevState,
+	const handleChangeSearch = (event, values) => {
+		setState(state => ({
+			...state,
 			data: {
-				...prevState.data,
-				[name]: value 
+				...state.data,
+				tujuanPengaduan: values
 			},
 			errors: {
-				...prevState.errors,
-				[name]: undefined
+				...state.errors,
+				tujuanPengaduan: undefined
 			}
 		}))
 	}
 
-	const fetchKprk = (nameOption, nameValue) => {
-		api.cch.getKprk(state.data[nameValue])
+	const fetchKprk = (nameOption) => {
+		api.cch.getKprk(state.paramTujuan)
 			.then(res => {
-				const options = [];
-				res.forEach(row => {
-					options.push(`${row.NamaKtr}`)
-				});	
-
 				setState(prevState => ({
 					...prevState,
-					[nameOption]: options
+					[nameOption]: res
 				}))
 			})
 	}
@@ -211,16 +218,24 @@ const ResponseTnt = props => {
 			errors
 		}))
 		if (Object.keys(errors).length === 0) {
+			const tujuanValue = [];
+
+			data.tujuanPengaduan.forEach(row => {
+				tujuanValue.push(row.nopend);
+			})
+
 			const payload = {
 				...state.data,
 				jenisbisnis: state.data.jenisbisnis === 1 ? 'e-Commerce' : 'Non e-Commerce',
 				jeniscustomer: state.data.jeniscustomer === 1 ? 'RITEL' : 'CORPORATE',
 				catatan: state.catatan.replace(/=/g, ""),
 				channelpos: getRefChannelPos(state.data.channelpos),
-				file: state.fileName ? files[0] : null 
+				file: state.fileName ? files[0] : null,
+				tujuanPengaduan: tujuanValue.toString()
 			};
 			props.onSubmit(payload);
 		}
+
 	}
 
 	const validate = (value) => {
@@ -230,7 +245,7 @@ const ResponseTnt = props => {
 		if (value.jeniscustomer === '0') errors.jeniscustomer = "Jenis customer harap dipilih";
 		if (value.channelpos === '0') errors.channelpos = "Channel pos harap dipilih";
 		if (!value.kantorTujuan) errors.kantorTujuan = "Kantor tujuan belum dipilih";
-		if (!value.tujuanPengaduan) errors.tujuanPengaduan = "Tujuan pengaduan belum dipilih";
+		if (value.tujuanPengaduan.length === 0) errors.tujuanPengaduan = "Tujuan pengaduan belum dipilih";
 		return errors;
 	}
 
@@ -255,8 +270,7 @@ const ResponseTnt = props => {
 	}
 
 	const classes 	= useStyles();
-	const { data, checked, errors } = state;
-	
+
 	return(
 		<Card className={classes.root}>
 			<CardHeader title="HASIL CEK RESI" />
@@ -291,7 +305,7 @@ const ResponseTnt = props => {
 					    />
 					</FormControl>
 					<FormControl className={classes.field} error={!!errors.tujuanPengaduan}>
-						<InputSearch 
+						{ /* <InputSearch 
 							name='tujuanPengaduan'
 							handleChange={handleChangeSearch}
 							value={data.tujuanPengaduan}
@@ -300,7 +314,26 @@ const ResponseTnt = props => {
 							label='Tujuan Pengaduan'
 							apiValue='listkprk'
 							error={errors.tujuanPengaduan}
-						/>
+						/> */ }
+						<Autocomplete
+					      options={state.listkprk}
+					      multiple
+					      inputValue={state.paramTujuan}
+					      getOptionLabel={option => option.NamaKtr}
+					      onInputChange={(e, value) => setState(state => ({
+					      	...state,
+					      	paramTujuan: value
+					      }))}
+					      onChange={handleChangeSearch}
+					      renderInput={(params) => 
+					      	<TextField 
+					      		{...params} 
+					      		label='Tujuan Pengaduan'
+					      		name='tujuanPengaduan'
+					      		size="small" 
+					      		variant="outlined" 
+					      	/> }
+					    />
 					</FormControl>
 					<div className={clsx(classes.row, classes.topMargin)}>
 						<FormControl>

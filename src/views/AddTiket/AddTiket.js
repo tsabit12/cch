@@ -13,7 +13,8 @@ import {
 	ResponseTnt,
 	Tarif,
 	TableTarif,
-	LacakKiriman
+	LacakKiriman,
+	Kodepos
 } from "./components";
 import api from "../../api";
 import Alert from "../Alert";
@@ -272,7 +273,7 @@ const AddTiket = props => {
 			...values,
 			...state.data,
 			kantorTujuan: values.kantorTujuan.split(" ")[1],
-			tujuanPengaduan: values.tujuanPengaduan.split(" ")[1],
+			// tujuanPengaduan: values.tujuanPengaduan.split(" ")[1],
 			kantorKirim: values.kantorKirim.split("-")[0],
 			user: props.profile.email,
 			kantorPengaduan: props.profile.kantor_pos,
@@ -419,7 +420,7 @@ const AddTiket = props => {
 			    	<Grid
 			          item
 			          lg={6}
-			          sm={6}
+			          sm={12}
 			          xl={12}
 			          xs={12}
 			        >
@@ -427,9 +428,10 @@ const AddTiket = props => {
 			        		onSubmit={handleSubmitPengaduan}
 			        		disabled={state.disabledForm}
 			        		isReset={state.resetForm}
+			        		nopend={props.profile.kantor_pos}
 			        	/>
 			        </Grid>
-			        <Grid item lg={6} sm={6} xl={12} xs={12}>
+			        <Grid item lg={6} sm={12} xl={12} xs={12}>
 			        	{ tnt.length > 0 && channelForm === 5 &&  <ResponseTnt 
 			        		data={state.tnt} 
 			        		channel={state.data.channel}
@@ -448,6 +450,12 @@ const AddTiket = props => {
 			        		<LacakKiriman 
 			        			noresi={state.data.noresi}
 			        			reset={handleResetForm}
+			        		/> }
+
+			        	{ channelForm === 4 && 
+			        		<Kodepos 
+			        			city={ state.data.city ? state.data.city : '' } 
+			        			resetForm={handleResetForm}
 			        		/> }
 				    </Grid>
 				    	{ tarif.length > 0 && <Grid item lg={12} sm={12} xl={12} xs={12}>

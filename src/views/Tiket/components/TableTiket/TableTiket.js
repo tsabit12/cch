@@ -1,8 +1,6 @@
 import React from "react";
 import { 
 	Card,
-	CardHeader,
-	Divider,
 	Table,
 	TableBody,
 	TableCell,
@@ -14,7 +12,7 @@ import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 600,
+		height: '100%',
 		overflowX: 'auto'
 	},
 	row: {
@@ -32,10 +30,6 @@ const TableTiket = props => {
 
 	return(
 		<Card className={classes.root}>
-			<CardHeader
-				title={props.title}
-			/>
-			<Divider />
 			<Table>
               	<TableHead>
 	                <TableRow>
@@ -44,7 +38,6 @@ const TableTiket = props => {
 	                  <TableCell className={classes.row}>PELANGGAN</TableCell>
 	                  <TableCell className={classes.row}>ASAL ADUAN</TableCell>
 	                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
-	                  <TableCell className={classes.row}>JENIS TIKET</TableCell>
 	                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
 	                  <TableCell className={classes.row}>STATUS</TableCell>
 	                </TableRow>
@@ -74,7 +67,6 @@ const TableTiket = props => {
 			              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.asal_pengaduan}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.jenisTicket}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.date}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.name}</TableCell>
 			            </TableRow>

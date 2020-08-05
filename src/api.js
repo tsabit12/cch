@@ -87,8 +87,9 @@ export default{
 	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/ticketSelesai`, {
 		...payload
 	}).then(res => res.data),
-	getPelanggan: (value) => axios.post(`${process.env.REACT_APP_API}/getPelanggan`, {
-		requestName: value
+	getPelanggan: (value, nopend) => axios.post(`${process.env.REACT_APP_API}/getPelanggan`, {
+		requestName: value,
+		nopend
 	}).then(res => res.data),
 	getKprk: (reg) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
 		regional: reg
@@ -114,5 +115,12 @@ export default{
 	}).then(res => res.data),
 	getAllDashboard: (payload) => axios.post(`${process.env.REACT_APP_API}/dashboard`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	cekKodepos: (city) => axios.post('https://api.posindonesia.co.id:8245/utilitas/1.0.1/getPostOffice', {
+			city
+		}, {
+			headers: {
+				Authorization: 'Bearer b4480d74-5f4b-33e0-95e0-89fdce0e27a5'
+			}
+		}).then(res => res.data.responses.response)
 }

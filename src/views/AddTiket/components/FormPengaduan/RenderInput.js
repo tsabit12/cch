@@ -86,6 +86,10 @@ const InputForm = props => {
 		        		{...params} 
 		        		label={label(props.jenis)} 
 		        		variant="outlined" 
+		        		InputLabelProps={{
+				            shrink: true,
+				        }}
+				        placeholder={`Masukan ${label(props.jenis)}`}
 		        	/>}
 		    />
 		    {!!props.error[props.name] === true && <FormHelperText>{props.error[props.name]}</FormHelperText>}
@@ -121,6 +125,10 @@ const RenderInput = props => {
 								error={!!props.errors.nik}
 								onChange={handleChange}
 								autoComplete="off"
+								InputLabelProps={{
+						            shrink: true,
+						        }}
+						        placeholder='Masukan nomor KTP'
 							/>
 							{!!props.errors.nik === true && <FormHelperText>{props.errors.nik}</FormHelperText>}
 						</FormControl>
@@ -134,6 +142,10 @@ const RenderInput = props => {
 								error={!!props.errors.nama}
 								onChange={handleChange}
 								autoComplete="off"
+								InputLabelProps={{
+						            shrink: true,
+						        }}
+						        placeholder='Masukan nama pengadu'
 							/>
 						    {!!props.errors.nama === true && <FormHelperText>{props.errors.nama}</FormHelperText>}
 						</FormControl>
