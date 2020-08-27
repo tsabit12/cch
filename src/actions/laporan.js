@@ -23,3 +23,10 @@ export const getTotalPelanggan = (payload) => dispatch =>
 export const resetData = () => dispatch => dispatch({
 	type: REMOVE_ALL_PELANGGAN
 })
+
+export const updatePelanggan = (payload, page) => dispatch => 
+	dispatch({
+		type: 'UPDATE_PELANGGAN',
+		payload,
+		page: `page${page}`
+	})

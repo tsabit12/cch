@@ -30,6 +30,19 @@ export default function laporan(state = initialState, action={}){
 				pelanggan: {},
 				jumlahPelanggan: 0
 			}
+		case 'UPDATE_PELANGGAN':
+			return{
+				...state,
+				pelanggan: {
+					...state.pelanggan,
+					[action.page]: state.pelanggan[action.page].map(row => {
+						if (row.customerId === action.payload.customerId) {
+							return action.payload
+						}
+						return row;
+					})
+				}
+			}
 		default: 
 			return state;
 	}

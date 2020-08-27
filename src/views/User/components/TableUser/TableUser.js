@@ -6,8 +6,10 @@ import {
 	TableCell,
 	TableRow,
 	TableHead,
-	TableBody
+	TableBody,
+	IconButton
 } from "@material-ui/core";
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -18,6 +20,17 @@ const useStyles = makeStyles(theme => ({
 	row: {
 		whiteSpace: 'nowrap',
 		lineHeight: '13px'
+	},
+	text: {
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		maxWidth: '150px'
+	},
+	group: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
 	}	
 }))
 
@@ -39,18 +52,34 @@ const TableUser = props => {
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>REGIONAL</TableCell>
 	                  <TableCell className={classes.row}>JABATAN</TableCell>
+	                  <TableCell className={classes.row} align='center'>UPDATE</TableCell>
 	                </TableRow>
               	</TableHead>
 		        <TableBody>
 		        	{ props.data.map((row, index) => (
 		        		<TableRow key={index}>
 			              <TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.NamaLengkap}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.username}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.email}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.kprk}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.regional}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.jabatan}</TableCell>
+			              <TableCell className={classes.row}>{row.NamaLengkap}</TableCell>
+			              <TableCell className={classes.row}>{row.username}</TableCell>
+			              <TableCell className={classes.row}>{row.email}</TableCell>
+			              <TableCell className={classes.row}>{row.kprk}</TableCell>
+			              <TableCell className={classes.row}>{row.regional}</TableCell>
+			              <TableCell className={classes.row}>
+			              	<p className={classes.text}>{row.jabatan}</p>
+			              </TableCell>
+			              <TableCell className={classes.row}>
+			              	<div className={classes.group}>
+	              				<IconButton 
+	              					color="default" 
+	              					aria-label="update user"
+	              					size="small"
+	              					style={{padding: 0, height: 0}}
+	              					//onClick={() => props.onEdit(row.customerId)}
+	              				>
+							        <EditIcon />
+							    </IconButton>
+						    </div>
+			              </TableCell>
 			            </TableRow>
 		        	))}
 		        </TableBody>

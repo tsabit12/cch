@@ -54,7 +54,7 @@ const TableTarif = props => {
 	                  <TableCell className={classes.row}>KODE PRODUK</TableCell>
 	                  <TableCell className={classes.row}>PRODUK</TableCell>
 	                  <TableCell className={classes.row} align="right">HTNB</TableCell>
-	                  <TableCell className={classes.row} align="right">TOTAL FEE</TableCell>
+	                  <TableCell className={classes.row} align="right">ONGKOS KIRIM</TableCell>
 	                </TableRow>
               	</TableHead>
               	<TableBody>

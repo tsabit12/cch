@@ -292,7 +292,6 @@ const User = props => {
 								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }
 							</div> 
 						</CardContent>}
-						<Divider/>
 						<CardActions className={classes.cardAction}>
 							<div className={classes.paging}>
 						      <Pagination 

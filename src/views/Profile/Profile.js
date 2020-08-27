@@ -2,7 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
 	AccountProfile,
-	AccountDetails
+	AccountDetails,
+	PasswordForm
 } from "./components";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -20,7 +21,8 @@ const Profile = props => {
 	const classes = useStyles();
 	const [state, setState] = React.useState({
 		message: {},
-		errors: {}
+		errors: {},
+		passwordVisible: false
 	})
 
 	const { message, errors } = state;
@@ -49,6 +51,16 @@ const Profile = props => {
 			})
 	}
 
+	const handleSuccessChangePass = () => {
+		setState(state => ({
+			...state,
+			message: {
+				global: 'Password berhasil diganti, silahkan relogin'
+			},
+			passwordVisible: false
+		}))
+	}
+
 	return(
 		<div className={classes.root}>
 			{ message.global && 
@@ -63,6 +75,12 @@ const Profile = props => {
 					open={!!errors.global} 
 					variant="error" 
 					message={errors.global} 
+				/> }
+
+			{ state.passwordVisible && 
+				<PasswordForm 
+					user={props.data} 
+					onSuccessChange={handleSuccessChangePass}
 				/> }
 			<Grid container spacing={4}>
 		        <Grid
@@ -85,7 +103,13 @@ const Profile = props => {
 		          xl={6}
 		          xs={12}
 		        >
-		          <AccountDetails />
+		          <AccountDetails 
+		          	user={props.data}
+		          	onShowPasswordForm={() => setState(state => ({
+		          		...state,
+		          		passwordVisible: true
+		          	}))}
+		          />
 		        </Grid>
 			</Grid>
 		</div>

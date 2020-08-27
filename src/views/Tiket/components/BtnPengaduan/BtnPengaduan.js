@@ -78,7 +78,7 @@ const BtnPengaduan = props => {
 					    onClick={props.addTicket}
 					>
 				  		<AddIcon className={classes.leftIcon} />
-				    	Buat Pengajuan
+				    	Buat Pengaduan
 				</Button> }
 		    />
 		    <Divider/>

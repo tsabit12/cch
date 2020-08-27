@@ -102,7 +102,7 @@ const AccountProfile = props => {
               color="textSecondary"
               variant="body1"
             >
-              {props.user.regional}, {props.user.fullname}
+              {props.user.fullname}
             </Typography>
             <Typography
               className={classes.dateText}
@@ -136,7 +136,6 @@ const AccountProfile = props => {
         >
          { state.choosed ? 'SIMPAN' : 'Upload picture'} 
         </Button>
-        <Button variant="text">Remove picture</Button>
       </CardActions>
     </Card>
   );

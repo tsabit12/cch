@@ -5,12 +5,21 @@ import {
 	Typography,
 	TextField,
 	Backdrop,
-	CircularProgress
+	CircularProgress,
+	InputAdornment,
+	IconButton,
+	OutlinedInput,
+	FormControl,
+	InputLabel,
+	FormHelperText
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { setLogin } from "../../actions/auth";
 import PropTypes from "prop-types";
 import Alert from "../Alert";
+
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const Loading = props => {
 	const { loading } = props;
@@ -83,7 +92,8 @@ const Login = props => {
 			password: ''
 		},
 		loading: false,
-		errors: {}
+		errors: {},
+		showpass: false
 	})
 	const classes = useStyles();
 	const { history } = props;
@@ -159,6 +169,11 @@ const Login = props => {
 	    errors: {}
 	}))
 
+	const handleClickShowPassword = () => setState(state => ({
+		...state,
+		showpass: !state.showpass
+	}))
+
 	return(
 		<div className={classes.root}>
 	      <div className={classes.content}>
@@ -193,18 +208,38 @@ const Login = props => {
 	              value={state.username}
 	              variant="outlined"
 	            />
-	            <TextField
-	              className={classes.textField}
-	              error={!!errors.password}
-	              fullWidth
-	              helperText={ errors.password ? errors.password : null }
-	              label="Password"
-	              name="password"
-	              onChange={handleChange}
-	              type="password"
-	              value={data.password}
-	              variant="outlined"
-	            />
+	            <FormControl 
+	            	variant='outlined' 
+	            	fullWidth 
+	            	className={classes.textField}
+	            	error={!!errors.password}
+	            >
+	            	<InputLabel htmlFor="password">Password</InputLabel>
+		            <OutlinedInput
+		              //fullWidth
+		              helperText={ errors.password ? errors.password : null }
+		              id='password'
+		              labelWidth={70}
+		              name="password"
+		              onChange={handleChange}
+		               type={state.showpass ? 'text' : 'password'}
+		              value={data.password}
+		              variant="outlined"
+		              endAdornment={
+			              <InputAdornment position="end">
+			                <IconButton
+			                  aria-label="toggle password visibility"
+			                  onClick={handleClickShowPassword}
+			                  //onMouseDown={handleMouseDownPassword}
+			                  edge="end"
+			                >
+			                  {state.showpass ? <Visibility /> : <VisibilityOff />}
+			                </IconButton>
+			              </InputAdornment>
+			            }
+		            />
+		            { errors.password && <FormHelperText id="password">{errors.password}</FormHelperText>}
+	            </FormControl>
 	            <Button
 	              className={classes.signInButton}
 	              color="primary"

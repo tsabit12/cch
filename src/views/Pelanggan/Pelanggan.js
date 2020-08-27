@@ -8,10 +8,16 @@ import {
 } from "@material-ui/core";
 import {
 	SearchParam,
-	DataPelanggan
+	DataPelanggan,
+	ModalEdit
 } from "./components";
 import api from "../../api";
-import { getPelanggan, getTotalPelanggan, resetData } from "../../actions/laporan";
+import { 
+	getPelanggan, 
+	getTotalPelanggan, 
+	resetData,
+	updatePelanggan
+} from "../../actions/laporan";
 import Pagination from '@material-ui/lab/Pagination';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -34,10 +40,14 @@ const Pelanggan = props => {
 		kprk: '00',
 		regional: '00',
 		mount: false,
-		loading: true
+		loading: true,
+		visible: {
+			status: false,
+			data: {}
+		}
 	});
 
-	const { activePage, data } = state;
+	const { activePage, data, visible } = state;
 	const { dataUser } = props;
 
 	React.useEffect(() => {
@@ -145,10 +155,54 @@ const Pelanggan = props => {
 		}))
 	}
 
-	// console.log(state.offset)
+	const handleEdit = (id) => {
+		const findData = state.data.find(row => row.customerId === id);
+		setState(state => ({
+			...state,
+			visible: {
+				status: true,
+				data: findData
+			}
+		}))
+	}
+
+	const handleCloseModal = () => {
+		setState(state => ({
+			...state,
+			visible: {
+				status: false,
+				data: {}
+			}
+		}))
+	}
+
+	const handleUpdate = (field) => {
+		const payload = {
+			...state.visible.data,
+			...field
+		};
+
+		props.updatePelanggan(payload, activePage);
+
+		setTimeout(function() {
+			setState(state => ({
+				...state,
+				visible: {
+					status: false,
+					data: {}
+				}
+			}))
+		}, 100);
+	}
 
 	return(
 		<div className={classes.root}>
+			{ visible.status && 
+				<ModalEdit 
+					data={visible.data}
+					onClose={handleCloseModal}
+					onUpdate={handleUpdate}
+				/> }
 			<Card>
 				<CardHeader 
 					title='DATA PELANGGAN'
@@ -164,6 +218,7 @@ const Pelanggan = props => {
 					list={data}
 					loading={state.loading}
 					activePage={activePage}
+					onEdit={handleEdit}
 				/>
 				<CardActions className={classes.action}>
 					<Pagination 
@@ -199,5 +254,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, { 
 	getPelanggan, 
 	getTotalPelanggan,
-	resetData
+	resetData,
+	updatePelanggan
 })(Pelanggan);

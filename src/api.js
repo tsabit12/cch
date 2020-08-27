@@ -26,11 +26,15 @@ export default{
 		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
 			...payload
 		}).then(res => res.data.result),
-		cekTarif: (payload) => axios.post('https://api.posindonesia.co.id:8245/utilitas/1.0.1/getFee', {
+		cekTarif: (payload) => axios.post('https://api.posindonesia.co.id:8245/utility/1.0.0/getFee', {
 			...payload
 		}, {
 			headers: {
-				Authorization: 'Bearer b4480d74-5f4b-33e0-95e0-89fdce0e27a5'
+				'Authorization': 'Bearer b4480d74-5f4b-33e0-95e0-89fdce0e27a5',
+				'Content-type': 'application/json',
+				// 'X-POS-USER': 'crossborder',
+				// 'X-POS-PASSWORD': 'crossborder@123',
+				'Accept': 'application/json'
 			}
 		}).then(res => {
 			const { r_fee } = res.data.rs_fee;
@@ -122,5 +126,8 @@ export default{
 			headers: {
 				Authorization: 'Bearer b4480d74-5f4b-33e0-95e0-89fdce0e27a5'
 			}
-		}).then(res => res.data.responses.response)
+		}).then(res => res.data.responses.response),
+	changePassword: (payload) => axios.post(`${process.env.REACT_APP_API}/changePassword`, {
+		...payload
+	}).then(res => res.data)
 }
