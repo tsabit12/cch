@@ -76,9 +76,10 @@ const TimelineLacak = props => {
 				        <TimelineContent>
 				          <Paper elevation={3} className={classes.paper}>
 				            <Typography variant="h6" component="h1">
-				              {row.eventName}
+				              	{row.eventName}
 				            </Typography>
 				            <Typography>{`${row.officeCode} - ${row.officeName}`}</Typography>
+				            <Typography variant='body2'>{row.description}</Typography>
 				          </Paper>
 				        </TimelineContent>
 					</TimelineItem>
