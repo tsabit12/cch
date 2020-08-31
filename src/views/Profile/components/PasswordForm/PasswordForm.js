@@ -136,7 +136,7 @@ const PasswordForm = props => {
 	          />
 	        </DialogContent>
 	        <DialogActions>
-	          <Button color="primary">
+	          <Button color="primary" onClick={props.handleClose}>
 	            Cancel
 	          </Button>
 	          <Button color="primary" onClick={onSubmit} disabled={state.loading}>
@@ -149,7 +149,8 @@ const PasswordForm = props => {
 
 PasswordForm.propTypes = {
 	user: PropTypes.object.isRequired,
-	onSuccessChange: PropTypes.func.isRequired
+	onSuccessChange: PropTypes.func.isRequired,
+	handleClose: PropTypes.func.isRequired
 }
 
 export default PasswordForm;

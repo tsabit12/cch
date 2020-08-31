@@ -60,7 +60,7 @@ const DataPelanggan = props => {
               		{ list.map((row, index) => <TableRow key={index}>
               			<TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
               			<TableCell className={classes.row} align="left">{row.customerId}</TableCell>
-              			<TableCell className={classes.row} align="left">{row.sosmed}</TableCell>
+              			<TableCell className={classes.row} align="left">{row.JenisSosmed} ({row.sosmed})</TableCell>
               			<TableCell className={classes.row} align="left">{row.namaLengkap}</TableCell>
               			<TableCell className={classes.row} align="left">{row.phone}</TableCell>
               			<TableCell className={classes.row} align="left">{row.kantorPos}</TableCell>

@@ -6,7 +6,8 @@ import {
 
 const initialState = {
 	pelanggan: {},
-	jumlahPelanggan: 0
+	jumlahPelanggan: 0,
+	channel: []
 }
 
 export default function laporan(state = initialState, action={}){
@@ -42,6 +43,11 @@ export default function laporan(state = initialState, action={}){
 						return row;
 					})
 				}
+			}
+		case 'GET_CHANNEL':
+			return {
+				...state,
+				channel: action.channels
 			}
 		default: 
 			return state;

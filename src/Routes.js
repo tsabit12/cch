@@ -16,7 +16,7 @@ import {
   Dashboard as DashboardView,
   NotFound as NotFoundView,
   Tiket as TiketView,
-  AddTiket as AddTiketView,
+  AddNewTiket as AddTiketView,
   Login as LoginView,
   User as UserView,
   AddUser as AddUserView,

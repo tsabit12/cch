@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 export default{
-	trackAndTrace: (resi) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
-		barcode: resi
+	trackAndTrace: (payload) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
+		...payload
 	}).then(res => res.data.result),
 	mappingPos: (kodepos) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
 		kodepos
@@ -103,5 +103,7 @@ export default{
 		}).then(res => res.data.responses.response),
 	changePassword: (payload) => axios.post(`${process.env.REACT_APP_API}/changePassword`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	getChannel: () => axios.post(`${process.env.REACT_APP_API}/listChannel`)
+		.then(res => res.data)
 }

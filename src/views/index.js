@@ -8,3 +8,4 @@ export { default as AddUser } from "./AddUser";
 export { default as Chat } from "./Chat";
 export { default as Pelanggan } from "./Pelanggan";
 export { default as Profile } from "./Profile";
+export { default as AddNewTiket } from './AddNewTiket';

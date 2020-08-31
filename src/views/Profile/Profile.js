@@ -81,6 +81,10 @@ const Profile = props => {
 				<PasswordForm 
 					user={props.data} 
 					onSuccessChange={handleSuccessChangePass}
+					handleClose={() => setState(state => ({
+						...state,
+						passwordVisible: false
+					}))}
 				/> }
 			<Grid container spacing={4}>
 		        <Grid

@@ -1,5 +1,9 @@
 import api from "../api";
-import { GET_DATA_PELANGGAN, GET_JUMLAH_PELANGGAN, REMOVE_ALL_PELANGGAN } from "../types";
+import { 
+	GET_DATA_PELANGGAN, 
+	GET_JUMLAH_PELANGGAN, 
+	REMOVE_ALL_PELANGGAN 
+} from "../types";
 
 export const getPelanggan = (payload, page) => dispatch => 
 	api.laporan.getPelanggan(payload)
@@ -30,3 +34,13 @@ export const updatePelanggan = (payload, page) => dispatch =>
 		payload,
 		page: `page${page}`
 	})
+
+export const getChannel = () => dispatch => 
+	api.getChannel()
+		.then(channels => {
+			channels.unshift({id: 0, channel: '--Pilih Channel--'});
+			dispatch({
+				type: 'GET_CHANNEL',
+				channels
+			})
+		});
