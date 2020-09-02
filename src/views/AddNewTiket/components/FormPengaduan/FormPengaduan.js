@@ -68,11 +68,10 @@ const FormPengaduan = props => {
 				          labelId="jenis-customized-select"
 				        >
 				          <MenuItem value='0'>--Pilih--</MenuItem>
+				          <MenuItem value='5'>Pengaduan</MenuItem>
 				          <MenuItem value='1'>Lacak Kiriman</MenuItem>
 				          <MenuItem value='2'>Info Tarif</MenuItem>
 				          <MenuItem value='4'>Kantor Pos & Kode Pos</MenuItem>
-				          <MenuItem value='5'>Pengaduan</MenuItem>
-				          <MenuItem value='6'>Lainnya</MenuItem>
 				    </Select>
 				</FormControl>
 

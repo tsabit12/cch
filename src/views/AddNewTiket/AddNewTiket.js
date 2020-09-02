@@ -79,12 +79,26 @@ const AddNewTiket = props => {
 				listCites: []
 			}
 		},
+		tiket: {
+			data: {
+				noresi: '',
+				type: '1',
+				tujuanKirim: '',
+				listTujuan: [],
+				channel: 'Agen',
+				jenisCustomer: 'Ritel',
+				bisnis: 'E-Commerce',
+				catatan: ''
+			},
+			tracks: []
+		},
 		errors: {},
 		loading: false,
-		listTarif: []
+		listTarif: [],
+		listOffice: []
 	})
 
-	const { pengaduan, lacak, errors, tarif } = state;
+	const { pengaduan, lacak, errors, tarif, tiket } = state;
 
 	useEffect(() => {
 		props.getChannel();
@@ -144,6 +158,18 @@ const AddNewTiket = props => {
 			return () => clearTimeout(time);
 		}
 	}, [tarif.data.receiver])
+
+	useEffect(() => {
+		if (tiket.data.tujuanKirim !== '') {
+			api.cch.getKprk(tiket.data.tujuanKirim)
+				.then(res => {
+					setState(prevState => ({
+						...prevState,
+						listOffice: res
+					}))
+				})
+		}
+	}, [tiket.data.tujuanKirim])
 
 	const getAddress = (payload) => {
 		api.cch.getAddress(payload)
@@ -316,6 +342,11 @@ const AddNewTiket = props => {
 			
 			if (!tarif.data.rKodepos) errors.rKodepos = 'Alamat penerima tidak valid';
 			if (!tarif.data.sKodepos) errors.sKodepos = 'Alamat pengirim tidak valid';
+		}else if(type === 'tiket'){
+			const { data: dataTiket } = tiket;
+			//if (!dataTiket.noresi) errors.noresiTiket = 'Nomor resi tidak boleh kosong';
+			if (dataTiket.listTujuan.length === 0) errors.tujuanKirim = 'Harap select 1 atau lebih kantor tujuan';
+			if (!dataTiket.catatan) errors.catatan = 'Catatan harap diisi';
 		}
 
 		if (!pengaduan.nama) errors.nama = 'Nama pelanggan tidak boleh kosong';
@@ -323,6 +354,7 @@ const AddNewTiket = props => {
 
 		if (pengaduan.channel === '0'){
 			errors.channel = 'Channel belum dipilih';	
+			if (!pengaduan.phone) errors.phone = 'Nomor telepon tidak boleh kosong';
 		}else{
 			if (!pengaduan.phone && pengaduan.channel !== '1') errors.phone = 'Nomor telepon tidak boleh kosong';
 			if (!pengaduan.channelName) errors.channelName = 'Tidak boleh kosong';
@@ -338,13 +370,13 @@ const AddNewTiket = props => {
 		const payload = {
 			requestName: pengaduan.nama,
 			alamat: pengaduan.alamat,
-			nohp: pengaduan.phone,
+			nohp: pengaduan.channel === '1' ? pengaduan.channelName : pengaduan.phone,
 			email: pengaduan.email,
 			sosmed: pengaduan.channel === '7' || pengaduan.channel === '8' ? '' : pengaduan.channelName,
 			user: props.user.username,
 			nik: pengaduan.channel === '7' || pengaduan.channel === '8' ? pengaduan.channelName : '',
 			nopend: props.user.kantor_pos,
-			jenisChannel: pengaduan.channel
+			jenisChannel: pengaduan.channel,
 		}
 
 		api.cch.addPelanggan(payload)
@@ -477,6 +509,201 @@ const AddNewTiket = props => {
 		}
 	}
 
+	const onChangeTiket = (e) => {
+		const { value, name } = e.target;
+		setState(state => ({
+			...state,
+			tiket: {
+				...state.tiket,
+				data: {
+					...state.tiket.data,
+					[name]: value
+				}
+			},
+			errors: {
+				...state.errors,
+				[name]: undefined
+			}
+		}))
+	} 
+
+	const handleSearchResiTiket = () => {
+		if (!tiket.data.noresi) {
+			alert('Nomor resi harap diisi');
+		}else{
+			setState(state => ({
+				...state,
+				loading: true
+			}))
+
+			const payload = {
+				barcode: tiket.data.noresi,
+				type: tiket.data.type
+			}
+
+			api.trackAndTrace(payload)
+				.then(tracks => {
+					setState(state => ({
+						...state,
+						loading: false,
+						tiket: {
+							...state.tiket,
+							tracks
+						}
+					}))
+				})
+				.catch(err => {
+					setState(state => ({
+						...state,
+						errors: {
+							global: 'Data dengan barcode tersebut tidak ditemukan'
+						},
+						loading: false
+					}))
+				})
+		}
+	}
+
+	const handleChangeSearchOffice = (value) => {
+		setState(state => ({
+			...state,
+			tiket: {
+				...state.tiket,
+				data: {
+					...state.tiket.data,
+					tujuanKirim: value
+				}
+			}
+		}))
+	}
+
+	const handleChooseKprk = (e, value) => {
+		setState(state => ({
+			...state,
+			tiket: {
+				...state.tiket,
+				data: {
+					...state.tiket.data,
+					listTujuan: value 
+				}
+			},
+			errors: {
+				...state.errors,
+				tujuanKirim: undefined
+			}
+		}))
+	}
+
+	const onAddTiket = (valueFormChild) => {
+		const errors = validate('tiket');
+		setState(state => ({
+			...state,
+			errors
+		}))
+
+		if (Object.keys(errors).length === 0) {
+			setState(state => ({
+				...state,
+				loading: true,
+				errors: {}
+			}))
+
+			//add pelanggan to get userid for tiket
+			const payloadPelanggan = {
+				requestName: pengaduan.nama,
+				alamat: pengaduan.alamat,
+				nohp: pengaduan.channel === '1' ? pengaduan.channelName : pengaduan.phone,
+				email: pengaduan.email,
+				sosmed: pengaduan.channel === '7' || pengaduan.channel === '8' ? '' : pengaduan.channelName,
+				user: props.user.username,
+				nik: pengaduan.channel === '7' || pengaduan.channel === '8' ? pengaduan.channelName : '',
+				nopend: props.user.kantor_pos,
+				jenisChannel: pengaduan.channel,
+			}
+
+			api.cch.addPelanggan(payloadPelanggan)
+				.then(customers => {
+					const { custid } 			= customers;
+					const { data: dataTiket } 	= tiket;
+					const { asal, tujuan, layanan } = valueFormChild;
+					//get number tiket with expired 
+					const payloadNoTiket = {
+						nopend: props.user.kantor_pos
+					}
+
+					api.cch.getNomorTiket(payloadNoTiket)
+						.then(resTiket => {
+							
+							const payloadTiket = [];
+
+							dataTiket.listTujuan.forEach(row => {
+								payloadTiket.push({
+									tipe_bisnis: dataTiket.bisnis,
+									tipe_kantorpos: dataTiket.channel,
+									asal_kiriman: asal.split('-')[0].trim(),
+									asal_pengaduan: props.user.kantor_pos,
+									tujuan_kiriman: tujuan.split('-')[0].trim(),
+									jenis_layanan: layanan,
+									awb: dataTiket.noresi,
+									jenis_kiriman: dataTiket.type,
+									tgl_exp: resTiket.tglExp,
+									no_tiket: resTiket.noTiket,
+									cust_id: custid,
+									status: '1',
+									tujuan_pengaduan: row.nopend,
+									tipe_pelanggan: dataTiket.jenisCustomer,
+									channel_aduan: pengaduan.channel,
+									user_cch: props.user.email,
+									status_baca: '1', // belum dibaca
+									kategori: '5'
+								})
+							})
+
+							const payload = {
+								tiket: payloadTiket,
+								response_tiket: {
+									response: dataTiket.catatan,
+									file_name: null,
+									lacak_value: JSON.stringify(tiket.tracks),
+									user_cch: props.user.email,
+									ticket_id: resTiket.noTiket
+								}
+							}
+
+							api.addTicket(payload)
+								.then(res => {
+									resetAllState();
+								})
+								.catch(err => {
+									if (err.response) {
+										setError('Gagal menambah tiket, silahkan cobalagi');
+									}else{
+										setError('Tidak dapat memproses permintaan anda, mohon cobalagi nanti');
+									}
+								})
+						})
+						//failed get no tiket
+						.catch(err => {
+							setError('Generate nomor tiket gagal');
+						})
+				})
+				//failed add pelanggan
+				.catch(err => {
+					setError('Gagal menambah pelanggan, silahkan cobalagi');
+				})
+		}
+	}
+
+	const setError = (msg) => {
+		setState(state => ({
+			...state,
+			loading: false,
+			errors: {
+				global: msg
+			}
+		}))
+	}
+
 	const resetAllState = () => {
 		setState(state => ({
 			pengaduan: {
@@ -515,9 +742,23 @@ const AddNewTiket = props => {
 					listCites: []
 				}
 			},
+			tiket: {
+				data: {
+					noresi: '',
+					type: '1',
+					tujuanKirim: '',
+					listTujuan: [],
+					channel: 'Agen',
+					jenisCustomer: 'Ritel',
+					bisnis: 'E-Commerce',
+					catatan: ''
+				},
+				tracks: []
+			},
 			errors: {},
 			loading: false,
-			listTarif: []
+			listTarif: [],
+			listOffice: []
 		}))
 	}
 
@@ -579,7 +820,19 @@ const AddNewTiket = props => {
 			          xl={12}
 			          xs={12}
 			        >
-			        	{ pengaduan.jenis === '5' && <TiketForm /> }
+			        	{ pengaduan.jenis === '5' && 
+			        	<TiketForm 
+			        		values={state.tiket.data}
+			        		handleChange={onChangeTiket}
+			        		onSearch={handleSearchResiTiket}
+			        		tracks={tiket.tracks}
+			        		mappingKodepos={(value) => api.mappingPos(value)}
+			        		onChangeSearch={(value) => handleChangeSearchOffice(value)}
+			        		optionsOffice={state.listOffice}
+			        		onChooseTujuan={handleChooseKprk}
+			        		onSubmit={onAddTiket}
+			        		errors={state.errors}
+			        	/> }
 			        	{ pengaduan.jenis === '1' && 
 			        	<LacakForm 
 			        		value={state.lacak} 

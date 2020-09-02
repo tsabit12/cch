@@ -75,7 +75,7 @@ const Statistik = props => {
 	return(
 		<Card>
 			<CardHeader 
-				title='STATISTIK'
+				title={`STATISTIK ${props.type}`}
 			/>
 			<Divider />
 			<CardContent>

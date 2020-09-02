@@ -259,11 +259,27 @@ const Dashboard = props => {
 		          <Pencapaian 
 		          	lebih={pencapaian.selesaiLbh24}
 		          	kurang={pencapaian.selesaiKrg24}
+		          	type='MASUK'
 		          />
+		        </Grid>
+		        <Grid item lg={6} sm={12} xl={6} xs={12}>
+		        	<Pencapaian 
+			          	lebih={pencapaian.selesaiLbh24}
+			          	kurang={pencapaian.selesaiKrg24}
+			          	type='KELUAR'
+			        />
+		        	
+		        </Grid>
+		        <Grid item lg={6} sm={12} xl={6} xs={12}>
+		         	<Statistik 
+		        		listData={props.data.statistik}
+		        		type='MASUK'
+		        	/>
 		        </Grid>
 		        <Grid item lg={6} sm={12} xl={6} xs={12}>
 		        	<Statistik 
 		        		listData={props.data.statistik}
+		        		type='KELUAR'
 		        	/>
 		        </Grid>
 			</Grid>

@@ -73,7 +73,7 @@ const Pencapaian = props => {
 	return(
 		<Card>
 			<CardHeader 
-				title='PENCAPAIAN'
+				title={`PENCAPAIAN ${props.type}`}
 			/>
 			<Divider />
 			<CardContent>

@@ -10,6 +10,9 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import CloseIcon from '@material-ui/icons/Close';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -108,6 +111,58 @@ const SidebarNav = props => {
           <SupervisorAccountIcon />
         </ListItemIcon>
         <ListItemText primary="Pelanggan" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/x-ray"
+      >
+        <ListItemIcon>
+          <CloseIcon />
+        </ListItemIcon>
+        <ListItemText primary="Gagal X-Ray" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/prod-knowledge"
+      >
+        <ListItemIcon>
+          <ImportContactsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Prod Knowledge" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/laporan"
+      >
+        <ListItemIcon>
+          <FileCopyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Laporan" />
+      </ListItem>
+
+      <ListItem 
+        button
+        activeClassName={classes.active}
+        className={classes.button}
+        component={CustomRouterLink}
+        to="/add-function"
+      >
+        <ListItemIcon>
+          <SettingsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Aditional Function" />
       </ListItem>
     </List>
   );

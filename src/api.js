@@ -15,11 +15,11 @@ export default{
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
 		}).then(res => res.data.result),
-		addTicket: (formData) => axios.post(`${process.env.REACT_APP_API}/addTicket`, formData, {
-			headers: {
-				'content-type': 'application/x-www-form-urlencoded'	
-			}
-		}).then(res => res.data),
+		// addTicket: (formData) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTicket`, formData, {
+		// 	headers: {
+		// 		'content-type': 'application/x-www-form-urlencoded'	
+		// 	}
+		// }).then(res => res.data),
 		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/getTicket`, {
 			...payload
 		}).then(res => res.data),
@@ -37,7 +37,10 @@ export default{
 		}).then(res => res.data),
 		getTiketById: (notiket) => axios.post(`${process.env.REACT_APP_API}/detailTicket`, {
 			noTicket: notiket
-		}).then(res => res.data)
+		}).then(res => res.data),
+		getNomorTiket: (payload) => axios.post('http://10.28.0.72/cchAPI/tiket/getNoTiket', {
+			...payload
+		}).then(res => res.data.result)
 	},
 	getEmploye: (nippos) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
 		idPegawai: nippos
@@ -105,5 +108,8 @@ export default{
 		...payload
 	}).then(res => res.data),
 	getChannel: () => axios.post(`${process.env.REACT_APP_API}/listChannel`)
-		.then(res => res.data)
+		.then(res => res.data),
+	addTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTiket`, {
+		...payload
+	}).then(res => res.data),
 }
