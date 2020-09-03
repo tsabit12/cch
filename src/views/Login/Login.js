@@ -20,6 +20,9 @@ import Alert from "../Alert";
 
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import {
+	ModalFaq
+} from './components';
 
 const Loading = props => {
 	const { loading } = props;
@@ -82,6 +85,19 @@ const useStyles = makeStyles(theme => ({
 	    left: '50%',
 	    top: '50%',
 	    color: 'white'
+	},
+	divider: {
+		width: '100%', 
+		height: '15px', 
+		borderBottom: '1px solid blue',
+		textAlign: 'center'
+	},
+	dividerText: {
+		fontSize: '25px', 
+		backgroundColor: '#F3F5F6', 
+		padding: '0 10px',
+		color: 'blue',
+		cursor: 'pointer'
 	}
 }));
 
@@ -93,7 +109,8 @@ const Login = props => {
 		},
 		loading: false,
 		errors: {},
-		showpass: false
+		showpass: false,
+		visibleFaq: false
 	})
 	const classes = useStyles();
 	const { history } = props;
@@ -174,8 +191,17 @@ const Login = props => {
 		showpass: !state.showpass
 	}))
 
+	const onFaqClick = () => setState(state => ({
+		...state,
+		visibleFaq: !state.visibleFaq
+	}))
+
 	return(
 		<div className={classes.root}>
+	    	<ModalFaq 
+	    		open={state.visibleFaq}
+	    		onClose={onFaqClick}
+	    	/>
 	      <div className={classes.content}>
 	        <Loading loading={state.loading} />
 	        <Alert 
@@ -252,6 +278,11 @@ const Login = props => {
 	            >
 	              Login Sekarang
 	            </Button>
+	            <div className={classes.divider}>
+				  <span className={classes.dividerText} onClick={onFaqClick}>
+				    FAQ
+				  </span>
+				</div>
 	          </form>
 	        </div>
 	      </div>
