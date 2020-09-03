@@ -20,7 +20,7 @@ export default{
 		// 		'content-type': 'application/x-www-form-urlencoded'	
 		// 	}
 		// }).then(res => res.data),
-		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API}/getTicket`, {
+		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/getTiket`, {
 			...payload
 		}).then(res => res.data),
 		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
@@ -35,7 +35,7 @@ export default{
 		addUser: (payload) => axios.post(`${process.env.REACT_APP_API}/addUser`, {
 			...payload
 		}).then(res => res.data),
-		getTiketById: (notiket) => axios.post(`${process.env.REACT_APP_API}/detailTicket`, {
+		getTiketById: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/detailTiket`, {
 			noTicket: notiket
 		}).then(res => res.data),
 		getNomorTiket: (payload) => axios.post('http://10.28.0.72/cchAPI/tiket/getNoTiket', {

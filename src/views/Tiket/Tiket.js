@@ -60,8 +60,8 @@ const Tiket = props => {
 
 	React.useEffect(() => {
 		const payload = {
-			kantor_pos: props.user.kantor_pos,
-			email: props.user.email
+			nopend: props.user.kantor_pos,
+			//email: props.user.email
 		}
 		props.getTicket(payload)
 			.catch(err => {

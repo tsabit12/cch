@@ -5,7 +5,8 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
-	TableRow
+	TableRow,
+	Tooltip
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -19,6 +20,12 @@ const useStyles = makeStyles(theme => ({
 		whiteSpace: 'nowrap'
 	}	
 }))
+
+const TooltipComponent = React.forwardRef(function TooltipComponent(props, ref) {
+  return <div {...props} ref={ref}>
+  		<p style={{color: 'blue', cursor: 'pointer'}}>{props.text}</p>
+  	</div>
+});
 
 const TableTiket = props => {
 	const classes = useStyles();
@@ -35,8 +42,8 @@ const TableTiket = props => {
 	                <TableRow>
 	                  <TableCell className={classes.row}>NO</TableCell>
 	                  <TableCell className={classes.row}>NO TIKET</TableCell>
+	                  <TableCell className={classes.row}>CHANNEL</TableCell>
 	                  <TableCell className={classes.row}>PELANGGAN</TableCell>
-	                  <TableCell className={classes.row}>ASAL ADUAN</TableCell>
 	                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
 	                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
 	                  <TableCell className={classes.row}>STATUS</TableCell>
@@ -60,15 +67,25 @@ const TableTiket = props => {
 			              		color: 'blue', 
 			              		cursor: 'pointer'
 			              	}}
-			              	onClick={() => handelClick(row.no_ticket, row.name)}
+			              	onClick={() => handelClick(row.no_tiket, row.name)}
 			              >
-			              	{row.no_ticket}
+			              	<Tooltip title="View response tiket" arrow>
+			              		<TooltipComponent
+		              			 	text={`${row.no_tiket}`}
+		              			/>
+			              	</Tooltip>
 			              </TableCell>
+			              <TableCell className={classes.row} align="left">{row.channel_aduan}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.asal_pengaduan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.date}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.name}</TableCell>
+			              <TableCell className={classes.row} align="left">
+			              		<Tooltip title="View kantor" arrow>
+			              			<TooltipComponent
+			              			 	text={`${row.tujuan_pengaduan} kantor`}
+			              			/>
+			              		</Tooltip>
+			              </TableCell>
+			              <TableCell className={classes.row} align="left">{row.tgl_tambah}</TableCell>
+			              <TableCell className={classes.row} align="left">{row.status}</TableCell>
 			            </TableRow>
 			          ))}
               	</TableBody> }
