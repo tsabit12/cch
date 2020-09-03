@@ -59,10 +59,10 @@ export default{
 			}
 		}).then(res => res.data.file_name)
 	},
-	addResponseTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, {
+	addResponseTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/responseTiket`, {
 		...payload
 	}).then(res => res.data),
-	fetchNewResponse: (notiket) => axios.post(`${process.env.REACT_APP_API}/realtimeResponse`, {
+	fetchNewResponse: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/realtimeResponse`, {
 		noTicket: notiket
 	}).then(res => res.data),
 	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/ticketSelesai`, {
@@ -112,4 +112,7 @@ export default{
 	addTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTiket`, {
 		...payload
 	}).then(res => res.data),
+	getLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/report/lapPengaduanKeluarSelesai`, {
+		...payload
+	}).then(res => res.data)
 }

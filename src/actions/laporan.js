@@ -44,3 +44,10 @@ export const getChannel = () => dispatch =>
 				channels
 			})
 		});
+
+export const getLaporanTiket = (payload) => dispatch =>
+	api.getLaporanTiket(payload)
+		.then(tickets => dispatch({
+			type: 'GET_LAPORAN_TIKET',
+			tickets
+		}))
