@@ -208,6 +208,10 @@ const User = props => {
 					...prevState,
 					listKprk: res
 				})))
+				.catch(err => setState(state => ({
+					...state,
+					listKprk: []
+				})))
 		}else{
 			setState(prevState => ({
 				...prevState,
