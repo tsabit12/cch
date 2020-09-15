@@ -66,7 +66,12 @@ const AddUser = props => {
 			errors: {}
 		}));
 
-		api.getEmploye(nippos)
+		const payload = {
+			nippos: nippos,
+			kantor: props.user.kantor_pos
+		}
+
+		api.getEmploye(payload)
 			.then(res => {
 				setState(prevState => ({
 					...prevState,
@@ -217,4 +222,10 @@ const AddUser = props => {
 	);
 }
 
-export default connect(null, { addMessage })(AddUser);
+function mapStateToProps(state) {
+	return{
+		user: state.auth.user
+	}
+}
+
+export default connect(mapStateToProps, { addMessage })(AddUser);

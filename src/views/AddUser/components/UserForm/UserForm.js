@@ -164,8 +164,9 @@ const UserForm = props => {
 									variant='outlined'
 									value={userValue.kdkantor}
 									fullWidth
+									disabled
 									name='kdkantor'
-									onChange={props.onChange}
+									//onChange={props.onChange}
 									error={!!errors.kdkantor}
 									helperText={ errors.kdkantor ? errors.kdkantor : null }
 								/>
@@ -178,8 +179,9 @@ const UserForm = props => {
 						          id="jenisKantor"
 						          label="jenis Kantor"
 						          value={userValue.jenisKantor}
-						          onChange={props.onChange}
+						          //onChange={props.onChange}
 						          name='jenisKantor'
+						          disabled
 						        >
 						          <MenuItem value='KANTORPUSAT'>KANTOR PUSAT</MenuItem>
 						          <MenuItem value='Kprk'>KPRK</MenuItem>
