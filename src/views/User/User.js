@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { removeMessage } from "../../actions/message";
-import { fetchUser, getJumlahUser } from "../../actions/user";
+import { fetchUser, getJumlahUser, updateUser } from "../../actions/user";
 import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
 import api from "../../api";
@@ -61,7 +61,7 @@ const User = props => {
 		data: [],
 		paging: {
 			offset: 0,
-			limit: 10
+			limit: 7
 		},
 		search:{
 			reg: '00',
@@ -257,6 +257,11 @@ const User = props => {
 			})))
 	}
 
+	const handleUpdate = (payload) => {
+		console.log(payload);
+		props.updateUser(payload, activePage);
+	}
+
 
 	return(
 		<div className={classes.root}>
@@ -291,6 +296,7 @@ const User = props => {
 								data={data}  
 								activePage={activePage}
 								limit={paging.limit}
+								onUpdate={handleUpdate}
 							/> : <CardContent>
 							<div className={classes.contentEmpty}>
 								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }
@@ -319,7 +325,8 @@ User.propTypes = {
 	list: PropTypes.object.isRequired,
 	jumlah: PropTypes.number.isRequired,
 	userData: PropTypes.object.isRequired,
-	message: PropTypes.object.isRequired
+	message: PropTypes.object.isRequired,
+	updateUser: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -331,4 +338,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { removeMessage, fetchUser, getJumlahUser })(User);
+export default connect(mapStateToProps, { removeMessage, fetchUser, getJumlahUser, updateUser })(User);

@@ -39,3 +39,10 @@ export const addImage = (formData) => dispatch =>
 			
 			dispatch(imageUploaded(fileName))
 		})
+
+export const updateUser = (payload, activePage) => dispatch => 
+	dispatch({
+		type: 'UPDATE_USER',
+		...payload,
+		activePage
+	})

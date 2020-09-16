@@ -53,8 +53,7 @@ const Pelanggan = props => {
 	React.useEffect(() => {
 		(async () => {
 			const regValue 	= dataUser.jabatan === 'Administrator' ? '00' : dataUser.regional;
-			// const kprkValue = getKprkByJabatan(dataUser.jabatan, dataUser.kantor_pos);	
-			const kprkValue = data.utype === 'Kprk' ? dataUser.kantor_pos : '00';	
+			const kprkValue = dataUser.utype === 'Kprk' ? dataUser.kantor_pos : '00';
 			const payload = {
 				kprk: kprkValue,
 				offset: 0,

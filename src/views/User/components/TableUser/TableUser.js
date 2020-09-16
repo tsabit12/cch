@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core";
 import {
 	Table,
 	TableCell,
 	TableRow,
 	TableHead,
 	TableBody,
-	IconButton
+	Switch,
+	FormControlLabel
 } from "@material-ui/core";
-import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 500,
+		minHeight: 400,
 		position: 'relative',
 		overflowX: 'auto'
 	},
@@ -34,11 +34,73 @@ const useStyles = makeStyles(theme => ({
 	}	
 }))
 
+const IOSSwitch = withStyles((theme) => ({
+  root: {
+    width: 42,
+    height: 26,
+    padding: 0,
+    marginRight: theme.spacing(1),
+  },
+  switchBase: {
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(16px)',
+      color: theme.palette.common.white,
+      '& + $track': {
+        backgroundColor: '#52d869',
+        opacity: 1,
+        border: 'none',
+      },
+    },
+    '&$focusVisible $thumb': {
+      color: '#52d869',
+      border: '6px solid #fff',
+    },
+  },
+  thumb: {
+    width: 24,
+    height: 24,
+  },
+  track: {
+    borderRadius: 26 / 2,
+    border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: theme.palette.grey[50],
+    opacity: 1,
+    transition: theme.transitions.create(['background-color', 'border']),
+  },
+  checked: {},
+  focusVisible: {},
+}))(({ classes, ...props }) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});
+
 const TableUser = props => {
 	const classes = useStyles();
 	const { activePage, limit } = props;
 
 	var no = (activePage * limit) - limit + 1;
+
+	const handleChange = (username, status) => {
+		let newStatus = status === '1' ? '2' : '1';
+		const payload = {
+			status: newStatus,
+			username
+		};
+		props.onUpdate(payload);
+	}
 
 	return(
 		<div className={classes.root}>
@@ -52,7 +114,7 @@ const TableUser = props => {
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>REGIONAL</TableCell>
 	                  <TableCell className={classes.row}>JABATAN</TableCell>
-	                  <TableCell className={classes.row} align='center'>UPDATE</TableCell>
+	                  <TableCell className={classes.row}>STATUS</TableCell>
 	                </TableRow>
               	</TableHead>
 		        <TableBody>
@@ -68,17 +130,15 @@ const TableUser = props => {
 			              	<p className={classes.text}>{row.jabatan}</p>
 			              </TableCell>
 			              <TableCell className={classes.row}>
-			              	<div className={classes.group}>
-	              				<IconButton 
-	              					color="default" 
-	              					aria-label="update user"
-	              					size="small"
-	              					style={{padding: 0, height: 0}}
-	              					//onClick={() => props.onEdit(row.customerId)}
-	              				>
-							        <EditIcon />
-							    </IconButton>
-						    </div>
+			              	<FormControlLabel
+						        control={
+						        	<IOSSwitch 
+						        		checked={row.status === '1' ? true : false} 
+						        		name="checkedB" 
+						        		onChange={() => handleChange(row.username, row.status)}
+						        	/>}
+						        label={row.status === '1' ? 'Aktif' : 'Nonaktif'}
+						    />
 			              </TableCell>
 			            </TableRow>
 		        	))}
@@ -91,7 +151,8 @@ const TableUser = props => {
 TableUser.propTypes = {
 	data: PropTypes.array.isRequired,
 	activePage: PropTypes.number.isRequired,
-	limit: PropTypes.number.isRequired
+	limit: PropTypes.number.isRequired,
+	onUpdate: PropTypes.func.isRequired
 }
 
 export default TableUser;

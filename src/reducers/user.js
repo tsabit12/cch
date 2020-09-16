@@ -22,6 +22,22 @@ export default function auth(state=intialState, action={}) {
 				...state,
 				jumlah: Number(action.jumlah)
 			}
+		case 'UPDATE_USER':
+			return{
+				...state,
+				data: {
+					...state.data,
+					[`page${action.activePage}`]: state.data[`page${action.activePage}`].map(row => {
+						if (row.username === action.username) {
+							return {
+								...row,
+								status: action.status
+							}
+						}
+						return row;
+					})
+				}
+			}
 		default: return state;
 	}
 }
