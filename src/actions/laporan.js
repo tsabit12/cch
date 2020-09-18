@@ -29,11 +29,14 @@ export const resetData = () => dispatch => dispatch({
 })
 
 export const updatePelanggan = (payload, page) => dispatch => 
-	dispatch({
-		type: 'UPDATE_PELANGGAN',
-		payload,
-		page: `page${page}`
-	})
+	api.cch.updatePelanggan(payload)
+		.then(() => {
+			dispatch({
+				type: 'UPDATE_PELANGGAN',
+				payload,
+				page: `page${page}`
+			})
+		})
 
 export const getChannel = () => dispatch => 
 	api.getChannel()

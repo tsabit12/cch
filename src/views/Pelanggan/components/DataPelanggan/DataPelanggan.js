@@ -32,7 +32,13 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center'
-	}	
+	},
+	text: {
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		maxWidth: '150px'
+	}
 }))
 
 const DataPelanggan = props => {
@@ -51,6 +57,7 @@ const DataPelanggan = props => {
 	                  <TableCell className={classes.row}>CHANNEL</TableCell>
 	                  <TableCell className={classes.row}>NAMA</TableCell>
 	                  <TableCell className={classes.row}>PHONE</TableCell>
+	                  <TableCell className={classes.row}>Email</TableCell>
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>ALAMAT</TableCell>
 	                  <TableCell className={classes.row} align='center'>UPDATE</TableCell>
@@ -63,8 +70,11 @@ const DataPelanggan = props => {
               			<TableCell className={classes.row} align="left">{row.JenisSosmed} ({row.sosmed})</TableCell>
               			<TableCell className={classes.row} align="left">{row.namaLengkap}</TableCell>
               			<TableCell className={classes.row} align="left">{row.phone}</TableCell>
+              			<TableCell className={classes.row} align="left">{row.email ? row.email : '-'}</TableCell>
               			<TableCell className={classes.row} align="left">{row.kantorPos}</TableCell>
-              			<TableCell className={classes.row} align="left">{row.alamat}</TableCell>
+              			<TableCell className={classes.row} align="left">
+              				<p className={classes.text}>{row.alamat}</p>
+              			</TableCell>
               			<TableCell className={classes.row} align="center">
               				<div className={classes.group}>
 	              				<IconButton 

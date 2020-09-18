@@ -82,7 +82,9 @@ const ModalEdit = props => {
   		channel: '',
   		phone: '',
   		alamat: '',
-  		id: ''
+  		id: '',
+      sosmed: '',
+      email: ''
   	},
   	errors: {},
   	loading: false
@@ -99,7 +101,8 @@ const ModalEdit = props => {
 		  		sosmed: data.sosmed ? data.sosmed : '',
 		  		phone: data.phone,
 		  		alamat: data.alamat,
-		  		customerId: data.customerId
+		  		customerId: data.customerId,
+          email: data.email
   			}
   		}))
   	}
@@ -180,18 +183,59 @@ const ModalEdit = props => {
             	error={!!errors.phone}
             >
             	<TextField
-		          label='No Telepon'
-		          InputLabelProps={{ shrink: true }}
-		          value={field.phone}
-		          name='phone'
-		          onChange={handleChange}
-		          autoComplete='off'
-		          error={!!errors.phone}
-		          variant='outlined'
-		          placeholder='Masukkan nomor telepon'
+  		          label='No Telepon'
+  		          InputLabelProps={{ shrink: true }}
+  		          value={field.phone}
+  		          name='phone'
+  		          onChange={handleChange}
+  		          autoComplete='off'
+  		          error={!!errors.phone}
+  		          variant='outlined'
+  		          placeholder='Masukkan nomor telepon'
             	/>
             	{ errors.phone && <FormHelperText id='component-error-phone'>{errors.phone}</FormHelperText> }
             </FormControl>
+
+            <FormControl 
+              fullWidth 
+              variant='outlined'
+              className={classes.field}
+              error={!!errors.sosmed}
+            >
+              <TextField
+                label='Sosmed'
+                InputLabelProps={{ shrink: true }}
+                value={field.sosmed}
+                name='sosmed'
+                onChange={handleChange}
+                autoComplete='off'
+                error={!!errors.sosmed}
+                variant='outlined'
+                placeholder='Masukkan nama akun sosmed'
+              />
+              { errors.sosmed && <FormHelperText id='component-error-sosmed'>{errors.sosmed}</FormHelperText> }
+            </FormControl>
+
+            <FormControl 
+              fullWidth 
+              variant='outlined'
+              className={classes.field}
+              error={!!errors.email}
+            >
+              <TextField
+                label='Email'
+                InputLabelProps={{ shrink: true }}
+                value={field.email}
+                name='email'
+                onChange={handleChange}
+                autoComplete='off'
+                error={!!errors.email}
+                variant='outlined'
+                placeholder='Masukkan email'
+              />
+              { errors.email && <FormHelperText id='component-error-email'>{errors.email}</FormHelperText> }
+            </FormControl>
+
 
            	<FormControl 
             	fullWidth 
@@ -200,15 +244,15 @@ const ModalEdit = props => {
             	error={!!errors.alamat}
             >
             	<TextField
-		          label='Alamat'
-		          InputLabelProps={{ shrink: true }}
-		          value={field.alamat}
-		          name='alamat'
-		          onChange={handleChange}
-		          autoComplete='off'
-		          error={!!errors.alamat}
-		          variant='outlined'
-		          placeholder='Masukkan alamat pelanggan'
+  		          label='Alamat'
+  		          InputLabelProps={{ shrink: true }}
+  		          value={field.alamat}
+  		          name='alamat'
+  		          onChange={handleChange}
+  		          autoComplete='off'
+  		          error={!!errors.alamat}
+  		          variant='outlined'
+  		          placeholder='Masukkan alamat pelanggan'
             	/>
             	{ errors.alamat && <FormHelperText id='component-error-phone'>{errors.alamat}</FormHelperText> }
             </FormControl>

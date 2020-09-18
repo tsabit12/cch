@@ -40,7 +40,10 @@ export default{
 		}).then(res => res.data),
 		getNomorTiket: (payload) => axios.post('http://10.28.0.72/cchAPI/tiket/getNoTiket', {
 			...payload
-		}).then(res => res.data.result)
+		}).then(res => res.data.result),
+		updatePelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/editPelanggan`, {
+			...payload
+		}).then(res => res.data)
 	},
 	getEmploye: (payload) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
 		idPegawai: payload.nippos,
