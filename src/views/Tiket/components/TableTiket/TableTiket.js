@@ -77,13 +77,7 @@ const TableTiket = props => {
 			              </TableCell>
 			              <TableCell className={classes.row} align="left">{row.channel_aduan}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
-			              <TableCell className={classes.row} align="left">
-			              		<Tooltip title="View kantor" arrow>
-			              			<TooltipComponent
-			              			 	text={`${row.tujuan_pengaduan} kantor`}
-			              			/>
-			              		</Tooltip>
-			              </TableCell>
+			              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan} kantor</TableCell>
 			              <TableCell className={classes.row} align="left">{row.tgl_tambah}</TableCell>
 			              <TableCell className={classes.row} align="left">{row.status}</TableCell>
 			            </TableRow>

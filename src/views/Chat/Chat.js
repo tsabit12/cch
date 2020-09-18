@@ -109,7 +109,7 @@ const Chat = props => {
 	const handleSendMessage = (text, photoName) => {
 		const { data } = props.dataTiket;
 		const payload = {
-			noTicket: data.no_ticket,
+			noTicket: data.no_tiket,
 			response: text,
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
@@ -140,7 +140,7 @@ const Chat = props => {
 		}))
 
 		const payload = {
-			noTicket: data.no_ticket,
+			noTicket: data.no_tiket,
 			jenisAduan: value.intiMasalah,
 			lokusMasalah: value.status
 		}

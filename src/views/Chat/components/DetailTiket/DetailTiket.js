@@ -71,7 +71,7 @@ const DetailTiket = props => {
 					</TableRow>
 					<TableRow>
 						<TableCell>Tujuan Aduan</TableCell>
-						<TableCell>: {data.tujuan_pengaduan}</TableCell>
+						<TableCell>: {data.tujuan.map((row, index) => <React.Fragment key={index}>{row.tujuan_pengaduan}, </React.Fragment>)}</TableCell>
 					</TableRow>
 				</TableBody> 
 			</Table>
