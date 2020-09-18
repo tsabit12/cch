@@ -43,6 +43,9 @@ export default{
 		}).then(res => res.data.result),
 		updatePelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/editPelanggan`, {
 			...payload
+		}).then(res => res.data),
+		addLibur: (payload) => axios.post(`${process.env.REACT_APP_API2}/holiday`, {
+			value: payload
 		}).then(res => res.data)
 	},
 	getEmploye: (payload) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
@@ -79,7 +82,7 @@ export default{
 	getKprk: (reg) => axios.post(`${process.env.REACT_APP_API}/getKprk`, {
 		regional: reg
 	}).then(res => res.data),
-	testUpload: (formData) => axios.post(`${process.env.REACT_APP_API}/responseTicket`, formData, {
+	testUpload: (formData) => axios.post(`${process.env.REACT_APP_API2}/tiket/responseTiket`, formData, {
 		headers: {
 			'content-type': 'application/x-www-form-urlencoded'
 		}

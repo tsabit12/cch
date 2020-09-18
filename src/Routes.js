@@ -23,7 +23,8 @@ import {
   Chat as ChatView,
   Pelanggan as PelangganView,
   Profile as ProfileView,
-  Laporan as LaporanView
+  Laporan as LaporanView,
+  Calendar as CalendarView
 } from './views';
 
 
@@ -82,6 +83,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/profile"
+      />
+      <GuestRoute
+        component={CalendarView}
+        exact
+        layout={MainLayout}
+        path="/add-function"
       />
       <GuestRoute
         component={LaporanView}

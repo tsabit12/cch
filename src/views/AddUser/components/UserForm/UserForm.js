@@ -223,6 +223,7 @@ const UserForm = props => {
 								value={userValue.namaLengkap}
 								fullWidth
 								onChange={props.onChange}
+								disabled
 								name='namaLengkap'
 								error={!!errors.namaLengkap}
 								helperText={ errors.namaLengkap ? errors.namaLengkap : null }
