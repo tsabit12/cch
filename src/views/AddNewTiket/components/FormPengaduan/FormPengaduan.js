@@ -45,6 +45,8 @@ const FormPengaduan = props => {
 		}
 	}
 
+	console.log(value.channel);
+
 	return(
 		<Card>
 			<CardHeader 
@@ -170,6 +172,24 @@ const FormPengaduan = props => {
 					/>
 				</FormControl> }
 
+				{ value.channel !== '5' && 
+					<FormControl
+						fullWidth
+						className={classes.field}
+					>
+						<TextField 
+							label='Email'
+							variant='outlined'
+							InputLabelProps={{ shrink: true }}
+							value={value.email}
+							name='email'
+							id='email'
+							onChange={props.handleChange}
+							placeholder='Masukan email pelanggan'
+							autoComplete='off'
+						/>
+					</FormControl> }
+
 				<FormControl
 					fullWidth
 					className={classes.field}
@@ -188,24 +208,9 @@ const FormPengaduan = props => {
 	    							variant='outlined'
 									InputLabelProps={{ shrink: true }}
 									placeholder='Masukan alamat pelanggan'
-									//error={!!errors.channelName}
-									//helperText={errors.channelName ? errors.channelName : null }
     							/> 
     						}
 			    	/>
-					{ /* <TextField 
-						label='Alamat Pelanggan'
-						variant='outlined'
-						InputLabelProps={{ shrink: true }}
-						value={value.alamat}
-						name='alamat'
-						id='alamat'
-						onChange={props.handleChange}
-						placeholder='Masukan alamat pelanggan'
-						autoComplete='off'
-						error={!!errors.alamat}
-						helperText={errors.alamat ? errors.alamat : null }
-					/> */}
 				</FormControl>
 			</CardContent>
 		</Card>

@@ -72,7 +72,7 @@ export default{
 	fetchNewResponse: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/realtimeResponse`, {
 		noTicket: notiket
 	}).then(res => res.data),
-	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API}/ticketSelesai`, {
+	closeTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/closeTiket`, {
 		...payload
 	}).then(res => res.data),
 	getPelanggan: (value, nopend) => axios.post(`${process.env.REACT_APP_API}/getPelanggan`, {

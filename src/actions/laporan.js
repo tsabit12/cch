@@ -41,7 +41,7 @@ export const updatePelanggan = (payload, page) => dispatch =>
 export const getChannel = () => dispatch => 
 	api.getChannel()
 		.then(channels => {
-			channels.unshift({id: 0, channel: '--Pilih Channel--'});
+			channels.unshift({id: '0', channel: '--Pilih Channel--'});
 			dispatch({
 				type: 'GET_CHANNEL',
 				channels

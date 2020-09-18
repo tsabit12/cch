@@ -77,7 +77,7 @@ const DetailTiket = props => {
 			</Table>
 			{ data.pembuatanTicket === props.email && <CardActions>
 				<Button
-					//disabled={props.disabled}
+					disabled={props.disabled}
 					fullWidth
 					variant='outlined'
 					color='default'

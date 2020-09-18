@@ -60,17 +60,17 @@ export default function ticket(state=initialState, action={}){
 				...state,
 				data: {
 					...state.data,
-					masuk: action.masuk.filter(x => x.name !== 'Selesai'),
-					keluar: action.keluar.filter(x => x.name !== 'Selesai'),
-					allKeluar: action.keluar.filter(x => x.name === 'Selesai'),
-					allMasuk: action.masuk.filter(x => x.name === 'Selesai')
+					masuk: action.masuk.filter(x => x.status !== 'Selesai'),
+					keluar: action.keluar.filter(x => x.status !== 'Selesai'),
+					allKeluar: action.keluar.filter(x => x.status === 'Selesai'),
+					allMasuk: action.masuk.filter(x => x.status === 'Selesai')
 				},
 				count: {
 					...state.count,
-					keluar: action.keluar.filter(x => x.name !== 'Selesai').length,
-					masuk: action.masuk.filter(x => x.name !== 'Selesai').length,
-					allKeluar: action.keluar.filter(x => x.name === 'Selesai').length,
-					allMasuk: action.masuk.filter(x => x.name === 'Selesai').length
+					keluar: action.keluar.filter(x => x.status !== 'Selesai').length,
+					masuk: action.masuk.filter(x => x.status !== 'Selesai').length,
+					allKeluar: action.keluar.filter(x => x.status === 'Selesai').length,
+					allMasuk: action.masuk.filter(x => x.status === 'Selesai').length
 				}
 			}
 		case GET_TICKET_BY_ID:

@@ -217,6 +217,7 @@ const AddUser = props => {
 		    	onChange={handleChangeUser}
 		    	onSubmit={handleSubmit}
 		    	errors={state.errors}
+		    	level={props.user.jabatan}
 		    />
 		</div>
 	);

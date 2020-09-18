@@ -78,9 +78,9 @@ const Chat = props => {
 
 	React.useEffect(() => {
 		if (Object.keys(props.dataTiket).length > 0) {
-			const { status, no_ticket } = props.dataTiket.data;
+			const { status, no_tiket } = props.dataTiket.data;
 			if (status === 'Selesai' && !props.isDone) {
-				props.closeTiketWithoutUpdate(no_ticket);
+				props.closeTiketWithoutUpdate(no_tiket);
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,13 +90,13 @@ const Chat = props => {
 		const { data } = props.dataTiket;
 		const formData = new FormData();
 		formData.append('file', file);
-		formData.append('noTicket', data.no_ticket);
+		formData.append('noTicket', data.no_tiket);
 		formData.append('user', props.user.email);
 		formData.append('tujuanPengaduan', data.tujuan_pengaduan);
 		formData.append('response', text);
 
 		const payload = {
-			noTicket: data.no_ticket,
+			noTicket: data.no_tiket,
 			response: text,
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
@@ -140,7 +140,7 @@ const Chat = props => {
 		}))
 
 		const payload = {
-			noTicket: data.no_tiket,
+			notiket: data.no_tiket,
 			jenisAduan: value.intiMasalah,
 			lokusMasalah: value.status
 		}

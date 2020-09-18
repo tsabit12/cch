@@ -91,7 +91,7 @@ export const closeTiketWithoutUpdate = (notiket) => dispatch => dispatch(setClos
 
 export const closeTiket = (payload) => dispatch => 
 	api.closeTiket(payload)
-		.then(() => dispatch(setClose(payload.noTicket)))
+		.then(() => dispatch(setClose(payload.notiket)))
 
 //set active link tiket
 export const setActiveLink = (param) => dispatch => {
