@@ -46,6 +46,7 @@ const SearchForm = props => {
 		          disabled={props.user.jabatan === 'MANAGEMENT' ? true : false }
 		        >
 		        	<MenuItem value="00">SEMUA REGIONAL</MenuItem>
+					<MenuItem value="KANTORPUSAT">PUSAT</MenuItem>
 					<MenuItem value="REGIONAL 1">Regional 01</MenuItem>
 					<MenuItem value="REGIONAL 2">Regional 02</MenuItem>
 					<MenuItem value="REGIONAL 3">Regional 03</MenuItem>

@@ -39,7 +39,7 @@ const FormPengaduan = props => {
 	const getLabelFromChannel = (id) => {
 		const find = channels.find(row => row.id === id);
 		if (find.id === '7' || find.id === '6') { // walkin && e commerce
-			return 'Nik';
+			return 'Sosmed';
 		}else{
 			return find.channel;
 		}
@@ -79,7 +79,7 @@ const FormPengaduan = props => {
 					<FormControl
 						variant='outlined' 
 						fullWidth
-						className={value.channel !== '0' ? classes.fieldLeft : classes.field}
+						className={classes.field}
 						error={!!errors.channel}
 					>
 						<InputLabel id="labelChannel">Channel</InputLabel>
@@ -98,10 +98,12 @@ const FormPengaduan = props => {
 						</Select>
 						{ errors.channel && <FormHelperText>{errors.channel}</FormHelperText>}
 					</FormControl>
-					{ value.channel !== '0' && 
+				</div>
+
+				{ value.channel !== '0' && 
 					<FormControl
 						fullWidth
-						className={classes.fieldRight}
+						className={classes.field}
 					>
 						<Autocomplete
 					        value={value.channelName}
@@ -115,20 +117,19 @@ const FormPengaduan = props => {
 					          props.handleChangeAutoComplete(newInputValue, 'default', 'default');
 					        }}
 					        id="controllable-states-demo"
-        					options={props.options}
-        					renderInput={(params) => 
-        						<TextField 
-        							{...params} 
-        							label={`${getLabelFromChannel(value.channel)}`}
-        							variant='outlined'
-									InputLabelProps={{ shrink: true }}
-									placeholder={`Masukan ${getLabelFromChannel(value.channel)} pelanggan`}
-									error={!!errors.channelName}
+	    					options={props.options}
+	    					renderInput={(params) => 
+		    						<TextField 
+		    							{...params} 
+		    							label={`${getLabelFromChannel(value.channel)}`}
+		    							variant='outlined'
+										InputLabelProps={{ shrink: true }}
+										placeholder={`Masukan ${getLabelFromChannel(value.channel)} pelanggan`}
+										error={!!errors.channelName}
 									helperText={errors.channelName ? errors.channelName : null }
-        					/> }
-					    />
-					</FormControl>}
-				</div>
+	    					/> }
+				    	/>
+					</FormControl> }
 
 				<FormControl
 					fullWidth
@@ -173,7 +174,26 @@ const FormPengaduan = props => {
 					fullWidth
 					className={classes.field}
 				>
-					<TextField 
+					<Autocomplete
+				        inputValue={value.alamat}
+				        onInputChange={(event, newInputValue) => {
+				          props.onChangeAlamat(newInputValue);
+				        }}
+				        id="controllable-alamat"
+    					options={props.cities}
+    					renderInput={(params) => 
+	    						<TextField 
+	    							{...params} 
+	    							label='Alamat'
+	    							variant='outlined'
+									InputLabelProps={{ shrink: true }}
+									placeholder='Masukan alamat pelanggan'
+									//error={!!errors.channelName}
+									//helperText={errors.channelName ? errors.channelName : null }
+    							/> 
+    						}
+			    	/>
+					{ /* <TextField 
 						label='Alamat Pelanggan'
 						variant='outlined'
 						InputLabelProps={{ shrink: true }}
@@ -185,7 +205,7 @@ const FormPengaduan = props => {
 						autoComplete='off'
 						error={!!errors.alamat}
 						helperText={errors.alamat ? errors.alamat : null }
-					/>
+					/> */}
 				</FormControl>
 			</CardContent>
 		</Card>

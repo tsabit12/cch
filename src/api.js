@@ -115,5 +115,8 @@ export default{
 	}).then(res => res.data),
 	getLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/report/lapPengaduanKeluarSelesai`, {
 		...payload
+	}).then(res => res.data),
+	nonaktifUser: (payload) => axios.post(`${process.env.REACT_APP_API}/editUser`, {
+		...payload
 	}).then(res => res.data)
 }

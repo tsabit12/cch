@@ -160,6 +160,20 @@ const AddNewTiket = props => {
 	}, [tarif.data.receiver])
 
 	useEffect(() => {
+		if (pengaduan.alamat) {
+			const time = setTimeout(function() {
+				const payload = {
+					kodepos: pengaduan.alamat
+				};
+
+				getAddress(payload);
+			}, 800);
+
+			return () => clearTimeout(time);
+		}
+	}, [pengaduan.alamat])
+
+	useEffect(() => {
 		if (tiket.data.tujuanKirim !== '') {
 			api.cch.getKprk(tiket.data.tujuanKirim)
 				.then(res => {
@@ -204,6 +218,16 @@ const AddNewTiket = props => {
 			errors: {
 				...state.errors,
 				[name]: undefined
+			}
+		}))
+	}
+
+	const handleChangeAlamat = (value) => {
+		setState(state => ({
+			...state,
+			pengaduan: {
+				...state.pengaduan,
+				alamat: value
 			}
 		}))
 	}
@@ -811,6 +835,8 @@ const AddNewTiket = props => {
 			        		handleChangeAutoComplete={onChangeAutoComplete}
 			        		onChangeSelectAutoComplete={handleChangeSelect}
 			        		errors={state.errors}
+			        		onChangeAlamat={handleChangeAlamat}
+			        		cities={tarif.cities.text}
 			        	/>
 			        </Grid>
 			        <Grid

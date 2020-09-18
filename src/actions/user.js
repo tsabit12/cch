@@ -41,8 +41,9 @@ export const addImage = (formData) => dispatch =>
 		})
 
 export const updateUser = (payload, activePage) => dispatch => 
-	dispatch({
-		type: 'UPDATE_USER',
-		...payload,
-		activePage
-	})
+	api.nonaktifUser(payload)
+		.then(() => dispatch({
+			type: 'UPDATE_USER',
+			...payload,
+			activePage
+		}))
