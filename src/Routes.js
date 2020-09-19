@@ -24,7 +24,8 @@ import {
   Pelanggan as PelangganView,
   Profile as ProfileView,
   Laporan as LaporanView,
-  Calendar as CalendarView
+  Calendar as CalendarView,
+  Xray as XrayView
 } from './views';
 
 
@@ -89,6 +90,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/add-function"
+      />
+      <GuestRoute
+        component={XrayView}
+        exact
+        layout={MainLayout}
+        path="/x-ray"
       />
       <GuestRoute
         component={LaporanView}

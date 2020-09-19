@@ -5,6 +5,7 @@ import {
 	TableBody,
 	TableCell,
 	TableHead,
+	TableContainer,
 	TableRow,
 	Tooltip
 } from "@material-ui/core";
@@ -18,7 +19,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	row: {
 		whiteSpace: 'nowrap'
-	}	
+	},
+	container: {
+		maxHeight: 500
+	}
 }))
 
 const TooltipComponent = React.forwardRef(function TooltipComponent(props, ref) {
@@ -36,54 +40,56 @@ const TableTiket = props => {
 	}
 
 	return(
-		<Card className={classes.root}>
-			<Table>
-              	<TableHead>
-	                <TableRow>
-	                  <TableCell className={classes.row}>NO</TableCell>
-	                  <TableCell className={classes.row}>NO TIKET</TableCell>
-	                  <TableCell className={classes.row}>CHANNEL</TableCell>
-	                  <TableCell className={classes.row}>PELANGGAN</TableCell>
-	                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
-	                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
-	                  <TableCell className={classes.row}>STATUS</TableCell>
-	                </TableRow>
-              	</TableHead>
-              	{ props.list.length > 0 && <TableBody>
-              		{props.list.map((row, i) => (
-			            <TableRow 
-			            	key={i}
-			            	style={{
-			            		backgroundColor: row.statusRead === 'Belum di Baca' ? 'rgb(171, 231, 232)' : ''
-			            	}}
-			            >
-			              <TableCell component="th" scope="row" className={classes.row}>
-			                {no++}
-			              </TableCell>
-			              <TableCell 
-			              	className={classes.row} 
-			              	align="left"
-			              	style={{
-			              		color: 'blue', 
-			              		cursor: 'pointer'
-			              	}}
-			              	onClick={() => handelClick(row.no_tiket, row.name)}
-			              >
-			              	<Tooltip title="View response tiket" arrow>
-			              		<TooltipComponent
-		              			 	text={`${row.no_tiket}`}
-		              			/>
-			              	</Tooltip>
-			              </TableCell>
-			              <TableCell className={classes.row} align="left">{row.channel_aduan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan} kantor</TableCell>
-			              <TableCell className={classes.row} align="left">{row.tgl_tambah}</TableCell>
-			              <TableCell className={classes.row} align="left">{row.status}</TableCell>
-			            </TableRow>
-			          ))}
-              	</TableBody> }
-            </Table>
+		<Card>
+			<TableContainer className={classes.container}>
+				<Table stickyHeader aria-label="sticky table">
+	              	<TableHead>
+		                <TableRow>
+		                  <TableCell className={classes.row}>NO</TableCell>
+		                  <TableCell className={classes.row}>NO TIKET</TableCell>
+		                  <TableCell className={classes.row}>CHANNEL</TableCell>
+		                  <TableCell className={classes.row}>PELANGGAN</TableCell>
+		                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
+		                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
+		                  <TableCell className={classes.row}>STATUS</TableCell>
+		                </TableRow>
+	              	</TableHead>
+	              	{ props.list.length > 0 && <TableBody>
+	              		{props.list.map((row, i) => (
+				            <TableRow 
+				            	key={i}
+				            	style={{
+				            		backgroundColor: row.statusRead === 'Belum di Baca' ? 'rgb(171, 231, 232)' : ''
+				            	}}
+				            >
+				              <TableCell component="th" scope="row" className={classes.row}>
+				                {no++}
+				              </TableCell>
+				              <TableCell 
+				              	className={classes.row} 
+				              	align="left"
+				              	style={{
+				              		color: 'blue', 
+				              		cursor: 'pointer'
+				              	}}
+				              	onClick={() => handelClick(row.no_tiket, row.name)}
+				              >
+				              	<Tooltip title="View response tiket" arrow>
+				              		<TooltipComponent
+			              			 	text={`${row.no_tiket}`}
+			              			/>
+				              	</Tooltip>
+				              </TableCell>
+				              <TableCell className={classes.row} align="left">{row.channel_aduan}</TableCell>
+				              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
+				              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan} kantor</TableCell>
+				              <TableCell className={classes.row} align="left">{row.tgl_tambah}</TableCell>
+				              <TableCell className={classes.row} align="left">{row.status}</TableCell>
+				            </TableRow>
+				          ))}
+	              	</TableBody> }
+	            </Table>
+	        </TableContainer>
 		</Card>
 	);
 }

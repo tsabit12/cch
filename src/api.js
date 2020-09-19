@@ -124,5 +124,8 @@ export default{
 	}).then(res => res.data),
 	nonaktifUser: (payload) => axios.post(`${process.env.REACT_APP_API}/editUser`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	uploadXray: (array) => axios.post(`${process.env.REACT_APP_API2}/xray/insertXray`, {
+		value: array
+	}).then(res => res.data.result)
 }

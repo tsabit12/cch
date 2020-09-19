@@ -73,7 +73,9 @@ const CalendarComponent = props => {
 		const { value } = e.target;
 		let currentInput = selectedDays[choosedIndex];
 		
-		setSelectedDays(days => days.map((row, index) => index === choosedIndex ? { ...currentInput, keterangan: value } : row))
+		setSelectedDays(days => 
+			days.map((row, index) => index === choosedIndex ? { ...currentInput, keterangan: value } : row)
+		)
 	}
 
 	const onSubmit = () => {
