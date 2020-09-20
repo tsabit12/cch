@@ -65,7 +65,7 @@ const DataExcel = props => {
 			/>
 			<div className={classes.scrollTable}>
 				<TableContainer className={classes.container}>
-					<Table stickyHeader aria-label="sticky table">
+					<Table stickyHeader aria-label="sticky table" size='small'>
 						<TableHead>
 							<TableRow>
 								<TableCell className={classes.row}>NO</TableCell>

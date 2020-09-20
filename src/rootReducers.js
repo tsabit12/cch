@@ -5,6 +5,7 @@ import message from "./reducers/message";
 import user from "./reducers/user";
 import laporan from "./reducers/laporan";
 import dashboard from "./reducers/dashboard";
+import xray from './reducers/xray';
 
 export default combineReducers({
 	auth,
@@ -12,5 +13,6 @@ export default combineReducers({
 	message,
 	user,
 	laporan,
-	dashboard
+	dashboard,
+	xray
 })
