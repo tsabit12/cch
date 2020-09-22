@@ -10,7 +10,8 @@ import {
 	Divider,
 	Typography,
 	Button,
-	Collapse
+	Collapse,
+	TextField
 } from '@material-ui/core';
 import {
 	DataExcel,
@@ -44,23 +45,29 @@ const Xray = props => {
     const [loading, setLoading] = useState(false);
     const [isSucces, setSucces] = useState(false);
     const [isVisibleExport, setVisible] = useState(false);
+    const [query, setQuery] = useState('');
     const [state, setState] = useState({
     	loading: true,
     	errors: {}
     })
 
     useEffect(() => {
-    	props.getData()
-    		.then(() => setState(state => ({ ...state, loading: false })))
-    		.catch(err => setState(state => ({
-    			...state,
-    			loading: false,
-    			errors: {
-    				global: 'Data tidak ditemukan'
-    			}
-    		})))
-    	//eslint-disable-next-line
+    	
+    	
     }, []);
+
+    useEffect(() => {
+    	if (query) {
+    		const timeid = setTimeout(function() {
+    			getXray(query);
+    		}, 300);
+
+    		return () => clearTimeout(timeid);
+    	}else{
+    		getXray();
+    	}
+    	//eslint-disable-next-line
+    }, [query]);
 
     useEffect(() => {
     	if (isSucces) {
@@ -84,13 +91,25 @@ const Xray = props => {
     }, [isVisibleExport]);
 
     useEffect(() => {
-    	if (props.dataXray.length > 0 && state.errors.global) {
+    	if (props.dataXray.length > 0 && state.errors.global && !query) {
     		setState(state => ({
     			...state,
     			errors: {}
     		}))
     	}
-    }, [props.dataXray, state.errors])
+    }, [props.dataXray, state.errors, query])
+
+    const getXray = (id=null) => {
+    	props.getData(id)
+    		.then(() => setState(state => ({ ...state, loading: false, errors: {} })))
+    		.catch(err => setState(state => ({
+    			...state,
+    			loading: false,
+    			errors: {
+    				global: 'Data tidak ditemukan'
+    			}
+    		})))
+    }
 
 	const handleChange = (e) => {
 		readXlsxFile(inputRef.current.files[0]).then((rows) => {
@@ -133,13 +152,25 @@ const Xray = props => {
         		<CardHeader 
         			title='GAGAL X-RAY'
         			action={
-        				<Button 
-        					onClick={() => setVisible(!isVisibleExport)}
-        					variant='contained'
-        					color='primary'
-        				>
-			        	 	{isVisibleExport ? 'CLOSE' : 'EXPORT FILE'}	
-			        	</Button>}
+        				<div style={{display: 'flex', alignItems: 'center', jistifyContent: 'center', width: 500}}>
+        					<TextField 
+								placeholder='Cari ID kiriman disini..'
+								variant='outlined'
+								size='small'
+								style={{backgroundColor: "#FFF"}}
+								fullWidth
+								value={query}
+								onChange={(e) => setQuery(e.target.value)}
+							/> 
+	        				<Button 
+	        					onClick={() => setVisible(!isVisibleExport)}
+	        					variant='contained'
+	        					style={{width: 200, marginLeft: 5}}
+	        					color='primary'
+	        				>
+				        	 	{isVisibleExport ? 'CLOSE' : 'EXPORT FILE'}	
+				        	</Button>
+			        	</div>}
         		/>
         		<Divider />
 		       	<Collapse in={isVisibleExport}>

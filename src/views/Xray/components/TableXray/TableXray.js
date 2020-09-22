@@ -42,21 +42,22 @@ const TableXray = props => {
 					{ data.loading && <TableRow>
 						<TableCell colSpan={10} className={classes.row} align='center'>Loading...</TableCell>
 					</TableRow> }
-					{ data.errors.global && <TableRow>
+					{ data.errors.global ? <TableRow>
 						<TableCell colSpan={10} className={classes.row} align='center'>{data.errors.global}</TableCell>
-					</TableRow> }
-					{ list.length > 0 && list.map((row, index) => <TableRow key={index}>
-						<TableCell className={classes.row} align='center'>{no++}</TableCell>
-						<TableCell className={classes.row}>{row.kode_kantor_aduan} - {row.kantor_aduan}</TableCell>
-						<TableCell className={classes.row}>{row.kode_kantor_asal} - {row.kantor_asal}</TableCell>
-						<TableCell className={classes.row}>{row.kode_kantor_tujuan} - {row.kantor_tujuan}</TableCell>
-						<TableCell className={classes.row}>{row.id_kiriman}</TableCell>
-						<TableCell className={classes.row}>{row.isi_kiriman}</TableCell>
-						<TableCell className={classes.row}>{row.berat}</TableCell>
-						<TableCell className={classes.row}>{row.kantong_lama}</TableCell>
-						<TableCell className={classes.row}>{row.kantong_baru}</TableCell>
-						<TableCell className={classes.row}>{row.keterangan}</TableCell>
-					</TableRow> )}
+					</TableRow> : <React.Fragment>
+						{ list.length > 0 && list.map((row, index) => <TableRow key={index}>
+							<TableCell className={classes.row} align='center'>{no++}</TableCell>
+							<TableCell className={classes.row}>{row.kode_kantor_aduan} - {row.kantor_aduan}</TableCell>
+							<TableCell className={classes.row}>{row.kode_kantor_asal} - {row.kantor_asal}</TableCell>
+							<TableCell className={classes.row}>{row.kode_kantor_tujuan} - {row.kantor_tujuan}</TableCell>
+							<TableCell className={classes.row}>{row.id_kiriman}</TableCell>
+							<TableCell className={classes.row}>{row.isi_kiriman}</TableCell>
+							<TableCell className={classes.row}>{row.berat}</TableCell>
+							<TableCell className={classes.row}>{row.kantong_lama}</TableCell>
+							<TableCell className={classes.row}>{row.kantong_baru}</TableCell>
+							<TableCell className={classes.row}>{row.keterangan}</TableCell>
+						</TableRow> )}
+					</React.Fragment> }
 				</TableBody>
 			</Table>
 		</TableContainer>
