@@ -45,8 +45,6 @@ const FormPengaduan = props => {
 		}
 	}
 
-	console.log(value.channel);
-
 	return(
 		<Card>
 			<CardHeader 

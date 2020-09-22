@@ -209,18 +209,34 @@ const AddNewTiket = props => {
 
 	const onChangePengaduan = (e) => {
 		const { name, value } = e.target;
-
-		setState(state => ({
-			...state,
-			pengaduan: {
-				...state.pengaduan,
-				[name]: value
-			},
-			errors: {
-				...state.errors,
-				[name]: undefined
-			}
-		}))
+		if (name === 'channel') {
+			setState(state => ({
+				...state,
+				pengaduan: {
+					...state.pengaduan,
+					channelName: '',
+					nama:'',
+					phone: '',
+					alamat: '',
+					email: '',
+					detailAlamat: '',
+					[name]: value
+				},
+				errors: {}
+			}))
+		}else{
+			setState(state => ({
+				...state,
+				pengaduan: {
+					...state.pengaduan,
+					[name]: name === 'nama' ? value.replace(/[^\w\s]/gi, '') : value
+				},
+				errors: {
+					...state.errors,
+					[name]: undefined
+				}
+			}))
+		}
 	}
 
 	const handleChangeAlamat = (value) => {
@@ -369,7 +385,6 @@ const AddNewTiket = props => {
 			if (!tarif.data.sKodepos) errors.sKodepos = 'Alamat pengirim tidak valid';
 		}else if(type === 'tiket'){
 			const { data: dataTiket } = tiket;
-			//if (!dataTiket.noresi) errors.noresiTiket = 'Nomor resi tidak boleh kosong';
 			if (dataTiket.listTujuan.length === 0) errors.tujuanKirim = 'Harap select 1 atau lebih kantor tujuan';
 			if (!dataTiket.catatan) errors.catatan = 'Catatan harap diisi';
 		}
@@ -381,6 +396,15 @@ const AddNewTiket = props => {
 			errors.channel = 'Channel belum dipilih';	
 			if (!pengaduan.phone) errors.phone = 'Nomor telepon tidak boleh kosong';
 		}else{
+			if (pengaduan.channel === '5') {
+				var reEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; //eslint-disable-line
+				if (!reEmail.test(pengaduan.channelName)) errors.channelName = 'Email tidak valid';
+			}
+			if (pengaduan.channel === '1') {
+				var rePhone = /^(^\62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/; //eslint-disable-line
+				if (!rePhone.test(pengaduan.channelName)) errors.channelName = 'Nomor ponsel tidak valid. contoh format 08XXX';
+			}
+
 			if (!pengaduan.phone && pengaduan.channel !== '1') errors.phone = 'Nomor telepon tidak boleh kosong';
 			if (!pengaduan.channelName) errors.channelName = 'Tidak boleh kosong';
 		}
