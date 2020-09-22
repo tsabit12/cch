@@ -15,7 +15,8 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
-	FormHelperText
+	FormHelperText,
+	Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import SearchIcon from '@material-ui/icons/Search';
@@ -93,6 +94,7 @@ const SearchInput = props => {
 					<SearchIcon />
 				</IconButton>
 			</Paper>
+			{ errors.nippos && <Typography variant='body2' style={{color: 'red', marginTop: 3}}>{errors.nippos}</Typography>}
 		</React.Fragment>
 	);
 }
