@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: 20
 	},
 	content: {
-		height: 355,
+		height: 400,
 		overflowY: 'auto'
 	}
 }))

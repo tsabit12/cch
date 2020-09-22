@@ -50,7 +50,8 @@ const AddNewTiket = props => {
 			nama:'',
 			phone: '',
 			alamat: '',
-			email: ''
+			email: '',
+			detailAlamat: ''
 		},
 		options: {
 			list: [],
@@ -401,6 +402,7 @@ const AddNewTiket = props => {
 			nik: pengaduan.channel === '7' || pengaduan.channel === '8' ? pengaduan.channelName : '',
 			nopend: props.user.kantor_pos,
 			jenisChannel: pengaduan.channel,
+			detailAlamat: pengaduan.detailAlamat
 		}
 
 		api.cch.addPelanggan(payload)
@@ -643,6 +645,7 @@ const AddNewTiket = props => {
 				nik: pengaduan.channel === '7' || pengaduan.channel === '8' ? pengaduan.channelName : '',
 				nopend: props.user.kantor_pos,
 				jenisChannel: pengaduan.channel,
+				detailAlamat: pengaduan.detailAlamat
 			}
 
 			api.cch.addPelanggan(payloadPelanggan)
@@ -737,7 +740,8 @@ const AddNewTiket = props => {
 				nama:'',
 				phone: '',
 				alamat: '',
-				email: ''
+				email: '',
+				detailAlamat: ''
 			},
 			options: {
 				list: [],

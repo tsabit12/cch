@@ -84,7 +84,8 @@ const ModalEdit = props => {
   		alamat: '',
   		id: '',
       sosmed: '',
-      email: ''
+      email: '',
+      detailAlamat: ''
   	},
   	errors: {},
   	loading: false
@@ -102,7 +103,8 @@ const ModalEdit = props => {
 		  		phone: data.phone,
 		  		alamat: data.alamat,
 		  		customerId: data.customerId,
-          email: data.email
+          email: data.email,
+          detailAlamat: data.detail_address
   			}
   		}))
   	}
@@ -135,8 +137,20 @@ const ModalEdit = props => {
   			...state,
   			loading: true
   		}))
+      const { field } = state;
 
-  		props.onUpdate(state.field);
+      const payload = {
+        nama: field.nama,
+        channel: field.channel,
+        phone: field.phone,
+        alamat: field.alamat,
+        id: field.id,
+        sosmed: field.sosmed,
+        email: field.email,
+        detail_address: field.detailAlamat
+      }
+
+  		props.onUpdate(payload);
   	}
   }
 
@@ -236,6 +250,22 @@ const ModalEdit = props => {
               { errors.email && <FormHelperText id='component-error-email'>{errors.email}</FormHelperText> }
             </FormControl>
 
+            <FormControl 
+              fullWidth 
+              variant='outlined'
+              className={classes.field}
+            >
+              <TextField
+                label='Alamat Utama'
+                InputLabelProps={{ shrink: true }}
+                value={field.detailAlamat}
+                name='detailAlamat'
+                onChange={handleChange}
+                autoComplete='off'
+                variant='outlined'
+                placeholder='Masukkan alamat utama pelanggan'
+              />
+            </FormControl>
 
            	<FormControl 
             	fullWidth 
@@ -244,7 +274,7 @@ const ModalEdit = props => {
             	error={!!errors.alamat}
             >
             	<TextField
-  		          label='Alamat'
+  		          label='Kec/Kab'
   		          InputLabelProps={{ shrink: true }}
   		          value={field.alamat}
   		          name='alamat'
@@ -252,7 +282,7 @@ const ModalEdit = props => {
   		          autoComplete='off'
   		          error={!!errors.alamat}
   		          variant='outlined'
-  		          placeholder='Masukkan alamat pelanggan'
+  		          placeholder='Masukkan kec/kab pelanggan'
             	/>
             	{ errors.alamat && <FormHelperText id='component-error-phone'>{errors.alamat}</FormHelperText> }
             </FormControl>

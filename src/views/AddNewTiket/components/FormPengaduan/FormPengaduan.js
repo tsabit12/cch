@@ -58,6 +58,7 @@ const FormPengaduan = props => {
 					variant='outlined' 
 					fullWidth
 					className={classes.field}
+					size='small'
 				>
 					<InputLabel id="jenis-customized-select">Jenis Pengaduan</InputLabel>
 					<Select
@@ -81,6 +82,7 @@ const FormPengaduan = props => {
 					<FormControl
 						variant='outlined' 
 						fullWidth
+						size='small'
 						className={classes.field}
 						error={!!errors.channel}
 					>
@@ -112,6 +114,7 @@ const FormPengaduan = props => {
 					        onChange={(event, newValue) => {
 					          props.onChangeSelectAutoComplete(newValue);
 					        }}
+					        size='small'
 					        freeSolo
 		        			disableClearable
 					        inputValue={value.channelName}
@@ -139,6 +142,7 @@ const FormPengaduan = props => {
 				>
 					<TextField 
 						label='Nama Pelanggan'
+						size='small'
 						variant='outlined'
 						InputLabelProps={{ shrink: true }}
 						value={value.nama}
@@ -160,6 +164,7 @@ const FormPengaduan = props => {
 					<TextField 
 						label='Nomor Telepon'
 						variant='outlined'
+						size='small'
 						InputLabelProps={{ shrink: true }}
 						value={value.phone}
 						name='phone'
@@ -179,6 +184,7 @@ const FormPengaduan = props => {
 					>
 						<TextField 
 							label='Email'
+							size='small'
 							variant='outlined'
 							InputLabelProps={{ shrink: true }}
 							value={value.email}
@@ -190,28 +196,49 @@ const FormPengaduan = props => {
 						/>
 					</FormControl> }
 
-				<FormControl
-					fullWidth
-					className={classes.field}
-				>
-					<Autocomplete
-				        inputValue={value.alamat}
-				        onInputChange={(event, newInputValue) => {
-				          props.onChangeAlamat(newInputValue);
-				        }}
-				        id="controllable-alamat"
-    					options={props.cities}
-    					renderInput={(params) => 
-	    						<TextField 
-	    							{...params} 
-	    							label='Alamat'
-	    							variant='outlined'
-									InputLabelProps={{ shrink: true }}
-									placeholder='Masukan alamat pelanggan'
-    							/> 
-    						}
-			    	/>
-				</FormControl>
+				<div className={classes.group}>
+					<FormControl
+						fullWidth
+						className={classes.fieldLeft}
+					>
+						<TextField 
+							label='Alamat Utama'
+							size='small'
+							variant='outlined'
+							InputLabelProps={{ shrink: true }}
+							value={value.detailAlamat}
+							name='detailAlamat'
+							id='detailAlamat'
+							onChange={props.handleChange}
+							placeholder='Jalan/kp/nomor'
+							autoComplete='off'
+						/>
+					</FormControl>
+
+					<FormControl
+						fullWidth
+						className={classes.fieldRight}
+					>
+						<Autocomplete
+					        inputValue={value.alamat}
+					        onInputChange={(event, newInputValue) => {
+					          props.onChangeAlamat(newInputValue);
+					        }}
+					        size='small'
+					        id="controllable-alamat"
+	    					options={props.cities}
+	    					renderInput={(params) => 
+		    						<TextField 
+		    							{...params} 
+		    							label='Kecamatan'
+		    							variant='outlined'
+										InputLabelProps={{ shrink: true }}
+										placeholder='Masukan Kecamatan/Kota pelanggan'
+	    							/> 
+	    						}
+				    	/>
+					</FormControl>
+				</div>
 			</CardContent>
 		</Card>
 	);

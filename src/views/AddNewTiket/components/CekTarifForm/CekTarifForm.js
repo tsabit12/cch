@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	content: {
 		overflowY: 'auto',
-		height: 355
+		height: 400
 	},
 	field: {
 		marginBottom: 20

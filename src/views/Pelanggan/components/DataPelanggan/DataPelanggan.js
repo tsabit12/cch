@@ -60,6 +60,7 @@ const DataPelanggan = props => {
 	                  <TableCell className={classes.row}>Email</TableCell>
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>ALAMAT</TableCell>
+	                  <TableCell className={classes.row}>KEC/KAB</TableCell>
 	                  <TableCell className={classes.row} align='center'>UPDATE</TableCell>
 	                </TableRow>
               	</TableHead>
@@ -71,7 +72,8 @@ const DataPelanggan = props => {
               			<TableCell className={classes.row} align="left">{row.namaLengkap}</TableCell>
               			<TableCell className={classes.row} align="left">{row.phone}</TableCell>
               			<TableCell className={classes.row} align="left">{row.email ? row.email : '-'}</TableCell>
-              			<TableCell className={classes.row} align="left">{row.kantorPos}</TableCell>
+              			<TableCell className={classes.row} align="left">{row.nopend}</TableCell>
+              			<TableCell className={classes.row} align="left">{row.detail_address}</TableCell>
               			<TableCell className={classes.row} align="left">
               				<p className={classes.text}>{row.alamat}</p>
               			</TableCell>

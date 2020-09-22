@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: 10
 	},
 	cardContent: {
-		minHeight: 370,
+		minHeight: 400,
 		position: 'relative'
 	}
 }))
