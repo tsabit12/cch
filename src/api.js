@@ -138,5 +138,8 @@ export default{
 		headers: {
 			'content-type': 'application/x-www-form-urlencoded'
 		}
-	}).then(res => res.data.result)
+	}).then(res => res.data.result),
+	updateStatusTiket: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/updateStatusRead`, {
+		notiket
+	}).then(res => res.data)
 }

@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getTicket, setActiveLink } from "../../actions/tiket";
 import Alert from "../Alert";
+import api from '../../api';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -109,6 +110,12 @@ const Tiket = props => {
 	}))
 
 	const handleClickTicket = (noTiket) => {
+		//update status tiket to read
+		if (state.active === 1) {
+			api.updateStatusTiket(noTiket)
+				.then(res => console.log(res));
+		}
+
 		const param = {
 			active: state.active,
 			text: state.title
