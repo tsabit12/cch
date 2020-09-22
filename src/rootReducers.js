@@ -6,6 +6,7 @@ import user from "./reducers/user";
 import laporan from "./reducers/laporan";
 import dashboard from "./reducers/dashboard";
 import xray from './reducers/xray';
+import knowledge from './reducers/knowledge';
 
 export default combineReducers({
 	auth,
@@ -14,5 +15,6 @@ export default combineReducers({
 	user,
 	laporan,
 	dashboard,
-	xray
+	xray,
+	knowledge
 })

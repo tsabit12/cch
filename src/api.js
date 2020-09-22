@@ -130,5 +130,13 @@ export default{
 	}).then(res => res.data.result),
 	getXray: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/getData`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	getProdknowledge: (query) => axios.post(`${process.env.REACT_APP_API2}/prod`, {
+		query
+	}).then(res => res.data),
+	uploadKnowledge: (formData) => axios.post(`${process.env.REACT_APP_API2}/prod/uploadKnowledge`, formData, {
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded'
+		}
+	}).then(res => res.data.result)
 }

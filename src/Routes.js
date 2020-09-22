@@ -25,7 +25,8 @@ import {
   Profile as ProfileView,
   Laporan as LaporanView,
   Calendar as CalendarView,
-  Xray as XrayView
+  Xray as XrayView,
+  ProdKnowledge as ProdKnowledgeView
 } from './views';
 
 
@@ -102,6 +103,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/laporan"
+      />
+      <GuestRoute
+        component={ProdKnowledgeView}
+        exact
+        layout={MainLayout}
+        path="/prod-knowledge"
       />
       <UserRoute
         component={LoginView}

@@ -12,3 +12,4 @@ export { default as AddNewTiket } from './AddNewTiket';
 export { default as Laporan } from './Laporan';
 export { default as Calendar } from './Calendar';
 export { default as Xray } from './Xray';
+export { default as ProdKnowledge } from './ProdKnowledge';
