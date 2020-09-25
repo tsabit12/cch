@@ -10,9 +10,9 @@ import {
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
+import { getPencapaian, getStatistik } from '../../actions/dashboard';
 import { removeMessage } from "../../actions/message";
-import { getTotalPelanggan } from "../../actions/laporan";
-import { getAll } from "../../actions/dashboard";
+import { getTotalPelanggan } from "../../actions/laporan"
 import PropTypes from "prop-types";
 import CollapseMessage from "../CollapseMessage";
 import api from "../../api";
@@ -48,11 +48,11 @@ const listReg = [
 	{text: 'REGIONAL 04', value: 'Regional 4'},
 	{text: 'REGIONAL 05', value: 'Regional 5'},
 	{text: 'REGIONAL 06', value: 'Regional 6'},
-	{text: 'REGIONAL 07', value: 'REGIONAL 7'},
-	{text: 'REGIONAL 08', value: 'REGIONAL 8'},
-	{text: 'REGIONAL 09', value: 'REGIONAL 9'},
-	{text: 'REGIONAL 10', value: 'REGIONAL 10'},
-	{text: 'REGIONAL 11', value: 'REGIONAL 11'}
+	{text: 'REGIONAL 07', value: 'Regional 7'},
+	{text: 'REGIONAL 08', value: 'Regional 8'},
+	{text: 'REGIONAL 09', value: 'Regional 9'},
+	{text: 'REGIONAL 10', value: 'Regional 10'},
+	{text: 'REGIONAL 11', value: 'Regional 11'}
 ]
 
 const Dashboard = props => {
@@ -93,6 +93,7 @@ const Dashboard = props => {
 	  		getListKprk(props.dataUser.regional);
 	  	}else if(props.dataUser.utype === 'Kprk'){
 	  		defaultValue.regional = props.dataUser.regional;
+	  		//console.log(props.dataUser.regional);
 	  		defaultValue.kprk = props.dataUser.kantor_pos;
 
 	  		setState(state => ({
@@ -112,9 +113,10 @@ const Dashboard = props => {
 	  		defaultValue.kprk = '00';
 	  	}
 
-	  	await props.getJumlahUser(defaultValue.regional, defaultValue.kprk);
-	  	await props.getTotalPelanggan(defaultValue);
-	  	props.getAll(defaultValue);
+	  	props.getJumlahUser(defaultValue.regional, defaultValue.kprk);
+	  	props.getStatistik(defaultValue);
+	  	props.getTotalPelanggan(defaultValue);
+	  	props.getPencapaian(defaultValue);
 
   	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +131,6 @@ const Dashboard = props => {
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [display]);
 
-  const { pencapaian, today } = props.data;
   const { search, listKprk } = state;
 
   const getListKprk = (regional) => {
@@ -172,9 +173,10 @@ const Dashboard = props => {
   }
 
   const handleClick = async () => {
-  	await props.getJumlahUser(search.regional, search.kprk);
-  	await props.getTotalPelanggan(state.search);
-  	props.getAll(state.search);
+  	props.getJumlahUser(search.regional, search.kprk);
+  	props.getTotalPelanggan(search);
+  	props.getStatistik(search);
+  	props.getPencapaian(search);
 
   }
 
@@ -249,36 +251,35 @@ const Dashboard = props => {
 		        </Grid>
 		        <Grid item lg={4} sm={4} xl={3} xs={12}>
 		        	<TiketToday 
-		        		total={today.TiketHariIni}
-		        		totalLain={today.lainnyaHariIni}
+		        		total={0}
+		        		totalLain={0}
 		        	/>
 		        </Grid>
 			</Grid>
 			<Grid container spacing={4}>
 				<Grid item lg={6} sm={12} xl={6} xs={12}>
 		          <Pencapaian 
-		          	lebih={pencapaian.selesaiLbh24}
-		          	kurang={pencapaian.selesaiKrg24}
+		          	lebih={props.pencapaian.masuk.lebih}
+		          	kurang={props.pencapaian.masuk.kurang}
 		          	type='MASUK'
 		          />
 		        </Grid>
 		        <Grid item lg={6} sm={12} xl={6} xs={12}>
 		        	<Pencapaian 
-			          	lebih={pencapaian.selesaiLbh24}
-			          	kurang={pencapaian.selesaiKrg24}
+			          	lebih={props.pencapaian.keluar.lebih}
+		          		kurang={props.pencapaian.keluar.kurang}
 			          	type='KELUAR'
 			        />
-		        	
 		        </Grid>
-		        <Grid item lg={6} sm={12} xl={6} xs={12}>
+		         <Grid item lg={6} sm={12} xl={6} xs={12}>
 		         	<Statistik 
-		        		listData={props.data.statistik}
+		        		listData={props.statistik.masuk}
 		        		type='MASUK'
 		        	/>
 		        </Grid>
 		        <Grid item lg={6} sm={12} xl={6} xs={12}>
 		        	<Statistik 
-		        		listData={props.data.statistik}
+		        		listData={props.statistik.keluar}
 		        		type='KELUAR'
 		        	/>
 		        </Grid>
@@ -292,26 +293,28 @@ Dashboard.propTypes = {
 	getJumlahUser: PropTypes.func.isRequired,
 	totUser: PropTypes.number.isRequired,
 	flashMessage: PropTypes.object.isRequired,
-	getAll: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired,
 	dataUser: PropTypes.object.isRequired,
-	getTotalPelanggan: PropTypes.func.isRequired,
-	totPel: PropTypes.number.isRequired
+	totPel: PropTypes.number.isRequired,
+	getPencapaian: PropTypes.func.isRequired,
+	getStatistik: PropTypes.func.isRequired,
+	statistik: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		totUser: state.user.jumlah,
 		flashMessage: state.message,
-		data: state.dashboard,
 		dataUser: state.auth.user,
-		totPel: state.laporan.jumlahPelanggan
+		totPel: state.laporan.jumlahPelanggan,
+		pencapaian: state.newDashboard.pencapaian,
+		statistik: state.newDashboard.statistik
 	}
 }
 
 export default connect(mapStateToProps, { 
 	getJumlahUser, 
 	removeMessage,
-	getAll,
+	getPencapaian,
+	getStatistik,
 	getTotalPelanggan
 })(Dashboard);

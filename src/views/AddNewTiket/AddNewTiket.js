@@ -291,13 +291,16 @@ const AddNewTiket = props => {
 					...state.pengaduan,
 					phone: findedOptions.phone,
 					alamat: findedOptions.address,
-					nama: findedOptions.name_requester
+					nama: findedOptions.name_requester,
+					detailAlamat: findedOptions.detail_address,
+					email: findedOptions.email
 				},
 				errors: {
 					...state.errors,
 					phone: undefined,
 					alamat: undefined,
-					nama: undefined
+					nama: undefined,
+					email: undefined
 				}
 			}))
 		}
@@ -390,7 +393,6 @@ const AddNewTiket = props => {
 		}
 
 		if (!pengaduan.nama) errors.nama = 'Nama pelanggan tidak boleh kosong';
-		if (!pengaduan.alamat) errors.alamat = 'Alamat harap diisi';
 
 		if (pengaduan.channel === '0'){
 			errors.channel = 'Channel belum dipilih';	
@@ -608,7 +610,11 @@ const AddNewTiket = props => {
 						errors: {
 							global: 'Data dengan barcode tersebut tidak ditemukan'
 						},
-						loading: false
+						loading: false,
+						tiket: {
+							...state.tiket,
+							tracks: []
+						}
 					}))
 				})
 		}

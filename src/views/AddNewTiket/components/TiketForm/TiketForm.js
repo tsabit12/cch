@@ -305,7 +305,7 @@ const TiketForm = props => {
 					variant='text' 
 					color='primary'
 					onClick={() => props.onSubmit(state)}
-					disabled={state.layanan ? false : true }
+					disabled={tracks.length > 0 ? false : true }
 				>
 					AJUKAN
 				</Button>

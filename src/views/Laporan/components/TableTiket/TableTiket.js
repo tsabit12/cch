@@ -73,22 +73,23 @@ const TableTiket = props => {
           					<TableCell align='center' className={classes.tableRightBorder}>{row.tot_all}</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>{row.hari1}</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Math.round(Number(row.hari1) * 100 / Number(row.tot_all))}
+                      { Number(row.tot_all) > 0 ?  Math.round(Number(row.hari1) * 100 / Number(row.tot_all)) : 0 }
+
           					</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>{row.hari2}</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Math.round(Number(row.hari2) * 100 / Number(row.tot_all))}
+          						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari2) * 100 / Number(row.tot_all)) : 0 }
           					</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>{row.hari3}</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Math.round(Number(row.hari3) * 100 / Number(row.tot_all))}
+          						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari3) * 100 / Number(row.tot_all)) : 0}
           					</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>{row.hari4}</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Math.round(Number(row.hari4) * 100 / Number(row.tot_all))}
+          						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari4) * 100 / Number(row.tot_all)) : 0 }
           					</TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Math.round((Number(row.hari1) + Number(row.hari2) + Number(row.hari3) + Number(row.hari4)) * 100 / Number(row.tot_all))} %
+          						{Number(row.tot_all) > 0 ? Math.round((Number(row.hari1) + Number(row.hari2) + Number(row.hari3) + Number(row.hari4)) * 100 / Number(row.tot_all)) : 0 } %
           					</TableCell>
           				</TableRow>
           			)) }

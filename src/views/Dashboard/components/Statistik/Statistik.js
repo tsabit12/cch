@@ -34,7 +34,7 @@ const Statistik = props => {
 	const data = {
 	    datasets: [
 	      {
-	        data: [listData.semuaTicket, listData.ticketSelesai, listData.ticketTerbuka],
+	        data: [listData.all, listData.selesai, listData.terbuka],
 	        backgroundColor: [
 	          theme.palette.warning.main,
 	          theme.palette.secondary.dark,

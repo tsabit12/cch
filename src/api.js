@@ -141,5 +141,13 @@ export default{
 	}).then(res => res.data.result),
 	updateStatusTiket: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/updateStatusRead`, {
 		notiket
-	}).then(res => res.data)
+	}).then(res => res.data),
+	dashboard: {
+		getPencapaian: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getPencapaian`, {
+			...payload
+		}).then(res => res.data),
+		getStatistik: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/tiket`, {
+			...payload
+		}).then(res => res.data)
+	}
 }

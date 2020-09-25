@@ -51,6 +51,7 @@ const TableTiket = props => {
 		                  <TableCell className={classes.row}>PELANGGAN</TableCell>
 		                  <TableCell className={classes.row}>TUJUAN ADUAN</TableCell>
 		                  <TableCell className={classes.row}>TANGGAL ADUAN</TableCell>
+		                  <TableCell className={classes.row}>EXPIRED</TableCell>
 		                  <TableCell className={classes.row}>STATUS</TableCell>
 		                </TableRow>
 	              	</TableHead>
@@ -84,6 +85,7 @@ const TableTiket = props => {
 				              <TableCell className={classes.row} align="left">{row.pelanggan}</TableCell>
 				              <TableCell className={classes.row} align="left">{row.tujuan_pengaduan} kantor</TableCell>
 				              <TableCell className={classes.row} align="left">{row.tgl_tambah}</TableCell>
+				              <TableCell className={classes.row} align="left">{row.hours <= 0 ? '-' : `${row.hours} jam lagi`}</TableCell>
 				              <TableCell className={classes.row} align="left">{row.status}</TableCell>
 				            </TableRow>
 				          ))}
