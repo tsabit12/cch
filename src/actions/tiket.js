@@ -100,3 +100,22 @@ export const setActiveLink = (param) => dispatch => {
 		param
 	})
 }
+
+export const getTotal = (nopend) => dispatch => 
+	api.tiket.getTotal(nopend)
+		.then(tikets => dispatch({
+			type: 'GET_JUMLAH_ALL_TIKET',
+			tikets
+		}))
+
+export const getNewTiket = (payload, activePaging, type) => dispatch => 
+	api.tiket.getTiket(payload)
+		.then(tickets => {
+			if (tickets.length > 0) {
+				dispatch({
+					type,
+					tickets,
+					activePaging
+				})
+			}
+		})

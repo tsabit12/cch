@@ -242,11 +242,11 @@ Chat.propTypes = {
 
 function mapStateToProps(state, props) {
 	const { notiket } = props.match.params;
-	if (state.ticket.detail[notiket]) {
+	if (state.tiket.detail[notiket]) {
 		return{
-			dataTiket: state.ticket.detail[notiket],
+			dataTiket: state.tiket.detail[notiket],
 			user: state.auth.user,
-			isDone: !!state.ticket.detail[notiket].isDone
+			isDone: !!state.tiket.detail[notiket].isDone
 		}
 	}else{
 		return{

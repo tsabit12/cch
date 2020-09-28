@@ -15,7 +15,6 @@ import {
 import {
   Dashboard as DashboardView,
   NotFound as NotFoundView,
-  Tiket as TiketView,
   AddNewTiket as AddTiketView,
   Login as LoginView,
   User as UserView,
@@ -26,7 +25,8 @@ import {
   Laporan as LaporanView,
   Calendar as CalendarView,
   Xray as XrayView,
-  ProdKnowledge as ProdKnowledgeView
+  ProdKnowledge as ProdKnowledgeView,
+  TiketReport as TiketReportView
 } from './views';
 
 
@@ -45,7 +45,7 @@ const Routes = () => {
         path="/dashboard"
       /> 
       <GuestRoute
-        component={TiketView}
+        component={TiketReportView}
         exact
         layout={MainLayout}
         path="/tiket"

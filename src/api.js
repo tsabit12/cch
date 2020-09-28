@@ -149,5 +149,13 @@ export default{
 		getStatistik: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/tiket`, {
 			...payload
 		}).then(res => res.data)
+	},
+	tiket: {
+		getTotal: (nopend) => axios.post(`${process.env.REACT_APP_API2}/getTiket/totalTiket`, {
+			nopend
+		}).then(res => res.data),
+		getTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/getTiket`, {
+			...payload
+		}).then(res => res.data)
 	}
 }

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import auth from "./reducers/auth";
-import ticket from "./reducers/ticket";
+import tiket from "./reducers/newTiket";
 import message from "./reducers/message";
 import user from "./reducers/user";
 import laporan from "./reducers/laporan";
@@ -11,7 +11,7 @@ import newDashboard from './reducers/newDashboard';
 
 export default combineReducers({
 	auth,
-	ticket,
+	tiket,
 	message,
 	user,
 	laporan,
