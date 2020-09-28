@@ -8,7 +8,10 @@ import {
 	Table,
 	TableHead,
 	TableRow,
-	TableCell
+	TableCell,
+	TableBody,
+	FormControl,
+	Button
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
@@ -61,7 +64,7 @@ const getStatus = number => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: 490,
+		height: 500,
 		position: 'relative'
 	},
 	header: {
@@ -84,6 +87,9 @@ const ListTiket = props => {
 		offset: 0,
 		active: 1
 	});
+	const [param, setParam] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [showReset, setReset] = useState(false);
 
 	//
 	useEffect(() => {
@@ -106,6 +112,7 @@ const ListTiket = props => {
 			offset: 0,
 			active: 1
 		})
+		setParam('');
 
 		props.getTiket(payload, 1);
 		//eslint-disable-next-line
@@ -127,29 +134,69 @@ const ListTiket = props => {
 		props.getTiket(payload, page);
 	}
 
+	const handleSearch = () => {
+		if (!param) {
+			alert('Nomor tiket harap diisi');
+		}else{
+			setLoading(true);
+			const payload = {
+				offset: 0,
+				status: getStatus(props.page),
+				search: param
+			};
+
+			props.getTiket(payload, 1)
+				.then(() => {
+					setLoading(false);
+					setReset(true);
+				})
+		}
+	}
+
+	const handleReset = () => {
+		setParam('');
+
+		const payload = {
+			offset: 0,
+			status: getStatus(props.page)
+		};
+
+		props.getTiket(payload, 1)
+			.then(() => setReset(false))
+	}
+
 	return(
 		<Paper className={classes.root}> 
 			<div className={classes.header}>
 				<Typography variant='h5'>{getLabelPage(props.page)}</Typography>
-
-				<TextField 
-					placeholder='Cari nomor tiket'
-					variant='outlined'
-					size='small'
-					InputProps={{
-			            endAdornment:  <IconButton
-								aria-label="toggle password visibility"
-								style={{padding: 0}}
-								//onClick={handleClickShowPassword}
-								//onMouseDown={handleMouseDownPassword}
-							>
-								<SearchIcon />
-							</IconButton>,
-			        }}
-			        style={{
-			        	width: 300
-			        }}
-				/>
+				<div style={{alignItems: 'center', display: 'flex'}}>
+					{ showReset && <Button size='medium' variant='outlined' style={{marginRight: 6}} onClick={handleReset}>
+						RESET
+					</Button> }
+					<FormControl>
+						<TextField 
+							placeholder='Cari nomor tiket'
+							variant='outlined'
+							size='small'
+							value={param}
+							onChange={(e) => setParam(e.target.value)}
+							InputProps={{
+					            endAdornment:  <IconButton
+										aria-label="toggle password visibility"
+										style={{padding: 0}}
+										onClick={handleSearch}
+										//onMouseDown={handleMouseDownPassword}
+									>
+										<SearchIcon />
+									</IconButton>,
+					        }}
+					        style={{
+					        	width: 300
+					        }}
+						/>
+						{ loading && <Typography variant='body2'>Loading...</Typography>}
+					</FormControl>
+				</div>
 			</div>
 			<Table size='small'>
 				<TableHead>
@@ -163,12 +210,16 @@ const ListTiket = props => {
 						<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
 					</TableRow>
 				</TableHead>
-				{ props.list[paging.active] && 
+				{ props.list[paging.active] ?
 					<TableTiket 
 						data={props.list[paging.active]} 
 						activePage={paging.active}
 						onClickTiket={props.onClickTiket}
-					/> }
+					/> : <TableBody>
+						<TableRow>
+							<TableCell colSpan={7} align='center'>Tiket tidak ditemukan</TableCell>
+						</TableRow>
+					</TableBody>}
 			</Table>
 			<div className={classes.paging}>
 				<Pagination 
@@ -177,6 +228,7 @@ const ListTiket = props => {
 					shape="rounded" 
 					page={paging.active}
 					onChange={handleChangePage}
+					disabled={param.length === 0 ? false : true }
 				/>
 			</div>
 		</Paper>

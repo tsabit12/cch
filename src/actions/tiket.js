@@ -117,5 +117,11 @@ export const getNewTiket = (payload, activePaging, type) => dispatch =>
 					tickets,
 					activePaging
 				})
+			}else{
+				dispatch({
+					type: 'RESET_TIKET',
+					reportType: payload.typeReport,
+					activePaging
+				})
 			}
 		})

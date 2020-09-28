@@ -46,16 +46,22 @@ const TiketReport = props => {
 		//eslint-disable-next-line
 	}, [props.user])
 
-	const handleGetTiket = (payload, activePaging) => {
-		const { type } = getTypeTiket(activePage);
+	const handleGetTiket = async (payload, activePaging) => {
+		const { type, list } = getTypeTiket(activePage);
 		const newPayload = {
 			...payload,
 			nopend: props.user.kantor_pos,
-			typeReport: type
+			typeReport: list
 		}
 
 
-		props.getNewTiket(newPayload, activePaging, type);
+		await props.getNewTiket(newPayload, activePaging, type)
+			.then(() => {
+				return Promise.resolve('oke')
+			})
+			.catch(err => {
+				return Promise.reject(err)
+			});
 	}
 
 	const handleClickTiket = (no) => {

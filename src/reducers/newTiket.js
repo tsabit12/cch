@@ -75,6 +75,14 @@ export default function newTiket(state=initialState, action={}) {
 					}
 				}
 			}
+		case 'RESET_TIKET':
+			return{
+				...state,
+				list: {
+					...state.list,
+					[action.reportType]: []
+				}
+			}
 		case 'SET_LOGOUT':
 			return {
 				...state,
