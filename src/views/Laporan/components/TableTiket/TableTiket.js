@@ -32,7 +32,7 @@ const TableTiket = props => {
                 <TableRow>
                   <TableCell rowSpan={2} className={classes.tableRightBorder}>No</TableCell>
                   <TableCell rowSpan={2} className={classes.tableRightBorder}>Kantor</TableCell>
-                  <TableCell align='center' rowSpan={2} className={classes.tableRightBorder} size='small'>Jumlah Pengaduan</TableCell>
+                  <TableCell align='center' rowSpan={2} className={classes.tableRightBorder}>Jumlah Pengaduan</TableCell>
                   <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
                     1 hari
                   </TableCell>
@@ -45,11 +45,14 @@ const TableTiket = props => {
                   <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
                     >= 4 hari 
                   </TableCell>
-                  <TableCell rowSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
-                    Total
+                  <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+                    Total pengaduan selesai
                   </TableCell>
                 </TableRow>
                 <TableRow>
+                  <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
+                  <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+
                   <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
                   <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
 
@@ -66,7 +69,7 @@ const TableTiket = props => {
           	<TableBody>
           		
           			{ props.data.length === 0 ? <TableRow>
-          				<TableCell className={classes.tableRightBorder} colSpan={12} align='center'>Data kosong</TableCell>
+          				<TableCell className={classes.tableRightBorder} colSpan={13} align='center'>Data kosong</TableCell>
           			</TableRow> : props.data.map((row, index) => (
           				<TableRow key={index}>
           					<TableCell className={classes.tableRightBorder}>{no++}</TableCell>
@@ -89,8 +92,16 @@ const TableTiket = props => {
           					<TableCell align='center' className={classes.tableRightBorder}>
           						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari4) * 100 / Number(row.tot_all)) : 0 }
           					</TableCell>
+                    <TableCell align='center' className={classes.tableRightBorder}>
+                      {Number(row.hari1) + Number(row.hari2) + Number(row.hari3) + Number(row.hari4)}
+                    </TableCell>
           					<TableCell align='center' className={classes.tableRightBorder}>
-          						{Number(row.tot_all) > 0 ? Math.round((Number(row.hari1) + Number(row.hari2) + Number(row.hari3) + Number(row.hari4)) * 100 / Number(row.tot_all)) : 0 } %
+          						{Number(row.tot_all) > 0 ? 
+                        Math.round((Number(row.hari1) + 
+                        Number(row.hari2) + 
+                        Number(row.hari3) + 
+                        Number(row.hari4)) * 100 / 
+                        Number(row.tot_all)) : 0 }
           					</TableCell>
           				</TableRow>
           			)) }

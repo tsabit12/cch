@@ -175,7 +175,7 @@ const ListTiket = props => {
 					</Button> }
 					<FormControl>
 						<TextField 
-							placeholder='Cari nomor tiket'
+							placeholder='Cari nomor tiket/resi'
 							variant='outlined'
 							size='small'
 							value={param}
