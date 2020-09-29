@@ -19,6 +19,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducers from "./rootReducers"; 
 import { isLoggedIn } from "./actions/auth";
 import 'chartjs-plugin-datalabels';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const store = createStore(
   rootReducers,
@@ -52,13 +54,15 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            {/*<Router basename={process.env.PUBLIC_URL} history={browserHistory}>*/}
-              <Routes />
-            {/*</Router>*/}
-          </ThemeProvider>
-        </Provider>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>
+              {/*<Router basename={process.env.PUBLIC_URL} history={browserHistory}>*/}
+                <Routes />
+              {/*</Router>*/}
+            </ThemeProvider>
+          </Provider>
+        </MuiPickersUtilsProvider>
       </HashRouter>
     );
   }

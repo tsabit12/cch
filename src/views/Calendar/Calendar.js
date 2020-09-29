@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(4)
 	},
 	container: {
-	    maxHeight: 400,
+	    maxHeight: 500,
 	},
 	row: {
 		whiteSpace: 'nowrap'
@@ -111,7 +111,7 @@ const CalendarComponent = props => {
 	return(
 		<div className={classes.root}>
 				<CardHeader 
-					title='ADITIONAL FUNCTION'
+					title='PENGATURAN HARI LIBUR'
 					action={selectedDays.length > 0 && 
 						<Button variant="outlined" color="primary" onClick={onSubmit}>
         					SAVE
@@ -164,11 +164,13 @@ const CalendarComponent = props => {
 					        							value={row.keterangan}
 					        							onChange={(e) => handleChangeDesc(e, index)}
 					        							autoComplete='off'
+					        							size='small'
 					        						/>
 					        					</TableCell>
 					        					<TableCell align='center'>
 					        						<IconButton 
 					        							aria-label="delete" 
+					        							style={{padding: 0}}
 					        							onClick={() => onRemove(index)}
 					        						>
 											          <DeleteIcon fontSize="small" />

@@ -162,7 +162,7 @@ const SidebarNav = props => {
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
-        <ListItemText primary="Aditional Function" />
+        <ListItemText primary="Pengaturan" />
       </ListItem>
     </List>
   );
