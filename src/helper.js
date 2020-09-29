@@ -24,3 +24,18 @@ export const periodeView = (date) => {
     var dateTime = year+'-'+month; //+' '+hour+':'+minute+':'+second;   
     return dateTime;
 }
+
+export const listReg = [
+	{text: 'SEMUA REGIONAL', value: '00'},
+	{text: 'REGIONAL 01', value: 'Regional 1'},
+	{text: 'REGIONAL 02', value: 'Regional 2'},
+	{text: 'REGIONAL 03', value: 'Regional 3'},
+	{text: 'REGIONAL 04', value: 'Regional 4'},
+	{text: 'REGIONAL 05', value: 'Regional 5'},
+	{text: 'REGIONAL 06', value: 'Regional 6'},
+	{text: 'REGIONAL 07', value: 'Regional 7'},
+	{text: 'REGIONAL 08', value: 'Regional 8'},
+	{text: 'REGIONAL 09', value: 'Regional 9'},
+	{text: 'REGIONAL 10', value: 'Regional 10'},
+	{text: 'REGIONAL 11', value: 'Regional 11'}
+]

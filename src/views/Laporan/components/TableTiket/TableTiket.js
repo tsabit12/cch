@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
         borderWidth: 1,
         borderColor: '#aaadab',
         borderStyle: 'solid',
+        whiteSpace: 'nowrap'
 	}, // or borderTop: '1px solid red'
 	bottomBorder: {
         // borderBottomWidth: 1
@@ -30,7 +31,7 @@ const TableTiket = props => {
 			<TableHead>
                 <TableRow>
                   <TableCell rowSpan={2} className={classes.tableRightBorder}>No</TableCell>
-                  <TableCell rowSpan={2} className={classes.tableRightBorder}>Regional</TableCell>
+                  <TableCell rowSpan={2} className={classes.tableRightBorder}>Kantor</TableCell>
                   <TableCell align='center' rowSpan={2} className={classes.tableRightBorder} size='small'>Jumlah Pengaduan</TableCell>
                   <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
                     1 hari
