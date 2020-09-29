@@ -68,7 +68,7 @@ const EmptyMessage = () => {
 }
 
 const ProdKnowledge = props => {
-	const { list } = props;
+	const { list, user } = props;
 	const classes = useStyles();
 	const inputFileref = useRef();
 	const [query, setQuery] = useState('');
@@ -133,7 +133,7 @@ const ProdKnowledge = props => {
 				/>}
 			<div className={classes.header}>
 				<div className={classes.breadcumb}>
-					<Typography variant='h5'>Product Knowledge</Typography>
+					<Typography variant='h5'>PRODUCT KNOWLEDGE</Typography>
 				</div>
 				<TextField 
 					placeholder='Cari file'
@@ -158,7 +158,7 @@ const ProdKnowledge = props => {
 						/>)}
 				</Grid> }
 			</div>
-			<div className={classes.btnupload}>
+			{ user.jabatan === 'Administrator' && <div className={classes.btnupload}>
 				<Fab 
 					color="secondary" 
 					variant="extended" 
@@ -168,7 +168,7 @@ const ProdKnowledge = props => {
 				>
 		          <AddIcon /> Upload File
 		        </Fab>
-	        </div>
+	        </div> }
 	        <input 
 	        	type='file'
 	        	hidden
@@ -181,7 +181,8 @@ const ProdKnowledge = props => {
 
 function mapStateToProps(state) {
 	return{
-		list: state.knowledge
+		list: state.knowledge,
+		user: state.auth.user
 	}
 }
 
