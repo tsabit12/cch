@@ -198,29 +198,31 @@ const ListTiket = props => {
 					</FormControl>
 				</div>
 			</div>
-			<Table size='small'>
-				<TableHead>
-					<TableRow>
-						<TableCell style={{whiteSpace: 'nowrap'}}>NO</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>EXPIRED</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
-						<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
-					</TableRow>
-				</TableHead>
-				{ props.list[paging.active] ?
-					<TableTiket 
-						data={props.list[paging.active]} 
-						activePage={paging.active}
-						onClickTiket={props.onClickTiket}
-					/> : <TableBody>
+			<div style={{overflowY: 'auto'}}>
+				<Table size='small'>
+					<TableHead>
 						<TableRow>
-							<TableCell colSpan={7} align='center'>Tiket tidak ditemukan</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>NO</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>EXPIRED</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
 						</TableRow>
-					</TableBody>}
-			</Table>
+					</TableHead>
+					{ props.list[paging.active] ?
+						<TableTiket 
+							data={props.list[paging.active]} 
+							activePage={paging.active}
+							onClickTiket={props.onClickTiket}
+						/> : <TableBody>
+							<TableRow>
+								<TableCell colSpan={7} align='center'>Tiket tidak ditemukan</TableCell>
+							</TableRow>
+						</TableBody>}
+				</Table>
+			</div>
 			<div className={classes.paging}>
 				<Pagination 
 					count={getTotalPage(props.total, props.page)} 
