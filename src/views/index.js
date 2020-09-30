@@ -13,3 +13,4 @@ export { default as Calendar } from './Calendar';
 export { default as Xray } from './Xray';
 export { default as ProdKnowledge } from './ProdKnowledge';
 export { default as TiketReport } from './TiketReport';
+export { default as DataLibur } from './DataLibur';

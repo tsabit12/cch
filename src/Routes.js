@@ -26,7 +26,8 @@ import {
   Calendar as CalendarView,
   Xray as XrayView,
   ProdKnowledge as ProdKnowledgeView,
-  TiketReport as TiketReportView
+  TiketReport as TiketReportView,
+  DataLibur as DataLiburView
 } from './views';
 
 
@@ -87,10 +88,16 @@ const Routes = () => {
         path="/profile"
       />
       <GuestRoute
+        component={DataLiburView}
+        exact
+        layout={MainLayout}
+        path="/setting"
+      />
+      <GuestRoute
         component={CalendarView}
         exact
         layout={MainLayout}
-        path="/add-function"
+        path="/setting/add"
       />
       <GuestRoute
         component={XrayView}

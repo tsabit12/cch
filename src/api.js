@@ -46,7 +46,11 @@ export default{
 		}).then(res => res.data),
 		addLibur: (payload) => axios.post(`${process.env.REACT_APP_API2}/holiday`, {
 			value: payload
-		}).then(res => res.data)
+		}).then(res => res.data),
+		getLibur: (offset) => axios.post(`${process.env.REACT_APP_API2}/holiday/getData`, {
+			offset
+		}).then(res => res.data),
+		getTotalLibur: () => axios.post(`${process.env.REACT_APP_API2}/holiday/getTotal`).then(res => Number(res.data.total))
 	},
 	getEmploye: (payload) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
 		idPegawai: payload.nippos,

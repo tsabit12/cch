@@ -3,7 +3,10 @@ import { makeStyles } from '@material-ui/styles';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar } from "react-modern-calendar-datepicker";
 import {
+	Card,
 	CardHeader,
+	CardContent,
+	CardActions,
 	Grid,
 	Table,
 	TableContainer,
@@ -16,7 +19,8 @@ import {
 	Backdrop,
 	TextField,
 	Paper,
-	Button
+	Button,
+	Divider
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { connect } from 'react-redux';
@@ -27,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(4)
 	},
 	container: {
-	    maxHeight: 500,
+	    height: 450,
 	},
 	row: {
 		whiteSpace: 'nowrap'
@@ -111,10 +115,10 @@ const CalendarComponent = props => {
 
 		api.cch.addLibur(payload)
 			.then(res => {
-				alert('Sukses insert hari libur');
 				setSelectedDays([]);
 				setTimeout(function() {
 					setLoading(false);
+					props.history.push(`/setting`);
 				}, 10);
 			})
 			.catch(err => {
@@ -128,81 +132,91 @@ const CalendarComponent = props => {
 
 	return(
 		<div className={classes.root}>
-				<CardHeader 
-					title='PENGATURAN HARI LIBUR'
-					action={selectedDays.length > 0 && 
-						<Button variant="outlined" color="primary" onClick={onSubmit}>
-        					SAVE
-      					</Button>}
-				/>
-				
+			<Card>
 				<Backdrop className={classes.loadingBackdrop} open={loading} />
         		{ loading && <CircularProgress className={classes.progress} /> }				
-
-				<Grid container>
-			      	<Grid
-			          item
-			          lg={4}
-			          sm={4}
-			          xl={4}
-			          xs={12}
-			        >
-						<Calendar
-				            value={selectedDays}
-				            onChange={(val) => onChooseDate(val)}
-				            shouldHighlightWeekends
-				        />
+				<CardHeader 
+					title='TAMBAH HARI LIBUR'
+				/>
+				<Divider />
+				<CardContent>
+					<Grid container>
+				      	<Grid
+				          item
+				          lg={4}
+				          sm={4}
+				          xl={4}
+				          xs={12}
+				        >
+							<Calendar
+					            value={selectedDays}
+					            onChange={(val) => onChooseDate(val)}
+					            shouldHighlightWeekends
+					        />
+				        </Grid>
+				        <Grid
+				          item
+				          lg={8}
+				          sm={8}
+				          xl={8}
+				          xs={12}
+				        >
+				        	<Paper>
+					        	<TableContainer className={classes.container}>
+						        	<Table stickyHeader aria-label="sticky table" size='small'>
+						        		<TableHead>
+						        			<TableRow>
+						        				<TableCell className={classes.row}>TANGGAL</TableCell>
+						        				<TableCell className={classes.row}>KETERANGAN</TableCell>
+						        				<TableCell className={classes.row} align='center'>ACTION</TableCell>
+						        			</TableRow>
+						        		</TableHead>
+						        		<TableBody>
+						        			{ selectedDays.length > 0 ? selectedDays.map((row, index) => <TableRow key={index}>
+						        					<TableCell className={classes.row}>{row.year}-{numberTwodigit(row.month)}-{numberTwodigit(row.day)}</TableCell>
+						        					<TableCell>
+						        						<TextField 
+						        							id="standard-basic" 
+						        							placeholder='Masukan keterangan disini' 
+						        							variant="outlined"
+						        							fullWidth
+						        							value={row.keterangan}
+						        							onChange={(e) => handleChangeDesc(e, index)}
+						        							autoComplete='off'
+						        							size='small'
+						        						/>
+						        					</TableCell>
+						        					<TableCell align='center'>
+						        						<IconButton 
+						        							aria-label="delete" 
+						        							style={{padding: 0}}
+						        							onClick={() => onRemove(index)}
+						        						>
+												          <DeleteIcon fontSize="small" />
+												        </IconButton>
+						        					</TableCell>
+						        				</TableRow>) : <TableRow>
+						        					<TableCell align='center' colSpan={3}>Select date</TableCell>
+						        				</TableRow> }
+						        		</TableBody>
+						        	</Table>
+						        </TableContainer>
+					        </Paper>
+				        </Grid>
 			        </Grid>
-			        <Grid
-			          item
-			          lg={8}
-			          sm={8}
-			          xl={8}
-			          xs={12}
-			        >
-			        	<Paper>
-				        	<TableContainer className={classes.container}>
-					        	<Table stickyHeader aria-label="sticky table">
-					        		<TableHead>
-					        			<TableRow>
-					        				<TableCell className={classes.row}>TANGGAL</TableCell>
-					        				<TableCell className={classes.row}>KETERANGAN</TableCell>
-					        				<TableCell className={classes.row} align='center'>ACTION</TableCell>
-					        			</TableRow>
-					        		</TableHead>
-					        		<TableBody>
-					        			{ selectedDays.length > 0 ? selectedDays.map((row, index) => <TableRow key={index}>
-					        					<TableCell className={classes.row}>{row.year}-{numberTwodigit(row.month)}-{numberTwodigit(row.day)}</TableCell>
-					        					<TableCell>
-					        						<TextField 
-					        							id="standard-basic" 
-					        							placeholder='Masukan keterangan disini' 
-					        							variant="outlined"
-					        							fullWidth
-					        							value={row.keterangan}
-					        							onChange={(e) => handleChangeDesc(e, index)}
-					        							autoComplete='off'
-					        							size='small'
-					        						/>
-					        					</TableCell>
-					        					<TableCell align='center'>
-					        						<IconButton 
-					        							aria-label="delete" 
-					        							style={{padding: 0}}
-					        							onClick={() => onRemove(index)}
-					        						>
-											          <DeleteIcon fontSize="small" />
-											        </IconButton>
-					        					</TableCell>
-					        				</TableRow>) : <TableRow>
-					        					<TableCell align='center' colSpan={3}>Select date</TableCell>
-					        				</TableRow> }
-					        		</TableBody>
-					        	</Table>
-					        </TableContainer>
-				        </Paper>
-			        </Grid>
-		        </Grid>
+		        </CardContent>
+		        <Divider />
+		        <CardActions style={{justifyContent: 'flex-end'}}>
+		        	<Button 
+		        		variant="outlined" 
+		        		color="primary" 
+		        		onClick={onSubmit}
+		        		disabled={selectedDays.length > 0 ? false : true }
+		        	>
+    					SAVE
+  					</Button>
+		        </CardActions>
+		    </Card>
 		</div>
 	);
 }

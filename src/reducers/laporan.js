@@ -8,7 +8,9 @@ const initialState = {
 	pelanggan: {},
 	jumlahPelanggan: 0,
 	channel: [],
-	tiket: []
+	tiket: [],
+	libur: {},
+	totalLibur: 0
 }
 
 export default function laporan(state = initialState, action={}){
@@ -54,6 +56,19 @@ export default function laporan(state = initialState, action={}){
 			return {
 				...state,
 				tiket: action.tickets
+			}
+		case 'GET_DATA_LIBUR':
+			return {
+				...state,
+				libur: {
+					...state.libur,
+					[action.activePage]: action.weekdays
+				}
+			}
+		case 'GET_TOTAL_LIBUR':
+			return{
+				...state,
+				totalLibur: action.jumlah
 			}
 		default: 
 			return state;

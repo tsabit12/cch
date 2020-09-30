@@ -157,7 +157,7 @@ const SidebarNav = props => {
         activeClassName={classes.active}
         className={classes.button}
         component={CustomRouterLink}
-        to="/add-function"
+        to="/setting"
       >
         <ListItemIcon>
           <SettingsIcon />
