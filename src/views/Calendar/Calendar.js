@@ -64,9 +64,27 @@ const CalendarComponent = props => {
 		setSelectedDays(array);
 	}
 
-	const onChooseDate = (valueArr) => {
-		const newArr2 = valueArr.map(v => Object.assign(v, {keterangan: v.keterangan ? v.keterangan : ''}));
-		setSelectedDays(newArr2);
+	const validateWeekday = (date) => {
+		const dayNames = new Date(date).toLocaleString('en-us', {  weekday: 'long' });
+		if (dayNames === 'Sunday') {
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+
+	const onChooseDate = (valueArr) => {		//how valiadte day if holiday
+		//validate last array	
+		var lastData = valueArr.length - 1;
+		lastData 	 = valueArr[lastData];
+		
+		const dateValue 	= `${lastData.year}-${numberTwodigit(lastData.month)}-${numberTwodigit(lastData.day)}`;
+		const isValidDate 	= validateWeekday(dateValue);
+		if (isValidDate) {
+			const newArr2 = valueArr.map(v => Object.assign(v, {keterangan: v.keterangan ? v.keterangan : ''}));
+			setSelectedDays(newArr2);
+		}
 	}
 
 	const handleChangeDesc = (e, choosedIndex) => {
