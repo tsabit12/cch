@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: 508,
+		minHeight: 510,
 		position: 'relative',
 		overflowX: 'auto'
 	},
@@ -45,11 +45,11 @@ const DataPelanggan = props => {
 	const classes = useStyles();
 	const { list, activePage } = props;
 	
-	var no = (activePage * 10) - 10 + 1;
+	var no = (activePage * 18) - 18 + 1;
 
 	return(
 		<div className={classes.root}>
-			<Table>
+			<Table size='small'>
 				<TableHead>
 	                <TableRow>
 	                  <TableCell className={classes.row}>No</TableCell>
@@ -86,7 +86,7 @@ const DataPelanggan = props => {
 	              					style={{padding: 0, height: 0}}
 	              					onClick={() => props.onEdit(row.customerId)}
 	              				>
-							        <EditIcon />
+							        <EditIcon size='small' />
 							    </IconButton>
 						    </div>
               			</TableCell>

@@ -61,7 +61,7 @@ const User = props => {
 		data: [],
 		paging: {
 			offset: 0,
-			limit: 7
+			limit: 13
 		},
 		search:{
 			reg: '00',

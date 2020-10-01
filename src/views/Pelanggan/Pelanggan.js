@@ -137,7 +137,7 @@ const Pelanggan = props => {
 	}
 
 	const handleChangePage = (event, page) => {
-		const offsetValue = page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1;
+		const offsetValue = page === 1 ? (page * 18) - 18 : (page * 18) - 18 + 1;
 		
 		const payload = {
 			offset: offsetValue,
@@ -221,7 +221,7 @@ const Pelanggan = props => {
 				/>
 				<CardActions className={classes.action}>
 					<Pagination 
-						count={Math.ceil(props.total / 10)} 
+						count={Math.ceil(props.total / 18)} 
 						variant="outlined" 
 						shape="rounded" 
 						page={activePage}

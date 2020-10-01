@@ -13,7 +13,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 400,
+		minHeight: 500,
 		position: 'relative',
 		overflowX: 'auto'
 	},
@@ -104,7 +104,7 @@ const TableUser = props => {
 
 	return(
 		<div className={classes.root}>
-			<Table>
+			<Table size='small'>
               	<TableHead>
 	                <TableRow>
 	                  <TableCell className={classes.row}>No</TableCell>
