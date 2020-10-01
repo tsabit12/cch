@@ -13,7 +13,8 @@ import {
 	Popper,
 	Grow,
 	ClickAwayListener,
-	MenuList
+	MenuList,
+	//CardActions
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getLaporanTiket } from '../../actions/laporan';
@@ -22,7 +23,8 @@ import { periodeView, listReg } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import {
-	TableTiket
+	TableTiket,
+	ModalDetail
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -46,6 +48,10 @@ const Laporan = props => {
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [activeName, setActivename ] = useState('00'); //01 keluar : 00 masuk
+	const [detail, setDetail] = useState({
+		visible: false,
+		item: {}
+	});
 
 	useEffect(() => {
 		const payload = {
@@ -110,6 +116,17 @@ const Laporan = props => {
 		}else{
 			setActivename('01');
 		}
+	}
+
+	const handleClickDetail = (id) => {
+		setDetail({
+			visible: true,
+			item: {
+				kantor: id,
+				type: params.regional === '00' ? 'reg' : 'kprk',
+				periode: periodeView(params.periode)
+			}
+		});
 	}
 
 	const cardTitle = () => (
@@ -183,6 +200,12 @@ const Laporan = props => {
 
 	return(
 		<div className={classes.root}>
+			{ detail.visible && 
+				<ModalDetail 
+					onClose={() => setDetail({ visible: false, item: {} })} 
+					item={detail.item}
+					type={activeName}
+				/> }
 			<Card>
 				<CardHeader 
 					title={cardTitle()}
@@ -190,7 +213,14 @@ const Laporan = props => {
 				<Divider />
 				<TableTiket 
 					data={props.listTiket}
+					onPress={handleClickDetail}
 				/>
+				<Divider />
+				{ /* <CardActions style={{justifyContent: 'flex-end'}}>
+					<Button variant='contained' color='primary'>
+						DOWNLOAD TO EXCEL
+					</Button>
+				</CardActions> */ }
 			</Card>
 		</div>
 	);

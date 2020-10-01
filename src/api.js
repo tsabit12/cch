@@ -160,6 +160,9 @@ export default{
 		}).then(res => res.data),
 		getTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/getTiket`, {
 			...payload
+		}).then(res => res.data),
+		detailLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/detailreport`, {
+			...payload
 		}).then(res => res.data)
 	}
 }
