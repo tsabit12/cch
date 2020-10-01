@@ -10,16 +10,25 @@ import {
 import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
-	tableRightBorder : { 
-        // borderRightWidth: 1,
-        borderWidth: 1,
-        borderColor: '#aaadab',
-        borderStyle: 'solid',
+	nowrap : { 
+        //borderRightWidth: 1,
+        //borderColor: '#aaadab',
+        //borderStyle: 'solid',
         whiteSpace: 'nowrap'
 	}, // or borderTop: '1px solid red'
-	bottomBorder: {
-        // borderBottomWidth: 1
-	}
+	rightBorder: {
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
+        borderWidth: 0,
+        borderColor: '#e0e0e0',
+        borderStyle: 'solid',
+	},
+  bottomBorder: {
+    borderBottomWidth: 1,
+    borderWidth: 0,
+    borderColor: '#e0e0e0',
+    borderStyle: 'solid',
+  }
 }))
 
 const TableTiket = props => {
@@ -27,76 +36,78 @@ const TableTiket = props => {
 	var no = 1;
 
 	return(
-    <div style={{overflowY: 'auto'}}>
+    <div style={{overflowY: 'auto', minHeight: 300}}>
   		<Table size='small' padding='checkbox'>
   			<TableHead>
             <TableRow>
-              <TableCell rowSpan={2} className={classes.tableRightBorder}>No</TableCell>
-              <TableCell rowSpan={2} className={classes.tableRightBorder}>Kantor</TableCell>
-              <TableCell align='center' rowSpan={2} className={classes.tableRightBorder}>Jumlah Pengaduan</TableCell>
-              <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+              <TableCell rowSpan={2} className={clsx(classes.nowrap, classes.rightBorder)}>No</TableCell>
+              <TableCell rowSpan={2} className={clsx(classes.nowrap, classes.rightBorder)}>Kantor</TableCell>
+              <TableCell align='center' rowSpan={2} className={clsx(classes.nowrap, classes.rightBorder)}>
+                Jumlah Pengaduan
+              </TableCell>
+              <TableCell colSpan={2} align="center" className={clsx(classes.nowrap, classes.rightBorder)}>
                 1 hari
               </TableCell>
-              <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+              <TableCell colSpan={2} align="center" className={clsx(classes.nowrap, classes.rightBorder)}>
                 2 hari
               </TableCell>
-              <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+              <TableCell colSpan={2} align="center" className={clsx(classes.nowrap, classes.rightBorder)}>
                 3 hari
               </TableCell>
-              <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+              <TableCell colSpan={2} align="center" className={clsx(classes.nowrap, classes.rightBorder)}>
                 >= 4 hari 
               </TableCell>
-              <TableCell colSpan={2} align="center" className={clsx(classes.tableRightBorder, classes.bottomBorder)}>
+              <TableCell colSpan={2} align="center" className={clsx(classes.nowrap, classes.bottomBorder)}>
                 Total pengaduan selesai
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
-              <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>Jumlah</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>%</TableCell>
 
-              <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
-              <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>Jumlah</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>%</TableCell>
 
-              <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
-              <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>Jumlah</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>%</TableCell>
 
-              <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
-              <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>Jumlah</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>%</TableCell>
 
-              <TableCell align="center" className={classes.tableRightBorder}>Jumlah</TableCell>
-              <TableCell align="center" className={classes.tableRightBorder}>%</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.rightBorder)}>Jumlah</TableCell>
+              <TableCell align="center" className={clsx(classes.nowrap, classes.bottomBorder)}>%</TableCell>
             </TableRow>
       	</TableHead>
     	<TableBody>
     		
     			{ props.data.length === 0 ? <TableRow>
-    				<TableCell className={classes.tableRightBorder} colSpan={13} align='center'>Data kosong</TableCell>
+    				<TableCell className={classes.nowrap} colSpan={13} align='center'>Data kosong</TableCell>
     			</TableRow> : props.data.map((row, index) => (
     				<TableRow key={index}>
-    					<TableCell className={classes.tableRightBorder}>{no++}</TableCell>
-    					<TableCell className={classes.tableRightBorder}>{row.regional}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>{row.tot_all}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>{row.hari1}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>
+    					<TableCell className={clsx(classes.nowrap, classes.rightBorder)}>{no++}</TableCell>
+    					<TableCell className={clsx(classes.nowrap, classes.rightBorder)}>{row.regional}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>{row.tot_all}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>{row.hari1}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>
                 { Number(row.tot_all) > 0 ?  Math.round(Number(row.hari1) * 100 / Number(row.tot_all)) : 0 }
 
     					</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>{row.hari2}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>{row.hari2}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>
     						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari2) * 100 / Number(row.tot_all)) : 0 }
     					</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>{row.hari3}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>{row.hari3}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>
     						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari3) * 100 / Number(row.tot_all)) : 0}
     					</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>{row.hari4}</TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>{row.hari4}</TableCell>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>
     						{ Number(row.tot_all) > 0 ? Math.round(Number(row.hari4) * 100 / Number(row.tot_all)) : 0 }
     					</TableCell>
-              <TableCell align='center' className={classes.tableRightBorder}>
+              <TableCell align='center' className={clsx(classes.nowrap, classes.rightBorder)}>
                 {Number(row.hari1) + Number(row.hari2) + Number(row.hari3) + Number(row.hari4)}
               </TableCell>
-    					<TableCell align='center' className={classes.tableRightBorder}>
+    					<TableCell align='center' className={clsx(classes.nowrap, classes.bottomBorder)}>
     						{Number(row.tot_all) > 0 ? 
                   Math.round((Number(row.hari1) + 
                   Number(row.hari2) + 

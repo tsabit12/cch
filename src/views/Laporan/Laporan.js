@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
 	Card,
 	CardHeader,
-	CardContent,
 	Divider,
-	Typography,
 	Button,
 	FormControl,
 	Select,
 	MenuItem,
-	InputLabel
+	InputLabel,
+	Paper,
+	Popper,
+	Grow,
+	ClickAwayListener,
+	MenuList
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getLaporanTiket } from '../../actions/laporan';
 import { DatePicker } from "@material-ui/pickers";
 import { periodeView, listReg } from '../../helper';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import {
 	TableTiket
@@ -34,15 +38,20 @@ const useStyles = makeStyles(theme => ({
 
 const Laporan = props => {
 	const classes = useStyles();
+	const anchorRef = useRef();
 	const [params, setParams] = useState({
 		periode: new Date(),
 		regional: '00'
 	})
+	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [activeName, setActivename ] = useState('00'); //01 keluar : 00 masuk
 
 	useEffect(() => {
 		const payload = {
 			regional:"00",
-			periode: periodeView(new Date())
+			periode: periodeView(new Date()),
+			type: '00'
 		}
 		props.getLaporanTiket(payload);
 		//eslint-disable-next-line
@@ -58,11 +67,15 @@ const Laporan = props => {
 	const handleSearch = () => {
 		const payload = {
 			regional: params.regional,
-			periode: periodeView(params.periode)
+			periode: periodeView(params.periode),
+			type: activeName
 		}	
 
+		setLoading(true);
+
 		props.getLaporanTiket(payload)
-			.catch(err => alert('err'))
+			.then(() => setLoading(false))
+			.catch(err => setLoading(false))
 	}
 
 	const handleChangeReg = (e) => {
@@ -73,11 +86,65 @@ const Laporan = props => {
 		}))
 	}
 
+	const handleToggle = () => setOpen(!open)
+
+	const handleClose = (event) => {
+	    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+	      return;
+	    }
+	    
+	    setOpen(false);
+	};
+
+	const handleListKeyDown = (event) => {
+	    if (event.key === 'Tab') {
+	      event.preventDefault();
+	      setOpen(false);
+	    }
+	}
+
+	const handleClickReportType = () => {
+		setOpen(false);
+		if (activeName === '01') {
+			setActivename('00');
+		}else{
+			setActivename('01');
+		}
+	}
+
 	const cardTitle = () => (
 		<div className={classes.header}>
-			<Typography variant="h6">
-			    LAPORAN TIKET
-			</Typography>
+			<div>
+				<Button
+		            size="medium"
+		            style={{minWidth: 200}}
+		            variant="outlined"
+		            ref={anchorRef}
+			        aria-controls={open ? 'menu-list-grow' : undefined}
+			        aria-haspopup="true"
+			        onClick={handleToggle}
+		        >
+				    {activeName === '01' ? 'LAPORAN TIKET KELUAR' : 'LAPORAN TIKET MASUK'} <ArrowDropDownIcon />
+				</Button>
+				<Popper open={open} anchorEl={anchorRef.current} style={{zIndex: 1}} role={undefined} transition disablePortal>
+		          {({ TransitionProps, placement }) => (
+		            <Grow
+		              {...TransitionProps}
+		              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+		            >
+		              <Paper>
+		                <ClickAwayListener onClickAway={handleClose}>
+		                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+		                  		<MenuItem onClick={handleClickReportType}>
+		                    		{ activeName === '01' ? 'LAPORAN TIKET MASUK' : 'LAPORAN TIKET KELUAR' }
+		                    	</MenuItem>
+		                  </MenuList>
+		                </ClickAwayListener>
+		              </Paper>
+		            </Grow>
+		          )}
+		        </Popper> 
+			</div>
 			<div style={{display: 'flex', width: 500}}>
 				<FormControl variant='outlined' size="small" style={{width: 200}}>
 					<InputLabel htmlFor="regLabel">Regional</InputLabel>
@@ -107,8 +174,8 @@ const Laporan = props => {
 			        value={params.periode}
 			        onChange={(e) => handleChangeDate(e._d)}
 			    />
-			    <Button variant='outlined' style={{marginLeft: 5}} onClick={handleSearch}>
-			    	Tampilkan
+			    <Button variant='outlined' style={{marginLeft: 5}} onClick={handleSearch} disabled={loading}>
+			    	{ loading ? 'Loading...' : 'Tampilkan'}
 			    </Button>
 		    </div>
 		</div>
@@ -121,11 +188,9 @@ const Laporan = props => {
 					title={cardTitle()}
 				/>
 				<Divider />
-				<CardContent>
-					<TableTiket 
-						data={props.listTiket}
-					/>
-				</CardContent>
+				<TableTiket 
+					data={props.listTiket}
+				/>
 			</Card>
 		</div>
 	);

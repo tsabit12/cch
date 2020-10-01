@@ -123,7 +123,7 @@ export default{
 	addTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTiket`, {
 		...payload
 	}).then(res => res.data),
-	getLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/report/lapPengaduanKeluarSelesai`, {
+	getLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/report`, {
 		...payload
 	}).then(res => res.data),
 	nonaktifUser: (payload) => axios.post(`${process.env.REACT_APP_API}/editUser`, {
