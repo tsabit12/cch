@@ -5,8 +5,8 @@ import {
 	TotalUser,
 	Pencapaian,
 	TiketToday,
-	Statistik,
-	TotalPelanggan
+	TotalPelanggan,
+	Grafik
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
@@ -266,17 +266,10 @@ const Dashboard = props => {
 		          	type='KELUAR'
 		        />
 	        </Grid>
-	         <Grid item lg={3} sm={12} xl={6} xs={12}>
-	         	<Statistik 
-	        		listData={props.statistik.masuk}
-	        		type='MASUK'
-	        	/>
-	        </Grid>
-	        <Grid item lg={3} sm={12} xl={6} xs={12}>
-	        	<Statistik 
-	        		listData={props.statistik.keluar}
-	        		type='KELUAR'
-	        	/>
+	        <Grid item lg={6} sm={12} xl={12} xs={12}>
+	         	<Grafik 
+	         		data={props.statistik}
+	         	/>
 	        </Grid>
 		</Grid>
     </div>

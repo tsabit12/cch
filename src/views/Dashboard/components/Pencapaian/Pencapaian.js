@@ -64,7 +64,7 @@ const Pencapaian = props => {
 	};
 
 	return(
-		<Card>
+		<Card style={{height: '100%'}}>
 			<CardHeader 
 				title={`PENCAPAIAN ${props.type}`}
 			/>
