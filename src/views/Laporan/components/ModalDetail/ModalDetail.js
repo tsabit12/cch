@@ -54,8 +54,8 @@ const TableDetail = ({ data }) => {
 			tableContent.push(
 				<React.Fragment key={i}>
 					<TableRow>
-						<TableCell colSpan={7} align='center' style={{backgroundColor: '#fafafa'}}>
-							<Typography variant='h5'>
+						<TableCell colSpan={7} align='center' style={{backgroundColor: '#ffac1c'}}>
+							<Typography variant='h5' style={{color: '#FFF'}}>
 								{ grouping === '-' && 'TIKET TERBUKA' }
 								{ Number(grouping) <= 1 && 'KURANG DARI 1 HARI'}
 								{ grouping === '2' && 'KURANG DARI 2 HARI' }
@@ -90,6 +90,13 @@ const TableDetail = ({ data }) => {
 			)
 		}
 	}
+
+	tableContent.push(
+		<TableRow style={{backgroundColor: '#f4f6f8'}} key='00'>
+			<TableCell colSpan={2}>Total = {data.length}</TableCell>
+			<TableCell colSpan={5}></TableCell>
+		</TableRow>
+	);
 
 	return(
 		<TableContainer style={{maxHeight: '90vh'}}>
