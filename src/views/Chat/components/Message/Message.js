@@ -439,7 +439,7 @@ const Message = props => {
 									            className={classes.inline}
 									            color="secondary"
 									          >
-									            {row.username}
+									            {row.username} ({row.kantor_pos})
 									        </Typography>
 									      </React.Fragment>}
 									      secondary={<Text 
@@ -458,7 +458,7 @@ const Message = props => {
 									            className={classes.rightText}
 									            color="secondary"
 									          >
-									            {row.username}
+									            {row.username} ({row.kantor_pos})
 									        </Typography>
 									      </React.Fragment>}
 									      secondary={ <Text 

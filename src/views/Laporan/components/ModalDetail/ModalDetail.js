@@ -54,7 +54,7 @@ const TableDetail = ({ data }) => {
 			tableContent.push(
 				<React.Fragment key={i}>
 					<TableRow>
-						<TableCell colSpan={7} align='center' style={{backgroundColor: '#ffac1c'}}>
+						<TableCell colSpan={8} align='center' style={{backgroundColor: '#ffac1c'}}>
 							<Typography variant='h5' style={{color: '#FFF'}}>
 								{ grouping === '-' && 'TIKET TERBUKA' }
 								{ Number(grouping) <= 1 && 'KURANG DARI 1 HARI'}
@@ -71,6 +71,7 @@ const TableDetail = ({ data }) => {
 						<TableCell>{item.asal_pengaduan}</TableCell>
 						<TableCell>{item.tujuan_pengaduan}</TableCell>
 						<TableCell>{item.channel}</TableCell>
+						<TableCell>{item.durasi} jam</TableCell>
 						<TableCell>{item.status}</TableCell>
 					</TableRow>
 				</React.Fragment>
@@ -85,6 +86,7 @@ const TableDetail = ({ data }) => {
 					<TableCell>{item.asal_pengaduan}</TableCell>
 					<TableCell>{item.tujuan_pengaduan}</TableCell>
 					<TableCell>{item.channel}</TableCell>
+					<TableCell>{item.durasi} jam</TableCell>
 					<TableCell>{item.status}</TableCell>
 				</TableRow>
 			)
@@ -94,7 +96,7 @@ const TableDetail = ({ data }) => {
 	tableContent.push(
 		<TableRow style={{backgroundColor: '#f4f6f8'}} key='00'>
 			<TableCell colSpan={2}>Total = {data.length}</TableCell>
-			<TableCell colSpan={5}></TableCell>
+			<TableCell colSpan={6}></TableCell>
 		</TableRow>
 	);
 
@@ -109,6 +111,7 @@ const TableDetail = ({ data }) => {
 						<TableCell>ASAL</TableCell>
 						<TableCell>TUJUAN</TableCell>
 						<TableCell>CHANNEL</TableCell>
+						<TableCell>DURASI</TableCell>
 						<TableCell>STATUS</TableCell>
 					</TableRow>
 				</TableHead>

@@ -52,7 +52,8 @@ export const addResponseTiket = (payload) => dispatch =>
 				username: payload.user,
 				status: 'Sending...',
 				file_name: null,
-				photoProfile: payload.photoProfile
+				photoProfile: payload.photoProfile,
+				kantor_pos: payload.kantor_pos ? payload.kantor_pos : ''
 			}; 
 			dispatch(responseAdded(payloadRes, payload.noTicket))
 		})
@@ -66,7 +67,8 @@ export const uploadResponse = (formData, param) => dispatch =>
 				username: param.user,
 				status: 'Sending...',
 				file_name: res.file_name,
-				photoProfile: param.photoProfile
+				photoProfile: param.photoProfile,
+				kantor_pos: param.kantor_pos ? param.kantor_pos : ''
 			}; 
 
 			dispatch(responseAdded(payload, param.noTicket))

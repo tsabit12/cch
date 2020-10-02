@@ -100,7 +100,8 @@ const Chat = props => {
 			response: text,
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
-			photoProfile: photoName
+			photoProfile: photoName,
+			kantor_pos: props.user.kantor_pos
 		}
 
 		props.uploadResponse(formData, payload);
@@ -113,7 +114,8 @@ const Chat = props => {
 			response: text,
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
-			photoProfile: photoName
+			photoProfile: photoName,
+			kantor_pos: props.user.kantor_pos
 		}
 		props.addResponseTiket(payload);
 	}
