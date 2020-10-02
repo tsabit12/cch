@@ -13,3 +13,13 @@ export const onAddNewFile = (formData) => dispatch =>
 			type: 'UPLOAD_KNOWLEDGE',
 			payload: response
 		}))
+
+
+export const onDelete = (file) => dispatch => {
+	dispatch({ 
+		type: 'DELETE_PROD_KNOWLEDGE',
+		file
+	});
+
+	api.deleteKnowledge(file);
+}

@@ -13,7 +13,7 @@ import {
 	ModalComponent
 } from './components';
 import { connect } from 'react-redux';
-import { getData, onAddNewFile } from '../../actions/knowledge';
+import { getData, onAddNewFile, onDelete } from '../../actions/knowledge';
 import Loader from '../Loader';
 
 const useStyles = makeStyles(theme => ({
@@ -155,6 +155,8 @@ const ProdKnowledge = props => {
 							description={row.description} 
 							filename={row.file_name}
 							key={index} 
+							onDelete={(file) => props.onDelete(file)}
+							jabatan={user.jabatan}
 						/>)}
 				</Grid> }
 			</div>
@@ -186,6 +188,4 @@ function mapStateToProps(state) {
 	}
 }
 
-
-
-export default connect(mapStateToProps, { getData, onAddNewFile })(ProdKnowledge);
+export default connect(mapStateToProps, { getData, onAddNewFile, onDelete })(ProdKnowledge);

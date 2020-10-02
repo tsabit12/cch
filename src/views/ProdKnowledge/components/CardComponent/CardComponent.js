@@ -1,18 +1,26 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import {
+  Divider,
+  Button,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  CardActions
+} from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 350,
+    maxWidth: 200,
+    height: '100%'
   },
   media: {
-    height: 240
+    height: 120,
+    width: 130,
+    //margin: 'auto'
   },
   description: {
     overflow: 'hidden',
@@ -24,7 +32,7 @@ const useStyles = makeStyles({
 });
 
 
-const CardComponent = ({ description, title, filename }) => {
+const CardComponent = ({ description, title, filename, onDelete, jabatan }) => {
   const classes = useStyles();
   
   const extension = filename.split('.')[1];
@@ -34,6 +42,8 @@ const CardComponent = ({ description, title, filename }) => {
     file=`${process.env.REACT_APP_PUBLIC_URL}/images/icon/pdficon.png`
   }else if (extension === 'xlsx'){
     file=`${process.env.REACT_APP_PUBLIC_URL}/images/icon/xlsicon.png`    
+  }else if (extension === 'pptx'){
+    file=`${process.env.REACT_APP_PUBLIC_URL}/images/icon/pptx.png`
   }else{
     file=`${process.env.REACT_APP_PUBLIC_URL}/images/icon/docxicon.png`
   }
@@ -41,20 +51,21 @@ const CardComponent = ({ description, title, filename }) => {
   return(
     <Grid
       item
-      lg={3}
-      xl={3}
-      sm={6}
+      lg={2}
+      xl={2}
+      sm={3}
       xs={12}
     >
-      <Card className={classes.root} onClick={() => window.open(`${process.env.REACT_APP_IMAGE}/knowledge/${filename}`,'_blank')}>
+      <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
+            onClick={() => window.open(`${process.env.REACT_APP_IMAGE}/knowledge/${filename}`,'_blank')}
             className={classes.media}
             image={file}
             title="Klik untuk mendowload"
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h6" component="h2">
               {title}
             </Typography>
             <Typography 
@@ -67,6 +78,18 @@ const CardComponent = ({ description, title, filename }) => {
             </Typography>
           </CardContent>
         </CardActionArea>
+        { jabatan === 'Administrator' && <React.Fragment>
+          <Divider />
+          <CardActions style={{justifyContent: 'center'}}>
+            <Button 
+              size="small" 
+              color="primary"
+              onClick={() => onDelete(filename)}
+            >
+              Hapus
+            </Button>
+          </CardActions>
+        </React.Fragment> }
       </Card>
     </Grid>
   );

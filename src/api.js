@@ -167,5 +167,8 @@ export default{
 		detailLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/detailreport`, {
 			...payload
 		}).then(res => res.data)
-	}
+	},
+	deleteKnowledge: (file) => axios.post(`${process.env.REACT_APP_API2}/prod/deleteFile`, {
+		file
+	}).then(res => res.data)
 }
