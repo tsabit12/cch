@@ -48,7 +48,8 @@ const listReg = [
 	{text: 'REGIONAL 08', value: 'Regional 8'},
 	{text: 'REGIONAL 09', value: 'Regional 9'},
 	{text: 'REGIONAL 10', value: 'Regional 10'},
-	{text: 'REGIONAL 11', value: 'Regional 11'}
+	{text: 'REGIONAL 11', value: 'Regional 11'},
+	{text: 'PUSAT', value: '01'},
 ]
 
 const Dashboard = props => {
