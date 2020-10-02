@@ -2,32 +2,17 @@ import React from "react";
 import {
 	Card,
 	CardHeader,
-	CardContent,
-	Divider
+	Divider,
+	Box,
+	Icon,
+	Typography
 } from "@material-ui/core";
 import { Pie } from 'react-chartjs-2';
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/styles";
 import PropTypes from "prop-types";
-
-const useStyles = makeStyles(theme => ({
-	chartContainer: {
-		position: 'relative',
-    	height: '250px'
-	},
-	stats: {
-		marginTop: theme.spacing(2),
-		display: 'flex',
-		justifyContent: 'center'
-	},
-	device: {
-		textAlign: 'center',
-		padding: theme.spacing(1)
-	},
-}))
 
 
 const Pencapaian = props => {
-	const classes = useStyles();
 	const theme = useTheme();
 
 	const data = {
@@ -45,6 +30,11 @@ const Pencapaian = props => {
 	    ],
 	    labels: ['24 Jam', '>24 Jam']
 	};
+
+	const labelValue = [
+		{jumlah: props.kurang, color: theme.palette.primary.main, label: '24 Jam' },
+		{jumlah: props.lebih, color: theme.palette.error.main, label: '> 24 Jam' }
+	]
 
 
 	const options = {
@@ -67,6 +57,9 @@ const Pencapaian = props => {
 	    		display: true,
 	    		color: 'white'
 	    	}
+	    },
+	    legend: {
+	      display: false
 	    }
 	};
 
@@ -76,14 +69,43 @@ const Pencapaian = props => {
 				title={`PENCAPAIAN ${props.type}`}
 			/>
 			<Divider />
-			<CardContent>
-        		<div className={classes.chartContainer}>
-        			<Pie
+			<div>
+	    		<Box
+		          height={250}
+		          position="relative"
+		          marginTop={2}
+		          marginBottom={2}
+		       	>
+	    			<Pie
 			            data={data}
 			            options={options}
 			        />	
-        		</div>
-        	</CardContent>
+	    		</Box>
+	    		<Divider />
+	    		<Box
+		          display="flex"
+		          justifyContent="center"
+		          mt={2}
+		          marginBottom={2}
+		        >
+	    			{ labelValue.map((row, index) => 
+	    				<Box p={1} textAlign="center" key={index}>
+			              <Icon color="action" />
+			              <Typography
+			                color="textPrimary"
+			                variant="body1"
+			              >
+			                { row.label }
+			              </Typography>
+			              <Typography
+			                style={{ color: row.color }}
+			                variant="h2"
+			              >
+			                {row.jumlah}
+			              </Typography>
+					</Box> )}
+	    		</Box>
+    		</div>
 		</Card>
 	);
 }

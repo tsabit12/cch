@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Paper, FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
+import { Grid, FormControl, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
 import {
 	TotalUser,
 	Pencapaian,
@@ -31,10 +31,6 @@ const useStyles = makeStyles(theme => ({
   	display: 'flex'
   },
   field: {
-  	marginTop: 8,
-  	margin: 5
-  },
-  button: {
   	marginTop: 8,
   	margin: 5
   }
@@ -187,8 +183,8 @@ const Dashboard = props => {
 			message={text}
 			onClose={props.removeMessage}
 		/>
-		<Paper className={classes.paper} elevation={1}>
-			<FormControl fullWidth variant='outlined' size="small" className={classes.field}>
+		<div className={classes.paper}>
+			<FormControl fullWidth variant='outlined' size="small">
 				<InputLabel htmlFor="regLabel">REGIONAL</InputLabel>
 				<Select
 					labelId="regLabel"
@@ -203,7 +199,7 @@ const Dashboard = props => {
 					))}
 				</Select>
 			</FormControl>
-			<FormControl fullWidth variant='outlined' size="small" className={classes.field}>
+			<FormControl fullWidth variant='outlined' size="small" style={{marginLeft: 8, marginRight: 8}}>
 				<InputLabel htmlFor="kprkLabel">KPRK</InputLabel>
 				<Select
 					labelId="kprkLabel"
@@ -225,66 +221,64 @@ const Dashboard = props => {
 				</Select>
 			</FormControl>
 			<Button 
-				color="secondary" 
 				fullWidth 
 				onClick={handleClick} 
-				variant="outlined" className={classes.button}
+				variant='outlined'
 				disabled={state.disabled.kprk}
 			>
 				TAMPILKAN	
 			</Button>
-		</Paper>
-		<Paper style={{padding: 10}}>
-	      	<Grid
-	        	container
-	        	spacing={4}
-			>
-		        <Grid item lg={4} sm={4} xl={3} xs={12}>
-		          <TotalUser 
-		          	total={props.totUser}
-		          />
-		        </Grid>
-		        <Grid item lg={4} sm={4} xl={3} xs={12}>
-		        	<TotalPelanggan 
-		        		total={props.totPel}
-		        	/>
-		        </Grid>
-		        <Grid item lg={4} sm={4} xl={3} xs={12}>
-		        	<TiketToday 
-		        		total={0}
-		        		totalLain={0}
-		        	/>
-		        </Grid>
-			</Grid>
-			<Grid container spacing={4}>
-				<Grid item lg={6} sm={12} xl={6} xs={12}>
-		          <Pencapaian 
-		          	lebih={props.pencapaian.masuk.lebih}
-		          	kurang={props.pencapaian.masuk.kurang}
-		          	type='MASUK'
-		          />
-		        </Grid>
-		        <Grid item lg={6} sm={12} xl={6} xs={12}>
-		        	<Pencapaian 
-			          	lebih={props.pencapaian.keluar.lebih}
-		          		kurang={props.pencapaian.keluar.kurang}
-			          	type='KELUAR'
-			        />
-		        </Grid>
-		         <Grid item lg={6} sm={12} xl={6} xs={12}>
-		         	<Statistik 
-		        		listData={props.statistik.masuk}
-		        		type='MASUK'
-		        	/>
-		        </Grid>
-		        <Grid item lg={6} sm={12} xl={6} xs={12}>
-		        	<Statistik 
-		        		listData={props.statistik.keluar}
-		        		type='KELUAR'
-		        	/>
-		        </Grid>
-			</Grid>
-		</Paper>
+		</div>
+
+      	<Grid
+        	container
+        	spacing={4}
+		>
+	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	          <TotalUser 
+	          	total={props.totUser}
+	          />
+	        </Grid>
+	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	        	<TotalPelanggan 
+	        		total={props.totPel}
+	        	/>
+	        </Grid>
+	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	        	<TiketToday 
+	        		total={0}
+	        		totalLain={0}
+	        	/>
+	        </Grid>
+		</Grid>
+		<Grid container spacing={4}>
+			<Grid item lg={3} sm={12} xl={6} xs={12}>
+	          <Pencapaian 
+	          	lebih={props.pencapaian.masuk.lebih}
+	          	kurang={props.pencapaian.masuk.kurang}
+	          	type='MASUK'
+	          />
+	        </Grid>
+	        <Grid item lg={3} sm={12} xl={6} xs={12}>
+	        	<Pencapaian 
+		          	lebih={props.pencapaian.keluar.lebih}
+	          		kurang={props.pencapaian.keluar.kurang}
+		          	type='KELUAR'
+		        />
+	        </Grid>
+	         <Grid item lg={3} sm={12} xl={6} xs={12}>
+	         	<Statistik 
+	        		listData={props.statistik.masuk}
+	        		type='MASUK'
+	        	/>
+	        </Grid>
+	        <Grid item lg={3} sm={12} xl={6} xs={12}>
+	        	<Statistik 
+	        		listData={props.statistik.keluar}
+	        		type='KELUAR'
+	        	/>
+	        </Grid>
+		</Grid>
     </div>
   );
 };
