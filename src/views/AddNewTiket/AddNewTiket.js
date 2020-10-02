@@ -91,7 +91,12 @@ const AddNewTiket = props => {
 				bisnis: 'E-Commerce',
 				catatan: ''
 			},
-			tracks: []
+			tracks: [],
+			wasAdded: false,
+			detail: {
+				// status: '',
+				// nomor: null
+			}
 		},
 		errors: {},
 		loading: false,
@@ -579,7 +584,7 @@ const AddNewTiket = props => {
 		}))
 	} 
 
-	const handleSearchResiTiket = () => {
+	const handleSearchResiTiket = async () => {
 		if (!tiket.data.noresi) {
 			alert('Nomor resi harap diisi');
 		}else{
@@ -592,6 +597,24 @@ const AddNewTiket = props => {
 				barcode: tiket.data.noresi,
 				type: tiket.data.type
 			}
+
+			await api.cch.validationTiket(tiket.data.noresi)
+				.then(response => {
+					const { status, no_tiket } = response;
+					if (status !== null) {
+						setState(state => ({
+							...state,
+							tiket:{
+								...state.tiket,
+								wasAdded: true,
+								detail: {
+									status,
+									no_tiket
+								}
+							}
+						}))
+					}
+				});
 
 			api.trackAndTrace(payload)
 				.then(tracks => {
@@ -613,7 +636,9 @@ const AddNewTiket = props => {
 						loading: false,
 						tiket: {
 							...state.tiket,
-							tracks: []
+							tracks: [],
+							wasAdded: false,
+							detail: {}
 						}
 					}))
 				})
@@ -811,7 +836,8 @@ const AddNewTiket = props => {
 					bisnis: 'E-Commerce',
 					catatan: ''
 				},
-				tracks: []
+				tracks: [],
+				wasAdded: false
 			},
 			errors: {},
 			loading: false,
@@ -892,6 +918,17 @@ const AddNewTiket = props => {
 			        		onChooseTujuan={handleChooseKprk}
 			        		onSubmit={onAddTiket}
 			        		errors={state.errors}
+			        		isAvailabel={tiket.wasAdded}
+			        		tiketDetail={tiket.detail}
+			        		onFollowup={(nomor) => props.history.push(`/tiket/${nomor}`)}
+			        		onKeppAdd={() => setState(state => ({
+			        			...state,
+			        			tiket: {
+			        				...state.tiket,
+			        				wasAdded: false,
+			        				detail: {}
+			        			}
+			        		}))}
 			        	/> }
 			        	{ pengaduan.jenis === '1' && 
 			        	<LacakForm 

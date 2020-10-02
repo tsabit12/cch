@@ -23,6 +23,11 @@ import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = props => (
+	<MuiAlert elevation={6} variant="filled" {...props} />
+)
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -124,6 +129,7 @@ const TiketForm = props => {
 				<FormControl 
 					variant='outlined' 
 					fullWidth
+					size='small'
 					className={classes.field}
 				>
 					<InputLabel id="jenis-customized-select">Jenis Kiriman</InputLabel>
@@ -144,6 +150,7 @@ const TiketForm = props => {
 					className={classes.field} 
 					variant="outlined"
 					fullWidth
+					size='small'
 					//error={!!errors.noresi}
 				>
 					<InputLabel htmlFor="outlined-adornment-password" shrink>Nomor Resi</InputLabel>
@@ -171,7 +178,40 @@ const TiketForm = props => {
 						labelWidth={70}
 					/>
 				</FormControl>
-				{ tracks.length > 0 && 
+
+				{ props.isAvailabel && <React.Fragment>
+					{ props.tiketDetail.status === 'Entri' ?  <div>
+						<Alert severity="error">
+							Nomor resi tersebut sudah terdaftar pada nomor tiket ({props.tiketDetail.no_tiket}) dengan status saat ini adalah entri/
+							Untuk melakukan follow up tiket silahkan klik tombol dibawah ini
+						</Alert>
+						<Button 
+							variant='contained' 
+							color='secondary' 
+							style={{marginTop: 15}} 
+							fullWidth
+							onClick={() => props.onFollowup(props.tiketDetail.no_tiket)}
+						>
+							Follow up
+						</Button>
+					</div> : <div> 
+						<Alert severity="warning">
+							Nomor resi sudah pernah terdaftar dengan status sudah selesai. Apakah anda ingin membuat tiket lagi dengan nomor resi tesebut?
+						</Alert>
+						
+						<Button 
+						  	color='secondary' 
+						  	style={{marginTop: 15}} 
+						  	fullWidth
+						  	variant='contained'
+						  	onClick={props.onKeppAdd}
+						>
+						  	Ya
+						</Button>
+					</div> }
+				</React.Fragment> }
+
+				{ tracks.length > 0 && !props.isAvailabel &&
 					<React.Fragment>
 						<RenderListTrack data={tracks} />
 						<div className={classes.group}>
@@ -305,7 +345,7 @@ const TiketForm = props => {
 					variant='text' 
 					color='primary'
 					onClick={() => props.onSubmit(state)}
-					disabled={tracks.length > 0 ? false : true }
+					disabled={tracks.length > 0 && !props.isAvailabel ? false : true }
 				>
 					AJUKAN
 				</Button>
@@ -324,7 +364,8 @@ TiketForm.propTypes = {
 	onChangeSearch: PropTypes.func.isRequired,
 	onChooseTujuan: PropTypes.func.isRequired,
 	onSubmit: PropTypes.func.isRequired,
-	errors: PropTypes.object.isRequired
+	errors: PropTypes.object.isRequired,
+	isAvailabel: PropTypes.bool.isRequired
 }
 
 export default TiketForm;

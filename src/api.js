@@ -50,7 +50,10 @@ export default{
 		getLibur: (offset) => axios.post(`${process.env.REACT_APP_API2}/holiday/getData`, {
 			offset
 		}).then(res => res.data),
-		getTotalLibur: () => axios.post(`${process.env.REACT_APP_API2}/holiday/getTotal`).then(res => Number(res.data.total))
+		getTotalLibur: () => axios.post(`${process.env.REACT_APP_API2}/holiday/getTotal`).then(res => Number(res.data.total)),
+		validationTiket: (noresi) => axios.post(`${process.env.REACT_APP_API2}/tiket/cektiket`, {
+			awb: noresi
+		}).then(res => res.data)
 	},
 	getEmploye: (payload) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
 		idPegawai: payload.nippos,
