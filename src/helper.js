@@ -27,15 +27,15 @@ export const periodeView = (date) => {
 
 export const listReg = [
 	{text: 'SEMUA REGIONAL', value: '00'},
-	{text: 'REGIONAL 01', value: 'Regional 1'},
-	{text: 'REGIONAL 02', value: 'Regional 2'},
-	{text: 'REGIONAL 03', value: 'Regional 3'},
-	{text: 'REGIONAL 04', value: 'Regional 4'},
-	{text: 'REGIONAL 05', value: 'Regional 5'},
-	{text: 'REGIONAL 06', value: 'Regional 6'},
-	{text: 'REGIONAL 07', value: 'Regional 7'},
-	{text: 'REGIONAL 08', value: 'Regional 8'},
-	{text: 'REGIONAL 09', value: 'Regional 9'},
-	{text: 'REGIONAL 10', value: 'Regional 10'},
-	{text: 'REGIONAL 11', value: 'Regional 11'}
+	{text: 'REGIONAL 01', value: 'REGIONAL 1'},
+	{text: 'REGIONAL 02', value: 'REGIONAL 2'},
+	{text: 'REGIONAL 03', value: 'REGIONAL 3'},
+	{text: 'REGIONAL 04', value: 'REGIONAL 4'},
+	{text: 'REGIONAL 05', value: 'REGIONAL 5'},
+	{text: 'REGIONAL 06', value: 'REGIONAL 6'},
+	{text: 'REGIONAL 07', value: 'REGIONAL 7'},
+	{text: 'REGIONAL 08', value: 'REGIONAL 8'},
+	{text: 'REGIONAL 09', value: 'REGIONAL 9'},
+	{text: 'REGIONAL 10', value: 'REGIONAL 10'},
+	{text: 'REGIONAL 11', value: 'REGIONAL 11'}
 ]

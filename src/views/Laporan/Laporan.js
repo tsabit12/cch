@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 const Laporan = props => {
 	const classes = useStyles();
+	const { user } = props;
 	const anchorRef = useRef();
 	const [params, setParams] = useState({
 		periode: new Date(),
@@ -54,14 +55,23 @@ const Laporan = props => {
 	});
 
 	useEffect(() => {
-		const payload = {
-			regional:"00",
-			periode: periodeView(new Date()),
-			type: '00'
+		const payload = {};
+		if (user.utype === 'Regional'){
+			payload.regional = user.regional;	
+			setParams(params => ({
+				...params,
+				regional: user.regional
+			}))
+		}else{ //pusat
+			payload.regional = '00';	
 		}
+
+		payload.periode = periodeView(new Date());
+		payload.type = '00';
+
 		props.getLaporanTiket(payload);
 		//eslint-disable-next-line
-	}, []);
+	}, [user]);
 
 	const handleChangeDate = (value) => {
 		setParams(params => ({
@@ -171,7 +181,7 @@ const Laporan = props => {
 						name="regional"
 						value={params.regional}
 						onChange={handleChangeReg}
-						//disabled={state.disabled.reg}
+						disabled={user.utype === 'Regional' ? true : false }
 					>
 						{listReg.map((row, index) => (
 							<MenuItem key={index} value={row.value}>{row.text}</MenuItem>
@@ -216,11 +226,6 @@ const Laporan = props => {
 					onPress={handleClickDetail}
 				/>
 				<Divider />
-				{ /* <CardActions style={{justifyContent: 'flex-end'}}>
-					<Button variant='contained' color='primary'>
-						DOWNLOAD TO EXCEL
-					</Button>
-				</CardActions> */ }
 			</Card>
 		</div>
 	);
@@ -228,7 +233,8 @@ const Laporan = props => {
 
 function mapStateToProps(state) {
 	return{
-		listTiket: state.laporan.tiket
+		listTiket: state.laporan.tiket,
+		user: state.auth.user
 	}
 }
 

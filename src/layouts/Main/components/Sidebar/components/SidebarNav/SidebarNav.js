@@ -5,41 +5,41 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { List, ListItem, ListItemIcon, ListItemText, colors } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import CloseIcon from '@material-ui/icons/Close';
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import SettingsIcon from '@material-ui/icons/Settings';
+import {
+  Button,
+  ListItem
+} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
   item: {
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0
   },
   button: {
-    color: colors.blueGrey[800],
-    padding: '10px 8px',
+    color: theme.palette.text.secondary,
+    fontWeight: theme.typography.fontWeightMedium,
     justifyContent: 'flex-start',
-    textTransform: 'none',
     letterSpacing: 0,
-    width: '100%',
-    fontWeight: theme.typography.fontWeightMedium
+    padding: '10px 8px',
+    textTransform: 'none',
+    width: '100%'
   },
   icon: {
-    color: theme.palette.icon,
-    width: 24,
-    height: 24,
-    display: 'flex',
-    alignItems: 'center',
     marginRight: theme.spacing(1)
   },
+  title: {
+    marginRight: 'auto',
+    marginLeft: 4
+  },
   active: {
-    backgroundColor: 'rgba(216, 212, 212, 0.94)'
+    color: theme.palette.primary.main,
+    '& $title': {
+      fontWeight: theme.typography.fontWeightMedium
+    },
+    '& $icon': {
+      color: theme.palette.primary.main
+    }
   }
 }));
 
@@ -53,124 +53,37 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const {className, jabatan, ...rest } = props;
+  const {className, href, title, icon: Icon, jabatan, toUser, ...rest } = props;
   
   const classes = useStyles();
 
   return (
-    <List
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/dashboard"
+    <React.Fragment>
+      { toUser.includes(jabatan) && <ListItem
+        className={clsx(classes.item, className)}
+        disableGutters
+        {...rest}
       >
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItem>
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/tiket"
-      >
-        <ListItemIcon>
-          <FileCopyIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tiket" />
-      </ListItem>
-      { jabatan !== 'AGENT / CS' && <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/user"
-      >
-        <ListItemIcon>
-          <PersonAddIcon />
-        </ListItemIcon>
-        <ListItemText primary="Users" />
+        <Button
+          activeClassName={classes.active}
+          className={classes.button}
+          component={CustomRouterLink}
+          to={href}
+        >
+          <Icon /> 
+          <span className={classes.title}>
+            { title }
+          </span>
+        </Button>
       </ListItem> }
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/pelanggan"
-      >
-        <ListItemIcon>
-          <SupervisorAccountIcon />
-        </ListItemIcon>
-        <ListItemText primary="Pelanggan" />
-      </ListItem>
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/x-ray"
-      >
-        <ListItemIcon>
-          <CloseIcon />
-        </ListItemIcon>
-        <ListItemText primary="Gagal X-Ray" />
-      </ListItem>
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/prod-knowledge"
-      >
-        <ListItemIcon>
-          <ImportContactsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Prod Knowledge" />
-      </ListItem>
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/laporan"
-      >
-        <ListItemIcon>
-          <FileCopyIcon />
-        </ListItemIcon>
-        <ListItemText primary="Laporan" />
-      </ListItem>
-
-      <ListItem 
-        button
-        activeClassName={classes.active}
-        className={classes.button}
-        component={CustomRouterLink}
-        to="/setting"
-      >
-        <ListItemIcon>
-          <SettingsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Pengaturan" />
-      </ListItem>
-    </List>
+    </React.Fragment>
   );
 };
 
 SidebarNav.propTypes = {
   className: PropTypes.string,
-  jabatan: PropTypes.string.isRequired
+  jabatan: PropTypes.string.isRequired,
+  toUser: PropTypes.array.isRequired
 };
 
 export default SidebarNav;
