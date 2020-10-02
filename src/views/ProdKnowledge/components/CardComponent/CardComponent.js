@@ -57,9 +57,8 @@ const CardComponent = ({ description, title, filename, onDelete, jabatan }) => {
       xs={12}
     >
       <Card className={classes.root}>
-        <CardActionArea>
+        <CardActionArea onClick={() => window.open(`${process.env.REACT_APP_IMAGE}/knowledge/${filename}`,'_blank')}>
           <CardMedia
-            onClick={() => window.open(`${process.env.REACT_APP_IMAGE}/knowledge/${filename}`,'_blank')}
             className={classes.media}
             image={file}
             title="Klik untuk mendowload"
