@@ -50,11 +50,7 @@ const Xray = props => {
     	loading: true,
     	errors: {}
     })
-
-    useEffect(() => {
-    	
-    	
-    }, []);
+    const [totalInsert, setTotalInsert] = useState(0); 
 
     useEffect(() => {
     	if (query) {
@@ -77,6 +73,7 @@ const Xray = props => {
     		
     		setTimeout(function() {
     			setSucces(false);
+    			setTotalInsert(0);
     		}, 3000);
     	}
     	//eslint-disable-next-line
@@ -129,6 +126,7 @@ const Xray = props => {
 			.then(res => {
 				setLoading(false);
 				setSucces(true);
+				setTotalInsert(res.jumlah);
 			})
 			.catch(err => {
 				setLoading(false);
@@ -145,7 +143,7 @@ const Xray = props => {
 	        <Loader loading={loading} />
         	<Alert 
         		open={isSucces}
-        		message='File berhasil diupload. Refreshing data...'
+        		message={`Sukses! Jumlah data berhasil diupload (${totalInsert})`}
         		variant='success'
         	/>
         	<Card>
@@ -192,8 +190,10 @@ const Xray = props => {
 				    					<Typography variant='body2'>1. Pastikan file yang akan diupload adalah file excel dengan format xlsx</Typography>
 				    					<Typography variant='body2'>2. Download templete excel <span onClick={handleDownload} className={classes.link}>disini</span></Typography>
 				    					<Typography variant='body2'>3. Setelah kamu memilih file yang akan diupload, sistem akan menampilkan datanya terlebih dahulu sebelum diupload ke server</Typography>
-				    					<Typography variant='body2'>4. Pastikan data sudah valid sesuai dengan kolom yang ditampilkan oleh sistem</Typography>
-				    					<Typography variant='body2'>5. Silahkan klik tombol upload dipaling bawah jika data sudah sesuai</Typography>
+				    					<Typography variant='body2'>4. Sistem hanya akan menyimpan data xray yang ID Kiriman-nya belum terdaftar dalam sistem</Typography>
+				    					<Typography variant='body2'>5. Pastikan data sudah valid sesuai dengan kolom yang ditampilkan oleh sistem</Typography>
+				    					<Typography variant='body2'>6. Maksimum baris yang akan diupload adalah 5.000</Typography>
+				    					<Typography variant='body2'>7. Silahkan klik tombol upload dipaling bawah jika data sudah sesuai</Typography>
 				    				</CardContent>
 				    				<Divider />
 				    				<CardActions>

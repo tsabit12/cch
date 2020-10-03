@@ -134,7 +134,7 @@ export default{
 	}).then(res => res.data),
 	uploadXray: (array) => axios.post(`${process.env.REACT_APP_API2}/xray/insertXray`, {
 		value: array
-	}).then(res => res.data.result),
+	}).then(res => res.data),
 	getXray: (extid) => axios.post(`${process.env.REACT_APP_API2}/xray/getData`, {
 		extid
 	}).then(res => res.data),

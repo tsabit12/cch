@@ -61,7 +61,7 @@ const DataExcel = props => {
 	return(
 		<Card>
 			<CardHeader 
-				title='DATA EXCEL'
+				title={`DATA EXCEL ${data.length > 5000 ? '(File melebihi batas maksimum. Maksimum file adalah 5.000 baris)' : ''}`}
 			/>
 			<div className={classes.scrollTable}>
 				<TableContainer className={classes.container}>
@@ -102,6 +102,7 @@ const DataExcel = props => {
 					variant="outlined" 
 					color="primary"
 					onClick={handleUpload}
+					disabled={data.length > 5000 ? true : false }
 				>
 			        UPLOAD
 			    </Button>
