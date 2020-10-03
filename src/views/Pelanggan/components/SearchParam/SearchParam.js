@@ -8,6 +8,7 @@ import {
 	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { listReg } from '../../../../helper';
 
 const useStyles = makeStyles(theme => ({
 	formControl: {
@@ -101,18 +102,9 @@ const SearchParam = props => {
 		          label="REGIONAL"
 		          disabled={user.jabatan === 'Administrator' ? false : true }
 		        >
-		          <MenuItem value="00">SEMUA REGIONAL</MenuItem>
-		          <MenuItem value="REGIONAL 1">Regional 01</MenuItem>
-		          <MenuItem value="REGIONAL 2">Regional 02</MenuItem>
-		          <MenuItem value="REGIONAL 3">Regional 03</MenuItem>
-		          <MenuItem value="REGIONAL 4">Regional 04</MenuItem>
-		          <MenuItem value="REGIONAL 5">Regional 05</MenuItem>
-		          <MenuItem value="REGIONAL 6">Regional 06</MenuItem>
-		          <MenuItem value="REGIONAL 7">Regional 07</MenuItem>
-		          <MenuItem value="REGIONAL 8">Regional 08</MenuItem>
-		          <MenuItem value="REGIONAL 9">Regional 09</MenuItem>
-		          <MenuItem value="REGIONAL 10">Regional 10</MenuItem>
-		          <MenuItem value="REGIONAL 11">Regional 11</MenuItem>
+		        	{ listReg.map((row, index) => <MenuItem key={index} value={row.value}>
+		        		{row.text}
+		        	</MenuItem>)}
 		        </Select>
 		    </FormControl>
 
