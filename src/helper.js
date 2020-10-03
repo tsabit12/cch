@@ -27,6 +27,7 @@ export const periodeView = (date) => {
 
 export const listReg = [
 	{text: 'SEMUA REGIONAL', value: '00'},
+    {text: 'PUSAT', value: '01'},
 	{text: 'REGIONAL 01', value: 'REGIONAL 1'},
 	{text: 'REGIONAL 02', value: 'REGIONAL 2'},
 	{text: 'REGIONAL 03', value: 'REGIONAL 3'},

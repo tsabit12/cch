@@ -21,6 +21,7 @@ import { getLaporanTiket } from '../../actions/laporan';
 import { DatePicker } from "@material-ui/pickers";
 import { periodeView, listReg } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import api from '../../api';
 
 import {
 	TableTiket,
@@ -44,7 +45,8 @@ const Laporan = props => {
 	const anchorRef = useRef();
 	const [params, setParams] = useState({
 		periode: new Date(),
-		regional: '00'
+		regional: '00',
+		kprk: '00'
 	})
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -53,17 +55,28 @@ const Laporan = props => {
 		visible: false,
 		item: {}
 	});
+	const [listKprk, setListKprk] = useState([{value: '00', 'text' : 'SEMUA KPRK'}]);
 
 	useEffect(() => {
 		const payload = {};
 		if (user.utype === 'Regional'){
-			payload.regional = user.regional;	
+			payload.regional = user.regional;
+			payload.kprk = '00';	
 			setParams(params => ({
 				...params,
 				regional: user.regional
 			}))
+		}else if(user.utype === 'Kprk'){
+			payload.regional = user.regional;	
+			payload.kprk = user.kantor_pos;
+			setParams(params => ({
+				...params,
+				regional: user.regional
+			}))
+			getKprk(user.regional);
 		}else{ //pusat
 			payload.regional = '00';	
+			payload.kprk = '00';
 		}
 
 		payload.periode = periodeView(new Date());
@@ -84,7 +97,8 @@ const Laporan = props => {
 		const payload = {
 			regional: params.regional,
 			periode: periodeView(params.periode),
-			type: activeName
+			type: activeName,
+			kprk: params.kprk
 		}	
 
 		setLoading(true);
@@ -94,11 +108,11 @@ const Laporan = props => {
 			.catch(err => setLoading(false))
 	}
 
-	const handleChangeReg = (e) => {
-		const { value } = e.target;
+	const handleChangeSelect = (e) => {
+		const { value, name } = e.target;
 		setParams(params => ({
 			...params,
-			regional: value
+			[name]: value
 		}))
 	}
 
@@ -139,6 +153,25 @@ const Laporan = props => {
 		});
 	}
 
+	const getKprk = (regValue) => {
+		api.getKprk(regValue)
+	  		.then(result => {
+	  			const kprk = [{value: '00', text: 'SEMUA KPRK'}];
+	  			result.forEach(row => {
+	  				kprk.push({ text: `${row.code} - ${row.name}`, value: row.code });
+	  			})
+
+	  			setListKprk(kprk);
+
+	  			setTimeout(function() {
+	  				setParams(params => ({
+	  					...params,
+	  					kprk: user.kantor_pos
+	  				}))
+	  			}, 10);
+	  		})
+	} 
+
 	const cardTitle = () => (
 		<div className={classes.header}>
 			<div>
@@ -172,7 +205,7 @@ const Laporan = props => {
 		          )}
 		        </Popper> 
 			</div>
-			<div style={{display: 'flex', width: 500}}>
+			<div style={{display: 'flex', width: 600}}>
 				<FormControl variant='outlined' size="small" style={{width: 200}}>
 					<InputLabel htmlFor="regLabel">Regional</InputLabel>
 					<Select
@@ -180,10 +213,26 @@ const Laporan = props => {
 						label="REGIONAL"
 						name="regional"
 						value={params.regional}
-						onChange={handleChangeReg}
-						disabled={user.utype === 'Regional' ? true : false }
+						onChange={handleChangeSelect}
+						disabled={user.name === 'PUSAT' ? false : true }
 					>
 						{listReg.map((row, index) => (
+							<MenuItem key={index} value={row.value}>{row.text}</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+
+				<FormControl variant='outlined' size="small" style={{width: 200, marginLeft: 5}}>
+					<InputLabel htmlFor="kprkLabel">Kprk</InputLabel>
+					<Select
+						labelId="kprkLabel"
+						label="Kprk"
+						name="kprk"
+						value={params.kprk}
+						onChange={handleChangeSelect}
+						disabled={user.utype === 'Kprk' ? true : false }
+					>
+						{listKprk.map((row, index) => (
 							<MenuItem key={index} value={row.value}>{row.text}</MenuItem>
 						))}
 					</Select>

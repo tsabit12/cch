@@ -78,7 +78,7 @@ const items = [
     href: '/laporan',
     icon: FolderOpenIcon,
     title: 'Laporan',
-    user: ['Administrator','MANAGEMENT']
+    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
   },
   {
     href: '/x-ray',
