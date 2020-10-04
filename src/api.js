@@ -15,6 +15,9 @@ export default{
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
 		}).then(res => res.data.result),
+		addXray: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/postXray`, {
+			...payload
+		}).then(res => res.data),
 		// addTicket: (formData) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTicket`, formData, {
 		// 	headers: {
 		// 		'content-type': 'application/x-www-form-urlencoded'	

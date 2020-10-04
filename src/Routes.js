@@ -27,7 +27,8 @@ import {
   Xray as XrayView,
   ProdKnowledge as ProdKnowledgeView,
   TiketReport as TiketReportView,
-  DataLibur as DataLiburView
+  DataLibur as DataLiburView,
+  AddXray as AddXrayView
 } from './views';
 
 
@@ -116,6 +117,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/prod-knowledge"
+      />
+      <GuestRoute
+        component={AddXrayView}
+        exact
+        layout={MainLayout}
+        path="/x-ray/add"
       />
       <UserRoute
         component={LoginView}

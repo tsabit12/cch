@@ -150,7 +150,7 @@ const Xray = props => {
         		<CardHeader 
         			title='GAGAL X-RAY'
         			action={
-        				<div style={{display: 'flex', alignItems: 'center', jistifyContent: 'center', width: 500}}>
+        				<div style={{display: 'flex', alignItems: 'center', jistifyContent: 'center', width: 700}}>
         					<TextField 
 								placeholder='Cari ID kiriman disini..'
 								variant='outlined'
@@ -162,11 +162,19 @@ const Xray = props => {
 							/> 
 	        				<Button 
 	        					onClick={() => setVisible(!isVisibleExport)}
-	        					variant='contained'
+	        					variant='outlined'
 	        					style={{width: 200, marginLeft: 5}}
 	        					color='primary'
 	        				>
 				        	 	{isVisibleExport ? 'CLOSE' : 'EXPORT FILE'}	
+				        	</Button>
+				        	<Button 
+	        					onClick={() => props.history.push('/x-ray/add')}
+	        					variant='outlined'
+	        					style={{width: 200, marginLeft: 5}}
+	        					color='primary'
+	        				>
+				        	 	TAMBAH
 				        	</Button>
 			        	</div>}
         		/>
