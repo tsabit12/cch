@@ -158,6 +158,9 @@ export default{
 		}).then(res => res.data),
 		getStatistik: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/tiket`, {
 			...payload
+		}).then(res => res.data),
+		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getProduk`, {
+			...payload
 		}).then(res => res.data)
 	},
 	tiket: {

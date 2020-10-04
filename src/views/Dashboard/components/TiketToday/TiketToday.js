@@ -56,11 +56,11 @@ const TiketToday = props => {
               gutterBottom
               variant="body2"
             >
-              HARI INI
+              INFO
             </Typography>
             <div className={classes.difference}>
               <Typography variant="h5" color="inherit">{numberWithCommas(props.total)}</Typography> 
-              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Tiket</Typography>
+              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Pengaduan</Typography>
             </div>
             <div className={classes.difference}>
               <Typography variant="h5" color="inherit">{numberWithCommas(props.totalLain)}</Typography> 

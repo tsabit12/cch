@@ -53,3 +53,10 @@ export const getStatistik = payload => dispatch =>
 				result
 			})
 		})
+
+export const getProduk = payload => dispatch => 
+	api.dashboard.getProduk(payload)
+		.then(products => dispatch({
+			type: 'GET_PRODUK',
+			products
+		}))

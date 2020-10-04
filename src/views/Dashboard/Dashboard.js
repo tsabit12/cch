@@ -6,11 +6,12 @@ import {
 	Pencapaian,
 	TiketToday,
 	TotalPelanggan,
-	Grafik
+	Grafik,
+	Produk
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
-import { getPencapaian, getStatistik } from '../../actions/dashboard';
+import { getPencapaian, getStatistik, getProduk } from '../../actions/dashboard';
 import { removeMessage } from "../../actions/message";
 import { getTotalPelanggan } from "../../actions/laporan"
 import PropTypes from "prop-types";
@@ -38,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 const listReg = [
 	{text: 'SEMUA REGIONAL', value: '00'},
+	{text: 'PUSAT', value: '01'},
 	{text: 'REGIONAL 01', value: 'Regional 1'},
 	{text: 'REGIONAL 02', value: 'Regional 2'},
 	{text: 'REGIONAL 03', value: 'Regional 3'},
@@ -49,7 +51,6 @@ const listReg = [
 	{text: 'REGIONAL 09', value: 'Regional 9'},
 	{text: 'REGIONAL 10', value: 'Regional 10'},
 	{text: 'REGIONAL 11', value: 'Regional 11'},
-	{text: 'PUSAT', value: '01'},
 ]
 
 const Dashboard = props => {
@@ -115,6 +116,8 @@ const Dashboard = props => {
 	  	props.getTotalPelanggan(defaultValue);
 	  	props.getPencapaian(defaultValue);
 
+	  	props.getProduk(defaultValue);
+
   	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
@@ -174,6 +177,7 @@ const Dashboard = props => {
   	props.getTotalPelanggan(search);
   	props.getStatistik(search);
   	props.getPencapaian(search);
+  	props.getProduk(search);
 
   }
 
@@ -272,6 +276,18 @@ const Dashboard = props => {
 	         		data={props.statistik}
 	         	/>
 	        </Grid>
+	        <Grid item lg={5} sm={12} xl={12} xs={12}>
+	        	<Produk 
+	        		data={props.produk.keluar}
+	        		type='KELUAR'
+	        	/>
+	        </Grid>
+	        <Grid item lg={5} sm={12} xl={12} xs={12}>
+	        	<Produk 
+	        		data={props.produk.masuk}
+	        		type='MASUK'
+	        	/>
+	        </Grid>
 		</Grid>
     </div>
   );
@@ -285,7 +301,8 @@ Dashboard.propTypes = {
 	totPel: PropTypes.number.isRequired,
 	getPencapaian: PropTypes.func.isRequired,
 	getStatistik: PropTypes.func.isRequired,
-	statistik: PropTypes.object.isRequired
+	statistik: PropTypes.object.isRequired,
+	getProduk: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -295,7 +312,8 @@ function mapStateToProps(state) {
 		dataUser: state.auth.user,
 		totPel: state.laporan.jumlahPelanggan,
 		pencapaian: state.newDashboard.pencapaian,
-		statistik: state.newDashboard.statistik
+		statistik: state.newDashboard.statistik,
+		produk: state.newDashboard.produk
 	}
 }
 
@@ -304,5 +322,6 @@ export default connect(mapStateToProps, {
 	removeMessage,
 	getPencapaian,
 	getStatistik,
+	getProduk,
 	getTotalPelanggan
 })(Dashboard);
