@@ -69,11 +69,15 @@ const DataPelanggan = props => {
               			<TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
               			<TableCell className={classes.row} align="left">{row.customerId}</TableCell>
               			<TableCell className={classes.row} align="left">{row.JenisSosmed} ({row.sosmed})</TableCell>
-              			<TableCell className={classes.row} align="left">{row.namaLengkap}</TableCell>
+              			<TableCell className={classes.row} align="left">
+			              	<p className={classes.text}>{row.namaLengkap}</p>
+              			</TableCell>
               			<TableCell className={classes.row} align="left">{row.phone}</TableCell>
               			<TableCell className={classes.row} align="left">{row.email ? row.email : '-'}</TableCell>
               			<TableCell className={classes.row} align="left">{row.nopend}</TableCell>
-              			<TableCell className={classes.row} align="left">{row.detail_address}</TableCell>
+              			<TableCell className={classes.row} align="left">
+			              	<p className={classes.text}>{row.detail_address}</p>
+              			</TableCell>
               			<TableCell className={classes.row} align="left">
               				<p className={classes.text}>{row.alamat}</p>
               			</TableCell>
