@@ -175,19 +175,19 @@ const AddNewTiket = props => {
 		}
 	}, [tarif.data.receiver])
 
-	useEffect(() => {
-		if (pengaduan.alamat) {
-			const time = setTimeout(function() {
-				const payload = {
-					kodepos: pengaduan.alamat
-				};
+	// useEffect(() => {
+	// 	if (pengaduan.alamat) {
+	// 		const time = setTimeout(function() {
+	// 			const payload = {
+	// 				kodepos: pengaduan.alamat
+	// 			};
 
-				getAddress(payload);
-			}, 800);
+	// 			getAddress(payload);
+	// 		}, 800);
 
-			return () => clearTimeout(time);
-		}
-	}, [pengaduan.alamat])
+	// 		return () => clearTimeout(time);
+	// 	}
+	// }, [pengaduan.alamat])
 
 	useEffect(() => {
 		if (tiket.data.tujuanKirim !== '') {
@@ -259,7 +259,7 @@ const AddNewTiket = props => {
 			...state,
 			pengaduan: {
 				...state.pengaduan,
-				alamat: value
+				alamat: value.trim()
 			}
 		}))
 	}
@@ -428,7 +428,7 @@ const AddNewTiket = props => {
 		return errors;
 	}
 
-	const saveCustomer = () => {
+	const saveCustomer = (description) => {
 		setState(state => ({
 			...state,
 			loading: true
@@ -448,8 +448,24 @@ const AddNewTiket = props => {
 
 		api.cch.addPelanggan(payload)
 			.then(res => {
-				console.log(res);
-				resetAllState()
+				resetAllState();
+				const payloadInfo = {
+					jenisChannel: pengaduan.jenis,
+					custid: res.custid,
+					deskripsi: JSON.stringify(description) 
+				}
+				
+				api.cch.addInfoPos(payloadInfo)
+					.catch(err => {
+						setState(state => ({
+							...state,
+							errors: {
+								...state.errors,
+								global: 'Gagal add info'
+							}
+						}))
+					})
+
 			})
 			.catch(err => {
 				console.log(err);
@@ -1012,7 +1028,7 @@ const AddNewTiket = props => {
 			        </Grid>
 		    	</Grid> }
 
-		    	{ state.listTarif > 0 &&
+		    	{ state.listTarif.length > 0 &&
 	    			<TableTarif 
 			    		onBack={() => {
 			    			setState(state => ({

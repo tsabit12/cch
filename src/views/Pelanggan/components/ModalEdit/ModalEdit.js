@@ -98,13 +98,15 @@ const ModalEdit = props => {
   		setState(state => ({
   			...state,
   			field:{
-  				namaLengkap: data.namaLengkap,
+  				namaLengkap: data.namaLengkap ? data.namaLengkap : '',
 		  		sosmed: data.sosmed ? data.sosmed : '',
 		  		phone: data.phone,
 		  		alamat: data.alamat,
 		  		customerId: data.customerId,
           email: data.email,
-          detailAlamat: data.detail_address
+          detailAlamat: data.detail_address,
+          id: data.customerId,
+          channel: data.type_request
   			}
   		}))
   	}
@@ -140,8 +142,7 @@ const ModalEdit = props => {
       const { field } = state;
 
       const payload = {
-        nama: field.nama,
-        channel: field.channel,
+        namaLengkap: field.namaLengkap,
         phone: field.phone,
         alamat: field.alamat,
         id: field.id,

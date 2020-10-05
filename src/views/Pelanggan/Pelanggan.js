@@ -176,12 +176,8 @@ const Pelanggan = props => {
 	}
 
 	const handleUpdate = (field) => {
-		const payload = {
-			...state.visible.data,
-			...field
-		};
-
-		props.updatePelanggan(payload, activePage);
+		
+		props.updatePelanggan(field, activePage);
 
 		setTimeout(function() {
 			setState(state => ({

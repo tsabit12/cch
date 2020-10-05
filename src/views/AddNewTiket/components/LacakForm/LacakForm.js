@@ -109,7 +109,7 @@ const LacakForm = props => {
 				<Button variant='text' color='primary' onClick={props.goBack}>
 					Kembali
 				</Button>
-				<Button variant='text' color='primary' onClick={props.onDone}>
+				<Button variant='text' color='primary' onClick={() => props.onDone(JSON.stringify(value.list))}>
 					Selesai
 				</Button>
 			</CardActions>}

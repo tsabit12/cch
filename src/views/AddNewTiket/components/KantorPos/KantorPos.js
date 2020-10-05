@@ -124,13 +124,12 @@ const KantorPos = props => {
 				.then(offices =>  {	
 					
 					const convertedOffice = convertToArray(offices.response);
-					console.log(convertedOffice);
 
 					api.cch.addPelanggan(payloadPelanggan)
 					.then(customers => {
 						const { custid } 			= customers;
 						const payloadInfo = {
-							jenisChannel: pelanggan.channel,
+							jenisChannel: pelanggan.jenis,
 							custid,
 							deskripsi: JSON.stringify(convertedOffice) 
 						}

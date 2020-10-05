@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Card,
 	CardHeader,
@@ -14,6 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import api from '../../../../api';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -38,6 +39,23 @@ const useStyles = makeStyles(theme => ({
 const FormPengaduan = props => {
 	const { value, channels, errors } = props;
 	const classes = useStyles();
+
+	const [cities, setCities ] = useState([]);
+
+	useEffect(() => {
+		if (value.alamat && value.alamat.length < 10) {
+			const timeId = setTimeout(function() {
+				const payload = {
+					kodepos: value.alamat
+				}
+
+				api.cch.getKodepos(payload)
+					.then(res => setCities(res))
+			}, 1000);
+
+			return () => clearTimeout(timeId);
+		}
+	}, [value.alamat])
 
 	const getLabelFromChannel = (id) => {
 		const find = channels.find(row => row.id === id);
@@ -231,7 +249,8 @@ const FormPengaduan = props => {
 					        }}
 					        size='small'
 					        id="controllable-alamat"
-	    					options={props.cities}
+	    					options={cities}
+	    					getOptionLabel={(option) => `${option.address}, ${option.city}, (${option.posCode})`}
 	    					renderInput={(params) => 
 		    						<TextField 
 		    							{...params} 
