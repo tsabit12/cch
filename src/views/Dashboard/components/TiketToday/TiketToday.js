@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import PropTypes from "prop-types";
 
 const numberWithCommas = (number) => {
@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TiketToday = props => {
+  const { data } = props;
   const classes = useStyles();
 
   return (
@@ -50,26 +51,15 @@ const TiketToday = props => {
           justify="space-between"
         >
           <Grid item>
-            <Typography
-              className={classes.title}
-              color="inherit"
-              gutterBottom
-              variant="body2"
-            >
-              INFO
-            </Typography>
-            <div className={classes.difference}>
-              <Typography variant="h5" color="inherit">{numberWithCommas(props.total)}</Typography> 
-              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Pengaduan</Typography>
-            </div>
-            <div className={classes.difference}>
-              <Typography variant="h5" color="inherit">{numberWithCommas(props.totalLain)}</Typography> 
-              <Typography variant="body2" color="inherit">&nbsp;&nbsp; Lainnya</Typography>
-            </div>
+            { data.map((row, index) => <div className={classes.difference} key={index}>
+              <Typography variant="h5" color="inherit">{numberWithCommas(row.jumlah)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp;&nbsp; {row.name}</Typography>
+            </div> )}
+            
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <EventAvailableIcon className={classes.icon} />
+              <InfoOutlinedIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -79,8 +69,7 @@ const TiketToday = props => {
 };
 
 TiketToday.propTypes = {
-	total: PropTypes.number.isRequired,
-  totalLain: PropTypes.number.isRequired
+	data: PropTypes.array.isRequired
 }
 
 export default TiketToday;

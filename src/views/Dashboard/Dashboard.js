@@ -11,7 +11,12 @@ import {
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
-import { getPencapaian, getStatistik, getProduk } from '../../actions/dashboard';
+import { 
+	getPencapaian, 
+	getStatistik, 
+	getProduk,
+	getInfo 
+} from '../../actions/dashboard';
 import { removeMessage } from "../../actions/message";
 import { getTotalPelanggan } from "../../actions/laporan"
 import PropTypes from "prop-types";
@@ -117,6 +122,7 @@ const Dashboard = props => {
 	  	props.getPencapaian(defaultValue);
 
 	  	props.getProduk(defaultValue);
+	  	props.getInfo(defaultValue);
 
   	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -253,6 +259,7 @@ const Dashboard = props => {
 	        	<TiketToday 
 	        		total={0}
 	        		totalLain={0}
+	        		data={props.info}
 	        	/>
 	        </Grid>
 		</Grid>
@@ -302,7 +309,9 @@ Dashboard.propTypes = {
 	getPencapaian: PropTypes.func.isRequired,
 	getStatistik: PropTypes.func.isRequired,
 	statistik: PropTypes.object.isRequired,
-	getProduk: PropTypes.func.isRequired
+	getProduk: PropTypes.func.isRequired,
+	getInfo: PropTypes.func.isRequired,
+	info: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
@@ -313,7 +322,8 @@ function mapStateToProps(state) {
 		totPel: state.laporan.jumlahPelanggan,
 		pencapaian: state.newDashboard.pencapaian,
 		statistik: state.newDashboard.statistik,
-		produk: state.newDashboard.produk
+		produk: state.newDashboard.produk,
+		info: state.newDashboard.info
 	}
 }
 
@@ -323,5 +333,6 @@ export default connect(mapStateToProps, {
 	getPencapaian,
 	getStatistik,
 	getProduk,
-	getTotalPelanggan
+	getTotalPelanggan,
+	getInfo
 })(Dashboard);

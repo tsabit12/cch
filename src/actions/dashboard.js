@@ -60,3 +60,10 @@ export const getProduk = payload => dispatch =>
 			type: 'GET_PRODUK',
 			products
 		}))
+
+export const getInfo = payload => dispatch => 
+	api.dashboard.getInfo(payload)
+		.then(res => dispatch({
+			type: 'GET_INFO',
+			data: res
+		}))

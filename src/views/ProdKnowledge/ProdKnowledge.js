@@ -10,7 +10,8 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import {
 	CardComponent,
-	ModalComponent
+	ModalComponent,
+	ConfirmModal
 } from './components';
 import { connect } from 'react-redux';
 import { getData, onAddNewFile, onDelete } from '../../actions/knowledge';
@@ -74,6 +75,10 @@ const ProdKnowledge = props => {
 	const [query, setQuery] = useState('');
 	const [choosedFile, setFile] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [visible, setVisible] = useState({
+		status: false,
+		fileid: ''
+	});
 
 	useEffect(() => {
 		if (query) {
@@ -121,8 +126,29 @@ const ProdKnowledge = props => {
 		}, 10);
 	}
 
+	const handleDelete = (fileid) => {
+		setVisible({
+			fileid,
+			status: true
+		})
+	}
+
 	return(
 		<div className={classes.root}>
+			<ConfirmModal 
+				open={visible.status} 
+				handleClose={() => setVisible({
+					fileid: '',
+					status: false
+				})}
+				deleteFile={() => {
+					props.onDelete(visible.fileid);
+					setVisible({
+						fileid: '',
+						status: false
+					})
+				}}
+			/>
 			<Loader loading={loading} />
 			{ choosedFile && 
 				<ModalComponent 
@@ -155,7 +181,7 @@ const ProdKnowledge = props => {
 							description={row.description} 
 							filename={row.file_name}
 							key={index} 
-							onDelete={(file) => props.onDelete(file)}
+							onDelete={(file) => handleDelete(file)}
 							jabatan={user.jabatan}
 						/>)}
 				</Grid> }
