@@ -98,6 +98,7 @@ const TiketForm = props => {
 	useEffect(() => {
 		if (tracks.length > 0) {
 			const firstData = tracks[0];
+			// console.log(firstData);
 			const kodeposReceiver 	= firstData.description.split(';')[11]; 		
 			const layananValue 		= firstData.description.split(';')[0].split(":")[1];
 
@@ -182,7 +183,7 @@ const TiketForm = props => {
 				{ props.isAvailabel && <React.Fragment>
 					{ props.tiketDetail.status === 'Entri' ?  <div>
 						<Alert severity="error">
-							Nomor resi tersebut sudah terdaftar pada nomor tiket ({props.tiketDetail.no_tiket}) dengan status saat ini adalah entri/
+							Nomor resi tersebut sudah terdaftar pada nomor tiket ({props.tiketDetail.no_tiket}) dengan status saat ini adalah entri.
 							Untuk melakukan follow up tiket silahkan klik tombol dibawah ini
 						</Alert>
 						<Button 

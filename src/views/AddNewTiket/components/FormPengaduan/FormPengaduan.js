@@ -16,6 +16,9 @@ import { makeStyles } from '@material-ui/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles(theme => ({
+	root: {
+		height: '100%'
+	},
 	field: {
 		marginBottom: 20
 	},
@@ -46,7 +49,7 @@ const FormPengaduan = props => {
 	}
 
 	return(
-		<Card>
+		<Card className={classes.root}>
 			<CardHeader 
 				title='FORM PENGADUAN'
 			/>
@@ -191,6 +194,8 @@ const FormPengaduan = props => {
 							onChange={props.handleChange}
 							placeholder='Masukan email pelanggan'
 							autoComplete='off'
+							error={!!errors.email}
+							helperText={errors.email ? errors.email : null }
 						/>
 					</FormControl> }
 
@@ -210,6 +215,8 @@ const FormPengaduan = props => {
 							onChange={props.handleChange}
 							placeholder='Jalan/kp/nomor'
 							autoComplete='off'
+							error={!!errors.detailAlamat}
+							helperText={errors.detailAlamat ? errors.detailAlamat : null }
 						/>
 					</FormControl>
 

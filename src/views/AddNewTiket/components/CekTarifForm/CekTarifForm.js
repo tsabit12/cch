@@ -69,6 +69,7 @@ const CekTarifForm = props => {
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
 								placeholder='Masukan kecamatan/kota pengirim'
+								size='small'
 						/> }
 					/>
 				</FormControl>
@@ -92,6 +93,7 @@ const CekTarifForm = props => {
 								label='Kecamatan/Kota penerima'
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
+								size='small'
 								placeholder='Masukan kecamatan/kota penerima'
 								error={!!errors.rKodepos}
 								helperText={errors.rKodepos ? errors.rKodepos : null}
@@ -106,6 +108,7 @@ const CekTarifForm = props => {
 						placeholder='Masukan panjang'
 						autoComplete='off'
 						fullWidth
+						size='small'
 						value={propsData.data.panjang}
 						onChange={(e) => props.onChange(e, 'number')}
 						name='panjang'
@@ -124,6 +127,7 @@ const CekTarifForm = props => {
 						value={propsData.data.lebar}
 						onChange={(e) => props.onChange(e, 'number')}
 						name='lebar'
+						size='small'
 					/>
 					<TextField 
 						variant='outlined'
@@ -135,6 +139,7 @@ const CekTarifForm = props => {
 						value={propsData.data.tinggi}
 						onChange={(e) => props.onChange(e, 'number')}
 						name='tinggi'
+						size='small'
 					/>
 				</div>
 				<div className={classes.group}>
@@ -144,6 +149,7 @@ const CekTarifForm = props => {
 						}}
 						variant="outlined" 
 						fullWidth
+						size='small'
 					>
 						<InputLabel id="paketLabel">Jenis Kiriman</InputLabel>
 				        <Select
@@ -176,6 +182,7 @@ const CekTarifForm = props => {
 							value={propsData.data.berat}
 							onChange={(e) => props.onChange(e, 'number')}
 							name='berat'
+							size='small'
 						/>
 					</FormControl>
 				</div>
@@ -189,6 +196,7 @@ const CekTarifForm = props => {
 						value={propsData.data.nilai}
 						onChange={(e) => props.onChange(e, 'number')}
 						name='nilai'
+						size='small'
 					/>
 				</FormControl>
 			</CardContent>

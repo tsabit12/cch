@@ -5,8 +5,8 @@ export default{
 	trackAndTrace: (payload) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
 		...payload
 	}).then(res => res.data.result),
-	mappingPos: (kodepos) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
-		kodepos
+	mappingPos: (payload) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
+		...payload
 	}).then(res => res.data.result),
 	cch: {
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
@@ -18,11 +18,12 @@ export default{
 		addXray: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/postXray`, {
 			...payload
 		}).then(res => res.data),
-		// addTicket: (formData) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTicket`, formData, {
-		// 	headers: {
-		// 		'content-type': 'application/x-www-form-urlencoded'	
-		// 	}
-		// }).then(res => res.data),
+		addInfoPos: (payload) => axios.post(`${process.env.REACT_APP_API2}/pengaduan`, {
+			...payload
+		}).then(res => res.data),
+		getKodepos: (payload) => axios.post(`${process.env.REACT_APP_API}/getPostalCode`, {
+			...payload
+		}).then(res => res.data.result),
 		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/getTiket`, {
 			...payload
 		}).then(res => res.data),

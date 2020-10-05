@@ -13,7 +13,9 @@ import {
 	TiketForm,
 	LacakForm,
 	CekTarifForm,
-	TableTarif
+	TableTarif,
+	KantorPos,
+	TableOffice
 } from './components';
 import { connect } from 'react-redux';
 import { getChannel } from '../../actions/laporan';
@@ -103,6 +105,8 @@ const AddNewTiket = props => {
 		listTarif: [],
 		listOffice: []
 	})
+	const [offices, setOffices] = useState([]);
+	const [isHidden, setHidden] = useState(false);
 
 	const { pengaduan, lacak, errors, tarif, tiket } = state;
 
@@ -110,6 +114,12 @@ const AddNewTiket = props => {
 		props.getChannel();
 		//eslint-disable-next-line
 	}, []); 
+
+	useEffect(() => {
+		if (state.listTarif.length > 0 || offices.length > 0) {
+			setHidden(true);
+		}
+	}, [state.listTarif, offices])
 
 	useEffect(() => {
 		if (pengaduan.channelName) {
@@ -237,7 +247,7 @@ const AddNewTiket = props => {
 					[name]: name === 'nama' ? value.replace(/[^\w\s]/gi, '') : value
 				},
 				errors: {
-					...state.errors,
+					...errors,
 					[name]: undefined
 				}
 			}))
@@ -618,6 +628,7 @@ const AddNewTiket = props => {
 
 			api.trackAndTrace(payload)
 				.then(tracks => {
+					console.log(tracks);
 					setState(state => ({
 						...state,
 						loading: false,
@@ -844,6 +855,27 @@ const AddNewTiket = props => {
 			listTarif: [],
 			listOffice: []
 		}))
+		setHidden(false);
+	}
+
+	const handleValidateKantorPos = () => {
+		const { pengaduan } = state;
+		const errors = {};
+
+		if (pengaduan.channel === '0') errors.channel = 'Channel belum dipilih';	
+		if (!pengaduan.nama) errors.nama = 'Nama pelanggan belum diisi';
+		// if (!pengaduan.email) errors.email = 'Email belum diisi';
+		if (!pengaduan.phone) errors.phone = 'Nomor telepon belum diisi';
+		if (!pengaduan.detailAlamat) errors.detailAlamat = 'Alamat belum diisi';
+		if (!pengaduan.channelName) errors.channelName = 'Tidak boleh kosong';
+
+		setState(state => ({
+			...state,
+			errors
+		}))
+
+		return errors;
+
 	}
 
 	return(
@@ -879,7 +911,7 @@ const AddNewTiket = props => {
 			    </Breadcrumbs>
 		    </div>
 		    <React.Fragment>
-		    	{ state.listTarif.length === 0 ? <Grid container spacing={4}>
+		    	{ !isHidden && <Grid container spacing={4}>
 		    		<Grid
 			          item
 			          lg={6}
@@ -956,16 +988,54 @@ const AddNewTiket = props => {
 			        		onSubmit={onSubmitTarif}
 			        		errors={state.errors}
 			        	/> }
+
+			        	{ pengaduan.jenis === '4' && 
+			        		<KantorPos 
+			        			validateCustomer={handleValidateKantorPos}	
+			        			pelanggan={state.pengaduan}
+			        			user={props.user}
+			        			setLoading={(bool) => 
+			        				setState(state => ({
+										...state,
+										loading: bool
+									})) 
+			        			}
+			        			setKantor={(offices) => setOffices(offices)}
+			        			setError={(global) => setState(state => ({
+			        				...state,
+			        				errors: {
+			        					global
+			        				}
+			        			}))}
+
+			        		/> } 
 			        </Grid>
-		    	</Grid> : <TableTarif 
-		    		onBack={() => setState(state => ({
-		    			...state,
-		    			listTarif: []
-		    		}))}
-		    		data={state.listTarif}
-		    		payload={tarif.data}
-		    		onDone={saveCustomer}
-		    	/>}
+		    	</Grid> }
+
+		    	{ state.listTarif > 0 &&
+	    			<TableTarif 
+			    		onBack={() => {
+			    			setState(state => ({
+				    			...state,
+				    			listTarif: []
+			    			}))
+			    			setHidden(false);
+			    		}}
+			    		data={state.listTarif}
+			    		payload={tarif.data}
+			    		onDone={saveCustomer}
+			    	/> }
+
+				{ offices.length > 0 && 
+					<TableOffice 
+						data={offices} 
+						onBack={() => {
+							setHidden(false);
+							setTimeout(function() {
+								setOffices([]);
+							}, 10);
+						}}
+					/> }
 		    </React.Fragment>
 		</div>
 	);

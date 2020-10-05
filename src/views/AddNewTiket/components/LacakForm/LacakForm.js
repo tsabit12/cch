@@ -52,6 +52,7 @@ const LacakForm = props => {
 						variant='outlined' 
 						fullWidth
 						className={classes.field}
+						size='small'
 					>
 						<InputLabel id="jenis-customized-select">Jenis Kiriman</InputLabel>
 						<Select
@@ -73,6 +74,7 @@ const LacakForm = props => {
 						variant="outlined"
 						fullWidth
 						error={!!errors.noresi}
+						size='small'
 					>
 						<InputLabel htmlFor="outlined-adornment-password" shrink>Nomor Resi</InputLabel>
 						<OutlinedInput
