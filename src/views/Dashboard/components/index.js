@@ -3,4 +3,4 @@ export { default as Pencapaian } from "./Pencapaian";
 export { default as TiketToday } from "./TiketToday"; 
 export { default as TotalPelanggan } from "./TotalPelanggan";
 export { default as Grafik } from './Grafik';
-export { default as Produk } from './Produk';
+export { default as GrafikProduk } from './GrafikProduk';

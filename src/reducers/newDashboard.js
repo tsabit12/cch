@@ -21,10 +21,7 @@ const intialState = {
 			"all": 0
 		}
 	},
-	produk: {
-		keluar: [],
-		masuk: []
-	},
+	produk: [],
 	info: [
 		{ "auto_id": "1", "name": "Lacak Kiriman", "jumlah": "0" },
 		{ "auto_id": "2", "name": "Info Tarif", "jumlah": "0"},
@@ -48,10 +45,7 @@ export default function newDashboard(state=intialState, action={}){
 		case 'GET_PRODUK':
 			return {
 				...state,
-				produk: {
-					keluar: action.products.keluar,
-					masuk: action.products.masuk
-				}
+				produk: action.products
 			}
 		case 'GET_INFO':
 			return {

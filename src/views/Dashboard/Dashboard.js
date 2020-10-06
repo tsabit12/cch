@@ -7,7 +7,7 @@ import {
 	TiketToday,
 	TotalPelanggan,
 	Grafik,
-	Produk
+	GrafikProduk
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
@@ -283,17 +283,8 @@ const Dashboard = props => {
 	         		data={props.statistik}
 	         	/>
 	        </Grid>
-	        <Grid item lg={5} sm={12} xl={12} xs={12}>
-	        	<Produk 
-	        		data={props.produk.keluar}
-	        		type='KELUAR'
-	        	/>
-	        </Grid>
-	        <Grid item lg={5} sm={12} xl={12} xs={12}>
-	        	<Produk 
-	        		data={props.produk.masuk}
-	        		type='MASUK'
-	        	/>
+	        <Grid item lg={6} sm={12} xl={12} xs={12}>
+	        	<GrafikProduk data={props.produk} />
 	        </Grid>
 		</Grid>
     </div>
@@ -311,7 +302,8 @@ Dashboard.propTypes = {
 	statistik: PropTypes.object.isRequired,
 	getProduk: PropTypes.func.isRequired,
 	getInfo: PropTypes.func.isRequired,
-	info: PropTypes.array.isRequired
+	info: PropTypes.array.isRequired,
+	produk: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {

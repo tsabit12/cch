@@ -4,7 +4,7 @@ import axios from "axios";
 export default{
 	trackAndTrace: (payload) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
 		...payload
-	}).then(res => res.data.result),
+	}).then(res => res.data),
 	mappingPos: (payload) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
 		...payload
 	}).then(res => res.data.result),
@@ -160,7 +160,7 @@ export default{
 		getStatistik: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/tiket`, {
 			...payload
 		}).then(res => res.data),
-		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getProduk`, {
+		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getGrafikProduk`, {
 			...payload
 		}).then(res => res.data),
 		getInfo: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getInfo`, {
