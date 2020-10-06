@@ -119,7 +119,7 @@ const ListTiket = props => {
 	}, [props.page]);
 
 	const handleChangePage = (event, page) => {
-		const offsetValue = page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1;
+		const offsetValue = (page * 10) - 10;
 
 		setPaging(paging => ({
 			offset: offsetValue,
@@ -206,7 +206,7 @@ const ListTiket = props => {
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>EXPIRED</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}} align='center'>BERAKHIR DALAM</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
 						</TableRow>
