@@ -73,7 +73,7 @@ const Laporan = props => {
 				...params,
 				regional: user.regional
 			}))
-			getKprk(user.regional);
+			getKprk(user.regional, '01');
 		}else{ //pusat
 			payload.regional = '00';	
 			payload.kprk = '00';
@@ -110,10 +110,20 @@ const Laporan = props => {
 
 	const handleChangeSelect = (e) => {
 		const { value, name } = e.target;
-		setParams(params => ({
-			...params,
-			[name]: value
-		}))
+		if (name === 'regional') {
+			getKprk(value, '00');
+			setParams(params => ({
+				...params,
+				kprk: '00',
+				regional: value
+			}))
+		}else{
+			setParams(params => ({
+				...params,
+				[name]: value
+			}))
+		}
+
 	}
 
 	const handleToggle = () => setOpen(!open)
@@ -153,8 +163,8 @@ const Laporan = props => {
 		});
 	}
 
-	const getKprk = (regValue) => {
-		api.getKprk(regValue)
+	const getKprk = (regValue, type) => {
+		api.getKprk(regValue === '01' ? 'KANTORPUSAT' : regValue)
 	  		.then(result => {
 	  			const kprk = [{value: '00', text: 'SEMUA KPRK'}];
 	  			result.forEach(row => {
@@ -162,13 +172,14 @@ const Laporan = props => {
 	  			})
 
 	  			setListKprk(kprk);
-
-	  			setTimeout(function() {
-	  				setParams(params => ({
-	  					...params,
-	  					kprk: user.kantor_pos
-	  				}))
-	  			}, 10);
+	  			if (type === '01') {
+	  				setTimeout(function() {
+		  				setParams(params => ({
+		  					...params,
+		  					kprk: user.kantor_pos
+		  				}))
+		  			}, 10);
+	  			}
 	  		})
 	} 
 

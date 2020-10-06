@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const listReg = [
 	{text: 'SEMUA REGIONAL', value: '00'},
-	{text: 'PUSAT', value: '01'},
+	{text: 'PUSAT', value: 'KANTORPUSAT'},
 	{text: 'REGIONAL 01', value: 'Regional 1'},
 	{text: 'REGIONAL 02', value: 'Regional 2'},
 	{text: 'REGIONAL 03', value: 'Regional 3'},
@@ -184,7 +184,7 @@ const Dashboard = props => {
   	props.getStatistik(search);
   	props.getPencapaian(search);
   	props.getProduk(search);
-
+  	props.getInfo(search);
   }
 
   return (

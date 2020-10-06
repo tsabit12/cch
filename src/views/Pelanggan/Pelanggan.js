@@ -97,7 +97,7 @@ const Pelanggan = props => {
 		}
 	}, [props.listPelanggan, activePage])
 
-	const handleGetKprk = (reg) => api.getKprk(reg)
+	const handleGetKprk = (reg) => api.getKprk(reg === '01' ? 'KANTORPUSAT' : reg)
 
 	const handleSearch = async (payload) => {
 		props.resetData();
@@ -137,7 +137,7 @@ const Pelanggan = props => {
 	}
 
 	const handleChangePage = (event, page) => {
-		const offsetValue = page === 1 ? (page * 18) - 18 : (page * 18) - 18 + 1;
+		const offsetValue = (page * 18) - 18;
 		
 		const payload = {
 			offset: offsetValue,
