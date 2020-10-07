@@ -77,7 +77,19 @@ const useStyles = makeStyles(theme => ({
 		position: 'absolute', 
 		bottom: 0, 
 		right: 0,
-		margin: 10
+		margin: 10,
+		left: 0
+	},
+	inline: {
+		display: 'flex',
+		justifyContent: 'space-between'
+	},
+	circle: {
+		height: 10, 
+		width: 10, 
+		borderRadius: 10 / 2, 
+		marginRight: 5
+
 	}
 }))
 
@@ -206,7 +218,8 @@ const ListTiket = props => {
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}} align='center'>BERAKHIR DALAM</TableCell>
+							{ /*eslint-disable-next-line */}
+							{ props.page === 1 || props.page === 2 && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
 							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
 						</TableRow>
@@ -216,6 +229,7 @@ const ListTiket = props => {
 							data={props.list[paging.active]} 
 							activePage={paging.active}
 							onClickTiket={props.onClickTiket}
+							durasiVisible={props.page === 1 || props.page === 2 ? true : false }
 						/> : <TableBody>
 							<TableRow>
 								<TableCell colSpan={7} align='center'>Tiket tidak ditemukan</TableCell>
@@ -224,14 +238,26 @@ const ListTiket = props => {
 				</Table>
 			</div>
 			<div className={classes.paging}>
-				<Pagination 
-					count={getTotalPage(props.total, props.page)} 
-					variant="outlined" 
-					shape="rounded" 
-					page={paging.active}
-					onChange={handleChangePage}
-					disabled={param.length === 0 ? false : true }
-				/>
+				<div className={classes.inline}>
+					<div>
+						<div style={{display: 'flex', alignItems: 'center'}}>
+							<div className={classes.circle} style={{backgroundColor: 'red'}}/>
+							<Typography variant='body2'>Durasi Lebih dari</Typography>
+						</div>
+						<div style={{display: 'flex', alignItems: 'center'}}>
+							<div className={classes.circle} style={{backgroundColor: 'rgb(171, 231, 232)'}}/>
+							<Typography variant='body2'>Belum dibaca</Typography>
+						</div>
+					</div>
+					<Pagination 
+						count={getTotalPage(props.total, props.page)} 
+						variant="outlined" 
+						shape="rounded" 
+						page={paging.active}
+						onChange={handleChangePage}
+						disabled={param.length === 0 ? false : true }
+					/>
+				</div>
 			</div>
 		</Paper>
 	);

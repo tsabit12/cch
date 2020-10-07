@@ -10,22 +10,31 @@ import PropTypes from 'prop-types';
 const duration = (t0, t1) => {
 	const dateFuture = new Date(t1);
 	const dateNow 		= new Date(t0);
-	
+	const result = {};
 
 	var seconds = Math.floor((dateFuture - (dateNow))/1000);
 	if (seconds < 0) {
-		return 'kadaluwarsa';
+		result.status = 0;
 	}else{
-		var minutes = Math.floor(seconds/60);
-		var hours = Math.floor(minutes/60);
-		var days = Math.floor(hours/24);
-
-		hours = hours-(days*24);
-		minutes = minutes-(days*24*60)-(hours*60);
-		seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
-
-		return `${hours} jam ${minutes} menit lagi`;
+		result.status = 1;
 	}
+
+	var minutes = Math.floor(seconds/60);
+	var hours = Math.floor(minutes/60);
+	var days = Math.floor(hours/24);
+
+	hours = hours-(days*24);
+	minutes = minutes-(days*24*60)-(hours*60);
+	seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+	if (days === 0) {
+		result.times = `${hours} jam ${minutes} menit`;
+	}else{
+		result.times = `${Math.abs(days)} hari`;
+	}
+
+
+	return result;
 
 }
 
@@ -46,7 +55,7 @@ const TooltipComponent = React.forwardRef(function TooltipComponent(props, ref) 
 const TableTiket = props => {
 	var no = (props.activePage * 10) - 10 + 1;
 
-	const { data } = props;
+	const { data, durasiVisible } = props;
 	return(
 		<TableBody>
 			{ data.map((row, index) => <TableRow 
@@ -68,13 +77,21 @@ const TableTiket = props => {
 				</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.awb}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>
-						<Tooltip title={row.pelanggan} arrow>
-		              		<TooltipComponent
-	              			 	text={row.pelanggan}
-	              			/>
-		              	</Tooltip>
-					</TableCell>
-				<TableCell style={{whiteSpace: 'nowrap'}} align='center'>{duration(row.current, row.tgl_exp)}</TableCell>
+					<Tooltip title={row.pelanggan} arrow>
+	              		<TooltipComponent
+              			 	text={row.pelanggan}
+              			/>
+	              	</Tooltip>
+				</TableCell>
+				{ durasiVisible && <TableCell 
+					style={{
+						whiteSpace: 'nowrap',
+						color: duration(row.current, row.tgl_exp).status === 0 ? 'red' : null
+					}} 
+					align='center'
+				>	
+					{duration(row.current, row.tgl_exp).times}
+				</TableCell> }
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.tgl_tambah.substring(0, 10)}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.status}</TableCell>
 			</TableRow>)}
@@ -85,7 +102,8 @@ const TableTiket = props => {
 
 TableTiket.propTypes = {
 	data: PropTypes.array.isRequired,
-	onClickTiket: PropTypes.func.isRequired
+	onClickTiket: PropTypes.func.isRequired,
+	durasiVisible: PropTypes.bool.isRequired
 }
 
 export default TableTiket;
