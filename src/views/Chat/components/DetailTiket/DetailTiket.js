@@ -75,7 +75,7 @@ const DetailTiket = props => {
 					</TableRow>
 				</TableBody> 
 			</Table>
-			{ data.pembuatanTicket === props.email && <CardActions>
+			{ data.asal_pengaduan === props.kantor && <CardActions>
 				<Button
 					disabled={props.disabled}
 					fullWidth

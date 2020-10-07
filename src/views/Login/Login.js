@@ -93,7 +93,7 @@ const useStyles = makeStyles(theme => ({
 		textAlign: 'center'
 	},
 	dividerText: {
-		fontSize: '25px', 
+		fontSize: '20px', 
 		backgroundColor: '#F3F5F6', 
 		padding: '0 10px',
 		color: 'blue',
@@ -202,7 +202,6 @@ const Login = props => {
 	    		open={state.visibleFaq}
 	    		onClose={onFaqClick}
 	    	/>
-	      <div className={classes.content}>
 	        <Loading loading={state.loading} />
 	        <Alert 
 	          open={!!state.errors.global} 
@@ -211,81 +210,76 @@ const Login = props => {
 	          onClose={onCloseAlert} 
 	        />
 
-	        <div className={classes.contentBody}>
-	          <form
-	            className={classes.form}
-	            onSubmit={handleSubmit}
-	          >
-	            <Typography
-	              className={classes.title}
-	              variant="h2"
-	            >
-	              Log in
-	            </Typography>
-	            <TextField
-	              className={classes.textField}
-	              error={!!errors.username}
-	              fullWidth
-	              helperText={ errors.username ? errors.username : null }
-	              label="username"
-	              name="username"
-	              onChange={handleChange}
-	              type="text"
-	              value={state.username}
-	              variant="outlined"
-	            />
-	            <FormControl 
-	            	variant='outlined' 
-	            	fullWidth 
-	            	className={classes.textField}
-	            	error={!!errors.password}
-	            >
-	            	<InputLabel htmlFor="password">Password</InputLabel>
-		            <OutlinedInput
-		              //fullWidth
-		              helperText={ errors.password ? errors.password : null }
-		              id='password'
-		              labelWidth={70}
-		              name="password"
-		              onChange={handleChange}
-		               type={state.showpass ? 'text' : 'password'}
-		              value={data.password}
-		              variant="outlined"
-		              endAdornment={
-			              <InputAdornment position="end">
-			                <IconButton
-			                  aria-label="toggle password visibility"
-			                  onClick={handleClickShowPassword}
-			                  //onMouseDown={handleMouseDownPassword}
-			                  edge="end"
-			                >
-			                  {state.showpass ? <Visibility /> : <VisibilityOff />}
-			                </IconButton>
-			              </InputAdornment>
-			            }
-		            />
-		            { errors.password && <FormHelperText id="password">{errors.password}</FormHelperText>}
-	            </FormControl>
-	            <Button
-	              className={classes.signInButton}
-	              color="primary"
-	              // disabled={!.isValid}
-	              fullWidth
-	              size="large"
-	              type="submit"
-	              variant="contained"
-	              onClick={handleSubmit}
-	            >
-	              Login Sekarang
-	            </Button>
-	            <div className={classes.divider}>
-				  <span className={classes.dividerText} onClick={onFaqClick}>
-				    FAQ
-				  </span>
-				</div>
-	          </form>
-	        </div>
-	      </div>
+	      	<div className={classes.content}>
+	        	<div className={classes.contentBody}>
+	          		<form className={classes.form} onSubmit={handleSubmit}>
+			            <Typography className={classes.title} variant="h2">
+			              Customer Complain Handling
+			            </Typography>
+		            	<TextField
+			              className={classes.textField}
+			              error={!!errors.username}
+			              fullWidth
+			              helperText={ errors.username ? errors.username : null }
+			              label="username"
+			              name="username"
+			              onChange={handleChange}
+			              type="text"
+			              value={state.username}
+			              variant="outlined"
+			            />
+			            <FormControl 
+			            	variant='outlined' 
+			            	fullWidth 
+			            	className={classes.textField}
+			            	error={!!errors.password}
+			            >
+	            			<InputLabel htmlFor="password">Password</InputLabel>
+				            <OutlinedInput
+				              //fullWidth
+				              helperText={ errors.password ? errors.password : null }
+				              id='password'
+				              labelWidth={70}
+				              name="password"
+				              onChange={handleChange}
+				               type={state.showpass ? 'text' : 'password'}
+				              value={data.password}
+				              variant="outlined"
+				              endAdornment={
+					              <InputAdornment position="end">
+					                <IconButton
+					                  aria-label="toggle password visibility"
+					                  onClick={handleClickShowPassword}
+					                  //onMouseDown={handleMouseDownPassword}
+					                  edge="end"
+					                >
+					                  {state.showpass ? <Visibility /> : <VisibilityOff />}
+					                </IconButton>
+					              </InputAdornment>
+					            }
+				            />
+		            		{ errors.password && <FormHelperText id="password">{errors.password}</FormHelperText>}
+	            		</FormControl>
+		            	<Button
+			              className={classes.signInButton}
+			              color="primary"
+			              // disabled={!.isValid}
+			              fullWidth
+			              size="large"
+			              type="submit"
+			              variant="contained"
+			              onClick={handleSubmit}
+			            >
+		              		Login
+		            	</Button>
+			            <div className={classes.divider}>
+						  <span className={classes.dividerText} onClick={onFaqClick}>
+						    FAQ
+						  </span>
+						</div>
+	          		</form>
+	        	</div>
+	      	</div>
 	    </div>
 	);
 }

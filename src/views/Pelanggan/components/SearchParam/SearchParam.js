@@ -8,7 +8,7 @@ import {
 	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { listReg } from '../../../../helper';
+import { listReg, listChannel } from '../../../../helper';
 
 const useStyles = makeStyles(theme => ({
 	formControl: {
@@ -26,7 +26,8 @@ const SearchParam = props => {
 	const [state, setState] = React.useState({
 		reg: '00',
 		kprk: '00',
-		listKprk: []
+		listKprk: [],
+		channel: '00'
 	})
 	const classes = useStyles();
 	const { user } = props;
@@ -68,18 +69,19 @@ const SearchParam = props => {
 			})))
 	}
 
-	const handleChangeKprk = (e) => {
-		const { value } = e.target;
+	const handleChange = (e) => {
+		const { value, name } = e.target;
 		setState(prevState => ({
 			...prevState,
-			kprk: value
+			[name]: value
 		}))
 	}
 
 	const handleClick = () => {
 		const payload = {
 			regional: state.reg,
-			kprk: state.kprk
+			kprk: state.kprk,
+			channel: state.channel
 		}
 		props.onSubmit(payload)
 	}
@@ -117,8 +119,9 @@ const SearchParam = props => {
 		        <Select
 			          labelId="labelKprk"
 			          id="kprk"
+			          name='kprk'
 			          value={state.kprk}
-			          onChange={handleChangeKprk}
+			          onChange={handleChange}
 			          label="KPRK"
 			          disabled={user.utype === 'Kprk' ? true : false }
 			          
@@ -131,6 +134,27 @@ const SearchParam = props => {
 				        {listKprk.length > 0 && listKprk.map((row, index) => (
 				        	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>
 				        ))}
+				</Select>
+		    </FormControl>
+
+		     <FormControl 
+				variant="outlined" 
+				size="small" 
+				className={classes.formControl}
+			>
+		        <InputLabel id="labelChannel">CHANNEL</InputLabel>
+		        <Select
+			          labelId="labelChannel"
+			          id="channel"
+			          name='channel'
+			          value={state.channel}
+			          onChange={handleChange}
+			          label="CHANNEL"
+			          
+			        >
+			         	{ listChannel.map((row, index) => <MenuItem key={index} value={row.value}>
+			         		{row.text}
+			         	</MenuItem>)}
 				</Select>
 		    </FormControl>
 		    

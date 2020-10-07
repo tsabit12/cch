@@ -22,6 +22,7 @@ import { DatePicker } from "@material-ui/pickers";
 import { periodeView, listReg } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import api from '../../api';
+import Loader from '../Loader';
 
 import {
 	TableTiket,
@@ -55,6 +56,7 @@ const Laporan = props => {
 		visible: false,
 		item: {}
 	});
+
 	const [listKprk, setListKprk] = useState([{value: '00', 'text' : 'SEMUA KPRK'}]);
 
 	useEffect(() => {
@@ -100,7 +102,10 @@ const Laporan = props => {
 			type: activeName,
 			kprk: params.kprk
 		}	
+		searchLaporan(payload);
+	}
 
+	const searchLaporan = (payload) => {
 		setLoading(true);
 
 		props.getLaporanTiket(payload)
@@ -145,11 +150,20 @@ const Laporan = props => {
 
 	const handleClickReportType = () => {
 		setOpen(false);
+		const payload = {
+			regional: params.regional,
+			periode: periodeView(params.periode),
+			kprk: params.kprk
+		};
 		if (activeName === '01') {
 			setActivename('00');
+			payload.type = '00';
 		}else{
 			setActivename('01');
+			payload.type = '01';
 		}
+
+		searchLaporan(payload);
 	}
 
 	const handleClickDetail = (id) => {
@@ -185,17 +199,16 @@ const Laporan = props => {
 
 	const cardTitle = () => (
 		<div className={classes.header}>
-			<div>
+			<div style={{width: 200}}>
 				<Button
 		            size="medium"
-		            style={{minWidth: 200}}
 		            variant="outlined"
 		            ref={anchorRef}
 			        aria-controls={open ? 'menu-list-grow' : undefined}
 			        aria-haspopup="true"
 			        onClick={handleToggle}
 		        >
-				    {activeName === '01' ? 'LAPORAN TIKET KELUAR' : 'LAPORAN TIKET MASUK'} <ArrowDropDownIcon />
+				    {activeName === '01' ? 'TIKET KELUAR' : 'TIKET MASUK'} <ArrowDropDownIcon />
 				</Button>
 				<Popper open={open} anchorEl={anchorRef.current} style={{zIndex: 1}} role={undefined} transition disablePortal>
 		          {({ TransitionProps, placement }) => (
@@ -207,17 +220,17 @@ const Laporan = props => {
 		                <ClickAwayListener onClickAway={handleClose}>
 		                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
 		                  		<MenuItem onClick={handleClickReportType}>
-		                    		{ activeName === '01' ? 'LAPORAN TIKET MASUK' : 'LAPORAN TIKET KELUAR' }
+		                    		{ activeName === '01' ? 'TIKET MASUK' : 'TIKET KELUAR' }
 		                    	</MenuItem>
 		                  </MenuList>
 		                </ClickAwayListener>
 		              </Paper>
 		            </Grow>
 		          )}
-		        </Popper> 
+		        </Popper>
 			</div>
-			<div style={{display: 'flex', width: 600}}>
-				<FormControl variant='outlined' size="small" style={{width: 200}}>
+			<div style={{display: 'flex', width: '100%', justifyContent: 'flex-end'}}>
+				<FormControl variant='outlined' size="small" style={{width: 200, marginLeft: 5}}>
 					<InputLabel htmlFor="regLabel">Regional</InputLabel>
 					<Select
 						labelId="regLabel"
@@ -262,7 +275,7 @@ const Laporan = props => {
 			        onChange={(e) => handleChangeDate(e._d)}
 			    />
 			    <Button variant='outlined' style={{marginLeft: 5}} onClick={handleSearch} disabled={loading}>
-			    	{ loading ? 'Loading...' : 'Tampilkan'}
+			    	Tampilkan
 			    </Button>
 		    </div>
 		</div>
@@ -270,6 +283,7 @@ const Laporan = props => {
 
 	return(
 		<div className={classes.root}>
+			<Loader loading={loading} />
 			{ detail.visible && 
 				<ModalDetail 
 					onClose={() => setDetail({ visible: false, item: {} })} 

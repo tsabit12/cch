@@ -82,13 +82,6 @@ const AccountDetails = props => {
 		    	>
 		    		Change Password
 		    	</Button>
-		    	<Button 
-		    		//className={classes.uploadButton}
-		    		color="primary"
-		    		variant="text"
-		    	>
-		    		Update Profile
-		    	</Button>
 		    </CardActions>
 		</Card>
 	);

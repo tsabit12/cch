@@ -22,6 +22,9 @@ import {
 
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -64,27 +67,39 @@ const items = [
   },
   {
     href: '/pelanggan',
-    icon: FolderOpenIcon,
+    icon: PeopleIcon,
     title: 'Pelanggan',
     user: ['Administrator','MANAGEMENT','AGENT / CS']
-  },
-  {
-    href: '/prod-knowledge',
-    icon: FolderOpenIcon,
-    title: 'Product Knowledge',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
-  },
-  {
-    href: '/laporan',
-    icon: FolderOpenIcon,
-    title: 'Laporan',
-    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
   },
   {
     href: '/x-ray',
     icon: CancelIcon,
     title: 'Gagal X-Ray',
     user: ['Administrator','MANAGEMENT','AGENT / CS']
+  },
+  {
+    href: '/prod-knowledge',
+    icon: LocalLibraryIcon,
+    title: 'Product Knowledge',
+    user: ['Administrator','MANAGEMENT','AGENT / CS']
+  },
+  {
+    href: '/laporan-tiket',
+    icon: FolderOpenIcon,
+    title: 'Laporan Tiket',
+    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+  },
+  {
+    href: '/laporan-product',
+    icon: FolderOpenIcon,
+    title: 'Laporan Produk',
+    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+  },
+  {
+    href: '/kinerja-cs',
+    icon: TrendingUpIcon,
+    title: 'Kinerja CS',
+    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
   },
   {
     href: '/setting',

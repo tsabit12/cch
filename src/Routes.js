@@ -110,7 +110,7 @@ const Routes = () => {
         component={LaporanView}
         exact
         layout={MainLayout}
-        path="/laporan"
+        path="/laporan-tiket"
       />
       <GuestRoute
         component={ProdKnowledgeView}

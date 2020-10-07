@@ -209,6 +209,7 @@ const Chat = props => {
 		      			showModal={handleShowModal}
 		      			email={props.user.email}
 		      			disabled={!!props.isDone}
+		      			kantor={props.user.kantor_pos}
 		      		/>
 		        </Grid>	
 		        <Grid item lg={8} sm={8} xl={12} xs={12}>

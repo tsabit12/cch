@@ -40,3 +40,14 @@ export const listReg = [
 	{text: 'REGIONAL 10', value: 'REGIONAL 10'},
 	{text: 'REGIONAL 11', value: 'REGIONAL 11'}
 ]
+
+export const listChannel = [
+    {text: 'SEMUA CHANNEL', value: '00'},
+    {text: 'Telepon', value: 1},
+    {text: 'Instagram', value: 2},
+    {text: 'Twitter', value: 3},
+    {text: 'Facebook', value: 4},
+    {text: 'Email', value: 5},
+    {text: 'Walk-in', value: 6},
+    {text: 'Mitra e-Commerce', value: 7}
+];

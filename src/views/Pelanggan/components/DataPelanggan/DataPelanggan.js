@@ -45,7 +45,7 @@ const DataPelanggan = props => {
 	const classes = useStyles();
 	const { list, activePage } = props;
 	
-	var no = (activePage * 18) - 18 + 1;
+	var no = (activePage * 11) - 11 + 1;
 
 	return(
 		<div className={classes.root}>
@@ -87,7 +87,7 @@ const DataPelanggan = props => {
 	              					color="default" 
 	              					aria-label="add to shopping cart"
 	              					size="small"
-	              					style={{padding: 0, height: 0}}
+	              					// style={{padding: 0, height: 0}}
 	              					onClick={() => props.onEdit(row.customerId)}
 	              				>
 							        <EditIcon size='small' />

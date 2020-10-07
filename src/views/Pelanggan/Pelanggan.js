@@ -38,6 +38,7 @@ const Pelanggan = props => {
 		data: [],
 		offset: 0,
 		kprk: '00',
+		channel: '00',
 		regional: '00',
 		mount: false,
 		loading: true,
@@ -57,7 +58,8 @@ const Pelanggan = props => {
 			const payload = {
 				kprk: kprkValue,
 				offset: 0,
-				regional: regValue
+				regional: regValue,
+				channel: '00'
 			}
 			
 			await props.getTotalPelanggan(payload);
@@ -108,7 +110,8 @@ const Pelanggan = props => {
 			loading: true,
 			offset: 0,
 			kprk: payload.kprk,
-			regional: payload.regional
+			regional: payload.regional,
+			channel: payload.channel
 		}))
 
 		const payloadW = {
@@ -137,12 +140,13 @@ const Pelanggan = props => {
 	}
 
 	const handleChangePage = (event, page) => {
-		const offsetValue = (page * 18) - 18;
+		const offsetValue = (page * 11) - 11;
 		
 		const payload = {
 			offset: offsetValue,
 			kprk: state.kprk,
-			regional: state.regional
+			regional: state.regional,
+			channel: state.channel
 		}
 
 		props.getPelanggan(payload, `page${page}`);
@@ -217,7 +221,7 @@ const Pelanggan = props => {
 				/>
 				<CardActions className={classes.action}>
 					<Pagination 
-						count={Math.ceil(props.total / 18)} 
+						count={Math.ceil(props.total / 11)} 
 						variant="outlined" 
 						shape="rounded" 
 						page={activePage}

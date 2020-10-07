@@ -360,7 +360,7 @@ const AddNewTiket = props => {
 						...state,
 						lacak: {
 							...state.lacak,
-							list: tracks
+							list: tracks.result
 						},
 						loading: false
 					}))
@@ -624,33 +624,31 @@ const AddNewTiket = props => {
 				type: tiket.data.type
 			}
 
-			await api.cch.validationTiket(tiket.data.noresi)
+			api.cch.validationTiket(tiket.data.noresi)
 				.then(response => {
 					const { status, no_tiket } = response;
-					if (status !== null) {
-						setState(state => ({
-							...state,
-							tiket:{
-								...state.tiket,
-								wasAdded: true,
-								detail: {
-									status,
-									no_tiket
-								}
+					// if (status !== null) {
+					setState(state => ({
+						...state,
+						tiket:{
+							...state.tiket,
+							wasAdded: true,
+							detail: {
+								status,
+								no_tiket
 							}
-						}))
-					}
-				});
+						}
+					}))
+				})
 
 			api.trackAndTrace(payload)
-				.then(tracks => {
-					console.log(tracks);
+				.then(tracks => {					
 					setState(state => ({
 						...state,
 						loading: false,
 						tiket: {
 							...state.tiket,
-							tracks
+							tracks: tracks.result
 						}
 					}))
 				})
@@ -881,7 +879,8 @@ const AddNewTiket = props => {
 		if (pengaduan.channel === '0') errors.channel = 'Channel belum dipilih';	
 		if (!pengaduan.nama) errors.nama = 'Nama pelanggan belum diisi';
 		// if (!pengaduan.email) errors.email = 'Email belum diisi';
-		if (!pengaduan.phone) errors.phone = 'Nomor telepon belum diisi';
+		// if (!pengaduan.phone) errors.phone = 'Nomor telepon belum diisi';
+		
 		if (!pengaduan.detailAlamat) errors.detailAlamat = 'Alamat belum diisi';
 		if (!pengaduan.channelName) errors.channelName = 'Tidak boleh kosong';
 
