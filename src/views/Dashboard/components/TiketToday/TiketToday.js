@@ -11,8 +11,8 @@ const numberWithCommas = (number) => {
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText
+    backgroundColor: theme.palette.warning.main,
+    color: theme.palette.warning.contrastText
   },
   content: {
     alignItems: 'center',
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     backgroundColor: theme.palette.white,
-    color: theme.palette.primary.main,
+    color: theme.palette.warning.main,
     height: 56,
     width: 56
   },
