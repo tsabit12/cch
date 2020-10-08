@@ -16,8 +16,8 @@ const useStyles = makeStyles(theme => ({
         //borderRightWidth: 1,
         //borderColor: '#aaadab',
         //borderStyle: 'solid',
-        whiteSpace: 'nowrap'
-	}, // or borderTop: '1px solid red'
+        //whiteSpace: 'nowrap'
+	},
 	rightBorder: {
         borderRightWidth: 1,
         borderBottomWidth: 1,
@@ -41,7 +41,7 @@ const TableTiket = props => {
 	var no = 1;
 
 	return(
-    <div style={{overflowY: 'auto', minHeight: 300}}>
+    <div>
   		<Table size='small' padding='checkbox'>
   			<TableHead>
             <TableRow>

@@ -299,7 +299,6 @@ const Laporan = props => {
 					data={props.listTiket}
 					onPress={handleClickDetail}
 				/>
-				<Divider />
 			</Card>
 		</div>
 	);

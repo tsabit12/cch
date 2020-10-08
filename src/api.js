@@ -8,6 +8,9 @@ export default{
 	mappingPos: (payload) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
 		...payload
 	}).then(res => res.data.result),
+	mappingKodepos: (kodepos) => axios.post(`${process.env.REACT_APP_API}/kantorPos2`, {
+		kodepos
+	}).then(res => res.data.result),
 	cch: {
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
 			param
@@ -180,5 +183,10 @@ export default{
 	},
 	deleteKnowledge: (file) => axios.post(`${process.env.REACT_APP_API2}/prod/deleteFile`, {
 		file
-	}).then(res => res.data)
+	}).then(res => res.data),
+	download: {
+		pelanggan: (payload) => axios.post(`${process.env.REACT_APP_API2}/download/pelanggan`, {
+			...payload
+		}).then(res => res.data)
+	}
 }

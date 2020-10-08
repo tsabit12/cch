@@ -107,6 +107,7 @@ const AddNewTiket = props => {
 	})
 	const [offices, setOffices] = useState([]);
 	const [isHidden, setHidden] = useState(false);
+	const [success, setSucces] = useState(false);
 
 	const { pengaduan, lacak, errors, tarif, tiket } = state;
 
@@ -616,7 +617,13 @@ const AddNewTiket = props => {
 		}else{
 			setState(state => ({
 				...state,
-				loading: true
+				loading: true,
+				tiket: {
+					...state.tiket,
+					tracks: [],
+					wasAdded: false,
+					detail: {}
+				}
 			}))
 
 			const payload = {
@@ -659,12 +666,6 @@ const AddNewTiket = props => {
 							global: 'Data dengan barcode tersebut tidak ditemukan'
 						},
 						loading: false,
-						tiket: {
-							...state.tiket,
-							tracks: [],
-							wasAdded: false,
-							detail: {}
-						}
 					}))
 				})
 		}
@@ -780,6 +781,7 @@ const AddNewTiket = props => {
 							api.addTicket(payload)
 								.then(res => {
 									resetAllState();
+									setSucces(true);
 								})
 								.catch(err => {
 									if (err.response) {
@@ -908,6 +910,14 @@ const AddNewTiket = props => {
 						}
 					}))} 
 				/> }
+			
+			<Alert 
+				variant='success'
+				message='Tiket berhasil dibuat'
+				onClose={() => setSucces(false)}
+				open={success}
+			/>
+
 			<div className={classes.header}>
 				<IconButton 
 					size="small" 
@@ -959,7 +969,7 @@ const AddNewTiket = props => {
 			        		handleChange={onChangeTiket}
 			        		onSearch={handleSearchResiTiket}
 			        		tracks={tiket.tracks}
-			        		mappingKodepos={(value) => api.mappingPos(value)}
+			        		mappingKodepos={(value) => api.mappingKodepos(value)}
 			        		onChangeSearch={(value) => handleChangeSearchOffice(value)}
 			        		optionsOffice={state.listOffice}
 			        		onChooseTujuan={handleChooseKprk}

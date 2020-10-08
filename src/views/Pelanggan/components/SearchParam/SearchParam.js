@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
 	MenuItem,
@@ -8,7 +8,16 @@ import {
 	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
+import palette from '../../../../theme/palette';
 import { listReg, listChannel } from '../../../../helper';
+import DescriptionIcon from '@material-ui/icons/Description';
+import Loader from '../../../Loader';
+import Alert from '../../../Alert';
+import api from '../../../../api';
+
+import {
+	DataExcel 
+} from './components';
 
 const useStyles = makeStyles(theme => ({
 	formControl: {
@@ -19,6 +28,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	button: {
 		marginTop: 10
+	},
+	buttonDownload: {
+		marginTop: 10,
+		marginLeft: 5,
+		backgroundColor: palette.success.main,
+		'&:hover': {
+			backgroundColor: palette.success.dark
+		},
+		color: '#FFF'
 	}
 }))
 
@@ -31,6 +49,11 @@ const SearchParam = props => {
 	})
 	const classes = useStyles();
 	const { user } = props;
+	const [loading, setLoading] = useState(false);
+	const [downloaded, setDownloaded] = useState([]);
+	const [errors, setErrors] = useState({});
+	
+	const { listKprk } = state;
 
 	React.useEffect(() => {
 		if (user.utype === 'Kprk') {
@@ -86,10 +109,37 @@ const SearchParam = props => {
 		props.onSubmit(payload)
 	}
 
-	const { listKprk } = state;
+	const handleDownload = () => {
+		setLoading(true);
+		setErrors({});
+
+		const payload = {
+			regional: state.reg,
+			kprk: state.kprk,
+			channel: state.channel
+		};
+
+		api.download.pelanggan(payload)
+			.then(res => {
+				setDownloaded(res);
+				setLoading(false);
+			})
+			.catch(err => {
+				setLoading(false);
+				setErrors({global: 'Download failed'});
+			})
+	}
 
 	return(
-		<div>
+		<React.Fragment>
+			{ downloaded.length > 0 && <DataExcel data={downloaded} /> }
+			<Alert 
+				open={!!errors.global}
+				message={errors.global}
+				variant='error'
+			/>
+
+			<Loader loading={loading} />
 			<FormControl 
 				variant="outlined" 
 				size="small" 
@@ -166,7 +216,16 @@ const SearchParam = props => {
 		    >
 		    	Tampilkan
 		    </Button>
-	    </div>
+
+		    <Button 
+		    	variant="contained" 
+		    	className={classes.buttonDownload} 
+		    	onClick={handleDownload}
+		    	startIcon={<DescriptionIcon />}
+		    >
+		    	Download
+		    </Button>
+	    </React.Fragment>
 	);
 }
 

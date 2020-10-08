@@ -98,9 +98,10 @@ const TiketForm = props => {
 	useEffect(() => {
 		if (tracks.length > 0) {
 			const firstData = tracks[0];
-			// console.log(firstData);
+			console.log(firstData.description);
 			const kodeposReceiver 	= firstData.description.split(';')[11]; 		
 			const layananValue 		= firstData.description.split(';')[0].split(":")[1];
+
 
 			setState(state => ({
 				...state,
@@ -222,6 +223,7 @@ const TiketForm = props => {
 									value={state.asal}
 									disabled
 									variant='outlined'
+									size='small'
 								/>
 							</FormControl>
 							<FormControl fullWidth style={{marginLeft: 4}}>
@@ -229,6 +231,7 @@ const TiketForm = props => {
 									label='Kantor Tujuan Kirim'
 									value={state.tujuan}
 									disabled
+									size='small'
 									variant='outlined'
 								/>
 							</FormControl>
@@ -239,6 +242,7 @@ const TiketForm = props => {
 								value={state.layanan}
 								disabled
 								variant='outlined'
+								size='small'
 							/>
 						</FormControl>
 						<FormControl className={classes.field} fullWidth>
@@ -256,6 +260,7 @@ const TiketForm = props => {
 						      		label='Tujuan Pengaduan'
 						      		name='tujuanKirim'
 						      		variant="outlined" 
+						      		size='small'
 						      		error={!!errors.tujuanKirim}
 						      		helperText={errors.tujuanKirim ? errors.tujuanKirim : null }
 						      	/> }
@@ -265,6 +270,7 @@ const TiketForm = props => {
 							<FormControl 
 								variant='outlined' 
 								fullWidth
+								size='small'
 							>
 								<InputLabel id="lableChannel">Channel POS</InputLabel>
 								<Select
@@ -288,6 +294,7 @@ const TiketForm = props => {
 									marginLeft: 4,
 									marginRight: 4
 								}}
+								size='small'
 							>
 								<InputLabel id="lableJenis">Jenis Customer</InputLabel>
 								<Select
@@ -306,6 +313,7 @@ const TiketForm = props => {
 							<FormControl 
 								variant='outlined' 
 								fullWidth
+								size='small'
 							>
 								<InputLabel id="labelBisnis">Jenis Bisnis</InputLabel>
 								<Select
@@ -343,12 +351,12 @@ const TiketForm = props => {
 			<Divider />
 			<CardActions style={{justifyContent: 'flex-end'}}>
 				<Button 
-					variant='text' 
-					color='primary'
+					variant='outlined' 
+					// color='primary'
 					onClick={() => props.onSubmit(state)}
 					disabled={tracks.length > 0 && !props.isAvailabel ? false : true }
 				>
-					AJUKAN
+					BUAT TIKET
 				</Button>
 			</CardActions>
 		</Card>

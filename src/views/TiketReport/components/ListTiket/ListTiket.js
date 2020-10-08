@@ -177,6 +177,8 @@ const ListTiket = props => {
 			.then(() => setReset(false))
 	}
 
+	const visibleDurasi = props.page === 1 || props.page === 2 ? true : false;
+
 	return(
 		<Paper className={classes.root}> 
 			<div className={classes.header}>
@@ -218,8 +220,7 @@ const ListTiket = props => {
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-							{ /*eslint-disable-next-line */}
-							{ props.page === 1 || props.page === 2 && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
+							{ visibleDurasi && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
 							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
 						</TableRow>
