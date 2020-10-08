@@ -11,3 +11,7 @@ export const getData = (extid) => dispatch =>
 				})
 			}
 		})
+
+export const getTotal = (payload) => dispatch =>
+	api.xray.getTotal(payload)
+		.then(res => console.log(res)) 

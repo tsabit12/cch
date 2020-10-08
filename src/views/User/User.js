@@ -134,7 +134,7 @@ const User = props => {
 
 
 	React.useEffect(() => {
-		if (message.display) {
+		if (message.type === 'adduser') {
 			setTimeout(function() {
 				props.removeMessage();
 			}, 3000);
@@ -264,12 +264,11 @@ const User = props => {
 
 	return(
 		<div className={classes.root}>
-			{ message.type === 'adduser' && <CollapseMessage 
-				visible={message.display}
+			<CollapseMessage 
+				visible={message.type === 'adduser' ? true : false }
 				message={message.text}
 				onClose={props.removeMessage}
-			/> }
-
+			/>
 			<Grid container spacing={4}>
 				<Grid
 		          item

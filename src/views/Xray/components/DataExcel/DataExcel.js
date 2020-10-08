@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		overflowX: 'auto'
 	},
 	container: {
-		maxHeight: 500
+		maxHeight: 400
 	},
 	actions: {
 		justifyContent: 'flex-end'

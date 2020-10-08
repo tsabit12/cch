@@ -189,5 +189,10 @@ export default{
 		pelanggan: (payload) => axios.post(`${process.env.REACT_APP_API2}/download/pelanggan`, {
 			...payload
 		}).then(res => res.data)
+	},
+	xray: {
+		getTotal: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/getTotal`, {
+			...payload
+		}).then(res => res.data)
 	}
 }

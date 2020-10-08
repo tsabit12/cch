@@ -28,7 +28,8 @@ import {
   ProdKnowledge as ProdKnowledgeView,
   TiketReport as TiketReportView,
   DataLibur as DataLiburView,
-  AddXray as AddXrayView
+  AddXray as AddXrayView,
+  XrayReport
 } from './views';
 
 
@@ -101,10 +102,16 @@ const Routes = () => {
         path="/setting/add"
       />
       <GuestRoute
-        component={XrayView}
+        component={XrayReport}
         exact
         layout={MainLayout}
         path="/x-ray"
+      />
+      <GuestRoute
+        component={XrayView}
+        exact
+        layout={MainLayout}
+        path="/x-ray/import"
       />
       <GuestRoute
         component={LaporanView}
