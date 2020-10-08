@@ -138,7 +138,7 @@ const AddUser = props => {
 						loading: false
 					}))
 
-					props.addMessage('Data user berhasil ditambah');
+					props.addMessage('Data user berhasil ditambah', 'adduser');
 
 					setTimeout(() => {
 						props.history.push("/user");

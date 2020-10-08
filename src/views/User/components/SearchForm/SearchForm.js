@@ -15,8 +15,8 @@ import SearchIcon from '@material-ui/icons/Search';
 const useStyles = makeStyles(theme => ({
 	formControl: {
 		marginTop: 10,
-		marginLeft: 8,
-		marginRight: 8,
+		marginLeft: 5,
+		marginRight: 5,
 		minWidth: 200
 	},
 	button: {
@@ -86,6 +86,26 @@ const SearchForm = props => {
 			        ))	}
 		        </Select>
 			</FormControl>
+
+			<FormControl 
+				variant="outlined" 
+				size="small" 
+				className={classes.formControl}
+			>
+				<InputLabel id="labelStatus">STATUS</InputLabel>
+				<Select
+		          labelId="labelStatus"
+		          id="demo-simple-select-outlined"
+		          value={props.status}
+		          onChange={props.handleChange}
+		          label="STATUS"
+		          name="status"
+		        >
+		        	<MenuItem value="1">AKTIF</MenuItem>
+					<MenuItem value="2">TIDAK AKTIF</MenuItem>
+		        </Select>
+			</FormControl>
+
 			<ButtonGroup 
 				color="primary" 
 				aria-label="outlined secondary button group"
@@ -109,7 +129,8 @@ SearchForm.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	kprkList: PropTypes.array.isRequired,
 	user: PropTypes.object.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	status: PropTypes.string.isRequired
 }
 
 export default SearchForm;

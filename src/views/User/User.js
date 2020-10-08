@@ -70,6 +70,7 @@ const User = props => {
 		listKprk: [],
 		loading: false
 	})
+	const [status, setStatus] = React.useState('1')
 
 	const classes = useStyles();
 	const { history, message, jumlah, userData } = props;
@@ -86,7 +87,8 @@ const User = props => {
 				...state.paging,
 				page: activePage,
 				regional: regValue,
-				kprk: kprkValue
+				kprk: kprkValue,
+				status: '1'
 			};
 
 			setState(prevState => ({
@@ -94,7 +96,7 @@ const User = props => {
 				loading: true
 			}))
 
-			await props.getJumlahUser(payload.regional, payload.kprk);
+			await props.getJumlahUser(payload.regional, payload.kprk, status);
 
 			props.fetchUser(payload)
 				.then(() => setState(prevState => ({
@@ -152,7 +154,6 @@ const User = props => {
 
 
 	const handleChangePage = (e, page) => {
-		//const offsetValue = page === 1 ? (page * 10) - 10 : (page * 10) - 11 + 1;
 		const offsetValue = (page * paging.limit) - paging.limit;
 		const { reg, kprk } = state.search;
 
@@ -161,33 +162,30 @@ const User = props => {
 			offset: offsetValue,
 			kprk: kprk,
 			limit: paging.limit,
-			page: page
+			page: page,
+			status
 		}
 
 		setState(prevState => ({
 			...prevState,
 			activePage: page,
-			loading: true
+			loading: true,
+			paging: {
+				...prevState.paging,
+				offset: offsetValue
+			}
 		}))
 
 		props.fetchUser(payload)
 			.then(() => {
 				setState(prevState => ({
 					...prevState,
-					loading: false,
-					paging: {
-						...prevState.paging,
-						offset: offsetValue
-					}
+					loading: false
 				}))	
 			})
 			.catch(err => setState(prevState => ({
 				...prevState,
-				loading: false,
-				paging: {
-					...prevState.paging,
-					offset: offsetValue
-				}
+				loading: false
 			})))
 	}
 
@@ -212,6 +210,8 @@ const User = props => {
 					...state,
 					listKprk: []
 				})))
+		}else if(name === 'status'){
+			setStatus(value);
 		}else{
 			setState(prevState => ({
 				...prevState,
@@ -229,47 +229,47 @@ const User = props => {
 			...prevState,
 			loading: true,
 			offset: 0,
-			data: []
+			data: [],
+			activePage: 1
 		}))
 
-		await props.getJumlahUser(reg, kprk);
+		await props.getJumlahUser(reg, kprk, status);
 
 		const payload = {
 			regional: reg,
 			offset: 0,
 			kprk: kprk,
 			limit: state.paging.limit,
-			page: 1
+			page: 1,
+			status
 		}
 
 		props.fetchUser(payload)
 			.then(() => {
 				setState(prevState => ({
 					...prevState,
-					loading: false,
-					activePage: 1
+					loading: false
 				}))	
 			})
 			.catch(err => setState(prevState => ({
 				...prevState,
-				loading: false,
-				activePage: 1
+				loading: false
 			})))
 	}
 
 	const handleUpdate = (payload) => {
-		console.log(payload);
 		props.updateUser(payload, activePage);
 	}
 
 
 	return(
 		<div className={classes.root}>
-			<CollapseMessage 
+			{ message.type === 'adduser' && <CollapseMessage 
 				visible={message.display}
 				message={message.text}
 				onClose={props.removeMessage}
-			/>
+			/> }
+
 			<Grid container spacing={4}>
 				<Grid
 		          item
@@ -288,6 +288,7 @@ const User = props => {
 								kprkList={state.listKprk}
 								user={userData}
 								onSearch={handleSearch}
+								status={status}
 							/>}
 						/>
 						<Divider />
