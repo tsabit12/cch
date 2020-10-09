@@ -251,7 +251,7 @@ const FormAdd = props => {
 						</FormControl>
 						<FormControl fullWidth className={classes.field} style={{marginLeft: 5}}>
 							<TextField 
-								label='Berat'
+								label='Berat (gram)'
 								variant='outlined'
 								InputLabelProps={{shrink: true}}
 								placeholder='Masukkan berat'

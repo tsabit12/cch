@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {
 	IconButton,
@@ -13,7 +13,9 @@ import {
 import { connect } from 'react-redux';
 import api from '../../api';
 import Loader from '../Loader';
+import PropTypes from 'prop-types';
 import Alert from '../Alert';
+import { addMessage } from '../../actions/message';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -38,18 +40,8 @@ const AddXray = props => {
 	const classes = useStyles();
 	const [state, setState] = useState({
 		loading: false,
-		success: false,
 		errors: {}
 	});
-
-	useEffect(() => {
-		if (state.success) {
-			setTimeout(function() {
-				props.history.push('/x-ray');
-			}, 500);
-		}
-		//eslint-disable-next-line
-	}, [state.success]);
 
 	const handleSubmit = (value) => {
 		const payload = {
@@ -63,9 +55,13 @@ const AddXray = props => {
 			.then(res => {
 				setState({
 					loading: false,
-					success: true,
 					errors: {}
 				})
+				props.addMessage('Data x-ray berhasil ditambah', 'uploadXray');
+
+				setTimeout(function() {
+					props.history.push('/x-ray');
+				}, 10);
 			})
 			.catch(err => {
 				
@@ -79,16 +75,13 @@ const AddXray = props => {
 
 	return(
 		<div className={classes.root}>
-			<Alert 
-				open={state.success} 
-				variant="success" 
-				message='Sukses tambah xray'
-			/>
+
 			{ state.errors.global && <Alert 
 				open={true} 
 				variant="error" 
 				message={state.errors.global}
 			/> }
+			
 			<Loader loading={state.loading} />
 			<div className={classes.header}>
 				<IconButton 
@@ -118,10 +111,15 @@ const AddXray = props => {
 	);
 }
 
+AddXray.propTypes = {
+	user: PropTypes.object.isRequired,
+	addMessage: PropTypes.func.isRequired
+}
+
 function mapStateToProps(state) {
 	return{
 		user: state.auth.user
 	}
 }
 
-export default connect(mapStateToProps, null)(AddXray);
+export default connect(mapStateToProps, { addMessage })(AddXray);

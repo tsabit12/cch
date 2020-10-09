@@ -1,7 +1,15 @@
-export default function xray(state=[], action={}){
+const initialState = {
+	summary: [],
+	detail: {}
+}
+
+export default function xray(state=initialState, action={}){
 	switch(action.type){
 		case 'GET_XRAY':
-			return action.data
+			return {
+				...state,
+				summary: action.data
+			}
 		default:
 			return state;
 	}

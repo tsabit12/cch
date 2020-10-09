@@ -1,15 +1,12 @@
 import api from '../api';
 
-export const getData = (extid) => dispatch => 
-	api.getXray(extid)
+export const getData = (payload) => dispatch => 
+	api.xray.getXray(payload)
 		.then(response => {
-			const { status } = response;
-			if (status === 200) {
-				dispatch({
-					type: 'GET_XRAY',
-					data: response.result
-				})
-			}
+			dispatch({
+				type: 'GET_XRAY',
+				data: response
+			})
 		})
 
 export const getTotal = (payload) => dispatch =>
