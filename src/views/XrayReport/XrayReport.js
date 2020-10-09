@@ -25,6 +25,7 @@ import {
 } from './components';
 import { convertDay } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -114,6 +115,14 @@ const XrayReport = props => {
 					onClick={() => props.history.push('/x-ray/add')}
 				>
 					TAMBAH
+				</Button>
+				<Button 
+					variant='outlined' 
+					style={{marginLeft: 5}}
+					endIcon={<ArrowForwardIcon />}
+					onClick={() => props.history.push('/x-ray/detail')}
+				>
+					LAPORAN DETAIL
 				</Button>
 			</div>
 		</div>

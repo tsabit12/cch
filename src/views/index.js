@@ -15,3 +15,4 @@ export { default as TiketReport } from './TiketReport';
 export { default as DataLibur } from './DataLibur';
 export { default as AddXray } from './AddXray';
 export { default as XrayReport } from './XrayReport';
+export { default as XrayDetail } from './XrayDetail';

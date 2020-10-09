@@ -15,7 +15,8 @@ import {
 	CekTarifForm,
 	TableTarif,
 	KantorPos,
-	TableOffice
+	TableOffice,
+	FormKeuangan
 } from './components';
 import { connect } from 'react-redux';
 import { getChannel } from '../../actions/laporan';
@@ -967,8 +968,7 @@ const AddNewTiket = props => {
 			          xl={12}
 			          xs={12}
 			        >
-			        	{ pengaduan.jenis === '5' && 
-			        	<TiketForm 
+			        	{ pengaduan.jenis === '5' && <TiketForm 
 			        		values={state.tiket.data}
 			        		handleChange={onChangeTiket}
 			        		onSearch={handleSearchResiTiket}
@@ -991,8 +991,10 @@ const AddNewTiket = props => {
 			        			}
 			        		}))}
 			        	/> }
-			        	{ pengaduan.jenis === '1' && 
-			        	<LacakForm 
+
+			        	{ pengaduan.jenis === '6' && <FormKeuangan /> }
+
+			        	{ pengaduan.jenis === '1' && <LacakForm 
 			        		value={state.lacak} 
 			        		handleChange={onChangeLacakForm}
 			        		onSearch={searchBarcode}

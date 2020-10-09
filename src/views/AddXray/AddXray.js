@@ -87,7 +87,7 @@ const AddXray = props => {
 				<IconButton 
 					size="small" 
 					style={{marginRight: 10}} 
-					onClick={() => props.history.push("/x-ray")}
+					onClick={() => props.history.goBack()}
 				>
 		            <ArrowBackIcon />
 		        </IconButton>

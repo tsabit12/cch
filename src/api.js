@@ -193,6 +193,12 @@ export default{
 		}).then(res => res.data),
 		getXray: (payload) => axios.post(`${process.env.REACT_APP_API2}/repxray`, {
 			...payload
+		}).then(res => res.data),
+		totalDetail: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/totalDetail`, {
+			...payload
+		}).then(res => res.data),
+		getDetail: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/fetchData`, {
+			...payload
 		}).then(res => res.data)
 	}
 }

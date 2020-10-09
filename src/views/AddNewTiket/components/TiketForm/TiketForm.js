@@ -125,7 +125,7 @@ const TiketForm = props => {
 	return(
 		<Card className={classes.root}>
 			<CardHeader 
-				title='TIKET FORM'
+				title='FORM PENGADUAN KIRIMAN'
 			/>
 			<Divider/>
 			<CardContent className={classes.cardContent}>

@@ -5,3 +5,4 @@ export { default as CekTarifForm } from './CekTarifForm';
 export { default as TableTarif } from './TableTarif';
 export { default as KantorPos } from './KantorPos';
 export { default as TableOffice } from './TableOffice';
+export { default as FormKeuangan } from './FormKeuangan';

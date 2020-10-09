@@ -29,7 +29,8 @@ import {
   TiketReport as TiketReportView,
   DataLibur as DataLiburView,
   AddXray as AddXrayView,
-  XrayReport
+  XrayReport,
+  XrayDetail as XrayDetailView
 } from './views';
 
 
@@ -112,6 +113,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/x-ray/import"
+      />
+      <GuestRoute
+        component={XrayDetailView}
+        exact
+        layout={MainLayout}
+        path="/x-ray/detail"
       />
       <GuestRoute
         component={LaporanView}
