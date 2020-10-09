@@ -72,15 +72,15 @@ const items = [
     user: ['Administrator','MANAGEMENT','AGENT / CS']
   },
   {
-    href: '/x-ray',
-    icon: CancelIcon,
-    title: 'Gagal X-Ray',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
-  },
-  {
     href: '/prod-knowledge',
     icon: LocalLibraryIcon,
     title: 'Product Knowledge',
+    user: ['Administrator','MANAGEMENT','AGENT / CS']
+  },
+  {
+    href: '/x-ray',
+    icon: CancelIcon,
+    title: 'Gagal X-Ray',
     user: ['Administrator','MANAGEMENT','AGENT / CS']
   },
   {

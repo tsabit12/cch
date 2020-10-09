@@ -283,7 +283,7 @@ const Dashboard = props => {
 	         		data={props.statistik}
 	         	/>
 	        </Grid>
-	        <Grid item lg={6} sm={12} xl={12} xs={12}>
+	        <Grid item lg={12} sm={12} xl={12} xs={12}>
 	        	<GrafikProduk data={props.produk} />
 	        </Grid>
 		</Grid>
