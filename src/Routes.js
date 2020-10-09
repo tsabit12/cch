@@ -30,7 +30,8 @@ import {
   DataLibur as DataLiburView,
   AddXray as AddXrayView,
   XrayReport,
-  XrayDetail as XrayDetailView
+  XrayDetail as XrayDetailView,
+  LaporanProduk
 } from './views';
 
 
@@ -119,6 +120,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/x-ray/detail"
+      />
+      <GuestRoute
+        component={LaporanProduk}
+        exact
+        layout={MainLayout}
+        path="/laporan-product"
       />
       <GuestRoute
         component={LaporanView}
