@@ -91,7 +91,8 @@ const AddNewTiket = props => {
 				channel: 'Agen',
 				jenisCustomer: 'Ritel',
 				bisnis: 'E-Commerce',
-				catatan: ''
+				catatan: '',
+				jenis_aduan: '00'
 			},
 			tracks: [],
 			wasAdded: false,
@@ -404,8 +405,9 @@ const AddNewTiket = props => {
 			if (!tarif.data.sKodepos) errors.sKodepos = 'Alamat pengirim tidak valid';
 		}else if(type === 'tiket'){
 			const { data: dataTiket } = tiket;
-			if (dataTiket.listTujuan.length === 0) errors.tujuanKirim = 'Harap select 1 atau lebih kantor tujuan';
+			if (dataTiket.listTujuan.length === 0) errors.tujuanKirim = 'Harap pilih 1 atau lebih kantor tujuan';
 			if (!dataTiket.catatan) errors.catatan = 'Catatan harap diisi';
+			if (dataTiket.jenis_aduan === '00') errors.jenis_aduan = 'Jenis aduan belum dipilih';
 		}
 
 		if (!pengaduan.nama) errors.nama = 'Nama pelanggan tidak boleh kosong';
@@ -763,7 +765,8 @@ const AddNewTiket = props => {
 									channel_aduan: pengaduan.channel,
 									user_cch: props.user.email,
 									status_baca: '1', // belum dibaca
-									kategori: '5'
+									kategori: '5',
+									jenis_aduan: dataTiket.jenis_aduan
 								})
 							})
 
@@ -861,7 +864,8 @@ const AddNewTiket = props => {
 					channel: 'Agen',
 					jenisCustomer: 'Ritel',
 					bisnis: 'E-Commerce',
-					catatan: ''
+					catatan: '',
+					jenis_aduan: '00'
 				},
 				tracks: [],
 				wasAdded: false

@@ -79,3 +79,17 @@ export const convertDay = (date) => {
     var dateTime = year+'-'+month+'-'+day; //+' '+hour+':'+minute+':'+second;   
     return dateTime;
 }
+
+export const listAduan = [
+    { text: '--Pilih jenis aduan--', value: '00'},
+    { text: 'Keterlambatan', value: '1'},
+    { text: 'Kehilangan', value: '2'},
+    { text: 'Kiriman Tidak Utuh', value: '3'},
+    { text: 'Salah Serah', value: '4'},
+    { text: 'Salah Salur', value: '5'},
+    { text: 'Retur Kiriman', value: '6'},
+    { text: 'Salah Tempel Resi', value: '7'},
+    { text: 'Pengaduan Layanan', value: '8'},
+    { text: 'Belum Terima', value: '9'},
+    { text: 'Lainnya', value: '10'}
+]

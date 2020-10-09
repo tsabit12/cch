@@ -79,7 +79,6 @@ const ModalForm = props => {
 	const theme = useTheme();
 	const [state, setState] = React.useState({
 		data: {
-			intiMasalah: '',
 			status: ''
 		},
 		errors: {}
@@ -91,7 +90,6 @@ const ModalForm = props => {
 			setState(prevState => ({
 				...prevState,
 				data: {
-					intiMasalah: '',
 					status: ''
 				}
 			}))
@@ -128,7 +126,6 @@ const ModalForm = props => {
 
 	const validate = (data) => {
 		const errors = {};
-		if (!data.intiMasalah) errors.intiMasalah = "Jenis aduan harap dipilih";
 		if (!data.status) errors.status = "Lokus masalah harap dipilih";
 		return errors;
 	}
@@ -136,41 +133,12 @@ const ModalForm = props => {
 	const { errors } = state;
 
   	return (
-		<Dialog aria-labelledby="customized-dialog-title" open={props.visible} fullScreen={fullScreen}>
+		<Dialog aria-labelledby="customized-dialog-title" open={props.visible} fullScreen={fullScreen} fullWidth maxWidth='sm'>
 	        <DialogTitle id="customized-dialog-title" onClose={props.handleClose}>
 	          KONFIRMASI TUTUP TIKET
 	        </DialogTitle>
 	        <DialogContent>
 	          	<div className={classes.form}>
-		           	<FormControl fullWidth className={classes.formControl} error={!!errors.intiMasalah}>
-		           		<InputLabel shrink id="intiMasalah">
-				          JENIS ADUAN
-				        </InputLabel>
-				        <Select
-				          labelId="intiMasalah"
-				          id="intiMasalah"
-				          name="intiMasalah"
-				          value={state.data.intiMasalah}
-				          onChange={handleChange}
-				          displayEmpty
-				          className={classes.selectEmpty}
-				        >
-				          <MenuItem value="">
-				            <em>--Pilih--</em>
-				          </MenuItem>
-				          <MenuItem value='Keterlambatan'>Keterlambatan</MenuItem>
-				          <MenuItem value='Kehilangan'>Kehilangan</MenuItem>
-				          <MenuItem value='Kiriman tidak utuh'>Kiriman tidak utuh</MenuItem>
-				          <MenuItem value='Salah Serah'>Salah Serah</MenuItem>
-				          <MenuItem value='Retur Kiriman'>Retur Kiriman</MenuItem>
-				          <MenuItem value='Salah Salur'>Salah Salur</MenuItem>
-				          <MenuItem value='Salah Tempel Resi'>Salah Tempel Resi</MenuItem>
-				          <MenuItem value='Pengaduan Layanan'>Pengaduan Layanan</MenuItem>
-				          <MenuItem value='Belum Terima'>Belum Terima</MenuItem>
-				          <MenuItem value='11'>Lainnya</MenuItem>
-				        </Select>
-				        { errors.intiMasalah && <FormHelperText>{errors.intiMasalah}</FormHelperText> }
-		           </FormControl>
 		           	<FormControl fullWidth className={classes.formControl} error={!!errors.status}>
 		           		<InputLabel shrink id="">
 				          LOKUS MASALAH

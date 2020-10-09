@@ -24,6 +24,7 @@ import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import MuiAlert from '@material-ui/lab/Alert';
+import { listAduan } from '../../../../helper';
 
 const Alert = props => (
 	<MuiAlert elevation={6} variant="filled" {...props} />
@@ -261,11 +262,37 @@ const TiketForm = props => {
 						      		name='tujuanKirim'
 						      		variant="outlined" 
 						      		size='small'
+						      		placeholder='Cari kantor tujuan'
+						      		InputLabelProps={{ shrink: true }}
 						      		error={!!errors.tujuanKirim}
 						      		helperText={errors.tujuanKirim ? errors.tujuanKirim : null }
 						      	/> }
 						    />
 						</FormControl>
+						<FormControl 
+							variant='outlined' 
+							fullWidth
+							size='small'
+							className={classes.field}
+							error={!!errors.jenis_aduan}
+						>
+							<InputLabel id="labelAduan">Jenis Aduan</InputLabel>
+							<Select
+						          value={values.jenis_aduan}
+						          onChange={props.handleChange}
+						          label="Jenis Aduan"
+						          autoWidth={true}
+						          id="jenis_aduan"
+						          name="jenis_aduan"
+						          labelId="labelAduan"
+						        >
+						          { listAduan.map((row, index) => <MenuItem key={index} value={row.value}>
+						          		{ row.text }
+						          	</MenuItem>)}
+						    </Select>
+						    { errors.jenis_aduan && <FormHelperText>{errors.jenis_aduan}</FormHelperText>}
+						</FormControl>
+
 						<div className={classes.group}>
 							<FormControl 
 								variant='outlined' 
