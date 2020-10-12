@@ -13,19 +13,14 @@ import {
 	Paper,
 	MenuList
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import PublishIcon from '@material-ui/icons/Publish';
 import { connect } from 'react-redux';
-import { removeMessage } from '../../actions/message';
 import { getData } from '../../actions/xray';
-import CollapseMessage from "../CollapseMessage";
 import { DatePicker } from "@material-ui/pickers";
 import {
 	TableXray 
 } from './components';
 import { convertDay } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -48,7 +43,6 @@ const useStyles = makeStyles(theme => ({
 const XrayReport = props => {
 	const anchorRef = useRef();
 	const classes = useStyles();
-	const { message } = props;
 	const [params, setParams] = useState({
 		startdate: new Date(),
 		enddate: new Date(),
@@ -57,15 +51,6 @@ const XrayReport = props => {
 
 	const [loading, setLoading] = useState(true);
 	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		if (message.type === 'uploadXray') {
-			setTimeout(function() {
-				props.removeMessage();
-			}, 3000);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [message]);
 
 	useEffect(() => {
 		const payload = {
@@ -99,31 +84,71 @@ const XrayReport = props => {
 
 	const renderTitle = () => (
 		<div className={classes.header}>
-			<p>GAGAL X-RAY</p>
+			<div style={{display: 'flex', alignItems: 'center'}}>
+				<p>GAGAL X-RAY</p>
+				<Button
+		            size="medium"
+		            variant="outlined"
+		            style={{width: 200, marginLeft: 5}}
+		            ref={anchorRef}
+			        aria-controls={open ? 'menu-list-grow' : undefined}
+			        aria-haspopup="true"
+			        onClick={handleToggle}
+			        endIcon={<ArrowDropDownIcon />}
+		        >
+				    { params.type === '1' ? 'ASAL KIRIMAN' : 'TUJUAN KIRIMAN'}
+				</Button>
+				<Popper open={open} anchorEl={anchorRef.current} style={{zIndex: 1}} role={undefined} transition disablePortal>
+		          {({ TransitionProps, placement }) => (
+		            <Grow
+		              {...TransitionProps}
+		              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+		            >
+		              <Paper>
+		                <ClickAwayListener onClickAway={handleClose}>
+		                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+		                  		<MenuItem onClick={() => handleClickReportType('1')}>ASAL KIRIMAN</MenuItem>
+		                  		<MenuItem onClick={() => handleClickReportType('2')}>TUJUAN KIRIMAN</MenuItem>
+		                  </MenuList>
+		                </ClickAwayListener>
+		              </Paper>
+		            </Grow>
+		          )}
+		        </Popper>
+			</div>
 			<div styles={{display: 'flex'}}>
-				<Button 
-					variant='outlined'
-					onClick={() => props.history.push('/x-ray/import')}
-					startIcon={<PublishIcon />}
-				>
-					IMPORT
-				</Button>
-				<Button 
-					variant='outlined' 
-					style={{marginLeft: 5}}
-					startIcon={<AddIcon />}
-					onClick={() => props.history.push('/x-ray/add')}
-				>
-					TAMBAH
-				</Button>
-				<Button 
-					variant='outlined' 
-					style={{marginLeft: 5}}
-					endIcon={<ArrowForwardIcon />}
-					onClick={() => props.history.push('/x-ray/detail')}
-				>
-					LAPORAN DETAIL
-				</Button>
+				<DatePicker
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
+			        autoOk
+			        size='small'
+			        variant="inline"
+			        style={{marginLeft: 5}}
+			        label="Mulai"
+			        inputVariant='outlined'
+			        value={params.startdate}
+			        onChange={(e) => handleChangeDate(e._d, 'startdate')}
+			    />
+			    <DatePicker
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
+			        autoOk
+			        size='small'
+			        variant="inline"
+			        style={{marginLeft: 5}}
+			        label="Sampai"
+			        inputVariant='outlined'
+			        value={params.enddate}
+			        onChange={(e) => handleChangeDate(e._d, 'enddate')}
+			    />
+			    <Button 
+			    	variant='contained' 
+			    	color='primary' 
+			    	style={{marginLeft: 5}}
+			    	onClick={handleSearch}
+			    >
+			    	Tampilkan
+			    </Button>
 			</div>
 		</div>
 	);
@@ -166,83 +191,10 @@ const XrayReport = props => {
 
 	return(
 		<div className={classes.root}>
-			<CollapseMessage 
-				visible={message.type === 'uploadXray' ? true : false }
-				message={message.text}
-				onClose={props.removeMessage}
-			/>
 			<Card>
 				<CardHeader 
 					title={renderTitle()}
 				/>
-				<Divider />
-				<div className={classes.param}>
-					<div>
-						<Button
-				            size="medium"
-				            variant="outlined"
-				            style={{width: 200}}
-				            ref={anchorRef}
-					        aria-controls={open ? 'menu-list-grow' : undefined}
-					        aria-haspopup="true"
-					        onClick={handleToggle}
-					        endIcon={<ArrowDropDownIcon />}
-				        >
-						    { params.type === '1' ? 'ASAL KIRIMAN' : 'TUJUAN KIRIMAN'}
-						</Button>
-						<Popper open={open} anchorEl={anchorRef.current} style={{zIndex: 1}} role={undefined} transition disablePortal>
-				          {({ TransitionProps, placement }) => (
-				            <Grow
-				              {...TransitionProps}
-				              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-				            >
-				              <Paper>
-				                <ClickAwayListener onClickAway={handleClose}>
-				                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-				                  		<MenuItem onClick={() => handleClickReportType('1')}>ASAL KIRIMAN</MenuItem>
-				                  		<MenuItem onClick={() => handleClickReportType('2')}>TUJUAN KIRIMAN</MenuItem>
-				                  </MenuList>
-				                </ClickAwayListener>
-				              </Paper>
-				            </Grow>
-				          )}
-				        </Popper>
-					</div>
-					<div>
-						<DatePicker
-					        format="YYYY-MM-DD"
-					        views={["year", "month", "date"]}
-					        autoOk
-					        size='small'
-					        variant="inline"
-					        style={{marginLeft: 5}}
-					        label="Mulai"
-					        inputVariant='outlined'
-					        value={params.startdate}
-					        onChange={(e) => handleChangeDate(e._d, 'startdate')}
-					    />
-					    <DatePicker
-					        format="YYYY-MM-DD"
-					        views={["year", "month", "date"]}
-					        autoOk
-					        size='small'
-					        variant="inline"
-					        style={{marginLeft: 5}}
-					        label="Sampai"
-					        inputVariant='outlined'
-					        value={params.enddate}
-					        onChange={(e) => handleChangeDate(e._d, 'enddate')}
-					    />
-					    <Button 
-					    	variant='contained' 
-					    	color='primary' 
-					    	style={{marginLeft: 5}}
-					    	onClick={handleSearch}
-					    >
-					    	Tampilkan
-					    </Button>
-				    </div>
-				</div>
 				<Divider />
 				<TableXray 
 					data={props.data}
@@ -254,17 +206,14 @@ const XrayReport = props => {
 }
 
 XrayReport.propTypes = {
-	message: PropTypes.object.isRequired,
-	removeMessage: PropTypes.func.isRequired,
 	getData: PropTypes.func.isRequired,
 	data: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
-		message: state.message,
 		data: state.xray.summary
 	}
 }
 
-export default connect(mapStateToProps, { removeMessage, getData })(XrayReport);
+export default connect(mapStateToProps, { getData })(XrayReport);

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PropTypes from 'prop-types';
 import {
 	IconButton,
-	Typography,
-	Breadcrumbs,
 	Card,
 	CardActions,
 	Divider,
 	TextField,
-	InputAdornment
+	InputAdornment,
+	CardHeader,
+	Button
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { 
@@ -20,6 +19,10 @@ import Pagination from '@material-ui/lab/Pagination';
 import { getTotalDetail, getDetail } from '../../actions/xray';
 import SearchIcon from '@material-ui/icons/Search';
 import ReplayIcon from '@material-ui/icons/Replay';
+import AddIcon from '@material-ui/icons/Add';
+import PublishIcon from '@material-ui/icons/Publish';
+import { removeMessage } from '../../actions/message';
+import CollapseMessage from "../CollapseMessage";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -28,24 +31,18 @@ const useStyles = makeStyles(theme => ({
 	header: {
 		display: 'flex',
 		justifyContent: 'flex-start',
-		alignItems: 'center',
-		marginBottom: 5
-	},
-	content: {
-		// height: 490,
-		// position: 'relative'
+		alignItems: 'center'
 	},
 	inline: {
 		display: 'flex', 
 		justifyContent: 'space-between',
-		marginBottom: 5,
 		alignItems: 'center'
 	}
 }))
 
 const XrayDetail = props => {
 	const classes = useStyles();
-	const { data } = props;
+	const { data, message } = props;
 	const [paging, setPaging] = useState({
 		limit: 13,
 		offset: 0,
@@ -59,6 +56,15 @@ const XrayDetail = props => {
 		getData();
 		//eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		if (message.type === 'uploadXray') {
+			setTimeout(function() {
+				props.removeMessage();
+			}, 3000);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [message]);
 
 	const getData = () => {
 		const payload = {
@@ -124,58 +130,76 @@ const XrayDetail = props => {
 		getData();
 	}
 
+	const renderTitle = () => (
+		<div className={classes.inline}>
+	        <p>GAGAL X-RAY</p>
+
+		    <div style={{display: 'flex', width: 550}}>
+		    	{ isSearch && <IconButton  style={{marginRight: 5}} size='small'  onClick={handleReset}>
+		            <ReplayIcon />
+		        </IconButton> }
+			    <TextField 
+					placeholder='Cari ID/Isi kiriman'
+					variant='outlined'
+					style={{backgroundColor: "#FFF", borderRadius: 3}}
+					fullWidth
+					value={query}
+					size='small'
+					onChange={(e) => setQuery(e.target.value)}
+					InputProps={{
+			            endAdornment: <InputAdornment position="start">
+			            	<IconButton
+			                  aria-label="toggle password visibility"
+			                  onClick={handleSearch}
+			                  onMouseDown={handleMouseDownSearch}
+			                  edge="end"
+			                  size='small'
+			                >
+			                  <SearchIcon />
+			                </IconButton>
+			            </InputAdornment>,
+			        }}
+				/> 
+				<Button 
+					variant='outlined' 
+					style={{marginLeft: 5, width: 160}}
+					startIcon={<AddIcon />}
+					onClick={() => props.history.push('/x-ray/add')}
+				>
+					TAMBAH
+				</Button>
+
+				<Button 
+					variant='outlined'
+					style={{marginLeft: 5, width: 160}}
+					onClick={() => props.history.push('/x-ray/import')}
+					startIcon={<PublishIcon />}
+				>
+					IMPORT
+				</Button>
+			</div>
+	    </div>
+	);
+
 	return(
 		<div className={classes.root}>
-			<div className={classes.inline}>
-				<div className={classes.header}>
-					<IconButton 
-						size="small" 
-						style={{marginRight: 10}} 
-						onClick={() => props.history.goBack()}
-					>
-			            <ArrowBackIcon />
-			        </IconButton>
-					<Breadcrumbs aria-label="Breadcrumb">
-				        <Typography color="textPrimary" className={classes.link}>
-				          Gagal X-RAY
-				        </Typography>
-				        <Typography color="textPrimary" className={classes.link}>
-				          Laporan Detail
-				        </Typography>
-				    </Breadcrumbs>
-			    </div>
-			    <div style={{display: 'flex', width: 350}}>
-			    	{ isSearch && <IconButton  style={{marginRight: 5}}  onClick={handleReset}>
-			            <ReplayIcon />
-			        </IconButton> }
-				    <TextField 
-						placeholder='Cari ID/Isi kiriman'
-						variant='outlined'
-						style={{backgroundColor: "#FFF", borderRadius: 3}}
-						fullWidth
-						value={query}
-						onChange={(e) => setQuery(e.target.value)}
-						InputProps={{
-				            endAdornment: <InputAdornment position="start">
-				            	<IconButton
-				                  aria-label="toggle password visibility"
-				                  onClick={handleSearch}
-				                  onMouseDown={handleMouseDownSearch}
-				                  edge="end"
-				                >
-				                  <SearchIcon />
-				                </IconButton>
-				            </InputAdornment>,
-				        }}
-					/> 
-				</div>
-		    </div>
+			<CollapseMessage 
+				visible={message.type === 'uploadXray' ? true : false }
+				message={message.text}
+				onClose={props.removeMessage}
+			/>
 		    <Card>
+		    	<CardHeader
+		    		title={renderTitle()}
+		    	/>
+
+		    	<Divider />
 		    	<div className={classes.content}>
 		    		<ListXray 
 		    			list={data[`page${paging.active}`] ? data[`page${paging.active}`] : []}
 		    		/>
 		    	</div>
+
 		    	<Divider />
 		    	<CardActions style={{justifyContent: 'flex-end'}}>
 		    		  <Pagination 
@@ -195,14 +219,17 @@ XrayDetail.propTypes = {
 	getTotalDetail: PropTypes.func.isRequired,
 	total: PropTypes.number.isRequired,
 	getDetail: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired	
+	data: PropTypes.object.isRequired,
+	message: PropTypes.object.isRequired,
+	removeMessage: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		total: state.xray.total,
-		data: state.xray.detail
+		data: state.xray.detail,
+		message: state.message	
 	}
 }
 
-export default connect(mapStateToProps, { getTotalDetail, getDetail })(XrayDetail);
+export default connect(mapStateToProps, { getTotalDetail, getDetail, removeMessage })(XrayDetail);

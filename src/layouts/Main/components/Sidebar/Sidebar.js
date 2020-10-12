@@ -96,6 +96,12 @@ const items = [
     user: ['Administrator','MANAGEMENT', 'AGENT / CS']
   },
   {
+    href: '/laporan-xray',
+    icon: FolderOpenIcon,
+    title: 'Laporan X-Ray',
+    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+  },
+  {
     href: '/kinerja-cs',
     icon: TrendingUpIcon,
     title: 'Kinerja CS',

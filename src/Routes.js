@@ -105,7 +105,7 @@ const Routes = () => {
         path="/setting/add"
       />
       <GuestRoute
-        component={XrayReport}
+        component={XrayDetailView}
         exact
         layout={MainLayout}
         path="/x-ray"
@@ -117,10 +117,10 @@ const Routes = () => {
         path="/x-ray/import"
       />
       <GuestRoute
-        component={XrayDetailView}
+        component={XrayReport}
         exact
         layout={MainLayout}
-        path="/x-ray/detail"
+        path="/laporan-xray"
       />
       <GuestRoute
         component={LaporanProduk}
