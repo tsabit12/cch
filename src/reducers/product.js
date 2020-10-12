@@ -11,6 +11,12 @@ export default function produk(state=initialState, action={}){
 				list: action.result.produk,
 				aduan: action.result.aduan
 			}
+		case 'RESET_PRODUCT':
+			return {
+				...state,
+				list: [],
+				aduan: []	
+			}
 		default:
 			return state;
 	}

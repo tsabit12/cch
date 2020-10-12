@@ -21,7 +21,7 @@ const TableProduk = props => {
 				title='LAPORAN PRODUK'
 				action={<Typography variant='h5'>{data.length > 0 ? data.reduce((a, b) => { return a + Number(b.jml) }, 0) : 0 }</Typography>}
 			/>
-			<TableContainer style={{maxHeight: 500}}>
+			<TableContainer style={{maxHeight: 430}}>
 				<Table stickyHeader aria-label="sticky table" size='small'>
 					<TableHead>
 						<TableRow>
@@ -36,6 +36,10 @@ const TableProduk = props => {
 							<TableCell>{row.nama_layanan}</TableCell>
 							<TableCell align='right'>{row.jml}</TableCell>
 						</TableRow> )}
+
+						{ data.length === 0 && <TableRow>
+							<TableCell align='center' colSpan={3}>Klik tampilkan untuk menampilkan data</TableCell>
+						</TableRow>}
 					</TableBody>
 				</Table>
 			</TableContainer>

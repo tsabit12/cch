@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
 	Grid
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchData } from '../../actions/product';
+import { fetchData, resetData } from '../../actions/product';
 import {
 	TableProduk,
-	TableAduan
+	TableAduan,
+	SearchParam
 } from './components';
+import Loader from '../Loader';
+import Alert from '../Alert';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -20,14 +23,35 @@ const useStyles = makeStyles(theme => ({
 
 const LaporanProduk = props => {
 	const classes = useStyles();
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState({});
 
 	useEffect(() => {
-		props.fetchData();
+		return () => props.resetData();
 		//eslint-disable-next-line
 	}, []);
 
+	const handleSearch = (payload) => {
+		setLoading(true);
+
+		props.fetchData(payload)
+			.then(() => setLoading(false))
+			.catch(err => {
+				setError({global: 'Terdapat kesalahan'})
+				setLoading(false);
+			})
+	} 
+
 	return(
 		<div className={classes.root}>
+			<SearchParam onSearch={handleSearch} />
+			<Loader loading={loading} />
+			<Alert 
+				open={!!error.global}
+				message={error.global}
+				variant='error'
+				onClose={() => setError({})}
+			/>
 			<Grid container spacing={4}>
 				<Grid item lg={6} sm={6} xl={12} xs={12}> 
 					<TableProduk data={props.data.list} />
@@ -42,7 +66,8 @@ const LaporanProduk = props => {
 
 LaporanProduk.propTypes = {
 	fetchData: PropTypes.func.isRequired,
-	data: PropTypes.object.isRequired
+	data: PropTypes.object.isRequired,
+	resetData: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -51,4 +76,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { fetchData })(LaporanProduk);
+export default connect(mapStateToProps, { fetchData, resetData })(LaporanProduk);

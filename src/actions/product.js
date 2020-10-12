@@ -6,3 +6,7 @@ export const fetchData = payload => dispatch =>
 			type: 'GET_PRODUCT',
 			result
 		}))
+
+export const resetData = () => dispatch => dispatch({
+	type: 'RESET_PRODUCT'
+})
