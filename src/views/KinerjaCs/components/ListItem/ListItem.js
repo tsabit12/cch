@@ -42,7 +42,7 @@ const ListItem = props => {
 	          					color="default" 
 	          					aria-label="View detail"
 	          					size="small"
-	          					//onClick={() => props.onEdit(row.customerId)}
+	          					onClick={() => props.onView(row.email)}
 	          				>
 						        <ArrowForwardIcon size='small' />
 						    </IconButton>
@@ -57,7 +57,8 @@ const ListItem = props => {
 }
 
 ListItem.propTypes = {
-	data: PropTypes.array.isRequired
+	data: PropTypes.array.isRequired,
+	onView: PropTypes.func.isRequired
 }
 
 export default ListItem;

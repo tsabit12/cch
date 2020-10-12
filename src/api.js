@@ -210,5 +210,6 @@ export default{
 	},
 	getListCs: (kprk) => axios.post(`${process.env.REACT_APP_API}/listCs`, {
 		kprk
-	}).then(res => res.data)
+	}).then(res => res.data),
+	getProdukJaskug: () => axios.post(`${process.env.REACT_APP_API}/getProdukjaskug`).then(res => res.data)
 }

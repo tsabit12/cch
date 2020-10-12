@@ -34,15 +34,21 @@ const KinerjaCs = props => {
 			.catch(() => setLoading(false));
 	} 
 
+	const handleViewDetail = (payload) => console.log(payload) 
+
 	return(
 		<div className={classes.root}>
 			<Loader loading={loading} />
 			<Card>
 				<CardHeader 
-					title={<SearchParam user={user} getData={(payload) => props.getKinerja(payload)} onSearch={handleSearch} />}
+					title={<SearchParam 
+						user={user} 
+						getData={(payload) => props.getKinerja(payload)} 
+						onSearch={handleSearch} 
+					/>}
 				/>
 				<Divider />
-				<ListItem data={list} />
+				<ListItem data={list} onView={handleViewDetail} />
 			</Card>
 		</div>
 	);

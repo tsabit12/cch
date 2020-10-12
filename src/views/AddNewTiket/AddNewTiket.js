@@ -817,6 +817,11 @@ const AddNewTiket = props => {
 		}))
 	}
 
+	const handleSetSuccess = () => {
+		resetAllState();
+		setSucces(true);
+	}
+
 	const resetAllState = () => {
 		setState(state => ({
 			pengaduan: {
@@ -992,7 +997,20 @@ const AddNewTiket = props => {
 			        		}))}
 			        	/> }
 
-			        	{ pengaduan.jenis === '6' && <FormKeuangan /> }
+			        	{ pengaduan.jenis === '6' && 
+			        		<FormKeuangan 
+			        			validateCustomer={handleValidateKantorPos}	
+			        			errors={state.errors}
+			        			pelanggan={state.pengaduan}
+			        			user={props.user}
+			        			setLoading={(bool) => 
+			        				setState(state => ({
+										...state,
+										loading: bool
+									})) 
+			        			}
+			        			setSucces={handleSetSuccess}
+			        		/> }
 
 			        	{ pengaduan.jenis === '1' && <LacakForm 
 			        		value={state.lacak} 
