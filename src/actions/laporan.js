@@ -54,3 +54,11 @@ export const getLaporanTiket = (payload) => dispatch =>
 			type: 'GET_LAPORAN_TIKET',
 			tickets
 		}))
+
+export const getKinerja = (payload) => dispatch => 
+	api.laporan.getKinerjaCs(payload)
+		.then(res => dispatch({
+			type: 'GET_KINERJA_CS',
+			data: res
+		}))
+

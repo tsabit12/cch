@@ -114,6 +114,10 @@ export default{
 		}).then(res => res.data.jmlPelanggan),
 		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/repcaseproduk`, {
 			...payload
+		}).then(res => res.data),
+		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser`, {
+			...payload,
+			email: payload.cs
 		}).then(res => res.data)
 	},
 	getProfile: (email) => axios.post(`${process.env.REACT_APP_API}/getProfile`, {
@@ -203,5 +207,8 @@ export default{
 		getDetail: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/fetchData`, {
 			...payload
 		}).then(res => res.data)
-	}
+	},
+	getListCs: (kprk) => axios.post(`${process.env.REACT_APP_API}/listCs`, {
+		kprk
+	}).then(res => res.data)
 }

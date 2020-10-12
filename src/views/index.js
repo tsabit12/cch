@@ -17,3 +17,4 @@ export { default as AddXray } from './AddXray';
 export { default as XrayReport } from './XrayReport';
 export { default as XrayDetail } from './XrayDetail';
 export { default as LaporanProduk } from './LaporanProduk';
+export { default as KinerjaCs } from './KinerjaCs';
