@@ -34,7 +34,7 @@ const ListTiket = props => {
 						<TableCell>{row.no_tiket}</TableCell>
 						<TableCell>{row.awb}</TableCell>
 						<TableCell>{row.channel}</TableCell>
-						<TableCell>{row.tujuan_pengaduan.map((row2, index2) => <React.Fragment key={index2}>{row2}, </React.Fragment>)}</TableCell>
+						<TableCell>{row.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
 						<TableCell>{row.status}</TableCell>
 					</TableRow>)}
 				</TableBody>

@@ -16,6 +16,15 @@ import {
 
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
+const getCode = (array) => {
+	const result = [];
+	array.forEach(e => {
+		result.push(e.tujuan_pengaduan);
+	})
+
+	return result.toString().replace(/,/g, ', ');
+}
+
 const useStyles = makeStyles(theme => ({
 	root:{
 		height: '100%'
@@ -71,7 +80,7 @@ const DetailTiket = props => {
 					</TableRow>
 					<TableRow>
 						<TableCell>Tujuan Aduan</TableCell>
-						<TableCell>: {data.tujuan.map((row, index) => <React.Fragment key={index}>{row.tujuan_pengaduan}, </React.Fragment>)}</TableCell>
+						<TableCell>: {getCode(data.tujuan)}</TableCell>
 					</TableRow>
 				</TableBody> 
 			</Table>
