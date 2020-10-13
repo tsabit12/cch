@@ -118,6 +118,9 @@ export default{
 		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser`, {
 			...payload,
 			email: payload.cs
+		}).then(res => res.data),
+		detailKinerja: (email) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser/detail`, {
+			email
 		}).then(res => res.data)
 	},
 	getProfile: (email) => axios.post(`${process.env.REACT_APP_API}/getProfile`, {

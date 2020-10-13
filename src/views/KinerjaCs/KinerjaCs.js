@@ -34,7 +34,7 @@ const KinerjaCs = props => {
 			.catch(() => setLoading(false));
 	} 
 
-	const handleViewDetail = (payload) => console.log(payload) 
+	const handleViewDetail = (email) => props.history.push(`/kinerja-cs/detail/${email}`)
 
 	return(
 		<div className={classes.root}>

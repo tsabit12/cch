@@ -32,7 +32,8 @@ import {
   XrayReport,
   XrayDetail as XrayDetailView,
   LaporanProduk,
-  KinerjaCs as KinerjaCsView
+  KinerjaCs as KinerjaCsView,
+  DetailKinerja
 } from './views';
 
 
@@ -145,6 +146,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/kinerja-cs"
+      />
+      <GuestRoute
+        component={DetailKinerja}
+        exact
+        layout={MainLayout}
+        path="/kinerja-cs/detail/:email"
       />
       <GuestRoute
         component={AddXrayView}
