@@ -12,7 +12,8 @@ import {
 	TextField,
 	Button,
 	FormLabel,
-	TextareaAutosize
+	TextareaAutosize,
+	FormHelperText
 } from '@material-ui/core';
 import api from '../../../../api';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -51,6 +52,7 @@ const FormKeuangan = props => {
 	const [offices, setOffices] = useState([]);
 	const [offices2, setOffices2] = useState([]);
 	const [offices3, setOffices3] = useState([]);
+	const [isValid, setValid] = useState({});
 
 	useEffect(() => {
 		api.getProdukJaskug()
@@ -110,6 +112,11 @@ const FormKeuangan = props => {
 			...field,
 			[name]: value
 		}))
+
+		setValid(isValid => ({
+			...isValid,
+			[name]: undefined
+		}))
 	}
 
 	// const handleChangeResi = (e) => {
@@ -127,11 +134,18 @@ const FormKeuangan = props => {
 			...field,
 			[name]: value
 		}))
+		setValid(isValid => ({
+			...isValid,
+			[name]: undefined
+		}))
 	}
 
 	const handleSubmit = () => {
 		props.validateCustomer();
-		if (Object.keys(errors).length === 0) {
+		const err = validate(field, tujuanKantor);
+		setValid(err);
+
+		if (Object.keys(errors).length === 0 && Object.keys(err).length === 0) {
 			const payloadPelanggan = {
 				requestName: pelanggan.nama,
 				alamat: pelanggan.alamat,
@@ -210,6 +224,17 @@ const FormKeuangan = props => {
 		}
 	}
 
+	const validate = (value, tujuan) => {
+		const errors = {};
+		if (value.layanan === '00') errors.layanan = 'Jenis layanan belum dipilih';
+		if (tujuan.length <= 0) errors.tujuanKantor = 'Harap pilih 1 atau lebih tujuan kantor';
+		if (value.jenis === '00') errors.jenis = 'Jenis aduan belum dipilih';
+		if (value.kantorasal.split('-').length !== 2) errors.kantorasal = 'Kantor bayar belum dipilih';
+		if (value.kantortujuan.split('-').length !== 2) errors.kantortujuan = 'Kantor setor belum dipilih';
+		if (!value.noresi) errors.noresi = 'Nomor resi tidak boleh kosong';
+		return errors;
+	}
+
 	return(
 		<Card className={classes.root}>
 			<CardHeader 
@@ -217,7 +242,13 @@ const FormKeuangan = props => {
 			/>
 			<Divider />
 			<CardContent>
-				<FormControl fullWidth variant='outlined' size="small" className={classes.field}>
+				<FormControl 
+					fullWidth 
+					variant='outlined' 
+					size="small" 
+					className={classes.field}
+					error={!!isValid.layanan}
+				>
 					<InputLabel htmlFor="layananLabel">Layanan</InputLabel>
 					<Select
 						labelId="layananLabel"
@@ -231,6 +262,7 @@ const FormKeuangan = props => {
 							{row.nama_layanan}
 						</MenuItem>)}
 					</Select>
+					{ isValid.layanan && <FormHelperText>{isValid.layanan}</FormHelperText>}
 				</FormControl>
 				<FormControl fullWidth size="small" className={classes.field}>
 					<TextField 
@@ -243,6 +275,8 @@ const FormKeuangan = props => {
 						value={field.noresi}
 						onChange={handleChange}
 						autoComplete='off'
+						error={!!isValid.noresi}
+						helperText={isValid.noresi ? isValid.noresi : null }
 					/>
 				</FormControl>
 				<div className={classes.inline} style={{marginBottom: 20}}>
@@ -252,7 +286,6 @@ const FormKeuangan = props => {
 					        onInputChange={(event, newInputValue) => handleChangeAutocomplete(newInputValue, 'kantorasal')}
 							options={offices}
 							getOptionLabel={(option) => `${option.nopend} - ${option.NamaKtr}`}
-							//getOptionSelected={(option) => option.posCode}
 							renderInput={(params) => 
 								<TextField 
 									{...params} 
@@ -261,6 +294,8 @@ const FormKeuangan = props => {
 									InputLabelProps={{ shrink: true }}
 									placeholder='Cari kantor bayar'
 									size='small'
+									error={!!isValid.kantorasal}
+						      		helperText={isValid.kantorasal ? isValid.kantorasal : null }
 							/> }
 						/>
 					</FormControl>
@@ -270,7 +305,6 @@ const FormKeuangan = props => {
 					        onInputChange={(event, newInputValue) => handleChangeAutocomplete(newInputValue, 'kantortujuan')}
 							options={offices2}
 							getOptionLabel={(option) => `${option.nopend} - ${option.NamaKtr}`}
-							//getOptionSelected={(option) => option.posCode}
 							renderInput={(params) => 
 								<TextField 
 									{...params} 
@@ -279,11 +313,19 @@ const FormKeuangan = props => {
 									InputLabelProps={{ shrink: true }}
 									placeholder='Cari kantor setor'
 									size='small'
+									error={!!isValid.kantortujuan}
+						      		helperText={isValid.kantortujuan ? isValid.kantortujuan : null }
 							/> }
 						/>
 					</FormControl>
 				</div>
-				<FormControl fullWidth variant='outlined' size="small" className={classes.field}>
+				<FormControl 
+					fullWidth 
+					variant='outlined' 
+					size="small"
+					className={classes.field}
+					error={!!isValid.jenis}
+				>
 					<InputLabel id="labelAduan">Jenis Aduan</InputLabel>
 					<Select
 				          value={field.jenis}
@@ -298,12 +340,19 @@ const FormKeuangan = props => {
 				          		{ row.text }
 				          	</MenuItem>)}
 				    </Select>
+				    { isValid.jenis && <FormHelperText>{isValid.jenis}</FormHelperText>}
 				</FormControl>
 				<FormControl fullWidth size="small" className={classes.field}>
 					<Autocomplete
 						value={tujuanKantor}
 						multiple
-					    onChange={(event, newValue) => setTujuan(newValue)}
+					    onChange={(event, newValue) => {
+					    	setTujuan(newValue);
+					    	setValid(isValid => ({
+					    		...isValid,
+					    		tujuanKantor: undefined
+					    	}))
+					    }}
 				        inputValue={field.tujuan}
 				        onInputChange={(event, newInputValue) => handleChangeAutocomplete(newInputValue, 'tujuan')}
 						options={offices3}
@@ -315,8 +364,10 @@ const FormKeuangan = props => {
 								label='Kantor Tujuan'
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
-								placeholder='Cari kantor setor'
+								placeholder='Cari kantor tujuan'
 								size='small'
+								error={!!isValid.tujuanKantor}
+						      	helperText={isValid.tujuanKantor ? isValid.tujuanKantor : null }
 						/> }
 					/>
 				</FormControl>
