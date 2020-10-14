@@ -11,7 +11,8 @@ import {
 	OutlinedInput,
 	FormControl,
 	InputLabel,
-	FormHelperText
+	FormHelperText,
+	Grid
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { setLogin } from "../../actions/auth";
@@ -41,11 +42,36 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     height: '100%'
   },
+  grid: {
+    height: '100%'
+  },
+  quoteContainer: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
+  },
+  quote: {
+    backgroundColor: theme.palette.neutral,
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: `url(${process.env.REACT_APP_PUBLIC_URL}/images/auth2.jpeg)`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center'
+  },
+  quoteInner: {
+    textAlign: 'center',
+    flexBasis: '500px',
+    color: '#FFF',
+    padding: 10,
+    borderRadius: 5
+  },
   content: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
+    flexDirection: 'column'
   },
   contentBody: {
     flexGrow: 1,
@@ -56,25 +82,25 @@ const useStyles = makeStyles(theme => ({
     }
   },
   form: {
-    paddingLeft: 100,
-    paddingRight: 100,
-    paddingBottom: 125,
+    paddingLeft: 32,
+    paddingRight: 32,
+    paddingBottom: 42,
     flexBasis: 700,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2)
     }
   },
-  title: {
-    marginTop: theme.spacing(3)
-  },
-  textField: {
-    marginTop: theme.spacing(2)
-  },
-  signInButton: {
-    margin: theme.spacing(2, 0)
-  },
-  loadingBackdrop: {
+  	title: {
+    	marginTop: theme.spacing(3)
+  	},
+  	textField: {
+    	marginTop: theme.spacing(2)
+  	},
+  	signInButton: {
+    	margin: theme.spacing(2, 0)
+  	},
+  	loadingBackdrop: {
 	    zIndex: theme.zIndex.drawer + 1,
 	    color: '#fff',
 	},
@@ -98,7 +124,11 @@ const useStyles = makeStyles(theme => ({
 		padding: '0 10px',
 		color: 'blue',
 		cursor: 'pointer'
-	}
+	},
+	quoteText: {
+	    color: theme.palette.white,
+	    fontWeight: 300
+	},
 }));
 
 const Login = props => {
@@ -209,77 +239,109 @@ const Login = props => {
 	          message={state.errors.global}
 	          onClose={onCloseAlert} 
 	        />
-
-	      	<div className={classes.content}>
-	        	<div className={classes.contentBody}>
-	          		<form className={classes.form} onSubmit={handleSubmit}>
-			            <Typography className={classes.title} variant="h2">
-			              Customer Complain Handling
-			            </Typography>
-		            	<TextField
-			              className={classes.textField}
-			              error={!!errors.username}
-			              fullWidth
-			              helperText={ errors.username ? errors.username : null }
-			              label="username"
-			              name="username"
-			              onChange={handleChange}
-			              type="text"
-			              value={state.username}
-			              variant="outlined"
-			            />
-			            <FormControl 
-			            	variant='outlined' 
-			            	fullWidth 
-			            	className={classes.textField}
-			            	error={!!errors.password}
-			            >
-	            			<InputLabel htmlFor="password">Password</InputLabel>
-				            <OutlinedInput
-				              //fullWidth
-				              helperText={ errors.password ? errors.password : null }
-				              id='password'
-				              labelWidth={70}
-				              name="password"
-				              onChange={handleChange}
-				               type={state.showpass ? 'text' : 'password'}
-				              value={data.password}
-				              variant="outlined"
-				              endAdornment={
-					              <InputAdornment position="end">
-					                <IconButton
-					                  aria-label="toggle password visibility"
-					                  onClick={handleClickShowPassword}
-					                  //onMouseDown={handleMouseDownPassword}
-					                  edge="end"
-					                >
-					                  {state.showpass ? <Visibility /> : <VisibilityOff />}
-					                </IconButton>
-					              </InputAdornment>
-					            }
-				            />
-		            		{ errors.password && <FormHelperText id="password">{errors.password}</FormHelperText>}
-	            		</FormControl>
-		            	<Button
-			              className={classes.signInButton}
-			              color="primary"
-			              // disabled={!.isValid}
-			              fullWidth
-			              size="large"
-			              type="submit"
-			              variant="contained"
-			              onClick={handleSubmit}
-			            >
-		              		Login
-		            	</Button>
-			            <div className={classes.divider}>
-						  <span className={classes.dividerText} onClick={onFaqClick}>
-						    FAQ
-						  </span>
-						</div>
-	          		</form>
-	        	</div>
-	      	</div>
+	        <Grid className={classes.grid} container>
+	        	<Grid
+		          className={classes.quoteContainer}
+		          item
+		          lg={6}
+		        >
+		        	<div className={classes.quote}>
+            			<div className={classes.quoteInner}>
+            				<Typography
+				                className={classes.quoteText}
+				                variant="h3"
+				            >
+				                Customer Complain Handling
+				           	</Typography>
+				           	<div className={classes.person}>
+				           		<Typography
+				                  variant="body2"
+				                  style={{color: '#FFF'}}
+				                >
+				           			Copyright PT POSINDONESIA 2020
+				           		</Typography>
+				           	</div>
+            			</div>
+            		</div>
+		        </Grid>
+		        <Grid
+		          className={classes.content}
+		          item
+		          lg={5}
+		          xs={12}
+		        >
+		        	<div className={classes.content}>
+            			<div className={classes.contentBody}>
+            				<form className={classes.form} onSubmit={handleSubmit}>
+            					<Typography className={classes.title} variant="h2">
+					              Sign In
+					            </Typography>
+					            <TextField
+					              className={classes.textField}
+					              error={!!errors.username}
+					              fullWidth
+					              helperText={ errors.username ? errors.username : null }
+					              label="username"
+					              name="username"
+					              onChange={handleChange}
+					              type="text"
+					              value={state.username}
+					              variant="outlined"
+					              placeholder='Masukkan username'
+					            />
+					            <FormControl 
+					            	variant='outlined' 
+					            	fullWidth 
+					            	className={classes.textField}
+					            	error={!!errors.password}
+					            >
+			            			<InputLabel htmlFor="password">Password</InputLabel>
+						            <OutlinedInput
+						              id='password'
+						              labelWidth={70}
+						              name="password"
+						              onChange={handleChange}
+						               type={state.showpass ? 'text' : 'password'}
+						              value={data.password}
+						              variant="outlined"
+						              placeholder='Masukkan password'
+						              endAdornment={
+							              <InputAdornment position="end">
+							                <IconButton
+							                  aria-label="toggle password visibility"
+							                  onClick={handleClickShowPassword}
+							                  //onMouseDown={handleMouseDownPassword}
+							                  edge="end"
+							                >
+							                  {state.showpass ? <Visibility /> : <VisibilityOff />}
+							                </IconButton>
+							              </InputAdornment>
+							            }
+						            />
+				            		{ errors.password && <FormHelperText id="password">{errors.password}</FormHelperText>}
+			            		</FormControl>
+			            		<Button
+					              className={classes.signInButton}
+					              color="primary"
+					              // disabled={!.isValid}
+					              fullWidth
+					              size="large"
+					              type="submit"
+					              variant="contained"
+					              onClick={handleSubmit}
+					            >
+				              		Sign In Sekarang
+				            	</Button>
+	            				<div className={classes.divider}>
+								  <span className={classes.dividerText} onClick={onFaqClick}>
+								    FAQ
+								  </span>
+								</div>
+            				</form>
+            			</div>
+            		</div>
+		        </Grid>
+		    </Grid>
 	    </div>
 	);
 }
