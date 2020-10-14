@@ -26,6 +26,27 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import PeopleIcon from '@material-ui/icons/People';
 
+const getInitialUser = (level) => {
+  switch(level){
+    case 'Administrator KANTORPUSAT':
+      return 1;
+    case 'MANAGEMENT KANTORPUSAT':
+      return 2;
+    case 'MANAGEMENT Regional':
+      return 3;
+    case 'MANAGEMENT Kprk':
+      return 4;
+    case 'AGENT / CS KANTORPUSAT':
+      return 5;
+    case 'AGENT / CS Regional':
+      return 6;
+    case 'AGENT / CS Kprk':
+      return 7;
+    default:
+      return 0;
+  }
+}
+
 const useStyles = makeStyles(theme => ({
   drawer: {
     width: 240,
@@ -51,67 +72,67 @@ const items = [
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/user',
     icon: PersonIcon,
     title: 'User',
-    user: ['Administrator','MANAGEMENT']
+    user: [1, 2, 3, 4]
   },
   {
     href: '/tiket',
     icon: AssignmentIcon,
     title: 'Tiket',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/pelanggan',
     icon: PeopleIcon,
     title: 'Pelanggan',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/prod-knowledge',
     icon: LocalLibraryIcon,
     title: 'Product Knowledge',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/x-ray',
     icon: CancelIcon,
     title: 'Gagal X-Ray',
-    user: ['Administrator','MANAGEMENT','AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/laporan-tiket',
     icon: FolderOpenIcon,
     title: 'Laporan Tiket',
-    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6]
   },
   {
     href: '/laporan-product',
     icon: FolderOpenIcon,
     title: 'Laporan Produk',
-    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+    user: [1, 2, 3, 5, 6]
   },
   {
     href: '/laporan-xray',
     icon: FolderOpenIcon,
     title: 'Laporan X-Ray',
-    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6]
   },
   {
     href: '/kinerja-cs',
     icon: TrendingUpIcon,
     title: 'Kinerja CS',
-    user: ['Administrator','MANAGEMENT', 'AGENT / CS']
+    user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
     href: '/setting',
     icon: SettingsIcon,
     title: 'Pengaturan',
-    user: ['Administrator']
+    user: [1]
   }
 ];
 
@@ -152,7 +173,7 @@ const Sidebar = props => {
                 key={index}
                 title={item.title}
                 icon={item.icon}
-                jabatan={user.jabatan}
+                jabatan={getInitialUser(user.level)}
                 toUser={item.user}
               /> )}
           </List>

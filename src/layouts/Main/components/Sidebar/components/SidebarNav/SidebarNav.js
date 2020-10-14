@@ -82,7 +82,7 @@ const SidebarNav = props => {
 
 SidebarNav.propTypes = {
   className: PropTypes.string,
-  jabatan: PropTypes.string.isRequired,
+  jabatan: PropTypes.number.isRequired,
   toUser: PropTypes.array.isRequired
 };
 

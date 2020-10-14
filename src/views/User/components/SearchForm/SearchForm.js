@@ -5,8 +5,7 @@ import {
 	Select,
 	InputLabel,
 	MenuItem,
-	Button,
-	ButtonGroup
+	Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import AddIcon from '@material-ui/icons/Add';
@@ -20,7 +19,9 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 200
 	},
 	button: {
-		marginTop: 10
+		marginTop: 10,
+		marginLeft: 5,
+		width: 150
 	}
 }))
 
@@ -106,19 +107,24 @@ const SearchForm = props => {
 		        </Select>
 			</FormControl>
 
-			<ButtonGroup 
-				color="primary" 
-				aria-label="outlined secondary button group"
-				className={classes.button}
+			<Button 
+				variant='contained' 
 				onClick={props.onSearch}
+				color='primary'
+				className={classes.button}
+				startIcon={<SearchIcon />}
 			>
-			  <Button>
-			  	<SearchIcon style={{marginRight: 3}} /> Tampilkan
-			  </Button>
-			  <Button onClick={() => history.push("/user/add")}>
-			  	<AddIcon style={{marginRight: 3}}/> Tambah User
-			  </Button>
-			</ButtonGroup>
+		  		Tampilkan
+		  	</Button>
+		  	{ props.user.utype !== 'Kprk' && <Button 
+				variant='contained' 
+				onClick={() => history.push("/user/add")}
+				color='primary'
+				className={classes.button}
+				startIcon={<AddIcon />}
+			>
+		  		Tambah
+		  	</Button> }
 		</div>
 	);
 }

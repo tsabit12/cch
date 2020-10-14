@@ -24,6 +24,8 @@ import PublishIcon from '@material-ui/icons/Publish';
 import { removeMessage } from '../../actions/message';
 import CollapseMessage from "../CollapseMessage";
 
+const allowedOffice = ['20900','10900','10PA','40400','50400','55400','60900','80900','70400','90400','29400','40005','17900','30900'];
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(4)
@@ -42,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const XrayDetail = props => {
 	const classes = useStyles();
-	const { data, message } = props;
+	const { data, message, user } = props;
 	const [paging, setPaging] = useState({
 		limit: 13,
 		offset: 0,
@@ -51,11 +53,25 @@ const XrayDetail = props => {
 
 	const [query, setQuery] = useState('');
 	const [isSearch, setSearch] = useState(false);
+	const [mount, setMount] = useState(false);
+	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
-		getData();
+		const isAllowed = allowedOffice.find(row => row === user.kantor_pos);
+		if (isAllowed) {
+			setVisible(true);
+			setMount(true);
+		}else{
+			setMount(true);
+		}
+	}, [user.kantor_pos]);
+
+	useEffect(() => {
+		if (mount) {
+			getData();
+		}
 		//eslint-disable-next-line
-	}, []);
+	}, [mount]);
 
 	useEffect(() => {
 		if (message.type === 'uploadXray') {
@@ -135,7 +151,7 @@ const XrayDetail = props => {
 		<div className={classes.inline}>
 	        <p>GAGAL X-RAY</p>
 
-		    <div style={{display: 'flex', width: 550}}>
+		    <div style={{display: 'flex', width: 550, justifyContent: 'flex-end'}}>
 		    	{ isSearch && <IconButton  style={{marginRight: 5}} size='small'  onClick={handleReset}>
 		            <ReplayIcon />
 		        </IconButton> }
@@ -162,23 +178,25 @@ const XrayDetail = props => {
 				        }}
 					/> 
 				</form>
-				<Button 
-					variant='outlined' 
-					style={{marginLeft: 5, width: 160}}
-					startIcon={<AddIcon />}
-					onClick={() => props.history.push('/x-ray/add')}
-				>
-					TAMBAH
-				</Button>
+				{ visible && <React.Fragment>
+					<Button 
+						variant='outlined' 
+						style={{marginLeft: 5, width: 160}}
+						startIcon={<AddIcon />}
+						onClick={() => props.history.push('/x-ray/add')}
+					>
+						TAMBAH
+					</Button>
 
-				<Button 
-					variant='outlined'
-					style={{marginLeft: 5, width: 160}}
-					onClick={() => props.history.push('/x-ray/import')}
-					startIcon={<PublishIcon />}
-				>
-					IMPORT
-				</Button>
+					<Button 
+						variant='outlined'
+						style={{marginLeft: 5, width: 160}}
+						onClick={() => props.history.push('/x-ray/import')}
+						startIcon={<PublishIcon />}
+					>
+						IMPORT
+					</Button>
+				</React.Fragment> }
 			</div>
 	    </div>
 	);
@@ -223,14 +241,16 @@ XrayDetail.propTypes = {
 	getDetail: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired,
 	message: PropTypes.object.isRequired,
-	removeMessage: PropTypes.func.isRequired
+	removeMessage: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
 		total: state.xray.total,
 		data: state.xray.detail,
-		message: state.message	
+		message: state.message,
+		user: state.auth.user
 	}
 }
 
