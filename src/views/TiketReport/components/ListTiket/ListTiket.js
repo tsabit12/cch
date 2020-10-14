@@ -11,7 +11,8 @@ import {
 	TableCell,
 	TableBody,
 	FormControl,
-	Button
+	Button,
+	Divider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
@@ -35,13 +36,13 @@ const getTotalPage = (jumlah, activePage) => {
 const getLabelPage = number => {
 	switch(number){
 		case 1:
-			return 'Pengaduan Masuk';
+			return 'PENGADUAN MASUK';
 		case 2:
-			return 'Pengaduan Keluar';
+			return 'PENGADUAN KELUAR';
 		case 3:
-			return 'Pengaduan Masuk Selesai';
+			return 'PENGADUAN MASUK SELESAI';
 		case 4: 
-			return 'Pengaduan Keluar Selesai';
+			return 'PENGADUAN KELUAR SELESAI';
 		default:
 			return '-';
 	}
@@ -64,7 +65,7 @@ const getStatus = number => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: 500,
+		height: 530,
 		position: 'relative'
 	},
 	header: {
@@ -162,6 +163,10 @@ const ListTiket = props => {
 					setLoading(false);
 					setReset(true);
 				})
+				.catch(err => {
+					setLoading(false);
+					alert('Terdapat kesalahan');
+				})
 		}
 	}
 
@@ -177,6 +182,11 @@ const ListTiket = props => {
 			.then(() => setReset(false))
 	}
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		handleSearch();
+	}
+
 	const visibleDurasi = props.page === 1 || props.page === 2 ? true : false;
 
 	return(
@@ -187,31 +197,33 @@ const ListTiket = props => {
 					{ showReset && <Button size='medium' variant='outlined' style={{marginRight: 6}} onClick={handleReset}>
 						RESET
 					</Button> }
-					<FormControl>
-						<TextField 
-							placeholder='Cari nomor tiket/resi'
-							variant='outlined'
-							size='small'
-							value={param}
-							onChange={(e) => setParam(e.target.value)}
-							InputProps={{
-					            endAdornment:  <IconButton
-										aria-label="toggle password visibility"
-										style={{padding: 0}}
-										onClick={handleSearch}
-										//onMouseDown={handleMouseDownPassword}
-									>
-										<SearchIcon />
-									</IconButton>,
-					        }}
-					        style={{
-					        	width: 300
-					        }}
-						/>
-						{ loading && <Typography variant='body2'>Loading...</Typography>}
-					</FormControl>
+					<form onSubmit={handleSubmit}>
+						<FormControl>
+							<TextField 
+								placeholder='Cari nomor tiket/resi'
+								variant='outlined'
+								size='small'
+								value={param}
+								onChange={(e) => setParam(e.target.value)}
+								InputProps={{
+						            endAdornment:  <IconButton
+											aria-label="toggle password visibility"
+											style={{padding: 0}}
+											onClick={handleSearch}
+										>
+											<SearchIcon />
+										</IconButton>,
+						        }}
+						        style={{
+						        	width: 300
+						        }}
+							/>
+							{ loading && <Typography variant='body2'>Loading...</Typography>}
+						</FormControl>
+					</form>
 				</div>
 			</div>
+			<Divider />
 			<div style={{overflowY: 'auto'}}>
 				<Table size='small'>
 					<TableHead>

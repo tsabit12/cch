@@ -100,6 +100,7 @@ const XrayDetail = props => {
 
 	const handleMouseDownSearch = (e) => {
 		e.preventDefault();
+		handleSearch();
 	}
 
 	const handleSearch = () => {
@@ -138,28 +139,29 @@ const XrayDetail = props => {
 		    	{ isSearch && <IconButton  style={{marginRight: 5}} size='small'  onClick={handleReset}>
 		            <ReplayIcon />
 		        </IconButton> }
-			    <TextField 
-					placeholder='Cari ID/Isi kiriman'
-					variant='outlined'
-					style={{backgroundColor: "#FFF", borderRadius: 3}}
-					fullWidth
-					value={query}
-					size='small'
-					onChange={(e) => setQuery(e.target.value)}
-					InputProps={{
-			            endAdornment: <InputAdornment position="start">
-			            	<IconButton
-			                  aria-label="toggle password visibility"
-			                  onClick={handleSearch}
-			                  onMouseDown={handleMouseDownSearch}
-			                  edge="end"
-			                  size='small'
-			                >
-			                  <SearchIcon />
-			                </IconButton>
-			            </InputAdornment>,
-			        }}
-				/> 
+		        <form onSubmit={handleMouseDownSearch}>
+				    <TextField 
+						placeholder='Cari ID/Isi kiriman'
+						variant='outlined'
+						style={{backgroundColor: "#FFF", borderRadius: 3}}
+						fullWidth
+						value={query}
+						size='small'
+						onChange={(e) => setQuery(e.target.value)}
+						InputProps={{
+				            endAdornment: <InputAdornment position="start">
+				            	<IconButton
+				                  aria-label="toggle password visibility"
+				                  onClick={handleSearch}
+				                  edge="end"
+				                  size='small'
+				                >
+				                  <SearchIcon />
+				                </IconButton>
+				            </InputAdornment>,
+				        }}
+					/> 
+				</form>
 				<Button 
 					variant='outlined' 
 					style={{marginLeft: 5, width: 160}}

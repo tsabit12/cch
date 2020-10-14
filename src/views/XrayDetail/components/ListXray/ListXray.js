@@ -4,14 +4,15 @@ import {
 	TableHead,
 	TableRow,
 	TableCell,
-	TableBody
+	TableBody,
+	TableContainer
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
 	row: {
-		whiteSpace: 'nowrap'
+		// whiteSpace: 'nowrap'
 	}
 }))
 
@@ -21,8 +22,8 @@ const ListXray = props => {
 	var no = 1;
 
 	return(
-		<div style={{overflowY: 'auto'}}>
-			<Table size='small'>
+		<TableContainer style={{maxHeight: 450}}>
+			<Table stickyHeader aria-label="sticky table" size='small'>
 				<TableHead>
 					<TableRow>
 						<TableCell className={classes.row}>NO</TableCell>
@@ -54,7 +55,7 @@ const ListXray = props => {
 					</TableRow> }
 				</TableBody>
 			</Table>
-		</div>
+		</TableContainer>
 	);
 }
 

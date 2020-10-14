@@ -13,8 +13,6 @@ const ListTiket = props => {
 	var no 			= 1;
 	const { list } 	= props;
 
-	console.log(list);
-
 	return(
 		<Card style={{marginTop: 10}}>
 			<Table size='small'>
@@ -24,7 +22,9 @@ const ListTiket = props => {
 						<TableCell>NOMOR TIKET</TableCell>
 						<TableCell>NOMOR RESI</TableCell>
 						<TableCell>CHANNEL</TableCell>
+						<TableCell>ASAL</TableCell>
 						<TableCell>TUJUAN</TableCell>
+						<TableCell>DURASI TIKET</TableCell>
 						<TableCell>STATUS</TableCell>
 					</TableRow>
 				</TableHead>
@@ -34,7 +34,9 @@ const ListTiket = props => {
 						<TableCell>{row.no_tiket}</TableCell>
 						<TableCell>{row.awb}</TableCell>
 						<TableCell>{row.channel}</TableCell>
+						<TableCell>{row.asal_pengaduan}</TableCell>
 						<TableCell>{row.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
+						<TableCell>{Math.round(Math.abs(new Date(row.tgl_tambah) - new Date(row.tgl_exp)) / 36e5)} Jam</TableCell>
 						<TableCell>{row.status}</TableCell>
 					</TableRow>)}
 				</TableBody>

@@ -3,7 +3,8 @@ import {
 	TableBody,
 	TableCell,
 	TableRow,
-	Tooltip
+	Tooltip,
+	Chip
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -93,7 +94,9 @@ const TableTiket = props => {
 					{duration(row.current, row.tgl_exp).times}
 				</TableCell> }
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.tgl_tambah.substring(0, 10)}</TableCell>
-				<TableCell style={{whiteSpace: 'nowrap'}}>{row.status}</TableCell>
+				<TableCell style={{whiteSpace: 'nowrap'}}>
+					 <Chip label={row.status} color='secondary' size="small" />
+				</TableCell>
 			</TableRow>)}
 		</TableBody>
 	);
