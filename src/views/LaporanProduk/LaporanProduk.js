@@ -44,7 +44,11 @@ const LaporanProduk = props => {
 
 	return(
 		<div className={classes.root}>
-			<SearchParam onSearch={handleSearch} />
+			<SearchParam 
+				onSearch={handleSearch} 
+				data={props.data}
+				loading={loading}
+			/>
 			<Loader loading={loading} />
 			<Alert 
 				open={!!error.global}

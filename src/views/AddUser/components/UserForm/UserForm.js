@@ -29,11 +29,11 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		display: 'flex',
-		minHeight: 350
+		minHeight: 300
 	},
 	contentForm: {
 		position: 'relative',
-		minHeight: 350
+		minHeight: 300
 	},
 	action: {
 		justifyContent: 'flex-end'
@@ -155,6 +155,7 @@ const UserForm = props => {
 								label='Nippos'
 								variant='outlined'
 								value={userValue.nip}
+								size='small'
 								fullWidth
 								disabled
 							/>
@@ -165,6 +166,7 @@ const UserForm = props => {
 									label='Nomor Dirian'
 									variant='outlined'
 									value={userValue.kdkantor}
+									size='small'
 									fullWidth
 									disabled
 									name='kdkantor'
@@ -173,7 +175,7 @@ const UserForm = props => {
 									helperText={ errors.kdkantor ? errors.kdkantor : null }
 								/>
 							</FormControl>
-							<FormControl fullWidth variant="outlined" className={classes.fieldSelect}>
+							<FormControl fullWidth variant="outlined" className={classes.fieldSelect} size='small'>
 								<InputLabel id="jenisKantor">Jenis Kantor</InputLabel>
 
 								<Select
@@ -194,6 +196,7 @@ const UserForm = props => {
 								fullWidth 
 								variant="outlined" 
 								className={classes.fieldSelect}
+								size='small'
 								error={!!errors.jabatan}
 							>
 								<InputLabel id="jabatan">Jabatan</InputLabel>
@@ -210,6 +213,7 @@ const UserForm = props => {
 						          <MenuItem value={2}>CUSTOMER SERVICE</MenuItem>
 						          <MenuItem value={5}>MANAGEMENT</MenuItem>
 						          { props.level === 'Administrator' && <MenuItem value={1}>ADMINISTATOR</MenuItem> }
+						          { props.level === 'Administrator' && <MenuItem value={8}>REPORTING</MenuItem>}
 						        </Select>
 						        { errors.jabatan && <FormHelperText>{errors.jabatan}</FormHelperText>}
 							</FormControl>
@@ -220,6 +224,7 @@ const UserForm = props => {
 							error={!!errors.namaLengkap}
 						>
 							<TextField 
+								size='small'
 								label='Nama Lengkap'
 								variant='outlined'
 								value={userValue.namaLengkap}
@@ -238,6 +243,7 @@ const UserForm = props => {
 								error={!!errors.email}
 							>
 								<TextField 
+									size='small'
 									label='Email'
 									variant='outlined'
 									value={userValue.email}
@@ -255,6 +261,7 @@ const UserForm = props => {
 							>
 								<TextField 
 									label='Nomor Telepon'
+									size='small'
 									variant='outlined'
 									name='phone'
 									value={userValue.phone}

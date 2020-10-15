@@ -18,7 +18,11 @@ const useStyles = makeStyles(theme => ({
   },
   name: {
     marginTop: theme.spacing(1),
-    textAlign: 'center'
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '150px'
   }
 }));
 

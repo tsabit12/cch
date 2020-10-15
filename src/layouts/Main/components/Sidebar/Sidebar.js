@@ -42,6 +42,8 @@ const getInitialUser = (level) => {
       return 6;
     case 'AGENT / CS Kprk':
       return 7;
+    case 'REPORTING KANTORPUSAT':
+      return 8;
     default:
       return 0;
   }
@@ -72,7 +74,7 @@ const items = [
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    user: [1, 2, 3, 4, 5, 6, 7, 8]
   },
   {
     href: '/user',
@@ -108,19 +110,19 @@ const items = [
     href: '/laporan-tiket',
     icon: FolderOpenIcon,
     title: 'Laporan Tiket',
-    user: [1, 2, 3, 4, 5, 6]
+    user: [1, 2, 3, 4, 5, 6, 8]
   },
   {
     href: '/laporan-product',
     icon: FolderOpenIcon,
     title: 'Laporan Produk',
-    user: [1, 2, 3, 5, 6]
+    user: [1, 2, 3, 5, 6, 8]
   },
   {
     href: '/laporan-xray',
     icon: FolderOpenIcon,
     title: 'Laporan X-Ray',
-    user: [1, 2, 3, 4, 5, 6]
+    user: [1, 2, 3, 4, 5, 6, 8]
   },
   {
     href: '/kinerja-cs',

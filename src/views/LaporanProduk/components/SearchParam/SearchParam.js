@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
 	Button,
@@ -10,6 +10,13 @@ import {
 import { listReg, convertMonth } from '../../../../helper';
 import { DatePicker } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -20,6 +27,14 @@ const useStyles = makeStyles(theme => ({
 	},
 	margin: {
 		marginLeft: 5
+	},
+	greenButton: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		marginLeft: 5,
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		}
 	}
 }))
 
@@ -30,6 +45,13 @@ const SearchParam = props => {
 		regional: '00',
 		startdate: new Date()
 	});
+	const [downloadVisible, setVisibleDownload] = useState(false);
+
+	useEffect(() => {
+		if (props.data.aduan.length > 0 && props.data.list.length > 0) {
+			setVisibleDownload(true);
+		}
+	}, [props.data]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -87,12 +109,34 @@ const SearchParam = props => {
 			<Button variant='contained' color='secondary' className={classes.margin} onClick={onSubmit}>
 				TAMPILKAN
 			</Button>
+			{ downloadVisible && !props.loading &&
+				<ExcelFile 
+					filename={`laporan_produk(${convertMonth(param.startdate)})`} 
+					element={<Button 
+								variant='contained' 
+								className={classes.greenButton} 
+								startIcon={<FileCopyIcon />}
+							>
+								DOWNLOAD
+							</Button>}
+				>
+					<ExcelSheet data={props.data.list} name="produk">
+						<ExcelColumn label="Layanan" value="nama_layanan"/>
+						<ExcelColumn label="Layanan" value={(col) => Number(col.jml)}/>
+					</ExcelSheet>
+					<ExcelSheet data={props.data.aduan} name="aduan">
+						<ExcelColumn label="Nama Aduan" value="nama_aduan"/>
+						<ExcelColumn label="Layanan" value={(col) => Number(col.jml)}/>
+					</ExcelSheet>
+				</ExcelFile> }
 		</div>
 	);
 }
 
 SearchParam.propTypes = {
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	data: PropTypes.object.isRequired,
+	loading: PropTypes.bool.isRequired
 }
 
 export default SearchParam;
