@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { Tooltip, IconButton } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import ReactExport from "react-export-excel";
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -50,16 +50,13 @@ const DataExcel = props => {
 	return(
 		<ExcelFile 
 			filename={props.label} 
-			element={<Tooltip title='Download to excel' arrow>
-				  		<IconButton 
-				  			edge="start" 
-				  			color="inherit" 
-				  			aria-label="close"
-				  			disabled={data.length > 0 ? false : true }
-				  		>
-				          <GetAppIcon />
-				        </IconButton>
-				  	</Tooltip> }
+			element={<Button 
+						endIcon={<GetAppIcon />}
+						style={{color: '#FFF'}}
+						disabled={data.length > 0 ? false : true }
+			      	>
+			      		Download
+			      	</Button> }
 		>
 			<ExcelSheet data={data} name="sheet1">
 				<ExcelColumn label="NOMOR TIKET" value="no_tiket"/>

@@ -16,8 +16,12 @@ import {
 	TableHead,
 	TableRow,
 	TableBody,
-	TableContainer
+	TableContainer,
+	Button, 
+	MenuItem,
+	Menu
 } from '@material-ui/core';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const numberTwodigit = (n) => {
 	return n > 9 ? "" + n: "0" + n;
@@ -75,8 +79,28 @@ const useStyles = makeStyles((theme) => ({
   },
   flexGrow: {
     flexGrow: 1
+  },
+  btnMenu: {
+  	color: '#FFF'
   }
 }));
+
+const getGroupByDay = (day) => {
+	switch(true){
+		case (Number(day) <= 1):
+			return 1;
+		case (Number(day) === 2):
+			return 2;
+		case (Number(day) === 3):
+			return 3;
+		case (Number(day) > 3):
+			return 4;
+		case (day === '-'):
+			return '-';
+		default:
+			return '';
+	}
+}
 
 const TableDetail = ({ data }) => {
 	let tableContent 	= [];
@@ -86,8 +110,9 @@ const TableDetail = ({ data }) => {
 		const item 		= data[i];
 		let day 		=  item.waktu_selesai;
 		no++;
-		if (grouping !== day) {
-			grouping = day;
+		if (grouping !== getGroupByDay(day)) {
+			//by default day is not grouping... it's must be (<= 1 (1)) (= 2 (2)) (= 3 (3)) ( > 3 (4))
+			grouping = getGroupByDay(day); 
 			tableContent.push(
 				<React.Fragment key={i}>
 					<TableRow>
@@ -95,8 +120,8 @@ const TableDetail = ({ data }) => {
 							<Typography variant='h5' style={{color: '#FFF'}}>
 								{ grouping === '-' && 'TIKET TERBUKA' }
 								{ Number(grouping) <= 1 && 'KURANG DARI 1 HARI'}
-								{ grouping === '2' && 'KURANG DARI 2 HARI' }
-								{ grouping === '3' && 'KURANG DARI 3 HARI' }
+								{ Number(grouping) === 2 && 'KURANG DARI 2 HARI' }
+								{ Number(grouping) === 3 && 'KURANG DARI 3 HARI' }
 								{ Number(grouping) > 3 && 'LEBIH DARI 4 HARI' }
 							</Typography>
 						</TableCell>
@@ -168,6 +193,8 @@ const ModalDetail = props => {
 	const { item, type } = props;
   	const classes = useStyles();
   	const [loading, setLoading] = useState(true);
+  	const [anchorEl, setAnchorEl] = useState(null);
+  	const [activeStatus, setActiveStatus] = useState('Semua Status');
   	const [data, setData] = useState({
   		default: [], //for adding search features
   		search: []
@@ -194,6 +221,33 @@ const ModalDetail = props => {
 			});
   	}, [item, type]);
 
+  	const handleClick = (event) => {
+	    setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+	    setAnchorEl(null);
+	};
+
+	const handleFilter = (value, label) => {
+		if (value === '00') {
+			setData(v => ({
+				...v,
+				search: data.default
+			}))
+		}else{
+			const newData = data.default.filter(row => row.status === value);
+			setData(data => ({
+				...data,
+				search: newData
+			}))
+		}
+
+		setAnchorEl(null);
+		setActiveStatus(label);
+
+	}
+
 	return (
 	    <div>
 	      <Dialog fullScreen open={true} TransitionComponent={Transition}>
@@ -207,9 +261,32 @@ const ModalDetail = props => {
 	            </Typography>
 	            <div className={classes.flexGrow} />
 	            <DataExcel 
-	            	data={data.default} 
+	            	data={data.search} 
 	            	label={`DETAIL TIKET ${type === '01' ? 'KELUAR' : 'MASUK' } ${item.kantor}`}
 	            />
+	            <div>
+			      <Button 
+			      	aria-controls="simple-menu" 
+			      	aria-haspopup="true" 
+			      	onClick={handleClick}
+			      	endIcon={<KeyboardArrowDownIcon />}
+			      	className={classes.btnMenu}
+			      >
+			        { activeStatus }
+			      </Button>
+			      <Menu
+			        id="simple-menu"
+			        anchorEl={anchorEl}
+			        keepMounted
+			        open={Boolean(anchorEl)}
+			        onClose={handleClose}
+			      >
+			        <MenuItem onClick={() => handleFilter('00', 'Semua Status')}>Semua Status</MenuItem>
+			        <MenuItem onClick={() => handleFilter('Entri', 'Entri')}>Entri</MenuItem>
+			        <MenuItem onClick={() => handleFilter('Investigasi', 'Investigasi')}>Investigasi</MenuItem>
+			        <MenuItem onClick={() => handleFilter('Selesai', 'Selesai')}>Selesai</MenuItem>
+			      </Menu>
+			    </div>
 	          </Toolbar>
 	        </AppBar>
 	        { loading ? 
