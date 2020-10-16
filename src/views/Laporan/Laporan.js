@@ -19,7 +19,7 @@ import {
 import { connect } from 'react-redux';
 import { getLaporanTiket } from '../../actions/laporan';
 import { DatePicker } from "@material-ui/pickers";
-import { periodeView, listReg } from '../../helper';
+import { listReg, convertDay } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import api from '../../api';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -79,7 +79,9 @@ const Laporan = props => {
 	const [params, setParams] = useState({
 		periode: new Date(),
 		regional: '00',
-		kprk: '00'
+		kprk: '00',
+		startdate: new Date(),
+		enddate: new Date()
 	})
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -113,24 +115,26 @@ const Laporan = props => {
 			payload.kprk = '00';
 		}
 
-		payload.periode = periodeView(new Date());
-		payload.type = '00';
+		payload.startdate 	= convertDay(new Date());
+		payload.enddate 	= convertDay(new Date());
+		payload.type 		= '00';
 
 		props.getLaporanTiket(payload);
 		//eslint-disable-next-line
 	}, [user]);
 
-	const handleChangeDate = (value) => {
+	const handleChangeDate = (value, name) => {
 		setParams(params => ({
 			...params,
-			periode: value
+			[name]: value
 		}))
 	}
 
 	const handleSearch = () => {
 		const payload = {
 			regional: params.regional,
-			periode: periodeView(params.periode),
+			startdate: convertDay(params.startdate),
+			enddate: convertDay(params.enddate),
 			type: activeName,
 			kprk: params.kprk
 		}	
@@ -184,7 +188,8 @@ const Laporan = props => {
 		setOpen(false);
 		const payload = {
 			regional: params.regional,
-			periode: periodeView(params.periode),
+			startdate: convertDay(params.startdate),
+			enddate: convertDay(params.enddate),
 			kprk: params.kprk
 		};
 		if (activeName === '01') {
@@ -204,7 +209,8 @@ const Laporan = props => {
 			item: {
 				kantor: id,
 				type: params.regional === '00' ? 'reg' : 'kprk',
-				periode: periodeView(params.periode)
+				startdate: convertDay(params.startdate),
+				enddate: convertDay(params.enddate)
 			}
 		});
 	}
@@ -295,16 +301,29 @@ const Laporan = props => {
 				</FormControl>
 				
 				<DatePicker
-			        format="YYYY-MM"
-			        views={["year", "month"]}
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
 			        autoOk
 			        size='small'
 			        variant="inline"
 			        style={{marginLeft: 5}}
-			        label="Periode"
+			        label="Mulai"
 			        inputVariant='outlined'
-			        value={params.periode}
-			        onChange={(e) => handleChangeDate(e._d)}
+			        value={params.startdate}
+			        onChange={(e) => handleChangeDate(e._d, 'startdate')}
+			    />
+
+			    <DatePicker
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
+			        autoOk
+			        size='small'
+			        variant="inline"
+			        style={{marginLeft: 5}}
+			        label="Sampai"
+			        inputVariant='outlined'
+			        value={params.enddate}
+			        onChange={(e) => handleChangeDate(e._d, 'enddate')}
 			    />
 			    <Button variant='outlined' style={{marginLeft: 5}} onClick={handleSearch} disabled={loading}>
 			    	Tampilkan
@@ -333,7 +352,7 @@ const Laporan = props => {
 				/>
 				<CardActions style={{justifyContent: 'flex-end'}}>
 					<ExcelFile 
-						filename={`laporan_tiket_${activeName === '00' ? 'masuk' : 'keluar'}_${getOfficeLabel(params)}(${periodeView(params.periode)})`} 
+						filename={`laporan_tiket_${activeName === '00' ? 'masuk' : 'keluar'}_${getOfficeLabel(params)}(${convertDay(params.startdate)}_${convertDay(params.enddate)})`} 
 						element={
 							<Button 
 								variant='outlined' 

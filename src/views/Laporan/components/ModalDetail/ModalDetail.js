@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import ProgressLoading from '../../../Progress';
+// import ProgressLoading from '../../../Progress';
 import api from '../../../../api';
 import {
 	TableCell,
@@ -69,7 +69,7 @@ const TableDetail = ({ data }) => {
 						<TableCell>{item.no_tiket}</TableCell>
 						<TableCell>{item.awb}</TableCell>
 						<TableCell>{item.asal_pengaduan}</TableCell>
-						<TableCell>{item.tujuan_pengaduan}</TableCell>
+						<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
 						<TableCell>{item.channel}</TableCell>
 						<TableCell>{item.durasi} jam</TableCell>
 						<TableCell>{item.status}</TableCell>
@@ -84,7 +84,7 @@ const TableDetail = ({ data }) => {
 					<TableCell>{item.no_tiket}</TableCell>
 					<TableCell>{item.awb}</TableCell>
 					<TableCell>{item.asal_pengaduan}</TableCell>
-					<TableCell>{item.tujuan_pengaduan}</TableCell>
+					<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
 					<TableCell>{item.channel}</TableCell>
 					<TableCell>{item.durasi} jam</TableCell>
 					<TableCell>{item.status}</TableCell>
@@ -164,7 +164,7 @@ const ModalDetail = props => {
 	            </Typography>
 	          </Toolbar>
 	        </AppBar>
-	        { loading ? <div className={classes.loading}><ProgressLoading /></div> : <div className={classes.content}>
+	        { loading ? <div className={classes.loading}>Loading....</div> : <div className={classes.content}>
 	        	<TableDetail data={data} />
 	        </div> }
 	      </Dialog>
