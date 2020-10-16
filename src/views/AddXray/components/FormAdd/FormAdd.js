@@ -146,7 +146,7 @@ const FormAdd = props => {
 		if (!state.id) errors.id = 'Id kiriman tidak boleh kosong';
 		if (!state.berat) errors.berat = 'Berat kiriman tidak boleh kosong';
 		if (!value.val.nopend) errors.kantortujuan = 'Kantor tujuan belum dipilih';
-		if (!value2.val.nopend) errors.kantoraduan = 'Kantor aduan belum dipilih';
+		if (!value2.val.nopend) errors.kantoraduan = 'Kantor penerbangan belum dipilih';
 		if (!value3.val.nopend) errors.kantorasal = 'Kantor asal belum dipilih';
 		return errors;
 	}
@@ -197,10 +197,10 @@ const FormAdd = props => {
 							renderInput={(params) => 
 								<TextField 
 									{...params} 
-									label='Kantor Aduan'
+									label='Kantor Penerbangan'
 									variant='outlined'
 									InputLabelProps={{ shrink: true }}
-									placeholder='Cari kantor aduan'
+									placeholder='Cari kantor penerbangan'
 									size='small'
 									error={!!errors.kantoraduan}
 									helperText={errors.kantoraduan ? errors.kantoraduan : null }

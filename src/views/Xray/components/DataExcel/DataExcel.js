@@ -69,7 +69,7 @@ const DataExcel = props => {
 						<TableHead>
 							<TableRow>
 								<TableCell className={classes.row}>NO</TableCell>
-								<TableCell className={classes.row}>KANTOR ADUAN</TableCell>
+								<TableCell className={classes.row}>KANTOR PENERBANGAN</TableCell>
 								<TableCell className={classes.row}>KANTOR ASAL</TableCell>
 								<TableCell className={classes.row}>KANTOR TUJUAN</TableCell>
 								<TableCell className={classes.row}>ID KIRIMAN</TableCell>

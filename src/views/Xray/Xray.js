@@ -40,7 +40,7 @@ const Xray = props => {
 
 	const handleChange = (e) => {
 		readXlsxFile(inputRef.current.files[0]).then((rows) => {
-			setDataExcel(rows);
+			setDataExcel(rows.filter((row, index) => index !== 0));
 		})
 	}
 
