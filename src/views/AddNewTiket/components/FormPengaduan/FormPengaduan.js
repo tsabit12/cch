@@ -51,7 +51,7 @@ const FormPengaduan = props => {
 
 				api.cch.getKodepos(payload)
 					.then(res => setCities(res))
-			}, 1000);
+			}, 500);
 
 			return () => clearTimeout(timeId);
 		}
@@ -251,14 +251,16 @@ const FormPengaduan = props => {
 					        size='small'
 					        id="controllable-alamat"
 	    					options={cities}
+	    					disableClearable
+	    					freeSolo
 	    					getOptionLabel={(option) => `${option.address}, ${option.city}, (${option.posCode})`}
 	    					renderInput={(params) => 
 		    						<TextField 
 		    							{...params} 
-		    							label='Kecamatan'
+		    							label='Kel/Kec/Kota'
 		    							variant='outlined'
 										InputLabelProps={{ shrink: true }}
-										placeholder='Masukan Kecamatan/Kota pelanggan'
+										placeholder='Masukan Kel/Kec/Kota pelanggan'
 	    							/> 
 	    						}
 				    	/>

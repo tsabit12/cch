@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import {
-	IconButton,
-	Typography,
-	Breadcrumbs,
-	Grid
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Grid } from '@material-ui/core';
 import { 
 	FormPengaduan,
 	TiketForm,
@@ -262,7 +256,7 @@ const AddNewTiket = props => {
 			...state,
 			pengaduan: {
 				...state.pengaduan,
-				alamat: value.trim()
+				alamat: value
 			}
 		}))
 	}
@@ -928,23 +922,6 @@ const AddNewTiket = props => {
 				open={success}
 			/>
 
-			<div className={classes.header}>
-				<IconButton 
-					size="small" 
-					style={{marginRight: 10}} 
-					onClick={() => props.history.push("/tiket")}
-				>
-		            <ArrowBackIcon />
-		        </IconButton>
-				<Breadcrumbs aria-label="Breadcrumb">
-			        <Typography color="textPrimary" className={classes.link}>
-			          Tiket
-			        </Typography>
-			        <Typography color="textPrimary" className={classes.link}>
-			          Pengaduan
-			        </Typography>
-			    </Breadcrumbs>
-		    </div>
 		    <React.Fragment>
 		    	{ !isHidden && <Grid container spacing={4}>
 		    		<Grid
