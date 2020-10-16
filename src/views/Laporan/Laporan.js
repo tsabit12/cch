@@ -14,7 +14,7 @@ import {
 	Grow,
 	ClickAwayListener,
 	MenuList,
-	//CardActions
+	CardActions
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getLaporanTiket } from '../../actions/laporan';
@@ -22,12 +22,18 @@ import { DatePicker } from "@material-ui/pickers";
 import { periodeView, listReg } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import api from '../../api';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import Loader from '../Loader';
-
 import {
 	TableTiket,
 	ModalDetail
 } from './components';
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,8 +43,34 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center'
+	},
+	greenBtn: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		},
+		border: 'none'
 	}
 }))
+
+const getOfficeLabel = params => {
+	if (params.regional === '00' && params.kprk === '00') {
+		return 'nasional';
+	}else if(params.regional === '01' && params.kprk === '00'){
+		return 'kantor_pusat'; //omni, halopos, pusat
+	}else if(params.regional === '01' && params.kprk !== '00'){
+		return params.kprk.replace(/ /g, '_');
+	}else if(params.regional !== '00' && params.regional !== '01'){
+		if (params.kprk === '00') {
+			return params.regional.replace(/ /g, '_');
+		}else{
+			return params.kprk.replace(/ /g, '_');
+		}
+	}else{
+		return 'unknown_office';
+	}
+}
 
 const Laporan = props => {
 	const classes = useStyles();
@@ -299,6 +331,34 @@ const Laporan = props => {
 					data={props.listTiket}
 					onPress={handleClickDetail}
 				/>
+				<CardActions style={{justifyContent: 'flex-end'}}>
+					<ExcelFile 
+						filename={`laporan_tiket_${activeName === '00' ? 'masuk' : 'keluar'}_${getOfficeLabel(params)}(${periodeView(params.periode)})`} 
+						element={
+							<Button 
+								variant='outlined' 
+								className={classes.greenBtn}
+								startIcon={<FileCopyIcon />}
+								disabled={props.listTiket.length > 0 ? false : true}
+							>
+								DOWNLOAD
+							</Button>
+						}
+					>
+						<ExcelSheet data={props.listTiket} name="tiket">
+							<ExcelColumn label="KANTOR" value="regional"/>
+							<ExcelColumn label="JUMLAH PENGADUAN" value={(col) => Number(col.tot_all)} />
+							<ExcelColumn label="JUMLAH 1 HARI" value={(col) => Number(col.hari1)} />
+							<ExcelColumn label="JUMLAH 2 HARI" value={(col) => Number(col.hari2)} />
+							<ExcelColumn label="JUMLAH 3 HARI" value={(col) => Number(col.hari3)} />
+							<ExcelColumn label="JUMLAH > 4 HARI" value={(col) => Number(col.hari4)}/>
+							<ExcelColumn 
+								label="TOTAL SELESAI" 
+								value={(col) => Number(col.hari1) + Number(col.hari2) + Number(col.hari3) + Number(col.hari4)}
+							/>
+						</ExcelSheet>
+					</ExcelFile>
+				</CardActions>
 			</Card>
 		</div>
 	);
