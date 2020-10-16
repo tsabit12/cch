@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-// import ProgressLoading from '../../../Progress';
+import DataExcel from './DataExcel';
 import api from '../../../../api';
 import {
 	TableCell,
@@ -16,8 +16,42 @@ import {
 	TableHead,
 	TableRow,
 	TableBody,
-	TableContainer,
+	TableContainer
 } from '@material-ui/core';
+
+const numberTwodigit = (n) => {
+	return n > 9 ? "" + n: "0" + n;
+}
+
+const duration = (t0, t1) => {
+	const dateFuture = new Date(t1);
+	const dateNow 		= new Date(t0);
+	const result = {};
+
+	var seconds = Math.floor((dateFuture - (dateNow))/1000);
+	if (seconds < 0) {
+		result.status = 0;
+	}else{
+		result.status = 1;
+	}
+
+	var minutes = Math.floor(seconds/60);
+	var hours = Math.floor(minutes/60);
+	var days = Math.floor(hours/24);
+
+	hours = hours-(days*24);
+	minutes = minutes-(days*24*60)-(hours*60);
+	seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+	// if (days === 0) {
+	// 	result.times = `${hours} jam ${minutes} menit`;
+	// }else{
+	//}
+	
+	result.times = `${numberTwodigit(Math.abs(days))} Hari ${numberTwodigit(hours)}:${numberTwodigit(minutes)}:${numberTwodigit(seconds)}`;
+
+	return result;
+}
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -38,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flexGrow: {
+    flexGrow: 1
   }
 }));
 
@@ -71,7 +108,7 @@ const TableDetail = ({ data }) => {
 						<TableCell>{item.asal_pengaduan}</TableCell>
 						<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
 						<TableCell>{item.channel}</TableCell>
-						<TableCell>{item.durasi} jam</TableCell>
+						<TableCell>{duration(item.tgl_tambah, item.tgl_selesai).times}</TableCell>
 						<TableCell>{item.status}</TableCell>
 					</TableRow>
 				</React.Fragment>
@@ -86,7 +123,7 @@ const TableDetail = ({ data }) => {
 					<TableCell>{item.asal_pengaduan}</TableCell>
 					<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
 					<TableCell>{item.channel}</TableCell>
-					<TableCell>{item.durasi} jam</TableCell>
+					<TableCell>{duration(item.tgl_tambah, item.tgl_selesai).times}</TableCell>
 					<TableCell>{item.status}</TableCell>
 				</TableRow>
 			)
@@ -131,7 +168,10 @@ const ModalDetail = props => {
 	const { item, type } = props;
   	const classes = useStyles();
   	const [loading, setLoading] = useState(true);
-  	const [data, setData] = useState([]);
+  	const [data, setData] = useState({
+  		default: [], //for adding search features
+  		search: []
+  	});
 
 
   	useEffect(() => {
@@ -147,7 +187,10 @@ const ModalDetail = props => {
 		api.tiket.detailLaporanTiket(payload)
 			.then(details => {
 				setLoading(false);
-				setData(details);
+				setData({
+					search: details,
+					default: details
+				});
 			});
   	}, [item, type]);
 
@@ -162,11 +205,19 @@ const ModalDetail = props => {
 	            <Typography variant="h6" className={classes.title}>
 	              DETAIL TIKET {type === '01' ? 'KELUAR' : 'MASUK' } {item.kantor}
 	            </Typography>
+	            <div className={classes.flexGrow} />
+	            <DataExcel 
+	            	data={data.default} 
+	            	label={`DETAIL TIKET ${type === '01' ? 'KELUAR' : 'MASUK' } ${item.kantor}`}
+	            />
 	          </Toolbar>
 	        </AppBar>
-	        { loading ? <div className={classes.loading}>Loading....</div> : <div className={classes.content}>
-	        	<TableDetail data={data} />
-	        </div> }
+	        { loading ? 
+	        	<div className={classes.loading}>Loading....</div> : 
+        		<div className={classes.content}>
+        			<TableDetail data={data.search} />
+        		</div> }
+
 	      </Dialog>
 	    </div>
 	);
