@@ -117,6 +117,7 @@ const TableUser = props => {
 	                  <TableCell className={classes.row}>NAMA</TableCell>
 	                  <TableCell className={classes.row}>USERNAME</TableCell>
 	                  <TableCell className={classes.row}>EMAIL</TableCell>
+	                  <TableCell className={classes.row}>NO HP</TableCell>
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>REGIONAL</TableCell>
 	                  <TableCell className={classes.row}>HAK AKSES</TableCell>
@@ -131,6 +132,7 @@ const TableUser = props => {
 			              <TableCell className={classes.row}>{row.NamaLengkap.toUpperCase()}</TableCell>
 			              <TableCell className={classes.row}>{row.username}</TableCell>
 			              <TableCell className={classes.row}>{row.email}</TableCell>
+			              <TableCell className={classes.row}>{row.phone}</TableCell>
 			              <TableCell className={classes.row}>{row.kprk}</TableCell>
 			              <TableCell className={classes.row}>{row.regional}</TableCell>
 			              <TableCell className={classes.row}>

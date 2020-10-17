@@ -23,7 +23,8 @@ const ModalUpdate = props => {
 	const { param } = props;
 	const [field, setField] = useState({
 		email: '',
-		nama: ''
+		nama: '',
+		phone: ''
 	});
 	const [loading, setLoading] = useState(false);
 	const [errors, setError] = useState({});
@@ -33,7 +34,8 @@ const ModalUpdate = props => {
 			setError({}); //reset error
 			setField({
 				email: param.user.email,
-				nama: param.user.NamaLengkap
+				nama: param.user.NamaLengkap,
+				phone: param.user.phone
 			})
 		}
 	}, [param]);
@@ -66,7 +68,8 @@ const ModalUpdate = props => {
 					const newResponse = {
 						NamaLengkap: field.nama,
 						email: field.email,
-						username: param.user.username
+						username: param.user.username,
+						phone: field.phone
 					}
 					props.onSuccessUpdate(newResponse);
 				})
@@ -87,6 +90,7 @@ const ModalUpdate = props => {
 		if (!field.email) errors.email = 'Email tidak boleh kosong';
 		if (field.email && !reEmail.test(field.email)) errors.email = 'Email tidak valid';
 		if (!field.nama) errors.nama = 'Nama tidak boleh kosong';
+		if (!field.phone) errors.phone = 'Nomor hp tidak boleh kosong';
 		return errors;
 	}
 
@@ -125,6 +129,20 @@ const ModalUpdate = props => {
 	          		variant='outlined'
 	          		onChange={handleChange}
 	          		helperText={errors.email ? errors.email : null }
+	          	/>
+	          </FormControl>
+	           <FormControl className={classes.formControl} fullWidth>
+	          	<TextField 
+	          		name='phone'
+	          		label='No Hp'
+	          		error={!!errors.phone}
+	          		placeholder='Masukan nomor handphone'
+	          		autoComplete='off'
+	          		value={field.phone}
+	          		InputLabelProps={{ shrink: true }}
+	          		variant='outlined'
+	          		onChange={handleChange}
+	          		helperText={errors.phone ? errors.phone : null }
 	          	/>
 	          </FormControl>
           	</DialogContent>
