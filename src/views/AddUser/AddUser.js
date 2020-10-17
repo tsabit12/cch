@@ -211,6 +211,7 @@ const AddUser = props => {
 			        </Typography>
 			    </Breadcrumbs>
 		    </div>
+
 		    <UserForm 
 		    	searchEmploye={handleSearchEmploye}
 		    	userValue={state.data}
@@ -218,6 +219,20 @@ const AddUser = props => {
 		    	onSubmit={handleSubmit}
 		    	errors={state.errors}
 		    	level={props.user.jabatan}
+		    	setLoading={(bool) => setState(state => ({
+		    		...state,
+		    		loading: bool
+		    	}))}
+		    	setError={(msg) => setState(state => ({
+		    		...state,
+		    		errors: {
+		    			global: msg
+		    		}
+		    	}))}
+		    	setSucces={() => {
+		    		props.addMessage('Data user berhasil ditambah', 'adduser');
+		    		props.history.push("/user");
+		    	}}
 		    />
 		</div>
 	);

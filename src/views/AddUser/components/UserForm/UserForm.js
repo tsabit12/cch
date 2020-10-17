@@ -16,10 +16,13 @@ import {
 	MenuItem,
 	InputLabel,
 	FormHelperText,
-	Typography
+	Typography,
+	Menu
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import SearchIcon from '@material-ui/icons/Search';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import NonOrganikForm from './NonOrganikForm';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -87,6 +90,7 @@ const SearchInput = props => {
 					placeholder="Cari Nippos Pegawai"
 					value={props.value}
 					name='nippos'
+					size='small'
 					autoComplete='off'
 					onChange={props.onChange}
 				/>
@@ -105,6 +109,8 @@ const UserForm = props => {
 		nippos: '',
 		errors: {}
 	})
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [activeName, setActiveName] = React.useState('01');
 
 	const handleSearch = (e) => {
 		e.preventDefault();
@@ -133,23 +139,66 @@ const UserForm = props => {
 		}))
 	}
 
+	const handleClick = (event) => {
+	    setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+	    setAnchorEl(null);
+	};
+
+	const handleChooseType = (value) => {
+		handleClose();
+		setActiveName(value);
+	}
+
 	const { userValue, errors } = props;
 
 	return(
 		<Card className={classes.root}>
 			<CardHeader 
-				title='FORM TAMBAH USER'
-				action={<SearchInput 
-						onSearch={handleSearch}
-						value={state.nippos}
-						onChange={handleChangeNippos}
-						errors={state.errors}
-					/> }
+				title={
+					<div style={{display: 'flex', alignItems: 'center'}}>
+						TAMBAH PENGGUNA
+						<div>
+							<Button 
+								variant='outlined' 
+								style={{marginLeft: 5}} 
+								endIcon={<KeyboardArrowDownIcon />}
+								aria-controls="simple-menu" 
+		      					aria-haspopup="true"
+		      					onClick={handleClick}
+							>
+								{ activeName === '01' ? 'ORGANIK' : 'NON-ORGANIK'}
+							</Button>
+							<Menu
+						        id="simple-menu"
+						        anchorEl={anchorEl}
+						        keepMounted
+						        open={Boolean(anchorEl)}
+						        onClose={handleClose}
+						    >
+						        <MenuItem onClick={() => handleChooseType('01')}>ORGANIK</MenuItem>
+						        <MenuItem onClick={() => handleChooseType('02')}>NON-ORGANIK</MenuItem>
+						    </Menu>
+						</div>
+					</div>
+				}
+				action={
+					<React.Fragment>
+						{ activeName === '01' && <SearchInput 
+							onSearch={handleSearch}
+							value={state.nippos}
+							onChange={handleChangeNippos}
+							errors={state.errors}
+						/> }
+					</React.Fragment>
+				}
 			/>
 			<Divider />
 			<CardContent>
-				{ Object.keys(props.userValue).length > 0 ? 
-					<div className={classes.contentForm}>
+				{ activeName === '01' && <React.Fragment>
+					{ Object.keys(props.userValue).length > 0 ? <div className={classes.contentForm}>
 						<FormControl fullWidth className={classes.field}>
 							<TextField 
 								label='Nippos'
@@ -209,7 +258,7 @@ const UserForm = props => {
 						          onChange={props.onChange}
 						          name='jabatan'
 						        >
-						          <MenuItem value={0}>PILIH JABATAN</MenuItem>
+						          <MenuItem value={0}>PILIH HAK AKSES</MenuItem>
 						          <MenuItem value={2}>CUSTOMER SERVICE</MenuItem>
 						          <MenuItem value={5}>MANAGEMENT</MenuItem>
 						          { props.level === 'Administrator' && <MenuItem value={1}>ADMINISTATOR</MenuItem> }
@@ -272,20 +321,33 @@ const UserForm = props => {
 								/>
 							</FormControl>
 						</div>
-					</div> : 
-					<div className={classes.content}>
+					</div> : <div className={classes.content}>
 						<p>Silahkan cari nippos pegawai dikolom pencarian terlebih dahulu</p>
 					</div> }
+				</React.Fragment>}
+				
+				{ activeName === '02' && <NonOrganikForm 
+					level={props.level} 
+					setLoading={props.setLoading}
+					setError={props.setError}
+					setSucces={props.setSucces}
+				/> }
 			</CardContent>
-			<Divider />
-			<CardActions className={classes.action}>
-				<Button 
-					variant='contained' 
-					color='primary'
-					disabled={Object.keys(userValue).length > 0 ? false : true }
-					onClick={() => props.onSubmit()}
-				>Save</Button>
-			</CardActions>
+			{/* I dont know best method for moving button to childern
+				component.. So hide it */}
+			{ activeName === '01' && <React.Fragment>
+				<Divider />
+				<CardActions className={classes.action}>
+					<Button 
+						variant='contained' 
+						color='primary'
+						disabled={Object.keys(userValue).length > 0 ? false : true }
+						onClick={() => props.onSubmit()}
+					>
+						Save
+					</Button>
+				</CardActions>
+			</React.Fragment> }
 		</Card>
 	);
 }
@@ -295,7 +357,9 @@ UserForm.propTypes = {
 	userValue: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onSubmit: PropTypes.func.isRequired,
-	errors: PropTypes.object.isRequired
+	errors: PropTypes.object.isRequired,
+	setLoading: PropTypes.func.isRequired,
+	setError: PropTypes.func.isRequired
 }
 
 export default UserForm;

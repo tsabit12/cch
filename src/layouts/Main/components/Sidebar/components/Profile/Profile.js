@@ -37,7 +37,7 @@ const Profile = props => {
   //   bio: 'Brain Director'
   // };
 
-  const urlImage = data.img ? `${process.env.REACT_APP_IMAGE}/profile/${data.img}` : `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/avatar_11.png`;
+  const urlImage = data.img ? `${process.env.REACT_APP_IMAGE}/profile/${data.img}` : `${process.env.REACT_APP_PUBLIC_URL}/images/avatars/s.png`;
 
   return (
     <div
