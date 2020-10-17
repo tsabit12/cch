@@ -40,7 +40,11 @@ const TableProduk = props => {
 							<TableCell>{row.nama_layanan}</TableCell>
 							<TableCell align='right'>{row.jml}</TableCell>
 							<TableCell align='center'>
-								<Button size='small' color='primary'>Detail</Button>
+								<Button 
+									size='small' 
+									color='primary'
+									onClick={() => props.onClickDetail(row.nama_layanan, 1, row.nama_layanan)}
+								>Detail</Button>
 							</TableCell>
 						</TableRow> )}
 
@@ -55,7 +59,8 @@ const TableProduk = props => {
 }
 
 TableProduk.propTypes = {
-	data: PropTypes.array.isRequired
+	data: PropTypes.array.isRequired,
+	onClickDetail: PropTypes.func.isRequired
 }
 
 export default TableProduk;

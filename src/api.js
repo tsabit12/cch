@@ -115,6 +115,9 @@ export default{
 		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/repcaseproduk`, {
 			...payload
 		}).then(res => res.data),
+		getDetailProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/repcaseproduk/getDetail`, {
+			...payload
+		}).then(res => res.data),
 		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser`, {
 			...payload,
 			email: payload.cs

@@ -41,7 +41,13 @@ const TableAduan = props => {
 							<TableCell>{row.nama_aduan}</TableCell>
 							<TableCell align='right'>{row.jml}</TableCell>
 							<TableCell align='center'>
-								<Button size='small' color='primary'>Detail</Button>
+								<Button 
+									size='small' 
+									color='primary'
+									onClick={() => props.onClickDetail(row.id, 2, row.nama_aduan)}
+								>
+									Detail
+								</Button>
 							</TableCell>
 						</TableRow> )}
 
@@ -56,7 +62,8 @@ const TableAduan = props => {
 }
 
 TableAduan.propTypes = {
-	data: PropTypes.array.isRequired
+	data: PropTypes.array.isRequired,
+	onClickDetail: PropTypes.func.isRequired
 }
 
 export default TableAduan;

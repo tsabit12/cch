@@ -9,7 +9,8 @@ import { fetchData, resetData } from '../../actions/product';
 import {
 	TableProduk,
 	TableAduan,
-	SearchParam
+	SearchParam,
+	ModalDetail
 } from './components';
 import Loader from '../Loader';
 import Alert from '../Alert';
@@ -25,6 +26,10 @@ const LaporanProduk = props => {
 	const classes = useStyles();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState({});
+	const [openDetail, setOpendDetail] = useState({
+		visible: false,
+		param: {}
+	});
 
 	useEffect(() => {
 		return () => props.resetData();
@@ -33,6 +38,13 @@ const LaporanProduk = props => {
 
 	const handleSearch = (payload) => {
 		setLoading(true);
+		setOpendDetail(openDetail => ({
+			visible: false,
+			param: {
+				...openDetail.param,
+				...payload
+			}
+		}))
 
 		props.fetchData(payload)
 			.then(() => setLoading(false))
@@ -42,6 +54,18 @@ const LaporanProduk = props => {
 			})
 	} 
 
+	const handleClickDetail = (layanan, tipe, label) => {
+		setOpendDetail(openDetail => ({
+			visible: true,
+			param: {
+				...openDetail.param,
+				layanan,
+				tipe,
+				label
+			}
+		}))
+	}
+
 	return(
 		<div className={classes.root}>
 			<SearchParam 
@@ -50,6 +74,14 @@ const LaporanProduk = props => {
 				loading={loading}
 			/>
 			<Loader loading={loading} />
+			<ModalDetail 
+				open={openDetail.visible}
+				onClose={() => setOpendDetail(openDetail => ({
+					...openDetail,
+					visible: false
+				}))}
+				param={openDetail.param}
+			/>
 			<Alert 
 				open={!!error.global}
 				message={error.global}
@@ -58,10 +90,16 @@ const LaporanProduk = props => {
 			/>
 			<Grid container spacing={4}>
 				<Grid item lg={6} sm={6} xl={12} xs={12}> 
-					<TableProduk data={props.data.list} />
+					<TableProduk 
+						data={props.data.list} 
+						onClickDetail={handleClickDetail}
+					/>
 				</Grid>
 				<Grid item lg={6} sm={6} xl={12} xs={12}> 
-					<TableAduan data={props.data.aduan} />
+					<TableAduan 
+						data={props.data.aduan} 
+						onClickDetail={handleClickDetail}
+					/>
 				</Grid>
 			</Grid>
 		</div>
