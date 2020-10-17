@@ -212,6 +212,9 @@ export default{
 		}).then(res => res.data),
 		getDetail: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/fetchData`, {
 			...payload
+		}).then(res => res.data),
+		getDetailReg: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/getDetailReg`, {
+			...payload
 		}).then(res => res.data)
 	},
 	getListCs: (kprk) => axios.post(`${process.env.REACT_APP_API}/listCs`, {

@@ -17,7 +17,9 @@ import { connect } from 'react-redux';
 import { getData } from '../../actions/xray';
 import { DatePicker } from "@material-ui/pickers";
 import {
-	TableXray 
+	TableXray,
+	ModalDetail,
+	DataExcel
 } from './components';
 import { convertDay } from '../../helper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -36,6 +38,14 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center'
+	},
+	greenBtn: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		marginLeft: 5,
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		},
 	}
 }))
 
@@ -43,6 +53,11 @@ const useStyles = makeStyles(theme => ({
 const XrayReport = props => {
 	const anchorRef = useRef();
 	const classes = useStyles();
+	const [openDetail, setOpenDetail] = useState({
+		visible: false,
+		param: {}
+	})
+
 	const [params, setParams] = useState({
 		startdate: new Date(),
 		enddate: new Date(),
@@ -149,6 +164,10 @@ const XrayReport = props => {
 			    >
 			    	Tampilkan
 			    </Button>
+			    { props.data.length > 0 && <DataExcel 
+			    	data={props.data} 
+			    	label={`laporan_xray_by_${params.type === '1' ? 'asal_kiriman' : 'tujuan_kiriman'}`} 
+			    /> }
 			</div>
 		</div>
 	);
@@ -191,6 +210,13 @@ const XrayReport = props => {
 
 	return(
 		<div className={classes.root}>
+			<ModalDetail 
+				params={openDetail}
+				onClose={() => setOpenDetail({
+					visible: false,
+					param: {}
+				})}
+			/>
 			<Card>
 				<CardHeader 
 					title={renderTitle()}
@@ -199,6 +225,15 @@ const XrayReport = props => {
 				<TableXray 
 					data={props.data}
 					loading={loading}
+					onClickDetail={(value) => setOpenDetail(open => ({
+						visible: true,
+						param: {
+							reg: value,
+							type: params.type,
+							startdate: convertDay(params.startdate),
+							enddate: convertDay(params.enddate)
+						}
+					}))}
 				/>
 			</Card>
 		</div>
