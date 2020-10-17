@@ -47,3 +47,9 @@ export const updateUser = (payload, activePage) => dispatch =>
 			...payload,
 			activePage
 		}))
+
+export const userWasUpdate = (newData, activePage) => dispatch => dispatch({
+	type: 'USER_WAS_UPDATED',
+	newData,
+	activePage
+})

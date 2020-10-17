@@ -38,6 +38,22 @@ export default function auth(state=intialState, action={}) {
 					})
 				}
 			}
+		case 'USER_WAS_UPDATED':
+			return {
+				...state,
+				data: {
+					...state.data,
+					[`page${action.activePage}`]: state.data[`page${action.activePage}`].map(row => {
+						if (row.username === action.newData.username) {
+							return {
+								...row,
+								...action.newData
+							}
+						}
+						return row;
+					})
+				}
+			}
 		default: return state;
 	}
 }

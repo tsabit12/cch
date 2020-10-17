@@ -9,8 +9,8 @@ import {
 	CardActions
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import { removeMessage } from "../../actions/message";
-import { fetchUser, getJumlahUser, updateUser } from "../../actions/user";
+import { removeMessage, addMessage } from "../../actions/message";
+import { fetchUser, getJumlahUser, updateUser, userWasUpdate } from "../../actions/user";
 import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
 import api from "../../api";
@@ -18,7 +18,8 @@ import CollapseMessage from "../CollapseMessage";
 
 import {
 	TableUser,
-	SearchForm
+	SearchForm,
+	ModalUpdate
 } from "./components";
 
 const useStyles = makeStyles(theme => ({
@@ -71,6 +72,10 @@ const User = props => {
 		loading: false
 	})
 	const [status, setStatus] = React.useState('1')
+	const [editVisible, setEditVisible] = React.useState({
+		open: false,
+		user: {} //moving redux to this
+	})
 
 	const classes = useStyles();
 	const { history, message, jumlah, userData } = props;
@@ -257,8 +262,28 @@ const User = props => {
 			})))
 	}
 
-	const handleUpdate = (payload) => {
+	const handleUpdateStatus = (payload) => {
 		props.updateUser(payload, activePage);
+	}
+
+	const handleUpdate = (username) => {
+		const findUser = data.find(row => row.username === username);
+		if (findUser.username) {
+			setEditVisible({
+				open: true,
+				user: findUser
+			})
+		}
+	}
+
+	const handleSuccessUpdate = (responseNewData) => {
+		setEditVisible({
+			open: false,
+			user: {}
+		})
+
+		props.userWasUpdate(responseNewData, activePage);
+		props.addMessage('Data user berhasil diupdate', 'adduser');
 	}
 
 
@@ -268,6 +293,14 @@ const User = props => {
 				visible={message.type === 'adduser' ? true : false }
 				message={message.text}
 				onClose={props.removeMessage}
+			/>
+			<ModalUpdate 
+				param={editVisible}
+				handleClose={() => setEditVisible({
+					open: false,
+					user: {}
+				})}
+				onSuccessUpdate={handleSuccessUpdate}
 			/>
 			<Grid container spacing={4}>
 				<Grid
@@ -279,7 +312,7 @@ const User = props => {
 		        >
 					<Card>
 						<CardHeader 
-							title='KELOLA DATA USER' 
+							title='DATA USER' 
 							action={<SearchForm 
 								history={history} 
 								value={state.search}
@@ -296,7 +329,8 @@ const User = props => {
 								data={data}  
 								activePage={activePage}
 								limit={paging.limit}
-								onUpdate={handleUpdate}
+								onUpdate={handleUpdateStatus}
+								onClickUpdate={handleUpdate}
 							/> : <CardContent>
 							<div className={classes.contentEmpty}>
 								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }
@@ -326,7 +360,9 @@ User.propTypes = {
 	jumlah: PropTypes.number.isRequired,
 	userData: PropTypes.object.isRequired,
 	message: PropTypes.object.isRequired,
-	updateUser: PropTypes.func.isRequired
+	updateUser: PropTypes.func.isRequired,
+	userWasUpdate: PropTypes.func.isRequired,
+	addMessage: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -338,4 +374,11 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { removeMessage, fetchUser, getJumlahUser, updateUser })(User);
+export default connect(mapStateToProps, { 
+	removeMessage, 
+	fetchUser, 
+	getJumlahUser, 
+	updateUser,
+	userWasUpdate,
+	addMessage
+})(User);

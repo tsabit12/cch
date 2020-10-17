@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { makeStyles, withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import {
 	Table,
 	TableCell,
 	TableRow,
 	TableHead,
 	TableBody,
-	Switch,
-	FormControlLabel
+	Button,
+	Menu,
+	MenuItem
 } from "@material-ui/core";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -31,61 +33,65 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center'
-	}	
+	},
+	btnMenu: {
+		// color: '#FFF'
+		padding: 0
+	}
 }))
 
-const IOSSwitch = withStyles((theme) => ({
-  root: {
-    width: 42,
-    height: 26,
-    padding: 0,
-    marginRight: theme.spacing(1),
-  },
-  switchBase: {
-    padding: 1,
-    '&$checked': {
-      transform: 'translateX(16px)',
-      color: theme.palette.common.white,
-      '& + $track': {
-        backgroundColor: '#52d869',
-        opacity: 1,
-        border: 'none',
-      },
-    },
-    '&$focusVisible $thumb': {
-      color: '#52d869',
-      border: '6px solid #fff',
-    },
-  },
-  thumb: {
-    width: 24,
-    height: 24,
-  },
-  track: {
-    borderRadius: 26 / 2,
-    border: `1px solid ${theme.palette.grey[400]}`,
-    backgroundColor: theme.palette.grey[50],
-    opacity: 1,
-    transition: theme.transitions.create(['background-color', 'border']),
-  },
-  checked: {},
-  focusVisible: {},
-}))(({ classes, ...props }) => {
-  return (
-    <Switch
-      focusVisibleClassName={classes.focusVisible}
-      disableRipple
-      classes={{
-        root: classes.root,
-        switchBase: classes.switchBase,
-        thumb: classes.thumb,
-        track: classes.track,
-        checked: classes.checked,
-      }}
-      {...props}
-    />
-  );
-});
+const ThreeDotsMenu = props => {
+	const { status } = props;
+	const classes = useStyles();
+	const [anchorEl, setAnchorEl] = useState(null);
+	
+	const handleClick = (event) => {
+	    setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+	    setAnchorEl(null);
+	};
+
+	const handleChoose = () => {
+	    setAnchorEl(null);
+	    setTimeout(function() {
+	    	props.onUpdate();
+	    }, 10);
+	};
+
+	const handleNonaktif = () => {
+		props.onNonaktif();
+		setAnchorEl(null);
+	}
+
+	return(
+		<div>
+      		<Button 
+		      	aria-controls="simple-menu" 
+		      	aria-haspopup="true" 
+		      	size='small'
+		      	fullWidth
+		      	variant='outlined'
+		      	// color='primary'
+		      	onClick={handleClick}
+		      	className={classes.btnMenu}
+		    >
+		    	PILIH <KeyboardArrowDownIcon size='small' />
+		    </Button>
+		    <Menu
+		        id="simple-menu"
+		        anchorEl={anchorEl}
+		        keepMounted
+		        open={Boolean(anchorEl)}
+		        onClose={handleClose}
+		    >
+		        <MenuItem onClick={handleNonaktif}>{status === '1' ? 'Nonaktifkan' : 'Aktifkan'}</MenuItem>
+		        <MenuItem onClick={handleChoose}>Update</MenuItem>
+		    </Menu>
+	    </div>
+	);
+}
 
 const TableUser = props => {
 	const classes = useStyles();
@@ -113,15 +119,16 @@ const TableUser = props => {
 	                  <TableCell className={classes.row}>EMAIL</TableCell>
 	                  <TableCell className={classes.row}>KANTOR</TableCell>
 	                  <TableCell className={classes.row}>REGIONAL</TableCell>
-	                  <TableCell className={classes.row}>JABATAN</TableCell>
+	                  <TableCell className={classes.row}>HAK AKSES</TableCell>
 	                  <TableCell className={classes.row}>STATUS</TableCell>
+	                  <TableCell className={classes.row} align='center'>ACTION</TableCell>
 	                </TableRow>
               	</TableHead>
 		        <TableBody>
 		        	{ props.data.map((row, index) => (
 		        		<TableRow key={index}>
 			              <TableCell component="th" scope="row" className={classes.row}>{no++}</TableCell>
-			              <TableCell className={classes.row}>{row.NamaLengkap}</TableCell>
+			              <TableCell className={classes.row}>{row.NamaLengkap.toUpperCase()}</TableCell>
 			              <TableCell className={classes.row}>{row.username}</TableCell>
 			              <TableCell className={classes.row}>{row.email}</TableCell>
 			              <TableCell className={classes.row}>{row.kprk}</TableCell>
@@ -129,16 +136,13 @@ const TableUser = props => {
 			              <TableCell className={classes.row}>
 			              	<p className={classes.text}>{row.jabatan}</p>
 			              </TableCell>
-			              <TableCell className={classes.row}>
-			              	<FormControlLabel
-						        control={
-						        	<IOSSwitch 
-						        		checked={row.status === '1' ? true : false} 
-						        		name="checkedB" 
-						        		onChange={() => handleChange(row.username, row.status)}
-						        	/>}
-						        label={row.status === '1' ? 'Aktif' : 'Nonaktif'}
-						    />
+			              <TableCell className={classes.row}>{row.status === '1' ? 'Aktif' : 'Nonaktif'}</TableCell>
+			              <TableCell className={classes.row} align='center'>
+			              	<ThreeDotsMenu 
+			              		status={row.status} 
+			              		onNonaktif={() => handleChange(row.username, row.status)}
+			              		onUpdate={() => props.onClickUpdate(row.username)}
+			              	/>
 			              </TableCell>
 			            </TableRow>
 		        	))}
@@ -152,7 +156,8 @@ TableUser.propTypes = {
 	data: PropTypes.array.isRequired,
 	activePage: PropTypes.number.isRequired,
 	limit: PropTypes.number.isRequired,
-	onUpdate: PropTypes.func.isRequired
+	onUpdate: PropTypes.func.isRequired,
+	onClickUpdate: PropTypes.func.isRequired
 }
 
 export default TableUser;

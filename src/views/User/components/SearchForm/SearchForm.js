@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 		marginTop: 10,
 		marginLeft: 5,
 		marginRight: 5,
-		minWidth: 200
+		minWidth: 150
 	},
 	button: {
 		marginTop: 10,
