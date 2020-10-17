@@ -7,7 +7,7 @@ import {
 	Select,
 	InputLabel
 } from '@material-ui/core';
-import { listReg, convertMonth } from '../../../../helper';
+import { listReg, convertDay } from '../../../../helper';
 import { DatePicker } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -43,7 +43,8 @@ const SearchParam = props => {
 	const classes = useStyles();
 	const [param, setParam] = useState({
 		regional: '00',
-		startdate: new Date()
+		startdate: new Date(),
+		enddate: new Date()
 	});
 	const [downloadVisible, setVisibleDownload] = useState(false);
 
@@ -69,7 +70,8 @@ const SearchParam = props => {
 	const onSubmit = () => {
 		const payload = {
 			regional: param.regional,
-			periode: convertMonth(param.startdate)
+			startdate: convertDay(param.startdate),
+			enddate: convertDay(param.enddate)
 		}
 
 		props.onSearch(payload);
@@ -94,16 +96,30 @@ const SearchParam = props => {
 			</FormControl>
 			<FormControl style={{width: 250}}>
 				<DatePicker
-			        format="YYYY-MM"
-			        views={["year", "month"]}
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
 			        autoOk
 			        size='small'
 			        variant="inline"
 			        style={{marginLeft: 5}}
-			        label="Periode"
+			        label="Mulai"
 			        inputVariant='outlined'
 			        value={param.startdate}
 			        onChange={(e) => handleChangeDate(e._d, 'startdate')} 
+			    />
+			</FormControl>
+			<FormControl style={{width: 250}}>
+				<DatePicker
+			        format="YYYY-MM-DD"
+			        views={["year", "month", "date"]}
+			        autoOk
+			        size='small'
+			        variant="inline"
+			        style={{marginLeft: 5}}
+			        label="Sampai"
+			        inputVariant='outlined'
+			        value={param.enddate}
+			        onChange={(e) => handleChangeDate(e._d, 'enddate')} 
 			    />
 			</FormControl>
 			<Button variant='contained' color='secondary' className={classes.margin} onClick={onSubmit}>
@@ -111,7 +127,7 @@ const SearchParam = props => {
 			</Button>
 			{ downloadVisible && !props.loading &&
 				<ExcelFile 
-					filename={`laporan_produk(${convertMonth(param.startdate)})`} 
+					filename={`laporan_produk(${convertDay(param.startdate)} sampai ${convertDay(param.enddate)})`} 
 					element={<Button 
 								variant='contained' 
 								className={classes.greenButton} 
