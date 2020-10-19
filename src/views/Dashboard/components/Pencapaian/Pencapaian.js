@@ -66,9 +66,10 @@ const Pencapaian = props => {
 	    		var ind 	= elm[0]._index;
 	    		const payload = {
 	    			jumlah: data.datasets[0].data[ind],
-	    			label: data.labels[ind]
+	    			label: data.labels[ind] === '>24 Jam' ? 'lebih' : 'kurang',
+	    			type: props.type === 'MASUK' ? 1 : 2
 	    		} 
-	    		console.log(payload);
+	    		props.getDetail(payload);
 	    	}
 	    }
 	};
@@ -122,7 +123,8 @@ const Pencapaian = props => {
 
 Pencapaian.propTypes = {
 	lebih: PropTypes.number.isRequired,
-	kurang: PropTypes.number.isRequired
+	kurang: PropTypes.number.isRequired,
+	getDetail: PropTypes.func.isRequired
 }
 
 export default Pencapaian;

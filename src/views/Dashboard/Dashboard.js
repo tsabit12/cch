@@ -7,7 +7,8 @@ import {
 	TiketToday,
 	TotalPelanggan,
 	Grafik,
-	GrafikProduk
+	GrafikProduk,
+	ModalDetailTiket
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
@@ -15,7 +16,7 @@ import {
 	getPencapaian, 
 	getStatistik, 
 	getProduk,
-	getInfo 
+	getInfo
 } from '../../actions/dashboard';
 import { removeMessage } from "../../actions/message";
 import { getTotalPelanggan } from "../../actions/laporan"
@@ -73,6 +74,12 @@ const Dashboard = props => {
   		kprk: false
   	}
   })
+
+  const [open, setOpen] = React.useState({
+  	visible: false,
+  	search: {}
+  })
+
 
   React.useEffect(() => {
   	(async () => {
@@ -187,12 +194,29 @@ const Dashboard = props => {
   	props.getInfo(search);
   }
 
+  const handleGetDetail = (payload) => {
+  	setOpen({
+  		visible: true,
+  		search: {
+  			...search,
+  			...payload
+  		}
+  	})
+  }
+
   return (
     <div className={classes.root}>
     	<CollapseMessage 
 			visible={display}
 			message={text}
 			onClose={props.removeMessage}
+		/>
+		<ModalDetailTiket 
+			params={open}
+			onClose={() => setOpen(open => ({
+				...open,
+				visible: false
+			}))}
 		/>
 		<div className={classes.paper}>
 			<FormControl fullWidth variant='outlined' size="small">
@@ -269,6 +293,7 @@ const Dashboard = props => {
 	          	lebih={props.pencapaian.masuk.lebih}
 	          	kurang={props.pencapaian.masuk.kurang}
 	          	type='MASUK'
+	          	getDetail={handleGetDetail}
 	          />
 	        </Grid>
 	        <Grid item lg={3} sm={12} xl={6} xs={12}>
@@ -276,6 +301,7 @@ const Dashboard = props => {
 		          	lebih={props.pencapaian.keluar.lebih}
 	          		kurang={props.pencapaian.keluar.kurang}
 		          	type='KELUAR'
+	          		getDetail={handleGetDetail}
 		        />
 	        </Grid>
 	        <Grid item lg={6} sm={12} xl={12} xs={12}>
@@ -284,7 +310,10 @@ const Dashboard = props => {
 	         	/>
 	        </Grid>
 	        <Grid item lg={12} sm={12} xl={12} xs={12}>
-	        	<GrafikProduk data={props.produk} />
+	        	<GrafikProduk 
+	        		data={props.produk} 
+	        		getDetail={handleGetDetail}
+	        	/>
 	        </Grid>
 		</Grid>
     </div>

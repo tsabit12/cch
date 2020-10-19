@@ -30,7 +30,7 @@ export default{
 		getTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/getTiket`, {
 			...payload
 		}).then(res => res.data),
-		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
+		getAddress: (payload) => axios.post(`${process.env.REACT_APP_API2}/Address`, {
 			...payload
 		}).then(res => res.data.result),
 		getAddressKantor: (formData) => axios.post(`https://tnt.posindonesia.co.id/public/module/tarifkiriman/controller.php?q=requestData3`, formData, {
@@ -228,5 +228,8 @@ export default{
 	getListCs: (kprk) => axios.post(`${process.env.REACT_APP_API}/listCs`, {
 		kprk
 	}).then(res => res.data),
-	getProdukJaskug: () => axios.post(`${process.env.REACT_APP_API}/getProdukjaskug`).then(res => res.data)
+	getProdukJaskug: () => axios.post(`${process.env.REACT_APP_API}/getProdukjaskug`).then(res => res.data),
+	getDetailDashboard: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getDetail`, {
+		...payload
+	}).then(res => res.data)
 }
