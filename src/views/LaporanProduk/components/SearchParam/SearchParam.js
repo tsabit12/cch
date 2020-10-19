@@ -138,11 +138,15 @@ const SearchParam = props => {
 				>
 					<ExcelSheet data={props.data.list} name="produk">
 						<ExcelColumn label="Layanan" value="nama_layanan"/>
-						<ExcelColumn label="Layanan" value={(col) => Number(col.jml)}/>
+						<ExcelColumn label="Jumlah" value={(col) => Number(col.jml)}/>
 					</ExcelSheet>
 					<ExcelSheet data={props.data.aduan} name="aduan">
 						<ExcelColumn label="Nama Aduan" value="nama_aduan"/>
-						<ExcelColumn label="Layanan" value={(col) => Number(col.jml)}/>
+						<ExcelColumn label="Jumlah" value={(col) => Number(col.jml)}/>
+					</ExcelSheet>
+					<ExcelSheet data={props.data.lokus} name="lokus_masalah">
+						<ExcelColumn label="Lokus Masalah" value="nama_lokus_masalah"/>
+						<ExcelColumn label="Jumlah" value={(col) => Number(col.jumlah)}/>
 					</ExcelSheet>
 				</ExcelFile> }
 		</div>

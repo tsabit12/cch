@@ -60,6 +60,16 @@ const Pencapaian = props => {
 	    },
 	    legend: {
 	      display: false
+	    },
+	    onClick: function(evt, elm) {
+	    	if(elm.length > 0){
+	    		var ind 	= elm[0]._index;
+	    		const payload = {
+	    			jumlah: data.datasets[0].data[ind],
+	    			label: data.labels[ind]
+	    		} 
+	    		console.log(payload);
+	    	}
 	    }
 	};
 

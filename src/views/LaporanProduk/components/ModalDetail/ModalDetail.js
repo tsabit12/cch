@@ -126,7 +126,10 @@ const ModalDetail = props => {
 			              <CloseIcon />
 			            </IconButton>
 			            <Typography variant="h6" className={classes.title}>
-			              DETAIL {param.tipe === 1 ? 'PRODUK ' : 'ADUAN '}
+			              DETAIL 
+			              {param.tipe === 1 && ' PRODUK '}
+			              {param.tipe === 2 && ' ADUAN '}
+			              {param.tipe === 3 && ' LOKUS MASALAH '}
 			              ({param.label && param.label.toUpperCase()})
 			            </Typography>
 			            <div className={classes.flexGrow} />

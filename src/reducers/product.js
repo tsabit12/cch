@@ -1,6 +1,7 @@
 const initialState = {
 	list: [],
-	aduan: []
+	aduan: [],
+	lokus: []
 }
 
 export default function produk(state=initialState, action={}){
@@ -9,13 +10,15 @@ export default function produk(state=initialState, action={}){
 			return {
 				...state,
 				list: action.result.produk,
-				aduan: action.result.aduan
+				aduan: action.result.aduan,
+				lokus: action.result.masalah
 			}
 		case 'RESET_PRODUCT':
 			return {
 				...state,
 				list: [],
-				aduan: []	
+				aduan: [],
+				lokus: []	
 			}
 		default:
 			return state;

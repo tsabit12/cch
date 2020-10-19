@@ -10,7 +10,8 @@ import {
 	TableProduk,
 	TableAduan,
 	SearchParam,
-	ModalDetail
+	ModalDetail,
+	TableLokus
 } from './components';
 import Loader from '../Loader';
 import Alert from '../Alert';
@@ -88,10 +89,10 @@ const LaporanProduk = props => {
 				variant='error'
 				onClose={() => setError({})}
 			/>
-			<Grid container spacing={4}>
+			{ props.data.list.length > 0 && <Grid container spacing={4}>
 				<Grid item lg={6} sm={6} xl={12} xs={12}> 
-					<TableProduk 
-						data={props.data.list} 
+					<TableLokus
+						data={props.data.lokus} 
 						onClickDetail={handleClickDetail}
 					/>
 				</Grid>
@@ -101,7 +102,13 @@ const LaporanProduk = props => {
 						onClickDetail={handleClickDetail}
 					/>
 				</Grid>
-			</Grid>
+				<Grid item lg={12} sm={12} xl={12} xs={12}> 
+					<TableProduk 
+						data={props.data.list} 
+						onClickDetail={handleClickDetail}
+					/>
+				</Grid>
+			</Grid> }
 		</div>
 	);
 }

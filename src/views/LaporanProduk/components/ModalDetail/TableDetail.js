@@ -64,7 +64,7 @@ const TableDetail = props => {
 				</TableHead>
 				<TableBody>
 					{ loading ? <TableRow>
-						<TableCell colSpan={8} align='center'>
+						<TableCell colSpan={9} align='center'>
 							Loading...
 						</TableCell>
 					</TableRow> : data.map((row, index) => <TableRow key={index}>
@@ -80,7 +80,7 @@ const TableDetail = props => {
 					</TableRow>)}
 
 					{ !loading && data.length === 0 && <TableRow>
-						<TableCell colSpan={8} align='center'>
+						<TableCell colSpan={9} align='center'>
 							Data tidak ditemukan
 						</TableCell>
 					</TableRow> }
