@@ -33,6 +33,11 @@ export default{
 		getAddress: (payload) => axios.post('http://10.32.41.90/pickup/api/Address', {
 			...payload
 		}).then(res => res.data.result),
+		getAddressKantor: (formData) => axios.post(`https://tnt.posindonesia.co.id/public/module/tarifkiriman/controller.php?q=requestData3`, formData, {
+			headers: {
+				'content-type': 'application/x-www-form-urlencoded'
+			}
+		}).then(res => res.data),
 		cekTarif: (payload) => axios.post(`${process.env.REACT_APP_API}/getFee`, {
 			...payload
 		}).then(res => res.data.result.data),

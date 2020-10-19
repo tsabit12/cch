@@ -77,6 +77,7 @@ const TableTiket = props => {
 					{row.no_tiket}
 				</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.awb}</TableCell>
+				<TableCell style={{whiteSpace: 'nowrap'}}>{row.asal_pengaduan}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>
 					<Tooltip title={row.pelanggan} arrow>
 	              		<TooltipComponent

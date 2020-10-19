@@ -231,6 +231,7 @@ const ListTiket = props => {
 							<TableCell style={{whiteSpace: 'nowrap'}}>NO</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>ASAL PENGADUAN</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
 							{ visibleDurasi && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
 							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
