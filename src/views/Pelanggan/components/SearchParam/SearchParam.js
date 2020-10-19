@@ -52,6 +52,7 @@ const SearchParam = props => {
 	const [loading, setLoading] = useState(false);
 	const [downloaded, setDownloaded] = useState([]);
 	const [errors, setErrors] = useState({});
+	const [disabledrReg, setDisabledReg] = useState(false);
 	
 	const { listKprk } = state;
 
@@ -62,11 +63,14 @@ const SearchParam = props => {
 				reg: user.regional,
 				kprk: user.kantor_pos
 			}))
+			setDisabledReg(true);
 		}else if (user.utype === 'Regional') {
 			setState(prevState => ({
 				...prevState,
 				reg: user.regional
 			}))
+
+			setDisabledReg(true);
 
 			props.getKprk(user.regional)
 				.then(res => setState(prevState => ({
@@ -152,7 +156,7 @@ const SearchParam = props => {
 		          value={state.reg}
 		          onChange={handleChangeReg}
 		          label="REGIONAL"
-		          disabled={user.jabatan === 'Administrator' ? false : true }
+		          disabled={disabledrReg}
 		        >
 		        	{ listReg.map((row, index) => <MenuItem key={index} value={row.value}>
 		        		{row.text}
