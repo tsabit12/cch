@@ -22,11 +22,9 @@ const intialState = {
 		}
 	},
 	produk: [],
-	info: [
-		{ "auto_id": "1", "name": "Lacak Kiriman", "jumlah": "0" },
-		{ "auto_id": "2", "name": "Info Tarif", "jumlah": "0"},
-		{ "auto_id": "4", "name": "Kantor Pos & Kode Pos", "jumlah": "0"}
-	]
+	info: {
+		pengaduan: 0
+	}
 }
 
 export default function newDashboard(state=intialState, action={}){

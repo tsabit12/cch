@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import api from '../../../../api';
+import { periodeView } from '../../../../helper';
 
 const numberTwodigit = (n) => {
 	return n > 9 ? "" + n: "0" + n;
@@ -146,7 +147,8 @@ const ModalDetailTiket = props => {
 	useEffect(() => {
 		if (params.visible) {
 			const payload = {
-				...params.search
+				...params.search,
+				periode: periodeView(params.search.periode)
 			}
 
 			api.getDetailDashboard(payload)
@@ -157,6 +159,7 @@ const ModalDetailTiket = props => {
 				.catch(() => setLoading(false))
 		}else{
 			setData([]);
+			setLoading(true);
 		}
 		//eslint-disable-next-line
 	}, [params.visible])

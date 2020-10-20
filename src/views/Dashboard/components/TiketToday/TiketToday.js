@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import PropTypes from "prop-types";
 
 const numberWithCommas = (number) => {
@@ -41,6 +41,11 @@ const TiketToday = props => {
   const { data } = props;
   const classes = useStyles();
 
+  useEffect(() => {
+    props.getInfo();
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <Card
       className={classes.root}
@@ -51,15 +56,23 @@ const TiketToday = props => {
           justify="space-between"
         >
           <Grid item>
-            { data.map((row, index) => <div className={classes.difference} key={index}>
-              <Typography variant="h5" color="inherit">{numberWithCommas(row.jumlah)}</Typography> 
-              <Typography variant="body2" color="inherit">&nbsp;&nbsp; {row.name}</Typography>
-            </div> )}
+            <Typography
+              className={classes.title}
+              color="inherit"
+              gutterBottom
+              variant="body2"
+            >
+              NOTIFIKASI
+            </Typography>
+            <div className={classes.difference} >
+              <Typography variant="h5" color="inherit">{numberWithCommas(data.pengaduan)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp; Pengaduan</Typography>
+            </div>
             
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <InfoOutlinedIcon className={classes.icon} />
+              <NotificationsActiveIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -69,7 +82,8 @@ const TiketToday = props => {
 };
 
 TiketToday.propTypes = {
-	data: PropTypes.array.isRequired
+	data: PropTypes.object.isRequired,
+  getInfo: PropTypes.func.isRequired
 }
 
 export default TiketToday;
