@@ -53,14 +53,26 @@ const Pelanggan = props => {
 
 	React.useEffect(() => {
 		(async () => {
-			const regValue 	= dataUser.jabatan === 'Administrator' ? '00' : dataUser.regional;
-			const kprkValue = dataUser.utype === 'Kprk' ? dataUser.kantor_pos : '00';
 			const payload = {
-				kprk: kprkValue,
 				offset: 0,
-				regional: regValue,
 				channel: '00'
 			}
+
+			if (dataUser.kantor_pos === '40005') {
+		      payload.regional = 'KANTORPUSAT';
+		      payload.kprk = '00';
+		    }else{
+		      if (dataUser.utype === 'Regional') {
+		        payload.regional = dataUser.regional;
+		        payload.kprk = '00';
+		      }else if(dataUser.utype === 'Kprk'){
+		        payload.regional = dataUser.regional;
+		        payload.kprk = dataUser.kantor_pos;
+		      }else{ //omni halopos
+		        payload.regional = 'KANTORPUSAT';
+		        payload.kprk = dataUser.kantor_pos;
+		      }
+		    }
 			
 			await props.getTotalPelanggan(payload);
 
@@ -70,16 +82,16 @@ const Pelanggan = props => {
 						...prevState,
 						mount: true,
 						loading: false,
-						kprk: kprkValue,
-						regional: regValue
+						kprk: payload.kprk,
+						regional: payload.regional
 					}))
 				})
 				.catch(err => {
 					setState(prevState => ({
 						...prevState,
 						loading: false,
-						kprk: kprkValue,
-						regional: regValue
+						kprk: payload.kprk,
+						regional: payload.regional
 					}))
 				})
 		})();

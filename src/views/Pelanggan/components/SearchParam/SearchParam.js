@@ -52,7 +52,10 @@ const SearchParam = props => {
 	const [loading, setLoading] = useState(false);
 	const [downloaded, setDownloaded] = useState([]);
 	const [errors, setErrors] = useState({});
-	const [disabledrReg, setDisabledReg] = useState(false);
+	const [disabledrReg, setDisabledReg] = useState({
+		reg: false,
+		kprk: false
+	});
 	
 	const { listKprk } = state;
 
@@ -63,20 +66,38 @@ const SearchParam = props => {
 				reg: user.regional,
 				kprk: user.kantor_pos
 			}))
-			setDisabledReg(true);
+			setDisabledReg({
+				kprk: true,
+				reg: true
+			});
 		}else if (user.utype === 'Regional') {
 			setState(prevState => ({
 				...prevState,
 				reg: user.regional
 			}))
 
-			setDisabledReg(true);
+			setDisabledReg({
+				kprk: false,
+				reg: true
+			});
 
 			props.getKprk(user.regional)
 				.then(res => setState(prevState => ({
 					...prevState,
 					listKprk: res
 				})))
+		}else{
+			if (user.kantor_pos === '00001' || user.kantor_pos === '00002') {
+				setDisabledReg({
+					kprk: true,
+					reg: true
+				});
+				setState(prevState => ({
+					...prevState,
+					reg: '01',
+					kprk: user.kantor_pos
+				}))
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user])
@@ -156,7 +177,7 @@ const SearchParam = props => {
 		          value={state.reg}
 		          onChange={handleChangeReg}
 		          label="REGIONAL"
-		          disabled={disabledrReg}
+		          disabled={disabledrReg.reg}
 		        >
 		        	{ listReg.map((row, index) => <MenuItem key={index} value={row.value}>
 		        		{row.text}
@@ -177,13 +198,12 @@ const SearchParam = props => {
 			          value={state.kprk}
 			          onChange={handleChange}
 			          label="KPRK"
-			          disabled={user.utype === 'Kprk' ? true : false }
-			          
+			          disabled={disabledrReg.kprk}
 			        >
 			         	<MenuItem value="00">SEMUA KPRK</MenuItem>
-			         	{user.utype === 'Kprk' && <MenuItem value={user.kantor_pos}>
-			        		{user.fullname}
-			        	</MenuItem>}
+			         	{user.utype === 'Kprk' && <MenuItem value={user.kantor_pos}> {user.fullname}</MenuItem>}
+			         	{user.kantor_pos === '00001' && <MenuItem value={user.kantor_pos}> {user.fullname}</MenuItem>}
+			         	{user.kantor_pos === '00002' && <MenuItem value={user.kantor_pos}> {user.fullname}</MenuItem>}
 
 				        {listKprk.length > 0 && listKprk.map((row, index) => (
 				        	<MenuItem value={row.code} key={index}>{row.kprk}</MenuItem>

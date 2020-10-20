@@ -78,8 +78,7 @@ export default{
 		count: (reg, kprk, status, periode) => axios.post(`${process.env.REACT_APP_API}/countUser`, {
 			regional: reg,
 			kprk: kprk,
-			status: status ? status : null,	
-			periode: periode ? periode : null
+			status: status ? status : null
 		}).then(res => res.data.jmlUser),
 		addImage: (formData) => axios.post(`${process.env.REACT_APP_API}/uploadImg`, formData, {
 			headers: {

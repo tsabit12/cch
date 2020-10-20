@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
@@ -30,6 +30,30 @@ const useStyles = makeStyles(theme => ({
 }));
 const TotalPelanggan = props => {
   const classes = useStyles();
+  const { user } = props;
+
+  useEffect(() => {
+    const payload = {};
+    
+    if (user.kantor_pos === '40005') {
+      payload.regional = 'KANTORPUSAT';
+      payload.kprk = '00';
+    }else{
+      if (user.utype === 'Regional') {
+        payload.regional = user.regional;
+        payload.kprk = '00';
+      }else if(user.utype === 'Kprk'){
+        payload.regional = user.regional;
+        payload.kprk = user.kantor_pos;
+      }else{ //omni halopos
+        payload.regional = 'KANTORPUSAT';
+        payload.kprk = user.kantor_pos;
+      }
+    }
+
+    props.getTotalPelanggan(payload);
+    //eslint-disable-next-line
+  }, [user])
 
   return (
     <Card className={classes.root}>
@@ -66,7 +90,9 @@ const TotalPelanggan = props => {
 };
 
 TotalPelanggan.propTypes = {
-  total: PropTypes.number.isRequired
+  total: PropTypes.number.isRequired,
+  user: PropTypes.object.isRequired,
+  getTotalPelanggan: PropTypes.func.isRequired
 };
 
 export default TotalPelanggan;

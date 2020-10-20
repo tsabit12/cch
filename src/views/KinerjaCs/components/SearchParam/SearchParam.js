@@ -39,16 +39,20 @@ const SearchParam = props => {
 	const [listCs, setCs] = useState([]);
 	const [regDisable, setDisableReg] = useState(false);
 	const [kprkDisable, setDisableKprk] = useState(false);
-	const [mount, setMount] = useState(false);
 
 	useEffect(() => {
+		const payload = {};
 		if (user.utype === 'Regional') {
 			setParam(param => ({
 				...param,
 				regional: user.regional
 			}))
 			setDisableReg(true);
-			setMount(true);
+			
+			payload.regional = user.regional;
+			payload.kprk = '00';
+			payload.cs = '00';
+
 		}else if(user.utype === 'Kprk'){
 			setParam(param => ({
 				...param,
@@ -57,22 +61,30 @@ const SearchParam = props => {
 			}))
 			setDisableReg(true);
 			setDisableKprk(true);
-			setMount(true);
+			payload.regional = user.regional;
+			payload.kprk = user.kantor_pos;
+			payload.cs = '00';
 		}else{
-			setMount(true);
-		}
-	}, [user, listKprk])
-
-	useEffect(() => {
-		if (mount) {
-			const payload = {
-				...param,
-				kprk: user.utype === 'Kprk' ? user.kantor_pos : '00' //handle kprk didnt change 
+			if (user.kantor_pos === '00001') {
+				setDisableReg(true);
+				setDisableKprk(true);
+				setParam(param => ({
+					...param,
+					regional: '01',
+					kprk: user.kantor_pos
+				}))
+				payload.regional = '01';
+				payload.kprk = user.kantor_pos;
+				payload.cs = '00';
+			}else{
+				payload.regional = '00';
+				payload.kprk = '00';
+				payload.cs = '00';
 			}
-			props.getData(payload);
 		}
+		props.getData(payload);
 		//eslint-disable-next-line
-	}, [mount])
+	}, [user, listKprk])
 
 	useEffect(() => {
 		if (param.regional !== '00') {

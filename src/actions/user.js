@@ -11,8 +11,8 @@ export const fetchUser = (payload) => dispatch =>
 			page: payload.page
 		}))
 
-export const getJumlahUser = (reg, kprk, status, periode) => dispatch => 
-	api.user.count(reg, kprk, status, periode)
+export const getJumlahUser = (reg, kprk, status) => dispatch => 
+	api.user.count(reg, kprk, status)
 		.then(jumlah => {
 			dispatch({
 				type: GET_JUMLAH_USER,

@@ -38,13 +38,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TiketToday = props => {
-  const { data } = props;
+  const { data, user } = props;
   const classes = useStyles();
 
   useEffect(() => {
-    props.getInfo();
+    const payload = {};
+    
+    if (user.kantor_pos === '40005') {
+      payload.regional = 'KANTORPUSAT';
+      payload.kprk = '00';
+    }else{
+      if (user.utype === 'Regional') {
+        payload.regional = user.regional;
+        payload.kprk = '00';
+      }else if(user.utype === 'Kprk'){
+        payload.regional = user.regional;
+        payload.kprk = user.kantor_pos;
+      }else{ //omni halopos
+        payload.regional = 'KANTORPUSAT';
+        payload.kprk = user.kantor_pos;
+      }
+    }
+
+    props.getInfo(payload);
     //eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   return (
     <Card
@@ -62,7 +80,7 @@ const TiketToday = props => {
               gutterBottom
               variant="body2"
             >
-              NOTIFIKASI
+              NOTIFIKASI HARI INI
             </Typography>
             <div className={classes.difference} >
               <Typography variant="h5" color="inherit">{numberWithCommas(data.pengaduan)}</Typography> 
@@ -83,7 +101,8 @@ const TiketToday = props => {
 
 TiketToday.propTypes = {
 	data: PropTypes.object.isRequired,
-  getInfo: PropTypes.func.isRequired
+  getInfo: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default TiketToday;

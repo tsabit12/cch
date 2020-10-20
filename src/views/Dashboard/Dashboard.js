@@ -120,15 +120,34 @@ const Dashboard = props => {
 	  			}
 	  		}))
 	  	}else{
-	  		defaultValue.regional = '00';
-	  		defaultValue.kprk = '00';
+	  		if (props.dataUser.kantor_pos === '00001') {
+	  			setState(state => ({
+	  				...state,
+	  				search: {
+	  					...state.search,
+	  					regional: 'KANTORPUSAT',
+	  					kprk: props.dataUser.kantor_pos
+	  				},
+	  				disabled: {
+	  					...state.disabled,
+	  					reg: true,
+	  					kprk: true
+	  				}
+	  			}))
+
+	  			defaultValue.regional = 'KANTORPUSAT';
+	  			defaultValue.kprk = props.dataUser.kantor_pos;
+	  		}else{
+	  			defaultValue.regional = '00';
+	  			defaultValue.kprk = '00';
+	  		}
 	  	}
 
 	  	defaultValue.periode = periodeView(new Date());
 
-	  	props.getJumlahUser(defaultValue.regional, defaultValue.kprk, null, periodeView(new Date()));
+	  	//props.getJumlahUser(defaultValue.regional, defaultValue.kprk, null, periodeView(new Date()));
 	  	props.getStatistik(defaultValue);
-	  	props.getTotalPelanggan(defaultValue);
+	  	//props.getTotalPelanggan(defaultValue);
 	  	props.getPencapaian(defaultValue);
 
 	  	props.getProduk(defaultValue);
@@ -225,11 +244,15 @@ const Dashboard = props => {
 	        <Grid item lg={4} sm={4} xl={3} xs={12}>
 	          <TotalUser 
 	          	total={props.totUser}
+	          	user={props.dataUser}
+	          	getJumlahUser={(payload) => props.getJumlahUser(payload.regional, payload.kprk)}
 	          />
 	        </Grid>
 	        <Grid item lg={4} sm={4} xl={3} xs={12}>
 	        	<TotalPelanggan 
 	        		total={props.totPel}
+	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
+	        		user={props.dataUser}
 	        	/>
 	        </Grid>
 	        <Grid item lg={4} sm={4} xl={3} xs={12}>
@@ -237,7 +260,8 @@ const Dashboard = props => {
 	        		total={0}
 	        		totalLain={0}
 	        		data={props.info}
-	        		getInfo={() => props.getInfo(state.search)}
+	        		user={props.dataUser}
+	        		getInfo={(payload) => props.getInfo(payload)}
 	        	/>
 	        </Grid>
 		</Grid>
@@ -270,10 +294,9 @@ const Dashboard = props => {
 						disabled={state.disabled.kprk}
 					>	
 						<MenuItem value='00'>SEMUA KPRK</MenuItem>
-						{ props.dataUser.utype === 'Kprk' && 
-							<MenuItem value={props.dataUser.kantor_pos}>
-								{props.dataUser.fullname}
-						</MenuItem> }
+						{ props.dataUser.utype === 'Kprk' && <MenuItem value={props.dataUser.kantor_pos}>{props.dataUser.fullname}</MenuItem> }
+						{ props.dataUser.kantor_pos === '00001' && <MenuItem value={props.dataUser.kantor_pos}>{props.dataUser.fullname}</MenuItem> }
+						{ props.dataUser.kantor_pos === '00002' && <MenuItem value={props.dataUser.kantor_pos}>{props.dataUser.fullname}</MenuItem> }
 
 						{ listKprk.length > 0 && listKprk.map((row, index) => (
 							<MenuItem key={index} value={row.code}>{row.kprk}</MenuItem>
@@ -304,7 +327,6 @@ const Dashboard = props => {
 					fullWidth 
 					onClick={handleClick} 
 					variant='outlined'
-					disabled={state.disabled.kprk}
 				>
 					TAMPILKAN	
 				</Button>
@@ -359,7 +381,7 @@ Dashboard.propTypes = {
 	statistik: PropTypes.object.isRequired,
 	getProduk: PropTypes.func.isRequired,
 	getInfo: PropTypes.func.isRequired,
-	info: PropTypes.array.isRequired,
+	info: PropTypes.object.isRequired,
 	produk: PropTypes.array.isRequired
 }
 
