@@ -9,6 +9,36 @@ import {
 	TableBody
 } from '@material-ui/core'
 
+const numberTwodigit = (n) => {
+	return n > 9 ? "" + n: "0" + n;
+}
+
+const duration = (t0, t1) => {
+	const dateFuture = new Date(t1);
+	const dateNow 		= new Date(t0);
+	const result = {};
+
+	var seconds = Math.floor((dateFuture - (dateNow))/1000);
+	if (seconds < 0) {
+		result.status = 0;
+	}else{
+		result.status = 1;
+	}
+
+	var minutes = Math.floor(seconds/60);
+	var hours = Math.floor(minutes/60);
+	var days = Math.floor(hours/24);
+
+	hours = hours-(days*24);
+	minutes = minutes-(days*24*60)-(hours*60);
+	seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
+
+	result.times = `${numberTwodigit(Math.abs(days))} Hari ${numberTwodigit(hours)}:${numberTwodigit(minutes)}:${numberTwodigit(seconds)}`;
+
+	return result;
+}
+
+
 const ListTiket = props => {
 	var no 			= 1;
 	const { list } 	= props;
@@ -36,7 +66,7 @@ const ListTiket = props => {
 						<TableCell>{row.channel}</TableCell>
 						<TableCell>{row.asal_pengaduan}</TableCell>
 						<TableCell>{row.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
-						<TableCell>{Math.round(Math.abs(new Date(row.tgl_tambah) - new Date(row.tgl_exp)) / 36e5)} Jam</TableCell>
+						<TableCell>{duration(row.tgl_tambah, row.tgl_done).times}</TableCell>
 						<TableCell>{row.status}</TableCell>
 					</TableRow>)}
 				</TableBody>
