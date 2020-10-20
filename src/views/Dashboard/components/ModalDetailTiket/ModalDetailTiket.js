@@ -117,6 +117,26 @@ const TableDetail = props => {
 	);
 }
 
+const getLable = (type, label) => {
+	if (type === 1) {
+		return `PENCAPAIAN MASUK ${label === 'lebih' ? '(>24 JAM)' : '(24 JAM)'}`;
+	}else if (type === 2) {
+		return `PENCAPAIAN KELUAR ${label === 'lebih' ? '(>24 JAM)' : '(24 JAM)'}`;
+	}else if (type === 3) {
+		return 	`DETAIL PRODUK MASUK (${label.trim()})`;
+	}else if (type === 4) {
+		return `DETAIL PRODUK KELUAR (${label.trim()})`;
+	}else if(type === 5 || type === 8){
+		return `DETAIL ${label.toUpperCase()} (SELESAI)`;
+	}else if(type === 6 || type === 9){
+		return `DETAIL ${label.toUpperCase()} (TERBUKA)`;
+	}else if(type === 7 || type === 10){
+		return `DETAIL ${label.toUpperCase()} (SEMUA)`;
+	}else{ 
+		return '';
+	}
+}
+
 const ModalDetailTiket = props => {
 	const { params } = props;
 	const classes = useStyles();
@@ -150,10 +170,7 @@ const ModalDetailTiket = props => {
 			              <CloseIcon />
 			            </IconButton>
 			            <Typography variant="h6" className={classes.title}>
-			              { params.search.type === 1 && `PENCAPAIAN MASUK ${params.search.label === 'lebih' ? '(>24 JAM)' : '(24 JAM)'}`} 
-			              { params.search.type === 2 && `PENCAPAIAN KELUAR ${params.search.label === 'lebih' ? '(>24 JAM)' : '(24 JAM)'}`} 
-			              { params.search.type === 3 && `DETAIL PRODUK MASUK (${params.search.label})`}
-			              { params.search.type === 4 && `DETAIL PRODUK KELUAR (${params.search.label})`}
+			              { getLable(params.search.type, params.search.label) }
 			            </Typography>
 			            <div className={classes.flexGrow} />
 			        </Toolbar>    

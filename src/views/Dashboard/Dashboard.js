@@ -307,6 +307,7 @@ const Dashboard = props => {
 	        <Grid item lg={6} sm={12} xl={12} xs={12}>
 	         	<Grafik 
 	         		data={props.statistik}
+	         		getDetail={handleGetDetail}
 	         	/>
 	        </Grid>
 	        <Grid item lg={12} sm={12} xl={12} xs={12}>
