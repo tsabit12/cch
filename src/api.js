@@ -121,10 +121,12 @@ export default{
 			...payload
 		}).then(res => res.data.jmlPelanggan),
 		getProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/repcaseproduk`, {
-			...payload
+			...payload,
+			regional: payload.regional === '01' ? 'KANTORPUSAT' : payload.regional
 		}).then(res => res.data),
 		getDetailProduk: (payload) => axios.post(`${process.env.REACT_APP_API2}/repcaseproduk/getDetail`, {
-			...payload
+			...payload,
+			regional: payload.regional === '01' ? 'KANTORPUSAT' : payload.regional
 		}).then(res => res.data),
 		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser`, {
 			...payload,
