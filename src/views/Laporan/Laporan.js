@@ -90,6 +90,10 @@ const Laporan = props => {
 		visible: false,
 		item: {}
 	});
+	const [disabled, setDisabled] = useState({
+		reg: false,
+		kprk: false
+	})
 
 	const [listKprk, setListKprk] = useState([{value: '00', 'text' : 'SEMUA KPRK'}]);
 
@@ -102,17 +106,44 @@ const Laporan = props => {
 				...params,
 				regional: user.regional
 			}))
+			setDisabled({
+				reg: true,
+				kprk: false
+			})
 		}else if(user.utype === 'Kprk'){
 			payload.regional = user.regional;	
 			payload.kprk = user.kantor_pos;
 			setParams(params => ({
 				...params,
-				regional: user.regional
+				regional: user.regional,
+				kprk: user.kantor_pos
 			}))
+
+			setDisabled({
+				reg: true,
+				kprk: true
+			})
 			getKprk(user.regional, '01');
 		}else{ //pusat
-			payload.regional = '00';	
-			payload.kprk = '00';
+			if (user.kantor_pos === '00001' || user.kantor_pos === '00002') {
+				payload.regional = '01';	
+				payload.kprk = user.kantor_pos;
+
+				setParams(params => ({
+					...params,
+					regional: '01',
+					kprk: user.kantor_pos
+				}))
+
+				setDisabled({
+					reg: true,
+					kprk: true
+				})
+
+			}else{
+				payload.regional = '00';	
+				payload.kprk = '00';
+			}
 		}
 
 		payload.startdate 	= convertDay(new Date());
@@ -276,7 +307,7 @@ const Laporan = props => {
 						name="regional"
 						value={params.regional}
 						onChange={handleChangeSelect}
-						disabled={user.name === 'PUSAT' ? false : true }
+						disabled={disabled.reg}
 					>
 						{listReg.map((row, index) => (
 							<MenuItem key={index} value={row.value}>{row.text}</MenuItem>
@@ -292,8 +323,12 @@ const Laporan = props => {
 						name="kprk"
 						value={params.kprk}
 						onChange={handleChangeSelect}
-						disabled={user.utype === 'Kprk' ? true : false }
+						disabled={disabled.kprk}
 					>
+						{ user.utype === 'Kprk' && <MenuItem value={user.kantor_pos}>{user.fullname}</MenuItem> }
+						{ user.kantor_pos === '00001' && <MenuItem value={user.kantor_pos}>{user.fullname}</MenuItem> }
+						{ user.kantor_pos === '00002' && <MenuItem value={user.kantor_pos}>{user.fullname}</MenuItem> }
+
 						{listKprk.map((row, index) => (
 							<MenuItem key={index} value={row.value}>{row.text}</MenuItem>
 						))}
