@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Avatar,
+  Divider,
+  CardActions,
+  Button
+} from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +36,10 @@ const useStyles = makeStyles(theme => ({
   icon: {
     height: 32,
     width: 32
+  },
+  contentCard: {
+    height: 98,
+    position: 'relative'
   }
 }));
 const TotalPelanggan = props => {
@@ -57,7 +71,7 @@ const TotalPelanggan = props => {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
+      <CardContent className={classes.contentCard}>
         <Grid
           container
           justify="space-between"
@@ -85,6 +99,17 @@ const TotalPelanggan = props => {
           </Grid>
         </Grid>
       </CardContent>
+      <Divider />
+      <CardActions style={{justifyContent: 'flex-end'}}>
+        <Button 
+          size='small' 
+          color='inherit'
+          onClick={() => props.onClick()}
+          endIcon={<ArrowForwardIcon />}
+        >
+          Lihat
+        </Button>
+      </CardActions>
     </Card>
   );
 };
@@ -92,7 +117,8 @@ const TotalPelanggan = props => {
 TotalPelanggan.propTypes = {
   total: PropTypes.number.isRequired,
   user: PropTypes.object.isRequired,
-  getTotalPelanggan: PropTypes.func.isRequired
+  getTotalPelanggan: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default TotalPelanggan;

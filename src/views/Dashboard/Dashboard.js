@@ -253,6 +253,7 @@ const Dashboard = props => {
 	        		total={props.totPel}
 	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
 	        		user={props.dataUser}
+	        		onClick={() => props.history.push('/pelanggan')}
 	        	/>
 	        </Grid>
 	        <Grid item lg={4} sm={4} xl={3} xs={12}>
@@ -262,6 +263,7 @@ const Dashboard = props => {
 	        		data={props.info}
 	        		user={props.dataUser}
 	        		getInfo={(payload) => props.getInfo(payload)}
+	        		onClick={() => props.history.push('/tiket')}
 	        	/>
 	        </Grid>
 		</Grid>

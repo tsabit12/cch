@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Avatar, 
+  Button,
+  CardActions,
+  Divider
+} from '@material-ui/core';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import PropTypes from "prop-types";
 
 const numberWithCommas = (number) => {
@@ -34,6 +44,10 @@ const useStyles = makeStyles(theme => ({
   difference: {
     display: 'flex',
     alignItems: 'center'
+  },
+  contentCard: {
+    height: 98,
+    position: 'relative'
   }
 }));
 
@@ -68,7 +82,7 @@ const TiketToday = props => {
     <Card
       className={classes.root}
     >
-      <CardContent>
+      <CardContent className={classes.contentCard}>
         <Grid
           container
           justify="space-between"
@@ -80,13 +94,16 @@ const TiketToday = props => {
               gutterBottom
               variant="body2"
             >
-              NOTIFIKASI HARI INI
+              PENGADUAN HARI INI
             </Typography>
             <div className={classes.difference} >
-              <Typography variant="h5" color="inherit">{numberWithCommas(data.pengaduan)}</Typography> 
-              <Typography variant="body2" color="inherit">&nbsp; Pengaduan</Typography>
+              <Typography variant="h5" color="inherit">{numberWithCommas(data.masuk)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp; Masuk</Typography>
             </div>
-            
+            <div className={classes.difference} >
+              <Typography variant="h5" color="inherit">{numberWithCommas(data.keluar)}</Typography> 
+              <Typography variant="body2" color="inherit">&nbsp; Keluar</Typography>
+            </div>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
@@ -95,6 +112,17 @@ const TiketToday = props => {
           </Grid>
         </Grid>
       </CardContent>
+      <Divider />
+      <CardActions style={{justifyContent: 'flex-end'}}>
+        <Button 
+          size='small' 
+          color='inherit'
+          onClick={() => props.onClick()}
+          endIcon={<ArrowForwardIcon />}
+        >
+          Lihat
+        </Button>
+      </CardActions>
     </Card>
   );
 };
@@ -102,7 +130,8 @@ const TiketToday = props => {
 TiketToday.propTypes = {
 	data: PropTypes.object.isRequired,
   getInfo: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default TiketToday;

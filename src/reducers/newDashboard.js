@@ -23,7 +23,8 @@ const intialState = {
 	},
 	produk: [],
 	info: {
-		pengaduan: 0
+		masuk: 0,
+		keluar: 0
 	}
 }
 
@@ -47,7 +48,10 @@ export default function newDashboard(state=intialState, action={}){
 		case 'GET_INFO':
 			return {
 				...state,
-				info: action.data
+				info: {
+					...state.info,
+					...action.data
+				}
 			}
 		default: 
 			return state;
