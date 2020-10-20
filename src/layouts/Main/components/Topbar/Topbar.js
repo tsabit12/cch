@@ -33,10 +33,12 @@ const Topbar = props => {
     >
       <Toolbar>
         <RouterLink to="/">
-          <img 
-            alt="Logo"
-            src={`${process.env.REACT_APP_PUBLIC_URL}/images/cch.png`}
-          />
+          <div style={{marginTop: 5}}>
+            <img 
+              alt="Logo"
+              src={`${process.env.REACT_APP_PUBLIC_URL}/images/cch.png`}
+            />
+          </div>
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
