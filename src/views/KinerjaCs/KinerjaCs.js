@@ -3,8 +3,11 @@ import { makeStyles } from '@material-ui/styles';
 import {
 	CardHeader,
 	Card,
-	Divider
+	Divider,
+	CardActions,
+	Button
 } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import {
 	SearchParam,
 	ListItem
@@ -14,9 +17,23 @@ import PropTypes from 'prop-types';
 import { getKinerja } from '../../actions/laporan';
 import Loader from '../Loader';
 
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(4)
+	},
+	grenBtn: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		},
+		border: 'none'
 	}
 }))
 
@@ -49,6 +66,30 @@ const KinerjaCs = props => {
 				/>
 				<Divider />
 				<ListItem data={list} onView={handleViewDetail} />
+				<Divider />
+				<CardActions style={{justifyContent: 'flex-end'}}>
+					{ list.length > 0 && <ExcelFile 
+						filename='kinerja-CS' 
+						element={
+							<Button 
+								variant='contained' 
+								color='primary'
+								className={classes.grenBtn}
+								endIcon={<GetAppIcon />}
+							>
+								DOWNLOAD
+							</Button>
+						}
+					>
+						<ExcelSheet data={list} name="sheet1">
+							<ExcelColumn label="KANTOR" value="kantor_pos"/>
+							<ExcelColumn label="CS" value={(col) => col.title.toUpperCase()}/>
+							<ExcelColumn label="JUMLAH SELESAI" value={(col) => Number(col.jmlselesai)}/>
+							<ExcelColumn label="JUMLAH TERBUKA" value={(col) => Number(col.jmlterbuka)}/>
+							<ExcelColumn label="JUMLAH SEMUA" value={(col) => Number(col.jmlterbuka) + Number(col.jmlselesai)}/>
+						</ExcelSheet>
+					</ExcelFile> }
+				</CardActions>
 			</Card>
 		</div>
 	);

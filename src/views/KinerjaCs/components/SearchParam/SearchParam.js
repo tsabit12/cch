@@ -7,20 +7,20 @@ import {
 	Select,
 	MenuItem
 } from '@material-ui/core';
-import { listReg } from '../../../../helper';
+import { listReg, convertDay } from '../../../../helper';
 import api from '../../../../api';
 import PropTypes from 'prop-types';
+import { DatePicker } from "@material-ui/pickers";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		display: 'flex',
 		justifyContent: 'space-between',
-		alignItems: 'center'
-	},
-	inline: {
-		display: 'flex',
 		alignItems: 'center',
-		width: 800
+		display: 'flex'
+	},
+	field: {
+		margin: 5, 
+		width: 150
 	}
 }))
 
@@ -32,7 +32,9 @@ const SearchParam = props => {
 	const [param, setParam] = useState({
 		regional: '00',
 		kprk: '00',
-		cs: '00'
+		cs: '00',
+		enddate: new Date(),
+		startdate: new Date()
 	})
 
 	const [listKprk, setKprk] = useState([]);
@@ -41,7 +43,11 @@ const SearchParam = props => {
 	const [kprkDisable, setDisableKprk] = useState(false);
 
 	useEffect(() => {
-		const payload = {};
+		const payload = {
+			startdate: convertDay(new Date()),
+			enddate: convertDay(new Date())
+		};
+
 		if (user.utype === 'Regional') {
 			setParam(param => ({
 				...param,
@@ -65,7 +71,7 @@ const SearchParam = props => {
 			payload.kprk = user.kantor_pos;
 			payload.cs = '00';
 		}else{
-			if (user.kantor_pos === '00001') {
+			if (user.kantor_pos === '00001' || user.kantor_pos === '00002') {
 				setDisableReg(true);
 				setDisableKprk(true);
 				setParam(param => ({
@@ -117,11 +123,28 @@ const SearchParam = props => {
 		}))
 	}
 
+	const handleChangeDate = (value, name) => {
+		setParam(param => ({
+			...param,
+			[name]: value
+		}))
+	}
+
+	const onSubmit = () => {
+		const payload = {
+			...param,
+			startdate: convertDay(param.startdate),
+			enddate: convertDay(param.enddate)
+		}
+
+		props.onSearch(payload);
+	}
+
 	return(
 		<div className={classes.root}>
 			<p>KINERJA CS</p>
-			<div className={classes.inline}>
-				<FormControl fullWidth variant='outlined' size="small">
+			<div>
+				<FormControl variant='outlined' size="small" className={classes.field}>
 					<InputLabel htmlFor="regLabel">REGIONAL</InputLabel>
 					<Select
 						labelId="regLabel"
@@ -136,7 +159,7 @@ const SearchParam = props => {
 						))}
 					</Select>
 				</FormControl>
-				<FormControl fullWidth variant='outlined' size="small" style={{marginLeft: 5}}>
+				<FormControl variant='outlined' size="small" className={classes.field}>
 					<InputLabel htmlFor="kprkLabel">KPRK</InputLabel>
 					<Select
 						labelId="kprkLabel"
@@ -152,7 +175,7 @@ const SearchParam = props => {
 						</MenuItem>)}
 					</Select>
 				</FormControl>
-				<FormControl fullWidth variant='outlined' size="small" style={{marginLeft: 5}}>
+				<FormControl variant='outlined' size="small" className={classes.field}>
 					<InputLabel htmlFor="csLabel">CUSTOMER SERVICE</InputLabel>
 					<Select
 						labelId="csLabel"
@@ -167,7 +190,35 @@ const SearchParam = props => {
 						</MenuItem>)}
 					</Select>
 				</FormControl>
-				<Button variant='contained' color='primary' style={{marginLeft: 5}} fullWidth onClick={() => props.onSearch(param)}>
+				<FormControl className={classes.field}>
+					<DatePicker
+				        format="YYYY-MM-DD"
+				        views={["year", "month", "date"]}
+				        autoOk
+				        size='small'
+				        variant="inline"
+				        style={{marginLeft: 5}}
+				        label="Mulai"
+				        inputVariant='outlined'
+				        value={param.startdate}
+				        onChange={(e) => handleChangeDate(e._d, 'startdate')} 
+				    />
+				</FormControl>
+				<FormControl className={classes.field}>
+					<DatePicker
+				        format="YYYY-MM-DD"
+				        views={["year", "month", "date"]}
+				        autoOk
+				        size='small'
+				        variant="inline"
+				        style={{marginLeft: 5}}
+				        label="Sampai"
+				        inputVariant='outlined'
+				        value={param.enddate}
+				        onChange={(e) => handleChangeDate(e._d, 'enddate')} 
+				    />
+				</FormControl>
+				<Button variant='contained' color='primary' style={{margin: 5, width: 150 }} onClick={onSubmit}>
 					Tampilkan
 				</Button>
 			</div>

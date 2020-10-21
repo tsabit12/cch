@@ -36,7 +36,7 @@ const ListItem = props => {
 						<TableCell>{row.title.toUpperCase()}</TableCell>
 						<TableCell align='right'>{row.jmlselesai}</TableCell>
 						<TableCell align='right'>{row.jmlterbuka}</TableCell>
-						<TableCell align='right'>{row.jmlall}</TableCell>
+						<TableCell align='right'>{Number(row.jmlselesai) + Number(row.jmlterbuka)}</TableCell>
 						<TableCell align='center'>
 							<IconButton 
 	          					color="default" 
