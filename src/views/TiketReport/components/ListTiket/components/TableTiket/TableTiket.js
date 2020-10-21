@@ -79,11 +79,7 @@ const TableTiket = props => {
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.awb}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>{row.asal_pengaduan}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>
-					<Tooltip title={row.pelanggan} arrow>
-	              		<TooltipComponent
-              			 	text={row.pelanggan}
-              			/>
-	              	</Tooltip>
+					 <Chip label={row.status} color='secondary' size="small" />
 				</TableCell>
 				{ durasiVisible && <TableCell 
 					style={{
@@ -94,10 +90,14 @@ const TableTiket = props => {
 				>	
 					{duration(row.current, row.tgl_exp).times}
 				</TableCell> }
-				<TableCell style={{whiteSpace: 'nowrap'}}>{row.tgl_tambah.substring(0, 10)}</TableCell>
 				<TableCell style={{whiteSpace: 'nowrap'}}>
-					 <Chip label={row.status} color='secondary' size="small" />
+					<Tooltip title={row.pelanggan} arrow>
+	              		<TooltipComponent
+              			 	text={row.pelanggan}
+              			/>
+	              	</Tooltip>
 				</TableCell>
+				<TableCell style={{whiteSpace: 'nowrap'}}>{row.tgl_tambah.substring(0, 10)}</TableCell>
 			</TableRow>)}
 		</TableBody>
 	);

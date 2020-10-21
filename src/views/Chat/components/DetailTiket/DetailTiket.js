@@ -42,7 +42,7 @@ const DetailTiket = props => {
 		<Card className={classes.root}>
 			<CardHeader 
 				className={classes.header}
-				title='INFORMASI TIKET'
+				title='INFORMASI'
 				action={<Chip
 				        	icon={<InfoOutlinedIcon />}
 				        	label={`Status ${data.status}`}

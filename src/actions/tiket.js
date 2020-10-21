@@ -51,6 +51,7 @@ export const addResponseTiket = (payload) => dispatch =>
 				date: res.curdate,
 				username: payload.user,
 				status: 'Sending...',
+				status_tiket: payload.status,
 				file_name: null,
 				photoProfile: payload.photoProfile,
 				kantor_pos: payload.kantor_pos ? payload.kantor_pos : ''

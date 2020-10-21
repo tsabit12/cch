@@ -51,9 +51,9 @@ const getLabelPage = number => {
 const getStatus = number => {
 	switch(number){
 		case 1:
-			return ['1', '12'];
+			return ['1', '12', '17','18'];
 		case 2: 
-			return ['1', '12'];
+			return ['1', '12', '17', '18'];
 		case 3:
 			return ['99'];
 		case 4:
@@ -109,10 +109,10 @@ const ListTiket = props => {
 		const payload = {};
 		if (props.page === 1) {
 			payload.offset = 0;
-			payload.status = ['1', '12'];
+			payload.status = ['1', '12', '17', '18'];
 		}else if(props.page === 2){
 			payload.offset = 0;
-			payload.status = ['1', '12'];
+			payload.status = ['1', '12', '17', '18'];
 		}else if(props.page === 4){
 			payload.offset = 0;
 			payload.status = ['99'];
@@ -232,10 +232,10 @@ const ListTiket = props => {
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>ASAL PENGADUAN</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-							{ visibleDurasi && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
-							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
 							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
+							{ visibleDurasi && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
+							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
+							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
 						</TableRow>
 					</TableHead>
 					{ props.list[paging.active] ?

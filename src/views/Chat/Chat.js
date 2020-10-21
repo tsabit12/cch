@@ -10,13 +10,7 @@ import {
 	closeTiketWithoutUpdate,
 	uploadResponse
 } from "../../actions/tiket";
-import {
-	Grid,
-	Breadcrumbs,
-	Typography,
-	IconButton
-} from "@material-ui/core";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Grid } from "@material-ui/core";
 import {
 	DetailTiket,
 	Message,
@@ -86,11 +80,12 @@ const Chat = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.dataTiket])
 
-	const handleUpload = (file, text, photoName) => {
+	const handleUpload = (file, text, photoName, status) => {
 		const { data } = props.dataTiket;
 		const formData = new FormData();
 		formData.append('file', file);
 		formData.append('noTicket', data.no_tiket);
+		formData.append('status', status);
 		formData.append('user', props.user.email);
 		formData.append('tujuanPengaduan', data.tujuan_pengaduan);
 		formData.append('response', text);
@@ -101,13 +96,14 @@ const Chat = props => {
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
 			photoProfile: photoName,
-			kantor_pos: props.user.kantor_pos
+			kantor_pos: props.user.kantor_pos,
+			status
 		}
 
 		props.uploadResponse(formData, payload);
 	} 
 
-	const handleSendMessage = (text, photoName) => {
+	const handleSendMessage = (text, photoName, status) => {
 		const { data } = props.dataTiket;
 		const payload = {
 			noTicket: data.no_tiket,
@@ -115,7 +111,8 @@ const Chat = props => {
 			user: props.user.email,
 			tujuanPengaduan: data.tujuan_pengaduan,
 			photoProfile: photoName,
-			kantor_pos: props.user.kantor_pos
+			kantor_pos: props.user.kantor_pos,
+			status
 		}
 		props.addResponseTiket(payload);
 	}
@@ -166,26 +163,6 @@ const Chat = props => {
 
 	return(
 		<div className={classes.root}>
-			<div className={classes.header}>
-				<IconButton 
-					size="small" 
-					style={{marginRight: 10}} 
-					onClick={() => props.history.push("/tiket")}
-				>
-		            <ArrowBackIcon />
-		        </IconButton>
-				<Breadcrumbs aria-label="Breadcrumb">
-			        <Typography className={classes.link}>
-			          Tiket
-			        </Typography>
-			        <Typography color="textPrimary" className={classes.link}>
-			          Response
-			        </Typography>
-			        <Typography color="textPrimary" className={classes.link}>
-			          { props.match.params.notiket}
-			        </Typography>
-			    </Breadcrumbs>
-		    </div>
 		    <ModalForm 
 				visible={state.visible}
 				handleClose={onCloseModal}

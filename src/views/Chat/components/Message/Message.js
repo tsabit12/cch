@@ -16,7 +16,11 @@ import {
 	CardContent,
 	CardMedia,
 	Dialog,
-	DialogTitle
+	DialogTitle,
+	Select,
+	MenuItem,
+	InputLabel,
+	FormControl
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -165,13 +169,13 @@ const RenderImage = (props) => {
 	const types  = props.file.split(".")[1];
 	let image = '';
 	if (types === 'png' || types === 'jpg' || types === 'jpeg') {
-		image = `http://10.28.0.72/cchAPI/assets/${props.file}`;
+		image = `${process.env.REACT_APP_IMAGE}/${props.file}`;
 	}else{
 		image = `${process.env.REACT_APP_PUBLIC_URL}/images/file.png`;
 	}
 
 	const handleClick = () => {
-		window.open(`http://10.28.0.72/cchAPI/assets/${props.file}`, "_blank")
+		window.open(`${process.env.REACT_APP_IMAGE}/${props.file}`, "_blank")
 	}
 	
 	return(
@@ -181,7 +185,7 @@ const RenderImage = (props) => {
 	          <Typography component="h5" variant="h5">
 	            {props.text}
 	          </Typography>
-	           <Typography variant="body2" color="textSecondary">{props.date}</Typography>
+	           <Typography variant="body2" color="textSecondary">{props.date} ({props.status})</Typography>
 	        </CardContent>
 	        <div className={classes.controls}>
 	          <IconButton aria-label="play/pause" onClick={handleClick}>
@@ -225,7 +229,7 @@ const Text = props => {
 			            	fontSize: '10px'
 			            }}
 			        >
-		            	{props.date}
+		            	{props.date} ({props.status})
 		          </Typography>
 		        </div>
 
@@ -244,13 +248,15 @@ const Text = props => {
 						</Typography>
 					</div>
 				))}
-	        </React.Fragment> : <div className={props.align === "right" ? classes.rightText : ''}>
+	        </React.Fragment> : 
+	        	<div className={props.align === "right" ? classes.rightText : ''}>
 		        	<RenderImage 
 		        		file={props.file}
 		        		date={props.date}
 		        		text={props.msg}
+		        		status={props.status}
 		        	/>
-		       	</div>}
+				</div>}
         </React.Fragment>
 	);
 }
@@ -269,6 +275,8 @@ const Message = props => {
 		photoProfileValue: '',
 		profile: {}
 	})
+
+	const [statusValue, setStatusValue] = React.useState('12');
 
 	React.useEffect(() => {
 		if (data.length > 0 && state.photoProfileValue === '') {
@@ -322,7 +330,7 @@ const Message = props => {
 		if (state.text) {
 			if (state.fileName) { //upload
 				const { files } = inputFileRef.current;
-				await props.onUpload(files[0], state.text, state.photoProfileValue);
+				await props.onUpload(files[0], state.text, state.photoProfileValue, statusValue);
 				setState(prevState => ({
 					...prevState,
 					text: '',
@@ -330,12 +338,14 @@ const Message = props => {
 					placeholder: 'Masukkan text'
 				}))
 				inputFileRef.current.value = null;
+				setStatusValue('12');
 			}else{
-				await props.onSendMessage(state.text, state.photoProfileValue);
+				await props.onSendMessage(state.text, state.photoProfileValue, statusValue);
 				setState(prevState => ({
 					...prevState,
 					text: ''
 				}));
+				setStatusValue('12');
 			}	
 		}else{
 			alert("Text harap diisi");
@@ -385,7 +395,7 @@ const Message = props => {
 			/>
 			<CardHeader 
 				className={classes.header}
-				title='RESPONSE'
+				title={`RESPONSE TIKET (${props.notiket})`}
 			/>
 			{state.fileName && <div className={classes.file}>
 				<Chip
@@ -416,6 +426,26 @@ const Message = props => {
 							onChange={handleChange}
 							disabled={props.status}
 						/>
+						<FormControl 
+							variant="outlined" 
+							size="small" 
+							style={{width: 150, marginTop: 10, marginBottom: 5}}
+						>
+							<InputLabel id="labelKprk">Status</InputLabel>
+							<Select
+					          labelId="labelKprk"
+					          id="kprk"
+					          name="kprk"
+					          value={statusValue}
+					          onChange={(e) => setStatusValue(e.target.value)}
+					          label="Status"
+					          //disabled={props.user.utype === 'Kprk' ? true : false }
+					        >
+					        	<MenuItem value="12">Investigasi</MenuItem>
+					        	<MenuItem value="17">Konfirmasi</MenuItem>
+					        	<MenuItem value="18">Request Tutup</MenuItem>
+					        </Select>
+						</FormControl>
 						<input 
 							ref={inputFileRef}
 							type='file' 
@@ -472,6 +502,7 @@ const Message = props => {
 									      	msg={row.response}
 									      	file={row.file_name}
 									      	lacak={row.lacak_value}
+									      	status={row.status_tiket}
 									      />}
 									      disableTypography={true}
 								    	/>
@@ -492,6 +523,8 @@ const Message = props => {
 									      	msg={row.response}
 									      	file={row.file_name}
 									      	align="right"
+									      	lacak={row.lacak_value}
+									      	status={row.status_tiket}
 									      /> }
 									      disableTypography={true}
 								    	/>
