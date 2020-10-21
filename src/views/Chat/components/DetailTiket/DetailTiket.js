@@ -59,10 +59,6 @@ const DetailTiket = props => {
 						<TableCell>: {data.name_requester}</TableCell>
 					</TableRow>
 					<TableRow>
-						<TableCell>Alamat Pengadu</TableCell>
-						<TableCell>: {data.address}</TableCell>
-					</TableRow>
-					<TableRow>
 						<TableCell>Telp Pengadu</TableCell>
 						<TableCell>: {data.phone}</TableCell>
 					</TableRow>
@@ -75,8 +71,12 @@ const DetailTiket = props => {
 						<TableCell>: {data.jenis_layanan}</TableCell>
 					</TableRow>
 					<TableRow>
+						<TableCell>Jenis Aduan</TableCell>
+						<TableCell>: {data.nama_aduan}</TableCell>
+					</TableRow>
+					<TableRow>
 						<TableCell>Asal Aduan</TableCell>
-						<TableCell>: {data.asal_pengaduan}</TableCell>
+						<TableCell>: {data.asal_pengaduan_name}</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell>Tujuan Aduan</TableCell>

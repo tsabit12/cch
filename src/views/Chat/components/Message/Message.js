@@ -63,7 +63,7 @@ const DetailProfile = props => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		
+		// height: '100%'
 	},
 	header: {
 		backgroundColor: '#f3f1ee'
@@ -121,7 +121,15 @@ const useStyles = makeStyles(theme => ({
 	right: {
 		display: 'flex',
 		justifyContent: 'flex-end'
-	}
+	},
+	rowTrack: {
+		marginBottom: 5,
+		borderBottom: '1.3px dotted',
+		marginTop: 10
+	},
+	typography: {
+		marginBottom: 5
+	},
 }))
 
 const useStylesImage = makeStyles(theme => ({
@@ -206,6 +214,7 @@ const Text = props => {
 		            {`${props.msg.split("&").join("\n")}`}
 		          </Typography>
 		        </div>  
+		        
 		        <div className={ props.align === "right" ? classes.rightText : classes.text}>
 		        	<Typography
 			            component="span"
@@ -219,6 +228,22 @@ const Text = props => {
 		            	{props.date}
 		          </Typography>
 		        </div>
+
+		        { props.lacak && JSON.parse(props.lacak).map((row, index) => (
+					<div className={classes.rowTrack} key={index}>
+						<Typography variant='body2' className={classes.typography}>
+							DESCRIPTION ({row.description})
+						</Typography>
+
+						<Typography variant='body2' className={classes.typography}>
+							EVENT NAME : {row.eventName} ({row.eventDate})
+						</Typography>
+
+						<Typography variant='body2' className={classes.typography}>
+							 OFFICE : {row.officeCode} - {row.officeName}
+						</Typography>
+					</div>
+				))}
 	        </React.Fragment> : <div className={props.align === "right" ? classes.rightText : ''}>
 		        	<RenderImage 
 		        		file={props.file}
@@ -446,6 +471,7 @@ const Message = props => {
 									      	date={row.date} 
 									      	msg={row.response}
 									      	file={row.file_name}
+									      	lacak={row.lacak_value}
 									      />}
 									      disableTypography={true}
 								    	/>
