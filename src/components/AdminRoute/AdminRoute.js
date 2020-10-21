@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 
-const NotCsRoute = props => {
+const AdminRoute = props => {
   const { isAuthenticated, layout: Layout, component: Component, ...rest } = props;
   
   return (
@@ -12,7 +12,7 @@ const NotCsRoute = props => {
       render={matchProps => 
         <Layout>
           { isAuthenticated.jabatan ? <React.Fragment>
-            { isAuthenticated.jabatan === 'AGENT / CS' ? <Redirect to="/not-found" /> : <Component {...matchProps} /> }
+            { isAuthenticated.jabatan !== 'Administrator' ? <Redirect to="/not-found" /> : <Component {...matchProps} /> }
           </React.Fragment> : <Redirect to="/login" /> } 
         </Layout>
       }
@@ -20,7 +20,7 @@ const NotCsRoute = props => {
   );
 };
 
-NotCsRoute.propTypes = {
+AdminRoute.propTypes = {
   component: PropTypes.any.isRequired,
   layout: PropTypes.any.isRequired,
   path: PropTypes.string,
@@ -33,4 +33,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(NotCsRoute);
+export default connect(mapStateToProps, null)(AdminRoute);

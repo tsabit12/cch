@@ -27,3 +27,17 @@ export const getDetail = (payload, page) => dispatch =>
 			list,
 			page
 		}))
+
+export const getAllowed = () => dispatch => 
+	api.xray.getAllowed()
+		.then(offices => {
+			const allowed = [];
+			offices.forEach(row => {
+				allowed.push(row.code);
+			})
+
+			dispatch({
+				type: 'GET_ALLOWED_OFFICE',
+				allowed
+			})
+		})

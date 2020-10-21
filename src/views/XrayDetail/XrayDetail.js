@@ -16,15 +16,13 @@ import {
 	ListXray
 } from './components';
 import Pagination from '@material-ui/lab/Pagination';
-import { getTotalDetail, getDetail } from '../../actions/xray';
+import { getTotalDetail, getDetail, getAllowed } from '../../actions/xray';
 import SearchIcon from '@material-ui/icons/Search';
 import ReplayIcon from '@material-ui/icons/Replay';
 import AddIcon from '@material-ui/icons/Add';
 import PublishIcon from '@material-ui/icons/Publish';
 import { removeMessage } from '../../actions/message';
 import CollapseMessage from "../CollapseMessage";
-
-const allowedOffice = ['20900','10900','10PA','40400','50400','55400','60900','80900','70400','90400','29400','40005','17900','30900'];
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -42,9 +40,13 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+const Loading = () => (
+	<p>Loading...</p>
+)
+
 const XrayDetail = props => {
 	const classes = useStyles();
-	const { data, message, user } = props;
+	const { data, message, user, officesAllowed } = props;
 	const [paging, setPaging] = useState({
 		limit: 13,
 		offset: 0,
@@ -57,14 +59,22 @@ const XrayDetail = props => {
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
-		const isAllowed = allowedOffice.find(row => row === user.kantor_pos);
-		if (isAllowed) {
-			setVisible(true);
-			setMount(true);
-		}else{
-			setMount(true);
+		props.getAllowed()
+			.then(() => setMount(true))
+			.catch(() => setMount(true))
+		//eslint-disable-next-line
+	}, []);
+
+	useEffect(() => {
+		if (officesAllowed.length > 0) {
+			setMount(true); //don't waith for fetching new office
+			
+			const isAllowed = officesAllowed.find(row => row === user.kantor_pos);
+			if (isAllowed) {
+				setVisible(true);
+			}
 		}
-	}, [user.kantor_pos]);
+	}, [officesAllowed, user.kantor_pos])
 
 	useEffect(() => {
 		if (mount) {
@@ -208,7 +218,7 @@ const XrayDetail = props => {
 				message={message.text}
 				onClose={props.removeMessage}
 			/>
-		    <Card>
+			{ mount ? <Card>
 		    	<CardHeader
 		    		title={renderTitle()}
 		    	/>
@@ -230,7 +240,7 @@ const XrayDetail = props => {
 				      	onChange={handleChangePage}
 				      />
 		    	</CardActions>
-		    </Card>
+		    </Card> : <Loading /> }
 		</div>
 	);
 }
@@ -242,7 +252,8 @@ XrayDetail.propTypes = {
 	data: PropTypes.object.isRequired,
 	message: PropTypes.object.isRequired,
 	removeMessage: PropTypes.func.isRequired,
-	user: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	officesAllowed: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
@@ -250,8 +261,14 @@ function mapStateToProps(state) {
 		total: state.xray.total,
 		data: state.xray.detail,
 		message: state.message,
-		user: state.auth.user
+		user: state.auth.user,
+		officesAllowed: state.xray.allowed
 	}
 }
 
-export default connect(mapStateToProps, { getTotalDetail, getDetail, removeMessage })(XrayDetail);
+export default connect(mapStateToProps, { 
+	getTotalDetail, 
+	getDetail, 
+	removeMessage, 
+	getAllowed 
+})(XrayDetail);

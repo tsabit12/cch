@@ -5,14 +5,17 @@ import {
 	CardHeader,
 	CardActions,
 	Divider,
-	Button
+	Button,
+	Grid
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Pagination from '@material-ui/lab/Pagination';
 import { getData, getTotal } from '../../actions/setting';
 import {
-	TableLibur
+	TableLibur,
+	ListSetting,
+	ModalSetting
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -30,6 +33,11 @@ const DataLibur = props => {
 	const [paging, setPaging] = useState({
 		active: 1,
 		offset: 0
+	})
+
+	const [openModal, setOpenModal] = useState({
+		type: null,
+		visible: false
 	})
 
 	useEffect(() => {
@@ -61,31 +69,54 @@ const DataLibur = props => {
 
 	const handleAdd = () => props.history.push(`/setting/add`)
 
+	const handleClictSettings = (type) => {
+		setOpenModal({
+			type,
+			visible: true
+		})
+	}
+
 	return(
 		<div className={classes.root}>
-			<Card>
-				<CardHeader 
-					title='DATA HARI LIBUR'
-					action={<Button variant='outlined' onClick={handleAdd}>TAMBAH</Button>}
-				/>
-				<Divider />
-				<div className={classes.card}>
-					<TableLibur 
-						data={props.data[`page${paging.active}`] ? props.data[`page${paging.active}`] : [] }
-						activePage={paging.active}
+			<ModalSetting 
+				param={openModal} 
+				onClose={() => setOpenModal({
+					visible: false,
+					type: null
+				})}
+			/>
+			<Grid container spacing={4}>
+				<Grid item lg={9} xl={2} sm={12} xs={12}>
+					<Card>
+						<CardHeader 
+							title='DATA HARI LIBUR'
+							action={<Button variant='outlined' onClick={handleAdd}>TAMBAH</Button>}
+						/>
+						<Divider />
+						<div className={classes.card}>
+							<TableLibur 
+								data={props.data[`page${paging.active}`] ? props.data[`page${paging.active}`] : [] }
+								activePage={paging.active}
+							/>
+						</div>
+						<Divider />
+						<CardActions style={{justifyContent: 'flex-end'}}>
+							<Pagination 
+								count={Math.ceil(props.total / 13)} 
+								variant="outlined" 
+								shape="rounded" 
+								page={paging.active}
+								onChange={handleChangePage}
+							/>
+						</CardActions>
+					</Card>
+				</Grid>
+				<Grid item lg={3} xl={12} sm={12} xs={12}>
+					<ListSetting 
+						onClick={handleClictSettings}
 					/>
-				</div>
-				<Divider />
-				<CardActions style={{justifyContent: 'flex-end'}}>
-					<Pagination 
-						count={Math.ceil(props.total / 13)} 
-						variant="outlined" 
-						shape="rounded" 
-						page={paging.active}
-						onChange={handleChangePage}
-					/>
-				</CardActions>
-			</Card>
+				</Grid>
+			</Grid>
 		</div>
 	);
 }

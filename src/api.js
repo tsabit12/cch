@@ -225,6 +225,10 @@ export default{
 		}).then(res => res.data),
 		getDetailReg: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/getDetailReg`, {
 			...payload
+		}).then(res => res.data),
+		getAllowed: () => axios.post(`${process.env.REACT_APP_API2}/xray/getAllowedOffice`).then(res => res.data),
+		addNewOffice: (payload) => axios.post(`${process.env.REACT_APP_API2}/xray/addNewOffice`, {
+			...payload
 		}).then(res => res.data)
 	},
 	getListCs: (kprk) => axios.post(`${process.env.REACT_APP_API}/listCs`, {
@@ -233,5 +237,6 @@ export default{
 	getProdukJaskug: () => axios.post(`${process.env.REACT_APP_API}/getProdukjaskug`).then(res => res.data),
 	getDetailDashboard: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getDetail`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	getListOffice: () => axios.post(`${process.env.REACT_APP_API2}/xray/getListOffice`).then(res => res.data)
 }

@@ -1,7 +1,8 @@
 const initialState = {
 	summary: [],
 	detail: {},
-	total: 0
+	total: 0,
+	allowed: []
 }
 
 export default function xray(state=initialState, action={}){
@@ -23,6 +24,11 @@ export default function xray(state=initialState, action={}){
 					...state.detail,
 					[action.page]: action.list
 				}
+			}
+		case 'GET_ALLOWED_OFFICE':
+			return {
+				...state,
+				allowed: action.allowed
 			}
 		default:
 			return state;
