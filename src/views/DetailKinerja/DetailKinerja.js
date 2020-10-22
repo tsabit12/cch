@@ -40,16 +40,27 @@ const DetailKinerja = props => {
 
 	useEffect(() => {
 		if (email) {
-			setLoading(true);
-			api.laporan.detailKinerja(email)
-				.then(res => {
-					setData(res);
-					setLoading(false);
-				})
-				.catch(err => {
-					console.log(err);
-					setLoading(false);
-				})
+			const splitEmail = email.split('&');
+			if (splitEmail.length === 3) {
+				setLoading(true);
+				const payload = {
+					email: splitEmail[0],
+					startdate: splitEmail[1],
+					enddate: splitEmail[2]
+				}
+
+				api.laporan.detailKinerja(payload)
+					.then(res => {
+						setData(res);
+						setLoading(false);
+					})
+					.catch(err => {
+						console.log(err);
+						setLoading(false);
+					})
+			}else{
+
+			}
 		}
 	}, [email]);
 
@@ -67,7 +78,7 @@ const DetailKinerja = props => {
 				<Breadcrumbs aria-label="Breadcrumb">
 			        <Typography>Kinerja CS</Typography>
 			        <Typography color="textPrimary">Detail</Typography>
-			        <Typography color="textPrimary">{email}</Typography>
+			        <Typography color="textPrimary">{email.split('&')[0]}</Typography>
 			    </Breadcrumbs>
 		    </div>
 		    <ListTiket

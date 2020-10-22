@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
 	row: {
 		whiteSpace: 'nowrap',
-		fontSize: 11
+		fontSize: 13
 	}
 }))
 

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getKinerja } from '../../actions/laporan';
 import Loader from '../Loader';
+import { convertDay } from '../../helper';
 
 import ReactExport from "react-export-excel";
 
@@ -42,16 +43,28 @@ const KinerjaCs = props => {
 	const { user, list } = props;
 	const classes = useStyles();
 	const [loading, setLoading] = useState(false);
+	const [date, setDate] = useState({
+		startdate: convertDay(new Date()),
+		enddate: convertDay(new Date())
+	})
 
 	const handleSearch = (payload) => {
 		setLoading(true);
 
 		props.getKinerja(payload)
-			.then(() => setLoading(false))
+			.then(() => {
+				setLoading(false);
+				setDate({
+					startdate: payload.startdate,
+					enddate: payload.enddate
+				})
+			})
 			.catch(() => setLoading(false));
 	} 
 
-	const handleViewDetail = (email) => props.history.push(`/kinerja-cs/detail/${email}`)
+	const handleViewDetail = (email) => {
+		props.history.push(`/kinerja-cs/detail/${email}&${date.startdate}&${date.enddate}`)
+	}
 
 	return(
 		<div className={classes.root}>
@@ -66,7 +79,7 @@ const KinerjaCs = props => {
 				/>
 				<Divider />
 				<ListItem data={list} onView={handleViewDetail} />
-				<Divider />
+				
 				<CardActions style={{justifyContent: 'flex-end'}}>
 					{ list.length > 0 && <ExcelFile 
 						filename='kinerja-CS' 

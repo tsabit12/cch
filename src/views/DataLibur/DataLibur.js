@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(4)
 	},
 	card: {
-		minHeight: 475,
+		minHeight: 350,
 		display: 'relative'
 	}
 }))
@@ -53,7 +53,7 @@ const DataLibur = props => {
 	}, []);
 
 	const handleChangePage = (e, page) => {
-		const offsetValue = page === 1 ? (page * 13) - 13 : (page * 13) - 14 + 1;
+		const offsetValue = page === 1 ? (page * 15) - 15 : (page * 15) - 16 + 1;
 		setPaging({
 			active: page,
 			offset: offsetValue
@@ -102,7 +102,7 @@ const DataLibur = props => {
 						<Divider />
 						<CardActions style={{justifyContent: 'flex-end'}}>
 							<Pagination 
-								count={Math.ceil(props.total / 13)} 
+								count={Math.ceil(props.total / 15)} 
 								variant="outlined" 
 								shape="rounded" 
 								page={paging.active}

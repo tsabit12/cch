@@ -18,10 +18,10 @@ const capitalize = (string) => {
 
 const TableLibur = props => {
 	const { data, activePage } = props;
-	var no = (activePage * 13) - 13 + 1;
+	var no = (activePage * 15) - 15 + 1;
 
 	return(
-		<Table>
+		<Table size='small' padding='checkbox'>
 			<TableHead>
 				<TableRow>
 					<TableCell size='small'>NO</TableCell>

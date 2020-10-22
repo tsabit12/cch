@@ -29,21 +29,12 @@ const ListSetting = props => {
 			<CardHeader 
 				title='LAINNYA'
 			/>
-
+			<Divider />
 			<List className={classes.list}>
 				<ListItem>
 					<ListItemText primary="X-RAY" secondary="Kelola kantor untuk tambah/import xray" />
 					<ListItemSecondaryAction>
 		                <IconButton edge="end" aria-label="setting xray" onClick={() => props.onClick(1)}>
-		                  <ArrowForwardIcon />
-		                </IconButton>
-		            </ListItemSecondaryAction>
-				</ListItem>
-				<Divider />
-				<ListItem>
-					<ListItemText primary="Reset Password" secondary="Reset password pengguna" />
-					<ListItemSecondaryAction>
-		                <IconButton edge="end" aria-label="delete">
 		                  <ArrowForwardIcon />
 		                </IconButton>
 		            </ListItemSecondaryAction>

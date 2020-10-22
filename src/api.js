@@ -132,8 +132,8 @@ export default{
 			...payload,
 			email: payload.cs
 		}).then(res => res.data),
-		detailKinerja: (email) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser/detail`, {
-			email
+		detailKinerja: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser/detail`, {
+			...payload
 		}).then(res => res.data)
 	},
 	getProfile: (email) => axios.post(`${process.env.REACT_APP_API}/getProfile`, {

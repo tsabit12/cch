@@ -21,8 +21,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	row: {
 		whiteSpace: 'nowrap',
-		lineHeight: '13px',
-		fontSize: 11
+		//lineHeight: '13px',
+		fontSize: 13
 	},
 	text: {
 		whiteSpace: 'nowrap',

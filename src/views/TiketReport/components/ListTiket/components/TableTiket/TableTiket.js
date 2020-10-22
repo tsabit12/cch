@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(theme => ({
 	cell: {
 		whiteSpace: 'nowrap',
-		fontSize: 11
+		fontSize: 13
 	}
 }))
 
@@ -62,7 +62,7 @@ const duration = (t0, t1) => {
 // });
 
 const TableTiket = props => {
-	var no = (props.activePage * 10) - 10 + 1;
+	var no = (props.activePage * 15) - 15 + 1;
 	const classes = useStyles();
 
 	const { data, durasiVisible } = props;
@@ -89,7 +89,7 @@ const TableTiket = props => {
 				<TableCell className={classes.cell}>{row.asal_pengaduan}</TableCell>
 				<TableCell className={classes.cell}>{row.tujuan_pengaduan}</TableCell>
 				<TableCell className={classes.cell}>
-					 <Chip label={row.status} style={{fontSize: 11}} color='secondary' size="small" />
+					 <Chip label={row.status} style={{fontSize: 13}} color='secondary' size="small" />
 				</TableCell>
 				{ durasiVisible && <TableCell 
 					style={{

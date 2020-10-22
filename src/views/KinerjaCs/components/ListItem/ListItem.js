@@ -15,8 +15,8 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles(theme => ({
 	cell: {
 		whiteSpace: 'nowrap',
-		lineHeight: '13px',
-		fontSize: 11
+		//lineHeight: '13px',
+		fontSize: 13
 	}
 }))
 

@@ -7,7 +7,16 @@ import {
 	TableRow,
 	TableCell,
 	TableBody
-} from '@material-ui/core'
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+	cell: {
+		whiteSpace: 'nowrap',
+		//lineHeight: '13px',
+		fontSize: 13
+	}
+}))
 
 const numberTwodigit = (n) => {
 	return n > 9 ? "" + n: "0" + n;
@@ -42,32 +51,37 @@ const duration = (t0, t1) => {
 const ListTiket = props => {
 	var no 			= 1;
 	const { list } 	= props;
+	const classes = useStyles();
 
 	return(
 		<Card style={{marginTop: 10}}>
-			<Table size='small'>
+			<Table size='small' padding='checkbox'>
 				<TableHead>
 					<TableRow>
-						<TableCell>NO</TableCell>
-						<TableCell>NOMOR TIKET</TableCell>
-						<TableCell>NOMOR RESI</TableCell>
-						<TableCell>CHANNEL</TableCell>
-						<TableCell>ASAL</TableCell>
-						<TableCell>TUJUAN</TableCell>
-						<TableCell>DURASI TIKET</TableCell>
-						<TableCell>STATUS</TableCell>
+						<TableCell className={classes.cell}>NO</TableCell>
+						<TableCell className={classes.cell}>NOMOR TIKET</TableCell>
+						<TableCell className={classes.cell}>NOMOR RESI</TableCell>
+						<TableCell className={classes.cell}>CHANNEL</TableCell>
+						<TableCell className={classes.cell}>JENIS ADUAN</TableCell>
+						<TableCell className={classes.cell}>LAYANAN</TableCell>
+						<TableCell className={classes.cell}>ASAL</TableCell>
+						<TableCell className={classes.cell}>TUJUAN</TableCell>
+						<TableCell className={classes.cell}>DURASI TIKET</TableCell>
+						<TableCell className={classes.cell}>STATUS</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{ list.map((row, index) => <TableRow key={index}>
-						<TableCell>{no++}</TableCell>
-						<TableCell>{row.no_tiket}</TableCell>
-						<TableCell>{row.awb}</TableCell>
-						<TableCell>{row.channel}</TableCell>
-						<TableCell>{row.asal_pengaduan}</TableCell>
-						<TableCell>{row.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
-						<TableCell>{duration(row.tgl_tambah, row.tgl_done).times}</TableCell>
-						<TableCell>{row.status}</TableCell>
+						<TableCell className={classes.cell}>{no++}</TableCell>
+						<TableCell className={classes.cell}>{row.no_tiket}</TableCell>
+						<TableCell className={classes.cell}>{row.awb}</TableCell>
+						<TableCell className={classes.cell}>{row.channel}</TableCell>
+						<TableCell className={classes.cell}>{row.jenis_aduan}</TableCell>
+						<TableCell className={classes.cell}>{row.jenis_layanan}</TableCell>
+						<TableCell className={classes.cell}>{row.asal_pengaduan}</TableCell>
+						<TableCell className={classes.cell}>{row.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
+						<TableCell className={classes.cell}>{duration(row.tgl_tambah, row.tgl_done).times}</TableCell>
+						<TableCell className={classes.cell}>{row.status}</TableCell>
 					</TableRow>)}
 				</TableBody>
 			</Table>

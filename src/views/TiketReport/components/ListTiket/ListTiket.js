@@ -65,7 +65,7 @@ const getStatus = number => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: 420,
+		height: '80vh',
 		position: 'relative'
 	},
 	header: {
@@ -136,7 +136,7 @@ const ListTiket = props => {
 	}, [props.page]);
 
 	const handleChangePage = (event, page) => {
-		const offsetValue = (page * 10) - 10;
+		const offsetValue = (page * 15) - 15;
 
 		setPaging(paging => ({
 			offset: offsetValue,

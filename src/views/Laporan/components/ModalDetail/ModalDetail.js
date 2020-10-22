@@ -285,7 +285,6 @@ const ModalDetail = props => {
 			        <MenuItem onClick={() => handleFilter('Entri', 'Entri')}>Entri</MenuItem>
 			        <MenuItem onClick={() => handleFilter('Konfirmasi', 'Konfirmasi')}>Konfirmasi</MenuItem>
 			        <MenuItem onClick={() => handleFilter('Investigasi', 'Investigasi')}>Investigasi</MenuItem>
-			        <MenuItem onClick={() => handleFilter('Request Tutup', 'Request Tutup')}>Request Tutup</MenuItem>
 			        <MenuItem onClick={() => handleFilter('Selesai', 'Selesai')}>Selesai</MenuItem>
 			      </Menu>
 			    </div>

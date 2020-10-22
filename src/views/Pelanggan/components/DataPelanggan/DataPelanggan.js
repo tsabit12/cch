@@ -21,13 +21,12 @@ const useStyles = makeStyles(theme => ({
 	container: {
 		display: 'flex',
 		alignItems: 'center',
-		height: '200px',
+		height: '370px',
 		justifyContent: 'center'
 	},
 	row: {
 		whiteSpace: 'nowrap',
-		lineHeight: '13px',
-		fontSize: 11
+		fontSize: 13
 	},
 	group: {
 		display: 'flex',
