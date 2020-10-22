@@ -23,13 +23,13 @@ import {
 
 const getTotalPage = (jumlah, activePage) => {
 	if (activePage === 1) {
-		return Math.ceil(jumlah.active.masuk / 10);
+		return Math.ceil(jumlah.active.masuk / 15);
 	}else if(activePage === 2){
-		return Math.ceil(jumlah.active.keluar / 10);
+		return Math.ceil(jumlah.active.keluar / 15);
 	}else if(activePage === 3){
-		return Math.ceil(jumlah.done.masuk / 10);
+		return Math.ceil(jumlah.done.masuk / 15);
 	}else{
-		return Math.ceil(jumlah.done.keluar / 10);
+		return Math.ceil(jumlah.done.keluar / 15);
 	}
 }
 
@@ -228,7 +228,7 @@ const ListTiket = props => {
 				</div>
 			</div>
 			<Divider />
-			<div style={{overflowY: 'auto', minHeight: 280}}>
+			<div style={{overflowY: 'auto', minHeight: '62vh'}}>
 				<Table size='small' padding='checkbox'>
 					<TableHead>
 						<TableRow>
