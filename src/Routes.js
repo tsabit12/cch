@@ -17,7 +17,7 @@ import {
   Dashboard as DashboardView,
   NotFound as NotFoundView,
   AddNewTiket as AddTiketView,
-  Login as LoginView,
+  SignIn as LoginView,
   User as UserView,
   AddUser as AddUserView,
   Chat as ChatView,

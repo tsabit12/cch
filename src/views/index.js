@@ -19,3 +19,4 @@ export { default as XrayDetail } from './XrayDetail';
 export { default as LaporanProduk } from './LaporanProduk';
 export { default as KinerjaCs } from './KinerjaCs';
 export { default as DetailKinerja } from './DetailKinerja';
+export { default as SignIn } from './SignIn';
