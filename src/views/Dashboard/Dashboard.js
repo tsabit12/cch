@@ -8,7 +8,8 @@ import {
 	TotalPelanggan,
 	Grafik,
 	GrafikProduk,
-	ModalDetailTiket
+	ModalDetailTiket,
+	RequestClose
 } from "./components";
 import { connect } from "react-redux";
 import { getJumlahUser } from "../../actions/user";
@@ -241,14 +242,14 @@ const Dashboard = props => {
         	container
         	spacing={4}
 		>
-	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	          <TotalUser 
 	          	total={props.totUser}
 	          	user={props.dataUser}
 	          	getJumlahUser={(payload) => props.getJumlahUser(payload.regional, payload.kprk)}
 	          />
 	        </Grid>
-	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	        <Grid item lg={3} sm={6} xl={3} xs={12}>
 	        	<TotalPelanggan 
 	        		total={props.totPel}
 	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
@@ -256,13 +257,17 @@ const Dashboard = props => {
 	        		onClick={() => props.history.push('/pelanggan')}
 	        	/>
 	        </Grid>
-	        <Grid item lg={4} sm={4} xl={3} xs={12}>
+	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	        	<TiketToday 
-	        		total={0}
-	        		totalLain={0}
 	        		data={props.info}
 	        		user={props.dataUser}
 	        		getInfo={(payload) => props.getInfo(payload)}
+	        		onClick={() => props.history.push('/tiket')}
+	        	/>
+	        </Grid>
+	        <Grid item lg={3} sm={6} xl={6} xs={12}>
+	        	<RequestClose 
+	        		total={props.info.close}
 	        		onClick={() => props.history.push('/tiket')}
 	        	/>
 	        </Grid>

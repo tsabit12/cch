@@ -24,7 +24,8 @@ const intialState = {
 	produk: [],
 	info: {
 		masuk: 0,
-		keluar: 0
+		keluar: 0,
+		close: 0
 	}
 }
 
