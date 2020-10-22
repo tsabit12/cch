@@ -12,14 +12,14 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
 	row: {
-		// whiteSpace: 'nowrap'
+		whiteSpace: 'nowrap'
 	}
 }))
 
 const ListXray = props => {
-	const { list } = props;
+	const { list, activePage, limit } = props;
 	const classes = useStyles();
-	var no = 1;
+	var no = (activePage * limit) - limit + 1;
 
 	return(
 		<TableContainer style={{maxHeight: 450}}>
@@ -60,7 +60,9 @@ const ListXray = props => {
 }
 
 ListXray.propTypes = {
-	list: PropTypes.array.isRequired
+	list: PropTypes.array.isRequired,
+	activePage: PropTypes.number.isRequired,
+	limit: PropTypes.number.isRequired
 }
 
 export default ListXray;
