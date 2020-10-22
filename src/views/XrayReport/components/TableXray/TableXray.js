@@ -14,7 +14,7 @@ const TableXray = props => {
 	var no = 1;
 
 	return(
-		<Table size='small'>
+		<Table size='small' padding='checkbox'>
 			<TableHead>
 				<TableRow>
 					<TableCell>NO</TableCell>

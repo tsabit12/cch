@@ -216,7 +216,6 @@ const Pelanggan = props => {
 				/> }
 			<Card>
 				<CardHeader 
-					title='DATA PELANGGAN'
 					action={<SearchParam 
 						getKprk={handleGetKprk} 
 						onSubmit={handleSearch}

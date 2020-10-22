@@ -14,19 +14,20 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 510,
+		minHeight: 370,
 		position: 'relative',
 		overflowX: 'auto'
 	},
 	container: {
 		display: 'flex',
 		alignItems: 'center',
-		height: '450px',
+		height: '200px',
 		justifyContent: 'center'
 	},
 	row: {
 		whiteSpace: 'nowrap',
-		lineHeight: '13px'
+		lineHeight: '13px',
+		fontSize: 11
 	},
 	group: {
 		display: 'flex',
@@ -49,7 +50,7 @@ const DataPelanggan = props => {
 
 	return(
 		<div className={classes.root}>
-			<Table size='small'>
+			<Table size='small' padding='checkbox'>
 				<TableHead>
 	                <TableRow>
 	                  <TableCell className={classes.row}>No</TableCell>

@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 		marginTop: 5
 	},
 	contentEmpty: {
-		minHeight: 430,
+		minHeight: 360,
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center'

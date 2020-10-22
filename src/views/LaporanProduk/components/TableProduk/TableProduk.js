@@ -25,7 +25,7 @@ const TableProduk = props => {
 			/>
 			<Divider />
 			<TableContainer style={{maxHeight: 430}}>
-				<Table stickyHeader aria-label="sticky table" size='small'>
+				<Table stickyHeader aria-label="sticky table" size='small' padding='checkbox'>
 					<TableHead>
 						<TableRow>
 							<TableCell>NO</TableCell>

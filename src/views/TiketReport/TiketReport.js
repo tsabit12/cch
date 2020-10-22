@@ -79,8 +79,8 @@ const TiketReport = props => {
 		      	<Grid
 		          item
 		          lg={3}
-		          sm={4}
-		          xl={3}
+		          sm={12}
+		          xl={12}
 		          xs={12}
 		        >
 					<Navbar 
@@ -94,8 +94,8 @@ const TiketReport = props => {
 		        <Grid
 		          item
 		          lg={9}
-		          sm={8}
-		          xl={9}
+		          sm={12}
+		          xl={12}
 		          xs={12}
 		        >
 		        	<ListTiket 

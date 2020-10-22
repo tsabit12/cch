@@ -12,7 +12,8 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
 	row: {
-		whiteSpace: 'nowrap'
+		whiteSpace: 'nowrap',
+		fontSize: 11
 	}
 }))
 
@@ -23,7 +24,7 @@ const ListXray = props => {
 
 	return(
 		<TableContainer style={{maxHeight: 450}}>
-			<Table stickyHeader aria-label="sticky table" size='small'>
+			<Table stickyHeader aria-label="sticky table" size='small' padding='checkbox'>
 				<TableHead>
 					<TableRow>
 						<TableCell className={classes.row}>NO</TableCell>

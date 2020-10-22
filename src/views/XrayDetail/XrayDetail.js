@@ -48,7 +48,7 @@ const XrayDetail = props => {
 	const classes = useStyles();
 	const { data, message, user, officesAllowed } = props;
 	const [paging, setPaging] = useState({
-		limit: 10,
+		limit: 15,
 		offset: 0,
 		active: 1
 	})
@@ -95,11 +95,11 @@ const XrayDetail = props => {
 	const getData = () => {
 		const payload = {
 			offset: 0,
-			limit: 10
+			limit: 15
 		}
 
 		setPaging({
-			limit: 10,
+			limit: 15,
 			offset: 0,
 			active: 1
 		})
@@ -135,13 +135,13 @@ const XrayDetail = props => {
 		}else{
 			const payload = {
 				offset: 0,
-				limit: 10,
+				limit: 15,
 				query
 			};
 
 			//reset
 			setPaging({
-				limit: 10,
+				limit: 15,
 				offset: 0,
 				active: 1
 			});

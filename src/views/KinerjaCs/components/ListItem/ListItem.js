@@ -10,34 +10,44 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+	cell: {
+		whiteSpace: 'nowrap',
+		lineHeight: '13px',
+		fontSize: 11
+	}
+}))
 
 const ListItem = props => {
+	const classes = useStyles();
 	const { data } = props;
 	var no = 1;
 
 	return(
-		<TableContainer style={{maxHeight: 500}}>
-			<Table stickyHeader aria-label="sticky table" size='small'>
+		<TableContainer style={{maxHeight: 380}}>
+			<Table stickyHeader aria-label="sticky table" size='small' padding='checkbox'>
 				<TableHead>
 					<TableRow>
-						<TableCell>NO</TableCell>
-						<TableCell>KANTOR</TableCell>
-						<TableCell>CUSTOMER SERVICE</TableCell>
-						<TableCell align='right'>SELESAI</TableCell>
-						<TableCell align='right'>TERBUKA</TableCell>
-						<TableCell align='right'>TOTAL</TableCell>
-						<TableCell align='center'>DETAIL</TableCell>
+						<TableCell className={classes.cell}>NO</TableCell>
+						<TableCell className={classes.cell}>KANTOR</TableCell>
+						<TableCell className={classes.cell}>CUSTOMER SERVICE</TableCell>
+						<TableCell className={classes.cell} align='right'>SELESAI</TableCell>
+						<TableCell className={classes.cell} align='right'>TERBUKA</TableCell>
+						<TableCell className={classes.cell} align='right'>TOTAL</TableCell>
+						<TableCell className={classes.cell} align='center'>DETAIL</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{ data.length > 0 ? data.map((row, index) => <TableRow key={index}>
-						<TableCell>{no++}</TableCell>
-						<TableCell>{row.kantor_pos}</TableCell>
-						<TableCell>{row.title.toUpperCase()}</TableCell>
-						<TableCell align='right'>{row.jmlselesai}</TableCell>
-						<TableCell align='right'>{row.jmlterbuka}</TableCell>
-						<TableCell align='right'>{Number(row.jmlselesai) + Number(row.jmlterbuka)}</TableCell>
-						<TableCell align='center'>
+						<TableCell className={classes.cell}>{no++}</TableCell>
+						<TableCell className={classes.cell}>{row.kantor_pos}</TableCell>
+						<TableCell className={classes.cell}>{row.title.toUpperCase()}</TableCell>
+						<TableCell className={classes.cell} align='right'>{row.jmlselesai}</TableCell>
+						<TableCell className={classes.cell} align='right'>{row.jmlterbuka}</TableCell>
+						<TableCell className={classes.cell} align='right'>{Number(row.jmlselesai) + Number(row.jmlterbuka)}</TableCell>
+						<TableCell className={classes.cell} align='center'>
 							<IconButton 
 	          					color="default" 
 	          					aria-label="View detail"

@@ -65,7 +65,7 @@ const getStatus = number => {
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		height: 530,
+		height: 420,
 		position: 'relative'
 	},
 	header: {
@@ -91,6 +91,10 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 10 / 2, 
 		marginRight: 5
 
+	},
+	cell: {
+		whiteSpace: 'nowrap',
+		fontSize: 11
 	}
 }))
 
@@ -224,18 +228,18 @@ const ListTiket = props => {
 				</div>
 			</div>
 			<Divider />
-			<div style={{overflowY: 'auto', minHeight: 420}}>
-				<Table size='small'>
+			<div style={{overflowY: 'auto', minHeight: 280}}>
+				<Table size='small' padding='checkbox'>
 					<TableHead>
 						<TableRow>
-							<TableCell style={{whiteSpace: 'nowrap'}}>NO</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR TIKET</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>NOMOR RESI</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>ASAL PENGADUAN</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>STATUS</TableCell>
-							{ visibleDurasi && <TableCell style={{whiteSpace: 'nowrap'}} align='center'>DURASI</TableCell> }
-							<TableCell style={{whiteSpace: 'nowrap'}}>PELANGGAN</TableCell>
-							<TableCell style={{whiteSpace: 'nowrap'}}>TANGGAL ADUAN</TableCell>
+							<TableCell className={classes.cell}>NO</TableCell>
+							<TableCell className={classes.cell}>NOMOR TIKET</TableCell>
+							<TableCell className={classes.cell}>NOMOR RESI</TableCell>
+							<TableCell className={classes.cell}>ASAL PENGADUAN</TableCell>
+							<TableCell className={classes.cell}>TUJUAN PENGADUAN</TableCell>
+							<TableCell className={classes.cell}>STATUS</TableCell>
+							{ visibleDurasi && <TableCell className={classes.cell} align='center'>DURASI</TableCell> }
+							<TableCell className={classes.cell}>TANGGAL ADUAN</TableCell>
 						</TableRow>
 					</TableHead>
 					{ props.list[paging.active] ?
@@ -246,7 +250,7 @@ const ListTiket = props => {
 							durasiVisible={props.page === 1 || props.page === 2 ? true : false }
 						/> : <TableBody>
 							<TableRow>
-								<TableCell colSpan={7} align='center'>Tiket tidak ditemukan</TableCell>
+								<TableCell colSpan={8} align='center'>Tiket tidak ditemukan</TableCell>
 							</TableRow>
 						</TableBody>}
 				</Table>

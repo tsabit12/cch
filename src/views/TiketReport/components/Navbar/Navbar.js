@@ -131,8 +131,7 @@ const Navbar = props => {
 			<ListItem 
 				button 
 				onClick={() => props.onChangePage(4)}
-				className={page === 4 ? classes.listActived : null} 
-				divider
+				className={page === 4 ? classes.listActived : null}
 			>
 			    <ListItemText primary="Pengaduan Keluar" />
 				<ListItemIcon>

@@ -15,13 +15,14 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		minHeight: 500,
+		minHeight: 360,
 		position: 'relative',
 		overflowX: 'auto'
 	},
 	row: {
 		whiteSpace: 'nowrap',
-		lineHeight: '13px'
+		lineHeight: '13px',
+		fontSize: 11
 	},
 	text: {
 		whiteSpace: 'nowrap',
@@ -110,7 +111,7 @@ const TableUser = props => {
 
 	return(
 		<div className={classes.root}>
-			<Table size='small'>
+			<Table size='small' padding='checkbox'>
               	<TableHead>
 	                <TableRow>
 	                  <TableCell className={classes.row}>No</TableCell>
