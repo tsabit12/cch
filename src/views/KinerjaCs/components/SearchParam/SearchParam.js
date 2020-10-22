@@ -14,7 +14,7 @@ import { DatePicker } from "@material-ui/pickers";
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		justifyContent: 'space-between',
+		justifyContent: 'flex-end',
 		alignItems: 'center',
 		display: 'flex'
 	},
@@ -142,7 +142,6 @@ const SearchParam = props => {
 
 	return(
 		<div className={classes.root}>
-			<p>KINERJA CS</p>
 			<div>
 				<FormControl variant='outlined' size="small" className={classes.field}>
 					<InputLabel htmlFor="regLabel">REGIONAL</InputLabel>

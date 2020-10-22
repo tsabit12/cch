@@ -154,8 +154,10 @@ export default{
 	}).then(res => res.data),
 	getChannel: () => axios.post(`${process.env.REACT_APP_API}/listChannel`)
 		.then(res => res.data),
-	addTicket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTiket`, {
-		...payload
+	addTicket: (formData) => axios.post(`${process.env.REACT_APP_API2}/tiket/addTiket`, formData, {
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded'
+		}
 	}).then(res => res.data),
 	getLaporanTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/report`, {
 		...payload

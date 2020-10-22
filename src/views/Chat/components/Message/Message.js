@@ -353,7 +353,16 @@ const Message = props => {
 	}
 
 	const handleChooseFile = () => {
+		inputFileRef.current.value = null;
 		inputFileRef.current.click();
+
+		setTimeout(function() {
+			setState(prevState => ({
+				...prevState,
+				fileName: '',
+				placeholder: 'Masukkan text'
+			}))
+		}, 10);
 	}
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { 
 	Card,
 	CardHeader,
@@ -89,12 +89,14 @@ const RenderListTrack = props => {
 
 const TiketForm = props => {
 	const classes = useStyles();
+	const inputFileRef = useRef();
 	const { values, tracks, errors } = props;
 	const [state, setState] = useState({
 		asal: '',
 		tujuan: '',
 		layanan: ''
 	})
+	const [filename, setFilename] = useState('');
 
 	useEffect(() => {
 		if (tracks.length > 0) {
@@ -121,6 +123,19 @@ const TiketForm = props => {
 		}
 		//eslint-disable-next-line
 	}, [tracks])
+
+	const handleClickFile = () => {
+		inputFileRef.current.click();
+		inputFileRef.current.value = null;
+	}
+
+	const handleSubmit = () => {
+		if (filename) {
+			props.onSubmit(state, inputFileRef.current.files[0])
+		}else{
+			props.onSubmit(state);
+		}
+	}
 	
 	return(
 		<Card className={classes.root}>
@@ -373,6 +388,18 @@ const TiketForm = props => {
 							/>
 							{ errors.catatan && <FormHelperText>{errors.catatan}</FormHelperText>}
 						</FormControl>
+						<input 
+							type='file'
+							style={{display: 'none'}}
+							ref={inputFileRef}
+							onChange={() => {
+								const { files } = inputFileRef.current;
+								setFilename(files[0].name);
+							}}
+						/>
+						<Button variant='outlined' color='primary' onClick={handleClickFile}>
+							{ filename ? filename : 'UPLOAD FILE' }
+						</Button>
 					</React.Fragment> }
 			</CardContent>
 			<Divider />
@@ -380,7 +407,7 @@ const TiketForm = props => {
 				<Button 
 					variant='outlined' 
 					// color='primary'
-					onClick={() => props.onSubmit(state)}
+					onClick={() => handleSubmit()}
 					disabled={tracks.length > 0 && !props.isAvailabel ? false : true }
 				>
 					BUAT TIKET

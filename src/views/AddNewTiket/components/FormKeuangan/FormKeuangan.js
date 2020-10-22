@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
 	Card,
 	CardHeader,
@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 const FormKeuangan = props => {
 	const classes = useStyles();
 	const { errors, pelanggan, user } = props;
+	const inputFileref = useRef();
 	const [listProduk, setProduk ] = useState([]);
 	const [field, setField] = useState({
 		layanan: '00',
@@ -53,6 +54,7 @@ const FormKeuangan = props => {
 	const [offices2, setOffices2] = useState([]);
 	const [offices3, setOffices3] = useState([]);
 	const [isValid, setValid] = useState({});
+	const [file, setFile] = useState('');
 
 	useEffect(() => {
 		api.getProdukJaskug()
@@ -160,6 +162,7 @@ const FormKeuangan = props => {
 			}
 
 			props.setLoading(true);
+			const formData = new FormData();
 
 			api.cch.addPelanggan(payloadPelanggan)
 				.then(customers => {
@@ -194,18 +197,19 @@ const FormKeuangan = props => {
 								})
 							})
 
-							const payload = {
-								tiket: payloadTiket,
-								response_tiket: {
-									response: field.catatan,
-									file_name: null,
-									lacak_value: null,
-									user_cch: props.user.email,
-									ticket_id: resTiket.noTiket
-								}
+							const response_tiket = {
+								response: field.catatan,
+								file_name: null,
+								lacak_value: null,
+								user_cch: props.user.email,
+								ticket_id: resTiket.noTiket
 							}
 
-							api.addTicket(payload)
+							formData.append('tiket', JSON.stringify(payloadTiket));
+							formData.append('response_tiket', JSON.stringify(response_tiket));
+							if (file) formData.append('file', inputFileref.current.files[0]);
+
+							api.addTicket(formData)
 								.then(() => props.setSucces())
 								.catch(() => {
 									props.setLoading(false);
@@ -233,6 +237,18 @@ const FormKeuangan = props => {
 		if (value.kantortujuan.split('-').length !== 2) errors.kantortujuan = 'Kantor setor belum dipilih';
 		if (!value.noresi) errors.noresi = 'Nomor resi tidak boleh kosong';
 		return errors;
+	}
+
+	const handleClickFile = () => {
+		inputFileref.current.value = null;
+		inputFileref.current.click();
+
+		setFile('');
+	}
+
+	const handleChangeFile = () => {
+		const { files } = inputFileref.current;
+		setFile(files[0].name);
 	}
 
 	return(
@@ -386,6 +402,15 @@ const FormKeuangan = props => {
 						onChange={handleChange}
 					/>
 				</FormControl>
+				<input 
+					type='file'
+					style={{display: 'none'}}
+					ref={inputFileref}
+					onChange={handleChangeFile}
+				/>
+				<Button variant='outlined' color='primary' onClick={handleClickFile}>
+					{ file ? file : 'UPLOAD FILE' }
+				</Button>
 			</CardContent>
 			<Divider />
 			<CardActions style={{justifyContent: 'flex-end'}}>

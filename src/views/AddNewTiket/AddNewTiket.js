@@ -698,7 +698,7 @@ const AddNewTiket = props => {
 		}))
 	}
 
-	const onAddTiket = (valueFormChild) => {
+	const onAddTiket = (valueFormChild, files) => {
 		const errors = validate('tiket');
 		setState(state => ({
 			...state,
@@ -725,6 +725,8 @@ const AddNewTiket = props => {
 				jenisChannel: pengaduan.channel,
 				detailAlamat: pengaduan.detailAlamat
 			}
+
+			const formData = new FormData();
 
 			api.cch.addPelanggan(payloadPelanggan)
 				.then(customers => {
@@ -765,18 +767,29 @@ const AddNewTiket = props => {
 								})
 							})
 
-							const payload = {
-								tiket: payloadTiket,
-								response_tiket: {
-									response: dataTiket.catatan,
-									file_name: null,
-									lacak_value: JSON.stringify(tiket.tracks),
-									user_cch: props.user.email,
-									ticket_id: resTiket.noTiket
-								}
+							// const payload = {
+							// 	tiket: payloadTiket,
+							// 	response_tiket: {
+							// 		response: dataTiket.catatan,
+							// 		file_name: null,
+							// 		lacak_value: JSON.stringify(tiket.tracks),
+							// 		user_cch: props.user.email,
+							// 		ticket_id: resTiket.noTiket
+							// 	}
+							// }
+							const response_tiket = {
+								response: dataTiket.catatan,
+								file_name: null,
+								lacak_value: JSON.stringify(tiket.tracks),
+								user_cch: props.user.email,
+								ticket_id: resTiket.noTiket
 							}
 
-							api.addTicket(payload)
+							formData.append('tiket', JSON.stringify(payloadTiket));
+							formData.append('response_tiket', JSON.stringify(response_tiket));
+							if (files) formData.append('file', files);
+
+							api.addTicket(formData)
 								.then(res => {
 									resetAllState();
 									setSucces(true);

@@ -109,7 +109,7 @@ export const convertMonth = (date) => {
 
 export const listAduan = [
     { text: '--Pilih jenis aduan--', value: '00'},
-    { text: 'Keterlambatan', value: '1'},
+    { text: 'Keterlambatan/Belum Terima', value: '1'},
     { text: 'Kehilangan', value: '2'},
     { text: 'Kiriman Tidak Utuh', value: '3'},
     { text: 'Salah Serah', value: '4'},
@@ -117,6 +117,8 @@ export const listAduan = [
     { text: 'Retur Kiriman', value: '6'},
     { text: 'Salah Tempel Resi', value: '7'},
     { text: 'Pengaduan Layanan', value: '8'},
-    { text: 'Belum Terima', value: '9'},
-    { text: 'Lainnya', value: '10'}
+    { text: 'Permintaan Data/Berita Acara', value: '9'},
+    { text: 'Salah Update Status', value: '10'},
+    //{ text: 'Belum Terima', value: '9'},
+    // { text: 'Lainnya', value: '10'}
 ]

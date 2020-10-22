@@ -22,7 +22,6 @@ import {
 
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import PeopleIcon from '@material-ui/icons/People';
 
@@ -110,7 +109,7 @@ const items = [
     href: '/laporan-tiket',
     icon: FolderOpenIcon,
     title: 'Laporan Tiket',
-    user: [1, 2, 3, 4, 5, 6, 8]
+    user: [1, 2, 3, 4, 5, 6, 8, 7]
   },
   {
     href: '/laporan-product',
@@ -122,12 +121,12 @@ const items = [
     href: '/laporan-xray',
     icon: FolderOpenIcon,
     title: 'Laporan X-Ray',
-    user: [1, 2, 3, 4, 5, 6, 8]
+    user: [1, 2, 3, 4, 5, 6, 8, 7]
   },
   {
     href: '/kinerja-cs',
-    icon: TrendingUpIcon,
-    title: 'Kinerja CS',
+    icon: FolderOpenIcon,
+    title: 'Laporan Kinerja CS',
     user: [1, 2, 3, 4, 5, 6, 7]
   },
   {
