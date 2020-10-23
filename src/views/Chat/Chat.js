@@ -18,6 +18,7 @@ import {
 } from "./components";
 
 import MuiAlert from '@material-ui/lab/Alert';
+import Loader from '../Loader';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -54,6 +55,7 @@ const Chat = props => {
 		loading: false,
 		errors: {}
 	})
+	const [loading, setLoading] = React.useState(false);
 
 	React.useEffect(() => {
 		props.getTiketById(props.match.params.notiket)
@@ -81,40 +83,53 @@ const Chat = props => {
 	}, [props.dataTiket])
 
 	const handleUpload = (file, text, photoName, status) => {
+		setLoading(true);
 		const { data } = props.dataTiket;
 		const formData = new FormData();
 		formData.append('file', file);
 		formData.append('noTicket', data.no_tiket);
 		formData.append('status', status);
 		formData.append('user', props.user.email);
-		formData.append('tujuanPengaduan', data.tujuan_pengaduan);
+		formData.append('no_resi', data.awb);
 		formData.append('response', text);
 
 		const payload = {
 			noTicket: data.no_tiket,
 			response: text,
 			user: props.user.email,
-			tujuanPengaduan: data.tujuan_pengaduan,
+			no_resi: data.awb,
 			photoProfile: photoName,
 			kantor_pos: props.user.kantor_pos,
 			status
 		}
 
-		props.uploadResponse(formData, payload);
+		props.uploadResponse(formData, payload)
+			.then(() => setLoading(false))
+			.catch(() => {
+				setLoading(false);
+				alert('Terdapat kesalahan');
+			})
 	} 
 
 	const handleSendMessage = (text, photoName, status) => {
+		setLoading(true)
 		const { data } = props.dataTiket;
 		const payload = {
 			noTicket: data.no_tiket,
 			response: text,
 			user: props.user.email,
-			tujuanPengaduan: data.tujuan_pengaduan,
+			no_resi: data.awb,
 			photoProfile: photoName,
 			kantor_pos: props.user.kantor_pos,
 			status
 		}
-		props.addResponseTiket(payload);
+
+		props.addResponseTiket(payload)
+			.then(() => setLoading(false))
+			.catch(() => {
+				setLoading(false);
+				alert('Terdapat kesalahan');
+			})
 	}
 
 	const getNewResponse = (notiket) => props.fetchResponse(notiket)
@@ -163,6 +178,7 @@ const Chat = props => {
 
 	return(
 		<div className={classes.root}>
+			<Loader loading={loading}/>
 		    <ModalForm 
 				visible={state.visible}
 				handleClose={onCloseModal}

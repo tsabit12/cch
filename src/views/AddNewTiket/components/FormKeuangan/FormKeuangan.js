@@ -177,9 +177,9 @@ const FormKeuangan = props => {
 								payloadTiket.push({
 									tipe_bisnis: null,
 									tipe_kantorpos: null,
-									asal_kiriman: field.kantorasal.split('-')[0].trim(),
+									asal_kiriman: field.kantorasal ? field.kantorasal.split('-')[0].trim() : null,
 									asal_pengaduan: user.kantor_pos,
-									tujuan_kiriman: field.kantortujuan.split('-')[0].trim(),
+									tujuan_kiriman: field.kantortujuan ? field.kantortujuan.split('-')[0].trim() : null,
 									jenis_layanan: field.layanan,
 									awb: field.noresi,
 									jenis_kiriman: 3,
@@ -202,7 +202,8 @@ const FormKeuangan = props => {
 								file_name: null,
 								lacak_value: null,
 								user_cch: props.user.email,
-								ticket_id: resTiket.noTiket
+								ticket_id: resTiket.noTiket,
+								no_resi: field.noresi
 							}
 
 							formData.append('tiket', JSON.stringify(payloadTiket));
@@ -233,8 +234,8 @@ const FormKeuangan = props => {
 		if (value.layanan === '00') errors.layanan = 'Jenis layanan belum dipilih';
 		if (tujuan.length <= 0) errors.tujuanKantor = 'Harap pilih 1 atau lebih tujuan kantor';
 		if (value.jenis === '00') errors.jenis = 'Jenis aduan belum dipilih';
-		if (value.kantorasal.split('-').length !== 2) errors.kantorasal = 'Kantor bayar belum dipilih';
-		if (value.kantortujuan.split('-').length !== 2) errors.kantortujuan = 'Kantor setor belum dipilih';
+		// if (value.kantorasal.split('-').length !== 2) errors.kantorasal = 'Kantor bayar belum dipilih';
+		// if (value.kantortujuan.split('-').length !== 2) errors.kantortujuan = 'Kantor setor belum dipilih';
 		if (!value.noresi) errors.noresi = 'Nomor resi tidak boleh kosong';
 		return errors;
 	}

@@ -782,7 +782,8 @@ const AddNewTiket = props => {
 								file_name: null,
 								lacak_value: JSON.stringify(tiket.tracks),
 								user_cch: props.user.email,
-								ticket_id: resTiket.noTiket
+								ticket_id: resTiket.noTiket,
+								no_resi: dataTiket.noresi
 							}
 
 							formData.append('tiket', JSON.stringify(payloadTiket));
