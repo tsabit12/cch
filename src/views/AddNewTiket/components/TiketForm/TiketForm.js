@@ -266,7 +266,7 @@ const TiketForm = props => {
 						      options={props.optionsOffice}
 						      multiple
 						      inputValue={values.tujuanKirim}
-						      getOptionLabel={option => option.NamaKtr}
+						      getOptionLabel={(option) => `${option.nopend} - ${option.NamaKtr}`}
 						      onInputChange={(e, value) => props.onChangeSearch(value)}
 						      onChange={props.onChooseTujuan}
 						      //getOptionSelected={(row) => row.nopend}

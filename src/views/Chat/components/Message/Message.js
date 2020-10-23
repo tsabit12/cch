@@ -232,22 +232,6 @@ const Text = props => {
 		            	{props.date} ({props.status})
 		          </Typography>
 		        </div>
-
-		        { props.lacak && JSON.parse(props.lacak).map((row, index) => (
-					<div className={classes.rowTrack} key={index}>
-						<Typography variant='body2' className={classes.typography}>
-							DESCRIPTION ({row.description})
-						</Typography>
-
-						<Typography variant='body2' className={classes.typography}>
-							EVENT NAME : {row.eventName} ({row.eventDate})
-						</Typography>
-
-						<Typography variant='body2' className={classes.typography}>
-							 OFFICE : {row.officeCode} - {row.officeName}
-						</Typography>
-					</div>
-				))}
 	        </React.Fragment> : 
 	        	<div className={props.align === "right" ? classes.rightText : ''}>
 		        	<RenderImage 
@@ -256,7 +240,23 @@ const Text = props => {
 		        		text={props.msg}
 		        		status={props.status}
 		        	/>
-				</div>}
+				</div> }
+
+			{ props.lacak && JSON.parse(props.lacak).map((row, index) => (
+				<div className={classes.rowTrack} key={index}>
+					<Typography variant='body2' className={classes.typography}>
+						DESCRIPTION ({row.description})
+					</Typography>
+
+					<Typography variant='body2' className={classes.typography}>
+						EVENT NAME : {row.eventName} ({row.eventDate})
+					</Typography>
+
+					<Typography variant='body2' className={classes.typography}>
+						 OFFICE : {row.officeCode} - {row.officeName}
+					</Typography>
+				</div>
+			))}
         </React.Fragment>
 	);
 }
