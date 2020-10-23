@@ -37,6 +37,7 @@ const ListXray = props => {
 						<TableCell className={classes.row}>KANTONG LAMA</TableCell>
 						<TableCell className={classes.row}>KANTONG BARU</TableCell>
 						<TableCell className={classes.row}>KETERANGAN</TableCell>
+						<TableCell className={classes.row}>TANGGAL INPUT</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -51,8 +52,9 @@ const ListXray = props => {
 						<TableCell className={classes.row}>{row.kantong_lama}</TableCell>
 						<TableCell className={classes.row}>{row.kantong_baru}</TableCell>
 						<TableCell className={classes.row}>{row.keterangan}</TableCell>
+						<TableCell className={classes.row}>{row.tgl_input}</TableCell>
 					</TableRow>) : <TableRow>
-						<TableCell colSpan={10} align='center'>Data tidak ditemukan</TableCell>
+						<TableCell colSpan={11} align='center'>Data tidak ditemukan</TableCell>
 					</TableRow> }
 				</TableBody>
 			</Table>

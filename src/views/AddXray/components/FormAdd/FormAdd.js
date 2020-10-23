@@ -166,7 +166,7 @@ const FormAdd = props => {
 					        inputValue={value.label}
 					        onInputChange={(event, newInputValue) => setValue(value => ({ ...value, label: newInputValue }))}
 							options={office}
-							getOptionLabel={(option) => option.NamaKtr} 
+							getOptionLabel={(option) => option.nopend ? `${option.nopend} - ${option.NamaKtr}` : ''} 
 							getOptionSelected={(option) => option.NamaKtr}
 							renderInput={(params) => 
 								<TextField 
@@ -192,7 +192,7 @@ const FormAdd = props => {
 					        inputValue={value2.label}
 					        onInputChange={(event, newInputValue) => setValue2(value => ({ ...value, label: newInputValue }))}
 							options={office}
-							getOptionLabel={(option) => option.NamaKtr}
+							getOptionLabel={(option) => option.nopend ? `${option.nopend} - ${option.NamaKtr}` : ''} 
 							getOptionSelected={(option) => option.NamaKtr}
 							renderInput={(params) => 
 								<TextField 
@@ -218,7 +218,7 @@ const FormAdd = props => {
 					        inputValue={value3.label}
 					        onInputChange={(event, newInputValue) => setValue3(value => ({ ...value, label: newInputValue }))}
 							options={office}
-							getOptionLabel={(option) => option.NamaKtr}
+							getOptionLabel={(option) => option.nopend ? `${option.nopend} - ${option.NamaKtr}` : ''} 
 							getOptionSelected={(option) => option.NamaKtr}
 							renderInput={(params) => 
 								<TextField 
