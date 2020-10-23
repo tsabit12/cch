@@ -19,7 +19,11 @@ const GrafikProduk = props => {
 			{
 				label: '-',
 				backgroundColor: palette.primary.main,
-				data: [1]
+				data: [1],
+        barThickness: 12,
+        maxBarThickness: 15,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
 			}
 		]
 	});
@@ -38,8 +42,24 @@ const GrafikProduk = props => {
         setData({
           labels,
           datasets: [
-            { label: 'Keluar', data: keluar, backgroundColor: palette.success.main },
-            { label: 'Masuk', data: masuk, backgroundColor: palette.warning.main },
+            { 
+              label: 'Keluar', 
+              data: keluar, 
+              backgroundColor: palette.success.main,
+              barThickness: 12,
+              maxBarThickness: 15,
+              barPercentage: 0.5,
+              categoryPercentage: 0.5,
+            },
+            { 
+              label: 'Masuk', 
+              data: masuk, 
+              backgroundColor: palette.warning.main,
+              barThickness: 12,
+              maxBarThickness: 15,
+              barPercentage: 0.5,
+              categoryPercentage: 0.5,
+            },
           ]
         })
     }
@@ -83,10 +103,6 @@ const GrafikProduk = props => {
     scales: {
       xAxes: [
         {
-          barThickness: 12,
-          maxBarThickness: 15,
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
           ticks: {
             fontColor: palette.text.secondary
           },

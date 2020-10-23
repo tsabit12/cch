@@ -65,7 +65,7 @@ const RequestClose = props => {
               color="inherit"
               variant="h3"
             >
-              {props.total}
+              {Number(props.total)}
             </Typography>
           </Grid>
           <Grid item>
@@ -91,7 +91,7 @@ const RequestClose = props => {
 };
 
 RequestClose.propTypes = {
-  total: PropTypes.number.isRequired,
+  //total: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };
 

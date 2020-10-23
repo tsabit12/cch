@@ -44,7 +44,11 @@ const Grafik = props => {
 			{
 				label: 'data1',
 				backgroundColor: palette.primary.main,
-				data: [10]
+				data: [10],
+        barThickness: 12,
+        maxBarThickness: 15,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5,
 			}
 		]
 	});
@@ -57,17 +61,29 @@ const Grafik = props => {
 					{
 						label: 'Semua',
 						backgroundColor: palette.warning.main,
-						data: [Number(dataProps.keluar.all), Number(dataProps.masuk.all)]
+						data: [Number(dataProps.keluar.all), Number(dataProps.masuk.all)],
+            barThickness: 12,
+            maxBarThickness: 15,
+            barPercentage: 0.5,
+            categoryPercentage: 0.5,
 					}, 
 					{
 						label: 'Terbuka',
 						backgroundColor: palette.info.main,
-						data: [Number(dataProps.keluar.terbuka), Number(dataProps.masuk.terbuka)]
+						data: [Number(dataProps.keluar.terbuka), Number(dataProps.masuk.terbuka)],
+            barThickness: 12,
+            maxBarThickness: 15,
+            barPercentage: 0.5,
+            categoryPercentage: 0.5,
 					},
 					{
 						label: 'Selesai',
 						backgroundColor: palette.success.main,
-						data: [Number(dataProps.keluar.selesai), Number(dataProps.masuk.selesai)]
+						data: [Number(dataProps.keluar.selesai), Number(dataProps.masuk.selesai)],
+            barThickness: 12,
+            maxBarThickness: 15,
+            barPercentage: 0.5,
+            categoryPercentage: 0.5,
 					} 
 				],
 
@@ -113,10 +129,6 @@ const Grafik = props => {
     scales: {
       xAxes: [
         {
-          barThickness: 12,
-          maxBarThickness: 15,
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
           ticks: {
             fontColor: palette.text.secondary
           },
