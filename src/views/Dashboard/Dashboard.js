@@ -370,7 +370,6 @@ const Dashboard = props => {
 };
 
 Dashboard.propTypes = {
-	getJumlahUser: PropTypes.func.isRequired,
 	flashMessage: PropTypes.object.isRequired,
 	dataUser: PropTypes.object.isRequired,
 	totPel: PropTypes.number.isRequired,

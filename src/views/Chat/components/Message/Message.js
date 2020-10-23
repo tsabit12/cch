@@ -166,7 +166,7 @@ const useStylesImage = makeStyles(theme => ({
 
 const RenderImage = (props) => {
 	const classes = useStylesImage();
-	const types  = props.file.split(".")[1];
+	const types  = props.file.split(".")[1].toLowerCase();
 	let image = '';
 	if (types === 'png' || types === 'jpg' || types === 'jpeg') {
 		image = `${process.env.REACT_APP_IMAGE}/${props.file}`;
