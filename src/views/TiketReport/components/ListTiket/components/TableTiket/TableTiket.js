@@ -87,7 +87,9 @@ const TableTiket = props => {
 				</TableCell>
 				<TableCell className={classes.cell}>{row.awb}</TableCell>
 				<TableCell className={classes.cell}>{row.asal_pengaduan}</TableCell>
-				<TableCell className={classes.cell}>{row.tujuan_pengaduan.replace(/,/g, ', ')}</TableCell>
+				<TableCell className={classes.cell}>
+					{row.tujuan_pengaduan.split(',').map((row, index) => <p key={index}>{row}</p>)}
+				</TableCell>
 				<TableCell className={classes.cell}>
 					 <Chip label={row.status} style={{fontSize: 13}} color='secondary' size="small" />
 				</TableCell>

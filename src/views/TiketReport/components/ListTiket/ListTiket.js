@@ -228,7 +228,7 @@ const ListTiket = props => {
 				</div>
 			</div>
 			<Divider />
-			<div style={{overflowY: 'auto', minHeight: '62vh'}}>
+			<div style={{overflowY: 'auto', height: '63vh'}}>
 				<Table size='small' padding='checkbox'>
 					<TableHead>
 						<TableRow>
