@@ -1,13 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
   Button,
-  ListItem
+  ListItem,
+  Collapse
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -54,12 +55,41 @@ const CustomRouterLink = forwardRef((props, ref) => (
 
 const SidebarNav = props => {
   const {className, href, title, icon: Icon, jabatan, toUser, ...rest } = props;
+  const [visible, setVisible] = useState(false);
   
   const classes = useStyles();
 
   return (
     <React.Fragment>
-      { toUser.includes(jabatan) && <ListItem
+      { props.collapse.length > 0 ? <React.Fragment>
+          <ListItem className={clsx(classes.item, className)} disableGutters>
+            <Button className={classes.button} onClick={() => setVisible(!visible)}>
+              <Icon /> 
+              <span className={classes.title}>
+                { title }
+              </span>            
+            </Button>
+          </ListItem>
+          <Collapse in={visible}>
+            { props.collapse.map((row, index) => <ListItem
+                button
+                disableGutters
+                className={clsx(classes.item, className)}
+                style={{marginLeft: 20}}
+              >
+                <Button 
+                  className={classes.button}
+                  activeClassName={classes.active}
+                  component={CustomRouterLink}
+                  to={row.href}
+                >
+                  <span className={classes.title}>
+                    {row.title}
+                  </span>
+                </Button>
+              </ListItem> )}
+          </Collapse>
+      </React.Fragment> : toUser.includes(jabatan) && <ListItem
         className={clsx(classes.item, className)}
         disableGutters
         {...rest}
@@ -83,7 +113,8 @@ const SidebarNav = props => {
 SidebarNav.propTypes = {
   className: PropTypes.string,
   jabatan: PropTypes.number.isRequired,
-  toUser: PropTypes.array.isRequired
+  toUser: PropTypes.array.isRequired,
+  collapse: PropTypes.array.isRequired
 };
 
 export default SidebarNav;

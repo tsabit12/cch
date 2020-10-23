@@ -73,67 +73,62 @@ const items = [
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
-    user: [1, 2, 3, 4, 5, 6, 7, 8]
+    user: [1, 2, 3, 4, 5, 6, 7, 8],
+    collapse: []
   },
   {
     href: '/user',
     icon: PersonIcon,
     title: 'User',
-    user: [1, 2, 3, 4]
+    user: [1, 2, 3, 4],
+    collapse: []
   },
   {
     href: '/tiket',
     icon: AssignmentIcon,
     title: 'Tiket',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    user: [1, 2, 3, 4, 5, 6, 7],
+    collapse: []
   },
   {
     href: '/pelanggan',
     icon: PeopleIcon,
     title: 'Pelanggan',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    user: [1, 2, 3, 4, 5, 6, 7],
+    collapse: []
   },
   {
     href: '/prod-knowledge',
     icon: LocalLibraryIcon,
     title: 'Product Knowledge',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    user: [1, 2, 3, 4, 5, 6, 7],
+    collapse: []
   },
   {
     href: '/x-ray',
     icon: CancelIcon,
     title: 'Gagal X-Ray',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    user: [1, 2, 3, 4, 5, 6, 7],
+    collapse: []
   },
   {
-    href: '/laporan-tiket',
+    href: null,
     icon: FolderOpenIcon,
-    title: 'Laporan Tiket',
-    user: [1, 2, 3, 4, 5, 6, 8, 7]
-  },
-  {
-    href: '/laporan-product',
-    icon: FolderOpenIcon,
-    title: 'Laporan Produk',
-    user: [1, 2, 3, 5, 6, 8]
-  },
-  {
-    href: '/laporan-xray',
-    icon: FolderOpenIcon,
-    title: 'Laporan X-Ray',
-    user: [1, 2, 3, 4, 5, 6, 8, 7]
-  },
-  {
-    href: '/kinerja-cs',
-    icon: FolderOpenIcon,
-    title: 'Laporan Kinerja CS',
-    user: [1, 2, 3, 4, 5, 6, 7]
+    title: 'Laporan',
+    user: [1, 2, 3, 4, 5, 6, 7],
+    collapse: [
+      {href: '/laporan-tiket', title: 'Tiket'},
+      {href: '/laporan-product', title: 'Produk'},
+      {href: '/kinerja-cs', title: 'Kinerja CS'},
+      {href: '/laporan-xray', title: 'X-Ray'},
+    ]
   },
   {
     href: '/setting',
     icon: SettingsIcon,
     title: 'Pengaturan',
-    user: [1]
+    user: [1],
+    collapse: []
   }
 ];
 
@@ -176,6 +171,7 @@ const Sidebar = props => {
                 icon={item.icon}
                 jabatan={getInitialUser(user.level)}
                 toUser={item.user}
+                collapse={item.collapse}
               /> )}
           </List>
         </Box>
