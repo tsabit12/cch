@@ -25,7 +25,8 @@ const intialState = {
 	info: {
 		masuk: 0,
 		keluar: 0,
-		close: 0
+		close: 0,
+		lastUpdate: 0
 	}
 }
 

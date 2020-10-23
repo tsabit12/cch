@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, FormControl, Select, MenuItem, InputLabel, Button, Paper, Divider } from '@material-ui/core';
 import {
-	TotalUser,
+	TotalLastUpdate,
 	Pencapaian,
 	TiketToday,
 	TotalPelanggan,
@@ -12,7 +12,6 @@ import {
 	RequestClose
 } from "./components";
 import { connect } from "react-redux";
-import { getJumlahUser } from "../../actions/user";
 import { 
 	getPencapaian, 
 	getStatistik, 
@@ -145,15 +144,9 @@ const Dashboard = props => {
 	  	}
 
 	  	defaultValue.periode = periodeView(new Date());
-
-	  	//props.getJumlahUser(defaultValue.regional, defaultValue.kprk, null, periodeView(new Date()));
 	  	props.getStatistik(defaultValue);
-	  	//props.getTotalPelanggan(defaultValue);
 	  	props.getPencapaian(defaultValue);
-
 	  	props.getProduk(defaultValue);
-	  	// props.getInfo(defaultValue);
-
   	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
@@ -230,7 +223,7 @@ const Dashboard = props => {
 			message={text}
 			onClose={props.removeMessage}
 		/> */ }
-		<ModalDetailTiket 
+		<ModalDetailTiket  
 			params={open}
 			onClose={() => setOpen(open => ({
 				...open,
@@ -243,27 +236,26 @@ const Dashboard = props => {
         	spacing={4}
 		>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
-	          <TotalUser 
-	          	total={props.totUser}
-	          	user={props.dataUser}
-	          	getJumlahUser={(payload) => props.getJumlahUser(payload.regional, payload.kprk)}
-	          />
-	        </Grid>
-	        <Grid item lg={3} sm={6} xl={3} xs={12}>
-	        	<TotalPelanggan 
+	          	<TotalPelanggan 
 	        		total={props.totPel}
 	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
 	        		user={props.dataUser}
 	        		onClick={() => props.history.push('/pelanggan')}
 	        	/>
 	        </Grid>
-	        <Grid item lg={3} sm={6} xl={6} xs={12}>
+	        <Grid item lg={3} sm={6} xl={3} xs={12}>
 	        	<TiketToday 
 	        		data={props.info}
 	        		user={props.dataUser}
 	        		getInfo={(payload) => props.getInfo(payload)}
 	        		onClick={() => props.history.push('/tiket')}
 	        	/>
+	        </Grid>
+	        <Grid item lg={3} sm={6} xl={6} xs={12}>
+	        	<TotalLastUpdate 
+		          	total={props.info.lastUpdate}
+		          	onClick={() => props.history.push('/tiket')}
+		        />
 	        </Grid>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	        	<RequestClose 
@@ -379,7 +371,6 @@ const Dashboard = props => {
 
 Dashboard.propTypes = {
 	getJumlahUser: PropTypes.func.isRequired,
-	totUser: PropTypes.number.isRequired,
 	flashMessage: PropTypes.object.isRequired,
 	dataUser: PropTypes.object.isRequired,
 	totPel: PropTypes.number.isRequired,
@@ -394,7 +385,6 @@ Dashboard.propTypes = {
 
 function mapStateToProps(state) {
 	return{
-		totUser: state.user.jumlah,
 		flashMessage: state.message,
 		dataUser: state.auth.user,
 		totPel: state.laporan.jumlahPelanggan,
@@ -406,7 +396,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { 
-	getJumlahUser, 
 	removeMessage,
 	getPencapaian,
 	getStatistik,

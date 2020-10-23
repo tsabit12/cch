@@ -72,10 +72,11 @@ const SidebarNav = props => {
           </ListItem>
           <Collapse in={visible}>
             { props.collapse.map((row, index) => <ListItem
+                key={index}
                 button
                 disableGutters
                 className={clsx(classes.item, className)}
-                style={{marginLeft: 20}}
+                style={{marginLeft: 20, width: 150}}
               >
                 <Button 
                   className={classes.button}

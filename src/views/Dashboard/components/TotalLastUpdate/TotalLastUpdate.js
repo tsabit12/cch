@@ -1,7 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
+import { 
+  Card, 
+  CardContent, 
+  Grid, 
+  Typography, 
+  Avatar, 
+  Divider,
+  CardActions,
+  Button 
+} from '@material-ui/core';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import PropTypes from "prop-types";
 
 const numberWithCommas = (number) => {
@@ -30,41 +40,21 @@ const useStyles = makeStyles(theme => ({
   icon: {
     height: 32,
     width: 32
+  },
+  contentCard: {
+    height: 98,
+    position: 'relative'
   }
 }));
 
-const TotalUser = props => {
-  const { user } = props;
+const TotalLastUpdate = props => {
   const classes = useStyles();
-
-  useEffect(() => {
-    const payload = {};
-    
-    if (user.kantor_pos === '40005') {
-      payload.regional = 'KANTORPUSAT';
-      payload.kprk = '00';
-    }else{
-      if (user.utype === 'Regional') {
-        payload.regional = user.regional;
-        payload.kprk = '00';
-      }else if(user.utype === 'Kprk'){
-        payload.regional = user.regional;
-        payload.kprk = user.kantor_pos;
-      }else{ //omni halopos
-        payload.regional = 'KANTORPUSAT';
-        payload.kprk = user.kantor_pos;
-      }
-    }
-
-    props.getJumlahUser(payload);
-    //eslint-disable-next-line
-  }, [user]);
 
   return (
     <Card
       className={classes.root}
     >
-      <CardContent>
+      <CardContent className={classes.contentCard}>
         <Grid
           container
           justify="space-between"
@@ -76,7 +66,7 @@ const TotalUser = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL USERS
+              BARU DIUPDATE
             </Typography>
             <Typography variant="h3" color="inherit">{numberWithCommas(props.total)}</Typography>
           </Grid>
@@ -87,14 +77,24 @@ const TotalUser = props => {
           </Grid>
         </Grid>
       </CardContent>
+      <Divider />
+      <CardActions style={{justifyContent: 'flex-end'}}>
+        <Button 
+          size='small' 
+          color='inherit'
+          onClick={() => props.onClick()}
+          endIcon={<ArrowForwardIcon />}
+        >
+          Lihat
+        </Button>
+      </CardActions>
     </Card>
   );
 };
 
-TotalUser.propTypes = {
+TotalLastUpdate.propTypes = {
 	total: PropTypes.number.isRequired,
-  user: PropTypes.object.isRequired,
-  getJumlahUser: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 }
 
-export default TotalUser;
+export default TotalLastUpdate;

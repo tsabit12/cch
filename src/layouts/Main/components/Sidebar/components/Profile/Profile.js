@@ -57,7 +57,7 @@ const Profile = props => {
       >
         { data.title }
       </Typography>
-      <Typography variant="body2">{data.jabatan} - {data.kantor_pos}</Typography>
+      <Typography variant="body2">{data.fullname}</Typography>
     </div>
   );
 };
