@@ -76,7 +76,7 @@ const TableTarif = props => {
 					Kembali
 				</Button>
 				<Button onClick={() => props.onDone(JSON.stringify(data))} variant='text' color='primary'>
-					Selesai
+					Simpan
 				</Button>
 			</CardActions>
 		</Card>

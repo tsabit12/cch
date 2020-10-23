@@ -110,7 +110,7 @@ const LacakForm = props => {
 					Kembali
 				</Button>
 				<Button variant='text' color='primary' onClick={() => props.onDone(JSON.stringify(value.list))}>
-					Selesai
+					Simpan
 				</Button>
 			</CardActions>}
 		</Card>
