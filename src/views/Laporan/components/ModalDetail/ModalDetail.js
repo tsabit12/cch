@@ -82,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
   },
   btnMenu: {
   	color: '#FFF'
+  },
+  link: {
+  	color: 'blue',
+  	cursor: 'pointer'
   }
 }));
 
@@ -102,7 +106,8 @@ const getGroupByDay = (day) => {
 	}
 }
 
-const TableDetail = ({ data }) => {
+const TableDetail = ({ data, onClick }) => {
+	const classes = useStyles();
 	let tableContent 	= [];
 	let grouping 		= '';
 	var no = 1;
@@ -128,7 +133,12 @@ const TableDetail = ({ data }) => {
 					</TableRow>
 					<TableRow>
 						<TableCell>1</TableCell>
-						<TableCell>{item.no_tiket}</TableCell>
+						<TableCell 
+							className={classes.link}
+							onClick={() => onClick(item.no_tiket)}
+						>
+							{item.no_tiket}
+						</TableCell>
 						<TableCell>{item.awb}</TableCell>
 						<TableCell>{item.asal_pengaduan}</TableCell>
 						<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
@@ -143,7 +153,12 @@ const TableDetail = ({ data }) => {
 			tableContent.push(
 				<TableRow key={i}>
 					<TableCell>{no}</TableCell>
-					<TableCell>{item.no_tiket}</TableCell>
+					<TableCell 
+						className={classes.link}
+						onClick={() => onClick(item.no_tiket)}
+					>
+						{item.no_tiket}
+					</TableCell>
 					<TableCell>{item.awb}</TableCell>
 					<TableCell>{item.asal_pengaduan}</TableCell>
 					<TableCell>{item.tujuan_pengaduan.toString().replace(/,/g, ', ')}</TableCell>
@@ -293,7 +308,10 @@ const ModalDetail = props => {
 	        { loading ? 
 	        	<div className={classes.loading}>Loading....</div> : 
         		<div className={classes.content}>
-        			<TableDetail data={data.search} />
+        			<TableDetail 
+        				data={data.search} 
+        				onClick={props.onClick}
+        			/>
         		</div> }
 
 	      </Dialog>
@@ -304,7 +322,8 @@ const ModalDetail = props => {
 ModalDetail.propTypes = {
   onClose: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default ModalDetail;

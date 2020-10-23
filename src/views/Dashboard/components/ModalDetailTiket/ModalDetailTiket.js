@@ -97,7 +97,12 @@ const TableDetail = props => {
 						</TableCell>
 					</TableRow> : data.map((row, index) => <TableRow key={index}>
 						<TableCell>{no++}</TableCell>
-						<TableCell>{row.no_tiket}</TableCell>
+						<TableCell 
+							style={{cursor: 'pointer', color: 'blue'}}
+							onClick={() => props.onClick(row.no_tiket)}
+						>
+							{row.no_tiket}
+						</TableCell>
 						<TableCell>{row.awb}</TableCell>
 						<TableCell>{row.layanan}</TableCell>
 						<TableCell>{row.asal_pengaduan}</TableCell>
@@ -180,6 +185,7 @@ const ModalDetailTiket = props => {
 		       	</AppBar>
 		       	<TableDetail 
 		       		data={data} 
+		       		onClick={props.onClick}
 		       		loading={loading}
 		       	/>
 			</Dialog>
@@ -189,7 +195,8 @@ const ModalDetailTiket = props => {
 
 ModalDetailTiket.propTypes = {
 	params: PropTypes.object.isRequired,
-	onClose: PropTypes.func.isRequired
+	onClose: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 export default ModalDetailTiket;

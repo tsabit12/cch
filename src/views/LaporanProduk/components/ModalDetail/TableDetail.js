@@ -69,7 +69,12 @@ const TableDetail = props => {
 						</TableCell>
 					</TableRow> : data.map((row, index) => <TableRow key={index}>
 						<TableCell>{no++}</TableCell>
-						<TableCell>{row.no_tiket}</TableCell>
+						<TableCell 
+							style={{color: 'blue', cursor: 'pointer'}}
+							onClick={() => props.onClick(row.no_tiket)}
+						>
+							{row.no_tiket}
+						</TableCell>
 						<TableCell>{row.awb}</TableCell>
 						<TableCell>{row.layanan}</TableCell>
 						<TableCell>{row.asal_pengaduan}</TableCell>
@@ -92,7 +97,8 @@ const TableDetail = props => {
 
 TableDetail.propTypes = {
 	data: PropTypes.array.isRequired,
-	loading: PropTypes.bool.isRequired
+	loading: PropTypes.bool.isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 export default TableDetail;

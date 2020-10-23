@@ -375,6 +375,7 @@ const Laporan = props => {
 					onClose={() => setDetail({ visible: false, item: {} })} 
 					item={detail.item}
 					type={activeName}
+					onClick={(no_tiket) => props.history.push(`/tiket/${no_tiket}`)}
 				/> }
 			<Card>
 				<CardHeader 

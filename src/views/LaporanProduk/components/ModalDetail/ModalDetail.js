@@ -139,6 +139,7 @@ const ModalDetail = props => {
 		       	<TableDetail 
 		       		data={data} 
 		       		loading={loading}
+		       		onClick={props.onClick}
 		       	/>
 		    </Dialog>
 		</div>
@@ -148,7 +149,8 @@ const ModalDetail = props => {
 ModalDetail.propTypes = {
 	open: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
-	param: PropTypes.object.isRequired
+	param: PropTypes.object.isRequired,
+	onClick: PropTypes.func.isRequired
 }
 
 export default ModalDetail;

@@ -81,6 +81,7 @@ const LaporanProduk = props => {
 					...openDetail,
 					visible: false
 				}))}
+				onClick={(no_tiket) => props.history.push(`/tiket/${no_tiket}`)}
 				param={openDetail.param}
 			/>
 			<Alert 
