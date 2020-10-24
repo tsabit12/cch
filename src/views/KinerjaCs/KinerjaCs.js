@@ -3,14 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 import {
 	CardHeader,
 	Card,
-	Divider,
-	CardActions,
-	Button
+	Divider
 } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import {
 	SearchParam,
-	ListItem
+	ListItem,
+	ModalDetail
 } from './components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,23 +16,9 @@ import { getKinerja } from '../../actions/laporan';
 import Loader from '../Loader';
 import { convertDay } from '../../helper';
 
-import ReactExport from "react-export-excel";
-
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(4)
-	},
-	grenBtn: {
-		backgroundColor: theme.palette.success.main,
-		color: '#FFF',
-		'&:hover': {
-			backgroundColor: theme.palette.success.dark
-		},
-		border: 'none'
 	}
 }))
 
@@ -46,6 +30,10 @@ const KinerjaCs = props => {
 	const [date, setDate] = useState({
 		startdate: convertDay(new Date()),
 		enddate: convertDay(new Date())
+	})
+	const [openDetail, setOpenDetail] = useState({
+		open: false,
+		item: {}
 	})
 
 	const handleSearch = (payload) => {
@@ -63,11 +51,27 @@ const KinerjaCs = props => {
 	} 
 
 	const handleViewDetail = (email) => {
-		props.history.push(`/kinerja-cs/detail/${email}&${date.startdate}&${date.enddate}`)
+		setOpenDetail({
+			open: true,
+			item: {
+				email,
+				startdate: date.startdate,
+				enddate: date.enddate
+			}
+		})
+		//props.history.push(`/kinerja-cs/detail/${email}&${date.startdate}&${date.enddate}`)
 	}
 
 	return(
 		<div className={classes.root}>
+			<ModalDetail 
+				item={openDetail}
+				onClose={() => setOpenDetail({
+					open: false,
+					item: {}
+				})}
+				onClick={(notiket) => props.history.push(`/tiket/${notiket}`)}
+			/>
 			<Loader loading={loading} />
 			<Card>
 				<CardHeader 
@@ -75,34 +79,11 @@ const KinerjaCs = props => {
 						user={user} 
 						getData={(payload) => props.getKinerja(payload)} 
 						onSearch={handleSearch} 
+						list={list}
 					/>}
 				/>
 				<Divider />
 				<ListItem data={list} onView={handleViewDetail} />
-				
-				<CardActions style={{justifyContent: 'flex-end'}}>
-					{ list.length > 0 && <ExcelFile 
-						filename='kinerja-CS' 
-						element={
-							<Button 
-								variant='contained' 
-								color='primary'
-								className={classes.grenBtn}
-								endIcon={<GetAppIcon />}
-							>
-								DOWNLOAD
-							</Button>
-						}
-					>
-						<ExcelSheet data={list} name="sheet1">
-							<ExcelColumn label="KANTOR" value="kantor_pos"/>
-							<ExcelColumn label="CS" value={(col) => col.title.toUpperCase()}/>
-							<ExcelColumn label="JUMLAH SELESAI" value={(col) => Number(col.jmlselesai)}/>
-							<ExcelColumn label="JUMLAH TERBUKA" value={(col) => Number(col.jmlterbuka)}/>
-							<ExcelColumn label="JUMLAH SEMUA" value={(col) => Number(col.jmlterbuka) + Number(col.jmlselesai)}/>
-						</ExcelSheet>
-					</ExcelFile> }
-				</CardActions>
 			</Card>
 		</div>
 	);

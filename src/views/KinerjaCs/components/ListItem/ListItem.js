@@ -5,11 +5,11 @@ import {
 	TableRow,
 	TableCell,
 	TableBody,
-	IconButton,
-	TableContainer
+	TableContainer,
+	Button
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+// import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,7 @@ const ListItem = props => {
 						<TableCell className={classes.cell} align='right'>SELESAI</TableCell>
 						<TableCell className={classes.cell} align='right'>TERBUKA</TableCell>
 						<TableCell className={classes.cell} align='right'>TOTAL</TableCell>
-						<TableCell className={classes.cell} align='center'>DETAIL</TableCell>
+						<TableCell className={classes.cell} align='center'>ACTION</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -48,14 +48,13 @@ const ListItem = props => {
 						<TableCell className={classes.cell} align='right'>{row.jmlterbuka}</TableCell>
 						<TableCell className={classes.cell} align='right'>{Number(row.jmlselesai) + Number(row.jmlterbuka)}</TableCell>
 						<TableCell className={classes.cell} align='center'>
-							<IconButton 
-	          					color="default" 
-	          					aria-label="View detail"
-	          					size="small"
-	          					onClick={() => props.onView(row.email)}
-	          				>
-						        <ArrowForwardIcon size='small' />
-						    </IconButton>
+							<Button 
+								size='small' 
+								color='primary'
+								onClick={() => props.onView(row.email)}
+							>
+								Detail
+							</Button>
 						</TableCell>
 					</TableRow>) : <TableRow>
 						<TableCell colSpan={7} align='center'>Data kosong</TableCell>

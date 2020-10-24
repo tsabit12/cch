@@ -11,6 +11,14 @@ import { listReg, convertDay } from '../../../../helper';
 import api from '../../../../api';
 import PropTypes from 'prop-types';
 import { DatePicker } from "@material-ui/pickers";
+import GetAppIcon from '@material-ui/icons/GetApp';
+
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -19,14 +27,22 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex'
 	},
 	field: {
-		margin: 5, 
 		width: 150
+	},
+	grenBtn: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		},
+		border: 'none',
+		marginLeft: 5
 	}
 }))
 
 
 const SearchParam = props => {
-	const { user } = props;
+	const { user, list } = props;
 	const classes = useStyles();
 
 	const [param, setParam] = useState({
@@ -158,7 +174,7 @@ const SearchParam = props => {
 						))}
 					</Select>
 				</FormControl>
-				<FormControl variant='outlined' size="small" className={classes.field}>
+				<FormControl variant='outlined' size="small" className={classes.field} style={{marginLeft: 5}}>
 					<InputLabel htmlFor="kprkLabel">KPRK</InputLabel>
 					<Select
 						labelId="kprkLabel"
@@ -174,7 +190,7 @@ const SearchParam = props => {
 						</MenuItem>)}
 					</Select>
 				</FormControl>
-				<FormControl variant='outlined' size="small" className={classes.field}>
+				<FormControl variant='outlined' size="small" className={classes.field} style={{marginLeft: 5}}>
 					<InputLabel htmlFor="csLabel">CUSTOMER SERVICE</InputLabel>
 					<Select
 						labelId="csLabel"
@@ -217,9 +233,30 @@ const SearchParam = props => {
 				        onChange={(e) => handleChangeDate(e._d, 'enddate')} 
 				    />
 				</FormControl>
-				<Button variant='contained' color='primary' style={{margin: 5, width: 150 }} onClick={onSubmit}>
+				<Button variant='contained' color='primary' style={{width: 100, marginLeft: 5}} onClick={onSubmit}>
 					Tampilkan
 				</Button>
+				{ list.length > 0 && <ExcelFile 
+					filename='kinerja-CS' 
+					element={
+						<Button 
+							variant='contained' 
+							color='primary'
+							className={classes.grenBtn}
+							endIcon={<GetAppIcon />}
+						>
+							DOWNLOAD
+						</Button>
+					}
+				>
+					<ExcelSheet data={list} name="sheet1">
+						<ExcelColumn label="KANTOR" value="kantor_pos"/>
+						<ExcelColumn label="CS" value={(col) => col.title.toUpperCase()}/>
+						<ExcelColumn label="JUMLAH SELESAI" value={(col) => Number(col.jmlselesai)}/>
+						<ExcelColumn label="JUMLAH TERBUKA" value={(col) => Number(col.jmlterbuka)}/>
+						<ExcelColumn label="JUMLAH SEMUA" value={(col) => Number(col.jmlterbuka) + Number(col.jmlselesai)}/>
+					</ExcelSheet>
+				</ExcelFile> }
 			</div>
 		</div>
 	);
@@ -228,7 +265,8 @@ const SearchParam = props => {
 SearchParam.propTypes = {
 	user: PropTypes.object.isRequired,
 	getData: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	list: PropTypes.array.isRequired
 }
 
 export default SearchParam;
