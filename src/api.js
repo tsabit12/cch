@@ -15,6 +15,9 @@ export default{
 		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
 			param
 		}).then(res => res.data),
+		resetPassword: (username) => axios.post(`${process.env.REACT_APP_API}/resetPassword`, {
+			username
+		}).then(res => res.data),
 		login: (payload) => axios.post(`${process.env.REACT_APP_API}/authLogin`, { 
 			...payload
 		}).then(res => res.data.result),

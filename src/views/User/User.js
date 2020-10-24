@@ -15,11 +15,14 @@ import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
 import api from "../../api";
 import CollapseMessage from "../CollapseMessage";
+import Loader from '../Loader';
+import Alert from '../Alert';
 
 import {
 	TableUser,
 	SearchForm,
-	ModalUpdate
+	ModalUpdate,
+	ModalConfirm
 } from "./components";
 
 const useStyles = makeStyles(theme => ({
@@ -75,6 +78,16 @@ const User = props => {
 	const [editVisible, setEditVisible] = React.useState({
 		open: false,
 		user: {} //moving redux to this
+	})
+	const [resetVisible, setResetVisible] = React.useState({
+		open: false,
+		username: null
+	})
+	const [loading, setLoading] = React.useState(false);
+	const [alertVal, setAlert] = React.useState({
+		open: false,
+		variant: null,
+		message: null
 	})
 
 	const classes = useStyles();
@@ -156,6 +169,18 @@ const User = props => {
 			}))
 		}
 	}, [props.list, activePage]);
+
+	React.useEffect(() => {
+		if (alertVal.open) {
+			setTimeout(function() {
+				setAlert({
+					open: false,
+					variant: 'success',
+					message: ''
+				})
+			}, 2000);
+		}
+	}, [alertVal.open])
 
 
 	const handleChangePage = (e, page) => {
@@ -286,14 +311,56 @@ const User = props => {
 		props.addMessage('Data user berhasil diupdate', 'adduser');
 	}
 
+	const handleResetPassword = (username) => {
+		setResetVisible({
+			open: true,
+			username
+		})
+	}
+
+	const onResetPassword = (username) => {
+		setResetVisible({
+			open: false,
+			username: null
+		})
+
+		setLoading(true);
+
+		api.cch.resetPassword(username)
+			.then(() => {
+				setLoading(false);
+				setAlert({
+					open: true,
+					variant: 'success',
+					message: 'Password berhasil direset'
+				})
+			})
+			.catch(err => {
+				setLoading(false);
+				setAlert({
+					open: true,
+					variant: 'error',
+					message: 'Terdapat kesalahan, silahkan cobalagi'
+				})
+			})
+	}
+
 
 	return(
 		<div className={classes.root}>
+			<Loader loading={loading} />
 			<CollapseMessage 
 				visible={message.type === 'adduser' ? true : false }
 				message={message.text}
 				onClose={props.removeMessage}
 			/>
+
+			<ModalConfirm 
+				visible={resetVisible}
+				handleClose={() => setResetVisible({open: false, username: null})}
+				onReset={onResetPassword}
+			/>
+
 			<ModalUpdate 
 				param={editVisible}
 				handleClose={() => setEditVisible({
@@ -301,6 +368,17 @@ const User = props => {
 					user: {}
 				})}
 				onSuccessUpdate={handleSuccessUpdate}
+			/>
+
+			<Alert 
+				open={alertVal.open}
+				variant={alertVal.variant}
+				onClose={() => setAlert({
+					open: false,
+					message: '',
+					variant: 'success'
+				})}
+				message={alertVal.message}
 			/>
 			<Grid container spacing={4}>
 				<Grid
@@ -331,6 +409,7 @@ const User = props => {
 								limit={paging.limit}
 								onUpdate={handleUpdateStatus}
 								onClickUpdate={handleUpdate}
+								resetPassword={handleResetPassword}
 							/> : <CardContent>
 							<div className={classes.contentEmpty}>
 								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }

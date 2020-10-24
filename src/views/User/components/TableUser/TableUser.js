@@ -61,6 +61,13 @@ const ThreeDotsMenu = props => {
 	    }, 10);
 	};
 
+	const handleResetPass = () => {
+	    setAnchorEl(null);
+	    setTimeout(function() {
+	    	props.onResetPassword();
+	    }, 10);
+	};
+
 	const handleNonaktif = () => {
 		props.onNonaktif();
 		setAnchorEl(null);
@@ -89,6 +96,7 @@ const ThreeDotsMenu = props => {
 		    >
 		        <MenuItem onClick={handleNonaktif}>{status === '1' ? 'Nonaktifkan' : 'Aktifkan'}</MenuItem>
 		        <MenuItem onClick={handleChoose}>Update</MenuItem>
+		        <MenuItem onClick={handleResetPass}>Reset Password</MenuItem>
 		    </Menu>
 	    </div>
 	);
@@ -145,6 +153,7 @@ const TableUser = props => {
 			              		status={row.status} 
 			              		onNonaktif={() => handleChange(row.username, row.status)}
 			              		onUpdate={() => props.onClickUpdate(row.username)}
+			              		onResetPassword={() => props.resetPassword(row.username)}
 			              	/>
 			              </TableCell>
 			            </TableRow>
@@ -160,7 +169,8 @@ TableUser.propTypes = {
 	activePage: PropTypes.number.isRequired,
 	limit: PropTypes.number.isRequired,
 	onUpdate: PropTypes.func.isRequired,
-	onClickUpdate: PropTypes.func.isRequired
+	onClickUpdate: PropTypes.func.isRequired,
+	resetPassword: PropTypes.func.isRequired
 }
 
 export default TableUser;
