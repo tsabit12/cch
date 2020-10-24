@@ -30,6 +30,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	inline: {
 		display: 'flex'
+	},
+	error: {
+		fontSize: 13,
+		color: 'red'
 	}
 }))
 
@@ -245,11 +249,27 @@ const FormKeuangan = props => {
 		inputFileref.current.click();
 
 		setFile('');
+		setValid(isValid => ({
+			...isValid,
+			file: undefined
+		}))
 	}
 
 	const handleChangeFile = () => {
 		const { files } = inputFileref.current;
-		setFile(files[0].name);
+		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
+		if (sizeInMB > 50) {
+			setValid(isValid => ({
+				...isValid,
+				file: 'Ukuran file melebihi batas maksimum, file direset..'
+			}))
+
+			setTimeout(function() {
+				inputFileref.current.value = null;
+			}, 10);
+		}else{
+			setFile(files[0].name);
+		}
 	}
 
 	return(
@@ -410,8 +430,9 @@ const FormKeuangan = props => {
 					onChange={handleChangeFile}
 				/>
 				<Button variant='outlined' color='primary' onClick={handleClickFile}>
-					{ file ? file : 'UPLOAD FILE' }
+					{ file ? file : 'UPLOAD FILE (MAX 50mb)' }
 				</Button>
+				{ isValid.file && <p className={classes.error}>{isValid.file}</p>}
 			</CardContent>
 			<Divider />
 			<CardActions style={{justifyContent: 'flex-end'}}>

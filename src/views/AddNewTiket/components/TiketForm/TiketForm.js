@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
 	cardContent: {
 		minHeight: 400,
 		position: 'relative'
+	},
+	error: {
+		fontSize: 13,
+		color: 'red'
 	}
 }))
 
@@ -91,6 +95,7 @@ const TiketForm = props => {
 	const classes = useStyles();
 	const inputFileRef = useRef();
 	const { values, tracks, errors } = props;
+	const [fileIsValid, setIsValidFile] = useState(true);
 	const [state, setState] = useState({
 		asal: '',
 		tujuan: '',
@@ -127,6 +132,7 @@ const TiketForm = props => {
 	const handleClickFile = () => {
 		inputFileRef.current.click();
 		inputFileRef.current.value = null;
+		setIsValidFile(true);
 	}
 
 	const handleSubmit = () => {
@@ -134,6 +140,19 @@ const TiketForm = props => {
 			props.onSubmit(state, inputFileRef.current.files[0])
 		}else{
 			props.onSubmit(state);
+		}
+	}
+
+	const handleChangeFile = () => {
+		const { files } = inputFileRef.current;
+		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
+		if (sizeInMB > 50) {
+			setIsValidFile(false);
+			setTimeout(function() {
+				inputFileRef.current.value = null;
+			}, 10);
+		}else{
+			setFilename(files[0].name);
 		}
 	}
 	
@@ -392,14 +411,12 @@ const TiketForm = props => {
 							type='file'
 							style={{display: 'none'}}
 							ref={inputFileRef}
-							onChange={() => {
-								const { files } = inputFileRef.current;
-								setFilename(files[0].name);
-							}}
+							onChange={() => handleChangeFile()}
 						/>
 						<Button variant='outlined' color='primary' onClick={handleClickFile}>
-							{ filename ? filename : 'UPLOAD FILE' }
+							{ filename ? filename : 'UPLOAD FILE (MAX 50 MB)' }
 						</Button>
+						{ !fileIsValid && <p className={classes.error}>Ukuran file melebihi batas maksimum, file direset..</p>}
 					</React.Fragment> }
 			</CardContent>
 			<Divider />

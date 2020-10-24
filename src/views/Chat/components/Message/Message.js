@@ -368,11 +368,19 @@ const Message = props => {
 
 	const handleChangeFile = () => {
 		const { files } = inputFileRef.current;
-		setState(prevState => ({
-			...prevState,
-			fileName: files[0].name,
-			placeholder: 'Masukkan keterangan gambar'
-		}))
+		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
+		if (sizeInMB > 50) {
+			alert('File melebihi batas maksimum 50 mb');
+			setTimeout(function() {
+				inputFileRef.current.value = null;
+			}, 10);
+		}else{
+			setState(prevState => ({
+				...prevState,
+				fileName: files[0].name,
+				placeholder: 'Masukkan keterangan gambar'
+			}))
+		}
 	}
 
 	const handleDeleteFile = () => {
