@@ -43,6 +43,10 @@ const getLabelPage = number => {
 			return 'PENGADUAN MASUK SELESAI';
 		case 4: 
 			return 'PENGADUAN KELUAR SELESAI';
+		case 5:
+			return 'REQUEST TUTUP';
+		case 6:
+			return 'BARU DIUPDATE';
 		default:
 			return '-';
 	}
@@ -51,13 +55,17 @@ const getLabelPage = number => {
 const getStatus = number => {
 	switch(number){
 		case 1:
-			return ['1', '12', '17','18'];
+			return ['1', '12', '17'];
 		case 2: 
-			return ['1', '12', '17', '18'];
+			return ['1', '12', '17'];
 		case 3:
 			return ['99'];
 		case 4:
 			return ['99'];
+		case 5:
+			return ['18'];
+		case 6:
+			return ['1', '12', '17', '18', '99'];
 		default:
 			return ['1', '12'];
 	}
@@ -98,6 +106,26 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
+//active page
+const getVisibleDurasi = (page) => {
+	switch(page){
+		case 1:
+			return true;
+		case 2:
+			return true;
+		case 3:
+			return false; //masuk selesai
+		case 4:
+			return false; //keluar selesai
+		case 5:
+			return true;
+		case 6:
+			return true;
+		default:
+			return false;
+	}
+}
+
 const ListTiket = props => {
 	const classes = useStyles();
 	const [paging, setPaging] = useState({
@@ -113,13 +141,19 @@ const ListTiket = props => {
 		const payload = {};
 		if (props.page === 1) {
 			payload.offset = 0;
-			payload.status = ['1', '12', '17', '18'];
+			payload.status = ['1', '12', '17'];
 		}else if(props.page === 2){
 			payload.offset = 0;
-			payload.status = ['1', '12', '17', '18'];
+			payload.status = ['1', '12', '17'];
 		}else if(props.page === 4){
 			payload.offset = 0;
 			payload.status = ['99'];
+		}else if(props.page === 5){
+			payload.offset = 0;
+			payload.status = ['18'];
+		}else if(props.page === 6){
+			payload.offset = 0;
+			payload.status = ['1', '12', '17', '18', '99'];
 		}else{
 			payload.offset = 0;
 			payload.status = ['99'];
@@ -191,7 +225,7 @@ const ListTiket = props => {
 		handleSearch();
 	}
 
-	const visibleDurasi = props.page === 1 || props.page === 2 ? true : false;
+	// const visibleDurasi = props.page === 1 || props.page === 2 ? true : false;
 
 	return(
 		<Paper className={classes.root}> 
@@ -238,7 +272,7 @@ const ListTiket = props => {
 							<TableCell className={classes.cell}>ASAL PENGADUAN</TableCell>
 							<TableCell className={classes.cell}>TUJUAN PENGADUAN</TableCell>
 							<TableCell className={classes.cell}>STATUS</TableCell>
-							{ visibleDurasi && <TableCell className={classes.cell} align='center'>DURASI</TableCell> }
+							{ getVisibleDurasi(props.page) && <TableCell className={classes.cell} align='center'>DURASI</TableCell> }
 							<TableCell className={classes.cell}>TANGGAL ADUAN</TableCell>
 						</TableRow>
 					</TableHead>
@@ -247,7 +281,7 @@ const ListTiket = props => {
 							data={props.list[paging.active]} 
 							activePage={paging.active}
 							onClickTiket={props.onClickTiket}
-							durasiVisible={props.page === 1 || props.page === 2 ? true : false }
+							durasiVisible={getVisibleDurasi(props.page)}
 						/> : <TableBody>
 							<TableRow>
 								<TableCell colSpan={8} align='center'>Tiket tidak ditemukan</TableCell>

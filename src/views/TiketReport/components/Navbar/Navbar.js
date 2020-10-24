@@ -24,7 +24,11 @@ const useStyles = makeStyles(theme => ({
 		margin: 10
 	},
 	listActived: {
-		backgroundColor: 'rgba(216, 212, 212, 0.94)'
+		backgroundColor: 'rgba(216, 212, 212, 0.94)',
+		height: 50
+	},
+	listItem: {
+		height: 50
 	}
 }))
 
@@ -42,7 +46,7 @@ const StyledBadge = withStyles(theme => ({
 const Navbar = props => {
 	const classes = useStyles();
 	const { page } = props;
-	const { done, active } = props.jumlah;
+	const { done, active, close, lastupdate } = props.jumlah;
 
 	return(
 		<Card className={classes.root}>
@@ -71,7 +75,7 @@ const Navbar = props => {
             </div>
 
             { props.level !== 1 && <ListItem 
-				className={page === 1 ? classes.listActived : null} 
+				className={page === 1 ? classes.listActived : classes.listItem} 
 				button 
 				divider
 				onClick={() => props.onChangePage(1)}
@@ -87,7 +91,7 @@ const Navbar = props => {
 			</ListItem> }
 
 			<ListItem 
-				className={page === 2 ? classes.listActived : null} 
+				className={page === 2 ? classes.listActived : classes.listItem} 
 				button 
 				divider
 				onClick={() => props.onChangePage(2)}
@@ -101,6 +105,7 @@ const Navbar = props => {
 				    </IconButton>
 			    </ListItemIcon>
 			</ListItem>
+			<Divider />
 
 			<div className={classes.label}>
 				<Typography
@@ -113,7 +118,7 @@ const Navbar = props => {
 			</div>
 
 			{ props.level !== 1 && <ListItem 
-				className={page === 3 ? classes.listActived : null} 
+				className={page === 3 ? classes.listActived : classes.listItem} 
 				button 
 				divider
 				onClick={() => props.onChangePage(3)}
@@ -131,12 +136,53 @@ const Navbar = props => {
 			<ListItem 
 				button 
 				onClick={() => props.onChangePage(4)}
-				className={page === 4 ? classes.listActived : null}
+				className={page === 4 ? classes.listActived : classes.listItem}
 			>
 			    <ListItemText primary="Pengaduan Keluar" />
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
 				      <StyledBadge badgeContent={done.keluar} color="primary">
+				        <MailIcon />
+				      </StyledBadge>
+				    </IconButton>
+			    </ListItemIcon>
+			</ListItem>
+			<Divider />
+
+			<div className={classes.label}>
+				<Typography
+	              color="inherit"
+	              gutterBottom
+	              variant="h5"
+	            >
+	            	LAINNYA
+	            </Typography>
+			</div>
+
+			<ListItem 
+				button 
+				onClick={() => props.onChangePage(5)}
+				className={page === 5 ? classes.listActived : classes.listItem}
+			>
+			    <ListItemText primary="Request Tutup" />
+				<ListItemIcon>
+					<IconButton aria-label="Cart" disabled>
+				      <StyledBadge badgeContent={close} color="primary">
+				        <MailIcon />
+				      </StyledBadge>
+				    </IconButton>
+			    </ListItemIcon>
+			</ListItem>
+
+			<ListItem 
+				button 
+				onClick={() => props.onChangePage(6)}
+				className={page === 6 ? classes.listActived : classes.listItem}
+			>
+			    <ListItemText primary="Baru Diupdate" />
+				<ListItemIcon>
+					<IconButton aria-label="Cart" disabled>
+				      <StyledBadge badgeContent={lastupdate} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>

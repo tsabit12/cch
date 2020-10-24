@@ -28,6 +28,10 @@ const getTypeTiket = activeNumber => {
 			return { type: 'GET_TIKET_MASUK_DONE', list: 'activeMasukDone' };
 		case 4:
 			return { type: 'GET_TIKET_KELUAR_DONE', list: 'activeKeluarDone' };
+		case 5:
+			return { type: 'GET_REQUEST_TUTUP', list: 'activeClose' };
+		case 6:
+			return { type: 'GET_LAST_UPDATE', list: 'activeLastupdate' };
 		default: 
 			return { type: '-', list: '-'};
 	}

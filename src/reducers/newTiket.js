@@ -7,13 +7,17 @@ const initialState = {
 		active: {
 			masuk: 0,
 			keluar: 0
-		}
+		},
+		close: 0,
+		lastupdate: 0
 	},
 	list: {
 		activeMasuk: {},
 		activeKeluar: {},
 		activeKeluarDone: {},
-		activeMasukDone: {} 
+		activeMasukDone: {},
+		activeClose: {},
+		activeLastupdate: {}
 	},
 	detail: {
 		// [notiket]: {
@@ -29,7 +33,9 @@ export default function newTiket(state=initialState, action={}) {
 		case 'GET_JUMLAH_ALL_TIKET':
 			return {
 				...state,
-				count: action.tikets
+				count: {
+					...action.tikets
+				}
 			}
 		case 'GET_TIKET_KELUAR':
 			return {
@@ -48,6 +54,28 @@ export default function newTiket(state=initialState, action={}) {
 				list: {
 					...state.list,
 					activeKeluarDone: {
+						...state.list.activeKeluarDone,
+						[action.activePaging]: action.tickets
+					}
+				}
+			}
+		case 'GET_LAST_UPDATE':
+			return {
+				...state,
+				list: {
+					...state.list,
+					activeLastupdate: {
+						...state.list.activeKeluarDone,
+						[action.activePaging]: action.tickets
+					}
+				}
+			}
+		case 'GET_REQUEST_TUTUP':
+			return {
+				...state,
+				list: {
+					...state.list,
+					activeClose: {
 						...state.list.activeKeluarDone,
 						[action.activePaging]: action.tickets
 					}
@@ -94,13 +122,17 @@ export default function newTiket(state=initialState, action={}) {
 					active: {
 						masuk: 0,
 						keluar: 0
-					}
+					},
+					close: 0,
+					lastupdate: 0
 				},
 				list: {
 					activeMasuk: {},
 					activeKeluar: {},
 					activeKeluarDone: {},
-					activeMasukDone: {} 
+					activeMasukDone: {},
+					activeClose: {},
+					activeLastupdate: {}
 				}			
 			}
 		case 'GET_TICKET_BY_ID':
