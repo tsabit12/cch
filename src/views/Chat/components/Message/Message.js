@@ -34,6 +34,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 import api from "../../../../api";
+import { validateFile } from '../../../../helper';
 
 const DetailProfile = props => {
 	const { user } = props;
@@ -368,9 +369,9 @@ const Message = props => {
 
 	const handleChangeFile = () => {
 		const { files } = inputFileRef.current;
-		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
-		if (sizeInMB > 50) {
-			alert('File melebihi batas maksimum 50 mb');
+		const fileIsValid = validateFile(files);
+		if (fileIsValid.isvalid === false) {
+			alert(fileIsValid.message);
 			setTimeout(function() {
 				inputFileRef.current.value = null;
 			}, 10);
@@ -466,6 +467,7 @@ const Message = props => {
 						<input 
 							ref={inputFileRef}
 							type='file' 
+							//accept="video/mp4,video/x-m4v,video/*"
 							hidden
 							onChange={handleChangeFile}
 						/>

@@ -24,7 +24,7 @@ import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import MuiAlert from '@material-ui/lab/Alert';
-import { listAduan } from '../../../../helper';
+import { listAduan, validateFile } from '../../../../helper';
 
 const Alert = props => (
 	<MuiAlert elevation={6} variant="filled" {...props} />
@@ -95,7 +95,7 @@ const TiketForm = props => {
 	const classes = useStyles();
 	const inputFileRef = useRef();
 	const { values, tracks, errors } = props;
-	const [fileIsValid, setIsValidFile] = useState(true);
+	const [fileIsError, setErrorFile] = useState('');
 	const [state, setState] = useState({
 		asal: '',
 		tujuan: '',
@@ -106,7 +106,6 @@ const TiketForm = props => {
 	useEffect(() => {
 		if (tracks.length > 0) {
 			const firstData = tracks[0];
-			console.log(firstData.description);
 			const kodeposReceiver 	= firstData.description.split(';')[11]; 		
 			const layananValue 		= firstData.description.split(';')[0].split(":")[1];
 
@@ -132,7 +131,7 @@ const TiketForm = props => {
 	const handleClickFile = () => {
 		inputFileRef.current.click();
 		inputFileRef.current.value = null;
-		setIsValidFile(true);
+		setErrorFile('');
 	}
 
 	const handleSubmit = () => {
@@ -145,9 +144,9 @@ const TiketForm = props => {
 
 	const handleChangeFile = () => {
 		const { files } = inputFileRef.current;
-		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
-		if (sizeInMB > 50) {
-			setIsValidFile(false);
+		const fileIsValid = validateFile(files);
+		if (fileIsValid.isvalid === false) {
+			setErrorFile(fileIsValid.message);
 			setTimeout(function() {
 				inputFileRef.current.value = null;
 			}, 10);
@@ -416,7 +415,7 @@ const TiketForm = props => {
 						<Button variant='outlined' color='primary' onClick={handleClickFile}>
 							{ filename ? filename : 'UPLOAD FILE (MAX 50 MB)' }
 						</Button>
-						{ !fileIsValid && <p className={classes.error}>Ukuran file melebihi batas maksimum, file direset..</p>}
+						{ fileIsError && <p className={classes.error}>{fileIsError}</p>}
 					</React.Fragment> }
 			</CardContent>
 			<Divider />

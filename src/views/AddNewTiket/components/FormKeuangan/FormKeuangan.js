@@ -19,7 +19,7 @@ import api from '../../../../api';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import { listAduan } from '../../../../helper';
+import { listAduan, validateFile } from '../../../../helper';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -257,13 +257,13 @@ const FormKeuangan = props => {
 
 	const handleChangeFile = () => {
 		const { files } = inputFileref.current;
-		var sizeInMB = (files[0].size / (1024*1024)).toFixed(2);
-		if (sizeInMB > 50) {
+
+		const fileIsValid = validateFile(files);
+		if (fileIsValid.isvalid === false) {
 			setValid(isValid => ({
 				...isValid,
-				file: 'Ukuran file melebihi batas maksimum, file direset..'
+				file: fileIsValid.message
 			}))
-
 			setTimeout(function() {
 				inputFileref.current.value = null;
 			}, 10);

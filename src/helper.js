@@ -122,3 +122,26 @@ export const listAduan = [
     //{ text: 'Belum Terima', value: '9'},
     // { text: 'Lainnya', value: '10'}
 ]
+
+
+
+export const validateFile = (files) => {
+    const notAllowedType = ['exe','msi','mkv', 'webm','flv', 'vob','ogv','ogg','drc','mng','avi','mov','mp4','m4p','m4v','m4v','3gp','3gp'];
+    const result = {};
+    const sizeInMB      = (files[0].size / (1024*1024)).toFixed(2);
+    const extAllowed    = notAllowedType.find(row => row === files[0].name.split('.').pop());
+    if (extAllowed) { //return not undefined
+        result.isvalid = false;
+        result.message = 'Tipe file tidak diizinkan';
+    }else{
+        if (sizeInMB > 50) { 
+            result.isvalid = false;
+            result.message = 'Ukuran file melebihi batas maksimum 50 mb';
+        }else{
+            result.isvalid = true;
+            result.message = null;
+        }
+    }
+
+    return result;
+}
