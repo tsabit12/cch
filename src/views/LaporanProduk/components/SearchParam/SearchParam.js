@@ -12,6 +12,7 @@ import { DatePicker } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import ReactExport from "react-export-excel";
+import api from '../../../../api';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -35,18 +36,71 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': {
 			backgroundColor: theme.palette.success.dark
 		}
+	},
+	field: {
+		width: 150,
+		marginLeft: 5
 	}
 }))
 
 
 const SearchParam = props => {
 	const classes = useStyles();
+	const { user } = props;
 	const [param, setParam] = useState({
 		regional: '00',
+		kprk: '00',
 		startdate: new Date(),
 		enddate: new Date()
 	});
+
 	const [downloadVisible, setVisibleDownload] = useState(false);
+	const [listKprk, setListKprk] = useState([]);
+	const [disabled, setDisabled] = useState({
+		reg: false,
+		kprk: false
+	})
+
+	useEffect(() => {
+		if (user.utype === 'Regional'){
+			setParam(param => ({
+				...param,
+				regional: user.regional
+			}))
+
+			setDisabled({
+				reg: true,
+				kprk: false
+			})
+
+			api.getKprk(user.regional)
+					.then(res => setListKprk(res));
+		}else if(user.utype === 'Kprk'){
+			setParam(param => ({
+				...param,
+				regional: user.regional,
+				kprk: user.kantor_pos
+			}))
+
+			setDisabled({
+				reg: true,
+				kprk: true
+			})
+		}else{ //omni
+			if (user.kantor_pos === '00001' || user.kantor_pos === '00002') {
+					setParam(param => ({
+						...param,
+						regional: '01',
+						kprk: user.kantor_pos
+					}))
+
+					setDisabled({
+						reg: true,
+						kprk: true
+					})
+			}
+		}
+	}, [user])
 
 	useEffect(() => {
 		if (props.data.aduan.length > 0 && props.data.list.length > 0) {
@@ -56,20 +110,40 @@ const SearchParam = props => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		if (name === 'regional') {
+			if (value === '00' || value === '02') { //all regiona, all
+				setListKprk([]);
+			}else{
+				const newValue = value === '01' ? 'KANTORPUSAT' : value;
+				api.getKprk(newValue)
+					.then(res => setListKprk(res));
+			}
+
+			setParam(param => ({
+				...param,
+				regional: value,
+				kprk: '00'
+			}))
+		}else{
+			setParam(param => ({
+				...param,
+				[name]: value
+			}))
+		}
+
+	}
+
+	const handleChangeDate = (value, name) => {
 		setParam(param => ({
 			...param,
 			[name]: value
 		}))
 	}
 
-	const handleChangeDate = (value, name) => setParam(param => ({
-		...param,
-		[name]: value
-	}))
-
 	const onSubmit = () => {
 		const payload = {
 			regional: param.regional,
+			kprk: param.kprk,
 			startdate: convertDay(param.startdate),
 			enddate: convertDay(param.enddate)
 		}
@@ -79,14 +153,14 @@ const SearchParam = props => {
 
 	return(
 		<div className={classes.root}>
-			<FormControl variant='outlined' size="small" style={{width: 250}}>
+			<FormControl variant='outlined' size="small" className={classes.field}>
 				<InputLabel htmlFor="regLabel">REGIONAL</InputLabel>
 				<Select
 					labelId="regLabel"
 					label="REGIONAL"
 					name="regional"
 					value={param.regional}
-					//disabled={regDisable}
+					disabled={disabled.reg}
 					onChange={handleChange}
 				>
 					{listReg.map((row, index) => (
@@ -94,28 +168,46 @@ const SearchParam = props => {
 					))}
 				</Select>
 			</FormControl>
-			<FormControl style={{width: 250}}>
+			<FormControl variant='outlined' size="small" className={classes.field}>
+				<InputLabel htmlFor="kprkLabel">KPRK</InputLabel>
+				<Select
+					labelId="kprkLabel"
+					label="KPRK"
+					name="kprk"
+					value={param.kprk}
+					disabled={disabled.kprk}
+					onChange={handleChange}
+				>
+					<MenuItem value='00'>SEMUA KPRK</MenuItem>
+					{ user.utype === 'Kprk' && <MenuItem value={user.kantor_pos}>{user.kantor_pos} - {user.name}</MenuItem>}
+					{ user.kantor_pos === '00001' && <MenuItem value={user.kantor_pos}>{user.kantor_pos} - {user.name}</MenuItem>}
+					{ user.kantor_pos === '00002' && <MenuItem value={user.kantor_pos}>{user.kantor_pos} - {user.name}</MenuItem>}
+
+					{listKprk.map((row, index) => (
+						<MenuItem key={index} value={row.code}>{row.kprk}</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+			<FormControl className={classes.field}>
 				<DatePicker
 			        format="YYYY-MM-DD"
 			        views={["year", "month", "date"]}
 			        autoOk
 			        size='small'
 			        variant="inline"
-			        style={{marginLeft: 5}}
 			        label="Mulai"
 			        inputVariant='outlined'
 			        value={param.startdate}
 			        onChange={(e) => handleChangeDate(e._d, 'startdate')} 
 			    />
 			</FormControl>
-			<FormControl style={{width: 250}}>
+			<FormControl className={classes.field}>
 				<DatePicker
 			        format="YYYY-MM-DD"
 			        views={["year", "month", "date"]}
 			        autoOk
 			        size='small'
 			        variant="inline"
-			        style={{marginLeft: 5}}
 			        label="Sampai"
 			        inputVariant='outlined'
 			        value={param.enddate}
@@ -156,7 +248,8 @@ const SearchParam = props => {
 SearchParam.propTypes = {
 	onSearch: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired,
-	loading: PropTypes.bool.isRequired
+	loading: PropTypes.bool.isRequired,
+	user: PropTypes.object.isRequired
 }
 
 export default SearchParam;

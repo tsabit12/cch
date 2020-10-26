@@ -73,6 +73,7 @@ const LaporanProduk = props => {
 				onSearch={handleSearch} 
 				data={props.data}
 				loading={loading}
+				user={props.user}
 			/>
 			<Loader loading={loading} />
 			<ModalDetail 
@@ -117,12 +118,14 @@ const LaporanProduk = props => {
 LaporanProduk.propTypes = {
 	fetchData: PropTypes.func.isRequired,
 	data: PropTypes.object.isRequired,
-	resetData: PropTypes.func.isRequired
+	resetData: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
 	return {
-		data: state.product
+		data: state.product,
+		user: state.auth.user
 	}
 }
 

@@ -10,6 +10,7 @@ import {
   ListItem,
   Collapse
 } from '@material-ui/core';
+// import { getInitialUser } from '../../../../../../helper';
 
 const useStyles = makeStyles(theme => ({
   item: {
@@ -71,7 +72,8 @@ const SidebarNav = props => {
             </Button>
           </ListItem>
           <Collapse in={visible}>
-            { props.collapse.map((row, index) => <ListItem
+            { props.collapse.map((row, index) => row.user.includes(jabatan) &&
+              <ListItem
                 key={index}
                 button
                 disableGutters

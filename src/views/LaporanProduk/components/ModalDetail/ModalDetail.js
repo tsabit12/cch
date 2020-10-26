@@ -103,7 +103,8 @@ const ModalDetail = props => {
 				regional: param.regional,
 				startdate: param.startdate,
 				enddate: param.enddate,
-				layanan: param.layanan
+				layanan: param.layanan,
+				kprk: param.kprk
 			}
 
 			api.laporan.getDetailProduk(payload)

@@ -26,8 +26,8 @@ export const periodeView = (date) => {
 }
 
 export const listReg = [
-	{text: 'SEMUA REGIONAL', value: '00'},
-    {text: 'PUSAT', value: '01'},
+    {text: 'SEMUA', value: '00'},
+	{text: 'SEMUA REGIONAL', value: '02'},
 	{text: 'REGIONAL 01', value: 'REGIONAL 1'},
 	{text: 'REGIONAL 02', value: 'REGIONAL 2'},
 	{text: 'REGIONAL 03', value: 'REGIONAL 3'},
@@ -38,7 +38,8 @@ export const listReg = [
 	{text: 'REGIONAL 08', value: 'REGIONAL 8'},
 	{text: 'REGIONAL 09', value: 'REGIONAL 9'},
 	{text: 'REGIONAL 10', value: 'REGIONAL 10'},
-	{text: 'REGIONAL 11', value: 'REGIONAL 11'}
+	{text: 'REGIONAL 11', value: 'REGIONAL 11'},
+    {text: 'PUSAT', value: '01'}
 ]
 
 export const listChannel = [
@@ -144,4 +145,27 @@ export const validateFile = (files) => {
     }
 
     return result;
+}
+
+export const getInitialUser = (level) => {
+  switch(level){
+    case 'Administrator KANTORPUSAT':
+      return 1;
+    case 'MANAGEMENT KANTORPUSAT':
+      return 2;
+    case 'MANAGEMENT Regional':
+      return 3;
+    case 'MANAGEMENT Kprk':
+      return 4;
+    case 'AGENT / CS KANTORPUSAT':
+      return 5;
+    case 'AGENT / CS Regional':
+      return 6;
+    case 'AGENT / CS Kprk':
+      return 7;
+    case 'REPORTING KANTORPUSAT':
+      return 8;
+    default:
+      return 0;
+  }
 }
