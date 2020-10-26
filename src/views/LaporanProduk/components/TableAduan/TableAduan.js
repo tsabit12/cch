@@ -32,6 +32,7 @@ const TableAduan = props => {
 							<TableCell>NO</TableCell>
 							<TableCell>NAMA ADUAN</TableCell>
 							<TableCell align='right'>JUMLAH</TableCell>
+							<TableCell align='right'>PERSENTASE</TableCell>
 							<TableCell align='center'>ACTION</TableCell>
 						</TableRow>
 					</TableHead>
@@ -40,6 +41,9 @@ const TableAduan = props => {
 							<TableCell>{no++}</TableCell>
 							<TableCell>{row.nama_aduan}</TableCell>
 							<TableCell align='right'>{row.jml}</TableCell>
+							<TableCell align='right'>
+								{((Number(row.jml) * 100) / data.reduce((a, b) => { return a + Number(b.jml) }, 0)).toFixed(2)}%
+							</TableCell>
 							<TableCell align='center'>
 								<Button 
 									size='small' 
@@ -52,7 +56,7 @@ const TableAduan = props => {
 						</TableRow> )}
 
 						{ data.length === 0 && <TableRow>
-							<TableCell align='center' colSpan={4}>Klik tampilkan untuk menampilkan data</TableCell>
+							<TableCell align='center' colSpan={5}>Klik tampilkan untuk menampilkan data</TableCell>
 						</TableRow>}
 					</TableBody>
 				</Table>

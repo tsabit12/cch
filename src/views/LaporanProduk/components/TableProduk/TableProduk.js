@@ -31,6 +31,7 @@ const TableProduk = props => {
 							<TableCell>NO</TableCell>
 							<TableCell>LAYANAN</TableCell>
 							<TableCell align='right'>JUMLAH</TableCell>
+							<TableCell align='right'>PERSENTASE</TableCell>
 							<TableCell align='center'>ACTION</TableCell>
 						</TableRow>
 					</TableHead>
@@ -39,6 +40,9 @@ const TableProduk = props => {
 							<TableCell>{no++}</TableCell>
 							<TableCell>{row.nama_layanan}</TableCell>
 							<TableCell align='right'>{row.jml}</TableCell>
+							<TableCell align='right'>
+								{((Number(row.jml) * 100) / data.reduce((a, b) => { return a + Number(b.jml) }, 0)).toFixed(2)}%
+							</TableCell>
 							<TableCell align='center'>
 								<Button 
 									size='small' 
