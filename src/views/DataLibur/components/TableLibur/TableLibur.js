@@ -24,19 +24,19 @@ const TableLibur = props => {
 		<Table size='small' padding='checkbox'>
 			<TableHead>
 				<TableRow>
-					<TableCell size='small'>NO</TableCell>
-					<TableCell size='small'>TANGGAL</TableCell>
-					<TableCell size='small'>KETERANGAN</TableCell>
-					<TableCell size='small'>DITAMBAHKAN OLEH</TableCell>
+					<TableCell>NO</TableCell>
+					<TableCell>TANGGAL</TableCell>
+					<TableCell>KANTOR</TableCell>
+					<TableCell>KETERANGAN</TableCell>
 				</TableRow>
 			</TableHead>
 			<TableBody>
 				{ data.length > 0 ? data.map((row, index) => (
 					<TableRow key={index}>
-						<TableCell size='small'>{no++}</TableCell>
-						<TableCell size='small'>{row.date_start}</TableCell>
-						<TableCell size='small'>{capitalize(row.description)}</TableCell>
-						<TableCell size='small'>{row.username}</TableCell>
+						<TableCell>{no++}</TableCell>
+						<TableCell>{row.date_start}</TableCell>
+						<TableCell>{row.nopend}</TableCell>
+						<TableCell>{capitalize(row.description)}</TableCell>
 					</TableRow>
 				)) : <TableRow>
 					<TableCell colSpan={4} align='center'>Data libur tidak ditemukan</TableCell>

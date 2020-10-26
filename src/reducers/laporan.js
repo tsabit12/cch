@@ -76,6 +76,14 @@ export default function laporan(state = initialState, action={}){
 				...state,
 				kinerjaCs: action.data
 			}
+		case 'GENERATE_LIBUR':
+			return {
+				...state,
+				totalLibur: action.totalAll,
+				libur: { //reset all page
+					[action.activePage]: action.inserted
+				}
+			}
 		default: 
 			return state;
 	}

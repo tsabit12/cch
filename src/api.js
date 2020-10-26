@@ -66,6 +66,9 @@ export default{
 			offset
 		}).then(res => res.data),
 		getTotalLibur: () => axios.post(`${process.env.REACT_APP_API2}/holiday/getTotal`).then(res => Number(res.data.total)),
+		generateLibur: (periode) => axios.post(`${process.env.REACT_APP_API2}/holiday/generate`, {
+			periode
+		}).then(res => res.data),
 		validationTiket: (noresi) => axios.post(`${process.env.REACT_APP_API2}/tiket/cektiket`, {
 			awb: noresi
 		}).then(res => res.data)
