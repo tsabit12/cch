@@ -16,7 +16,9 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
-  FormHelperText
+  FormHelperText,
+  Link,
+  Grid
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -230,6 +232,13 @@ const SignIn = props => {
           >
             Sign In
           </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="#/faq" variant="body2">
+                Butuh bantuan? FAQ
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
       <Box mt={8}>

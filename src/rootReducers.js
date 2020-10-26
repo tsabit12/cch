@@ -9,6 +9,7 @@ import xray from './reducers/xray';
 import knowledge from './reducers/knowledge';
 import newDashboard from './reducers/newDashboard';
 import product from './reducers/product';
+import faq from './reducers/faq';
 
 export default combineReducers({
 	auth,
@@ -20,5 +21,6 @@ export default combineReducers({
 	xray,
 	knowledge,
 	newDashboard,
-	product
+	product,
+	faq
 })

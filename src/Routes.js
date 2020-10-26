@@ -10,7 +10,8 @@ import {
 } from './components';
 import { 
   Main as MainLayout, 
-  Login as LoginLayout
+  Login as LoginLayout,
+  Minimal as MinimalLayout
 } from './layouts';
 
 import {
@@ -34,7 +35,8 @@ import {
   XrayDetail as XrayDetailView,
   LaporanProduk,
   KinerjaCs as KinerjaCsView,
-  DetailKinerja
+  DetailKinerja,
+  Faq as FaqView
 } from './views';
 
 
@@ -171,6 +173,12 @@ const Routes = () => {
         exact
         layout={LoginLayout}
         path="/not-found"
+      />
+      <RouteWithLayout
+        component={FaqView}
+        exact
+        layout={MinimalLayout}
+        path="/faq"
       />
       <Redirect to="/not-found" />
     </Switch>

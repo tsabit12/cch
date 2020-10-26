@@ -40,6 +40,16 @@ const ListSetting = props => {
 		            </ListItemSecondaryAction>
 				</ListItem>
 				<Divider />
+
+				<ListItem>
+					<ListItemText primary="FAQ" secondary="Tambah/Update FAQ" />
+					<ListItemSecondaryAction>
+		                <IconButton edge="end" aria-label="setting xray" onClick={() => props.onClick(2)}>
+		                  <ArrowForwardIcon />
+		                </IconButton>
+		            </ListItemSecondaryAction>
+				</ListItem>
+				<Divider />
 			</List>
 		</Card>
 	);

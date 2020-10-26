@@ -243,5 +243,9 @@ export default{
 	getDetailDashboard: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getDetail`, {
 		...payload
 	}).then(res => res.data),
-	getListOffice: () => axios.post(`${process.env.REACT_APP_API2}/xray/getListOffice`).then(res => res.data)
+	getListOffice: () => axios.post(`${process.env.REACT_APP_API2}/xray/getListOffice`).then(res => res.data),
+	getFaq: () => axios.post(`${process.env.REACT_APP_API2}/faq/getData`).then(res => res.data),
+	addFaq: (payload) => axios.post(`${process.env.REACT_APP_API2}/faq`, {
+		...payload
+	}).then(res => res.data)
 }

@@ -1,18 +1,24 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: 'none',
+    backgroundColor: theme.palette.warning.main
+  },
+  flexGrow: {
+    flexGrow: 1
+  },
+  whiteBtn: {
+    color: '#FFF'
   }
 }));
 
 const Topbar = props => {
-  const { className, ...rest } = props;
+  const { className, isAuthenticated, ...rest } = props;
 
   const classes = useStyles();
 
@@ -24,19 +30,24 @@ const Topbar = props => {
       position="fixed"
     >
       <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo--white.svg"
-          />
-        </RouterLink>
+          <div style={{marginTop: 5}}>
+            <img
+              alt="Logo"
+              src={`${process.env.REACT_APP_PUBLIC_URL}/images/cch.png`}
+            />
+          </div>
+          <div className={classes.flexGrow} />
+          { !isAuthenticated && <Button className={classes.whiteBtn}>
+            Login
+          </Button> }
       </Toolbar>
     </AppBar>
   );
 };
 
 Topbar.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default Topbar;

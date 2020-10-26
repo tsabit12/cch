@@ -70,10 +70,14 @@ const DataLibur = props => {
 	const handleAdd = () => props.history.push(`/setting/add`)
 
 	const handleClictSettings = (type) => {
-		setOpenModal({
-			type,
-			visible: true
-		})
+		if (type === 1) {
+			setOpenModal({
+				type,
+				visible: true
+			})
+		}else{
+			props.history.push("/faq");
+		}
 	}
 
 	return(

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import { connect } from 'react-redux';
 
 import { Topbar } from './components';
 
@@ -21,7 +22,7 @@ const Minimal = props => {
 
   return (
     <div className={classes.root}>
-      <Topbar />
+      <Topbar isAuthenticated={props.isAuthenticated} />
       <main className={classes.content}>{children}</main>
     </div>
   );
@@ -29,7 +30,14 @@ const Minimal = props => {
 
 Minimal.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
-export default Minimal;
+function mapStateToProps(state) {
+  return{
+    isAuthenticated: !!state.auth.user.token
+  }
+}
+
+export default connect(mapStateToProps, null)(Minimal);
