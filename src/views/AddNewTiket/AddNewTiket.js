@@ -172,20 +172,6 @@ const AddNewTiket = props => {
 		}
 	}, [tarif.data.receiver])
 
-	// useEffect(() => {
-	// 	if (pengaduan.alamat) {
-	// 		const time = setTimeout(function() {
-	// 			const payload = {
-	// 				kodepos: pengaduan.alamat
-	// 			};
-
-	// 			getAddress(payload);
-	// 		}, 800);
-
-	// 		return () => clearTimeout(time);
-	// 	}
-	// }, [pengaduan.alamat])
-
 	useEffect(() => {
 		if (tiket.data.tujuanKirim !== '') {
 			api.cch.getKprk(tiket.data.tujuanKirim)
@@ -199,11 +185,11 @@ const AddNewTiket = props => {
 	}, [tiket.data.tujuanKirim])
 
 	const getAddress = (payload) => {
-		api.cch.getAddress(payload)
+		api.cch.getKodepos(payload)
 			.then(cities => {
 				const text = [];
 				cities.forEach(row => {
-					text.push(`${row.kecamatan}, ${row.kabupaten}, ${row.provinsi}, ${row.kodepos}`)
+					text.push(`${row.address.replace(/-/g, '').trim()} - ${row.posCode}`)
 				})
 
 				setState(state => ({
@@ -475,8 +461,7 @@ const AddNewTiket = props => {
 	}
 
 	const handleSelectAddress = (value, name) => {
-		const kecValue = value.split(',')[0];
-		const findCities = tarif.cities.listCites.find(row => row.kecamatan === kecValue);
+		const kodeposValue = value.split('-')[1].trim();
 		
 		if (name === 'sender') {
 			setState(state => ({
@@ -485,7 +470,7 @@ const AddNewTiket = props => {
 					...state.tarif,
 					data: {
 						...state.tarif.data,
-						sKodepos: findCities.kodepos
+						sKodepos: kodeposValue
 					}
 				}
 			}))
@@ -496,7 +481,7 @@ const AddNewTiket = props => {
 					...state.tarif,
 					data: {
 						...state.tarif.data,
-						rKodepos: findCities.kodepos
+						rKodepos: kodeposValue
 					}
 				}
 			}))
@@ -555,15 +540,14 @@ const AddNewTiket = props => {
 			}))
 
 			const { data: newData } = tarif;
-			const sender  	= newData.sender.split(",");
-			const receiver 	= newData.receiver.split(",");
+
 
 			const payload = {
 				"customerid": "",
 				"desttypeid": "1",
 				"itemtypeid": newData.type,
-				"shipperzipcode": sender[3].trim(),
-				"receiverzipcode": receiver[3].trim(),
+				"shipperzipcode": newData.sKodepos,
+				"receiverzipcode": newData.rKodepos,
 				"weight": newData.berat.replace(/\D/g, ''),
 				"length": newData.panjang ? newData.panjang.replace(/\D/g, '') : '0',
 				"width": newData.lebar ? newData.lebar.replace(/\D/g, '') : '0',

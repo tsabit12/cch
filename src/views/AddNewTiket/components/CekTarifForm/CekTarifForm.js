@@ -65,10 +65,10 @@ const CekTarifForm = props => {
 								{...params} 
 								error={!!errors.sKodepos}
 								helperText={errors.sKodepos ? errors.sKodepos : null }
-								label='Kecamatan/Kota pengirim'
+								label='Kel/Kec/Kota pengirim'
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
-								placeholder='Masukan kecamatan/kota pengirim'
+								placeholder='Masukan kel/kec/kota pengirim'
 								size='small'
 						/> }
 					/>
@@ -90,11 +90,11 @@ const CekTarifForm = props => {
 						renderInput={(params) => 
 							<TextField 
 								{...params} 
-								label='Kecamatan/Kota penerima'
+								label='Kel/Kec/Kota penerima'
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
 								size='small'
-								placeholder='Masukan kecamatan/kota penerima'
+								placeholder='Masukan kel/kec/kota penerima'
 								error={!!errors.rKodepos}
 								helperText={errors.rKodepos ? errors.rKodepos : null}
 						/> }

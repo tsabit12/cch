@@ -37,7 +37,7 @@ const Topbar = props => {
             />
           </div>
           <div className={classes.flexGrow} />
-          { !isAuthenticated && <Button className={classes.whiteBtn}>
+          { !isAuthenticated && <Button className={classes.whiteBtn} href="#login">
             Login
           </Button> }
       </Toolbar>
