@@ -45,8 +45,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const listReg = [
-	{text: 'SEMUA REGIONAL', value: '00'},
-	{text: 'PUSAT', value: 'KANTORPUSAT'},
+	{text: 'SEMUA', value: '00'},
+	{text: 'SEMUA REGIONAL', value: '02'},
 	{text: 'REGIONAL 01', value: 'Regional 1'},
 	{text: 'REGIONAL 02', value: 'Regional 2'},
 	{text: 'REGIONAL 03', value: 'Regional 3'},
@@ -58,6 +58,7 @@ const listReg = [
 	{text: 'REGIONAL 09', value: 'Regional 9'},
 	{text: 'REGIONAL 10', value: 'Regional 10'},
 	{text: 'REGIONAL 11', value: 'Regional 11'},
+	{text: 'PUSAT', value: 'KANTORPUSAT'}
 ]
 
 const Dashboard = props => {
@@ -154,17 +155,17 @@ const Dashboard = props => {
   const { search, listKprk } = state;
 
   const getListKprk = (regional) => {
-  	if (regional !== '00') {
+  	if (regional === '02' || regional === '00') {
+  		setState(state => ({
+  			...state,
+  			listKprk: []
+  		}))
+  	}else{
   		api.getKprk(regional)
 	  		.then(result => setState(state => ({
 		  		...state,
 		  		listKprk: result
 		  	})))
-  	}else{
-  		setState(state => ({
-  			...state,
-  			listKprk: []
-  		}))
   	}
   }
 
