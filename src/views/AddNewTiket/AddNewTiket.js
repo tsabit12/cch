@@ -541,13 +541,12 @@ const AddNewTiket = props => {
 
 			const { data: newData } = tarif;
 
-
 			const payload = {
 				"customerid": "",
 				"desttypeid": "1",
 				"itemtypeid": newData.type,
-				"shipperzipcode": newData.sKodepos,
-				"receiverzipcode": newData.rKodepos,
+				"shipperzipcode": newData.sKodepos.replace(/[()]/g, ''),
+				"receiverzipcode": newData.rKodepos.replace(/[()]/g, ''),
 				"weight": newData.berat.replace(/\D/g, ''),
 				"length": newData.panjang ? newData.panjang.replace(/\D/g, '') : '0',
 				"width": newData.lebar ? newData.lebar.replace(/\D/g, '') : '0',
