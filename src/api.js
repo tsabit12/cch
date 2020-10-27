@@ -5,7 +5,7 @@ export default{
 	trackAndTrace: (payload) => axios.post(`${process.env.REACT_APP_API}/tnt`, {
 		...payload
 	}).then(res => res.data),
-	mappingPos: (payload) => axios.post(`${process.env.REACT_APP_API}/kantorPos`, {
+	mappingPos: (payload) => axios.post(`${process.env.REACT_APP_API}/kantorPosBaru`, {
 		...payload
 	}).then(res => res.data.result),
 	mappingKodepos: (kodepos) => axios.post(`${process.env.REACT_APP_API}/kantorPos2`, {

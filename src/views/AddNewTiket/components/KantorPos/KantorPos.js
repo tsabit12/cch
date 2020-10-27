@@ -35,13 +35,13 @@ const getKecamatan = (address) => {
 	return value.trim();
 }
 
-const  convertToArray = (value) => {
-	if (Object.prototype.toString.call(value) === '[object Object]') {
-		return [value];
-	}else{
-		return value;
-	}
-}
+// const  convertToArray = (value) => {
+// 	if (Object.prototype.toString.call(value) === '[object Object]') {
+// 		return [value];
+// 	}else{
+// 		return value;
+// 	}
+// }
 
 const KantorPos = props => {
 	const classes = useStyles();
@@ -123,7 +123,7 @@ const KantorPos = props => {
 			api.mappingPos(payloadOffice)
 				.then(offices =>  {	
 					
-					const convertedOffice = convertToArray(offices.response);
+					// const convertedOffice = convertToArray(offices.response);
 
 					api.cch.addPelanggan(payloadPelanggan)
 					.then(customers => {
@@ -131,13 +131,13 @@ const KantorPos = props => {
 						const payloadInfo = {
 							jenisChannel: pelanggan.jenis,
 							custid,
-							deskripsi: JSON.stringify(convertedOffice) 
+							deskripsi: JSON.stringify(offices) 
 						}
 
 						api.cch.addInfoPos(payloadInfo)
 							.then(() => {
 								props.setLoading(false);
-								props.setKantor(convertedOffice);
+								props.setKantor(offices);
 							})
 							.catch(err => { 
 								props.setLoading(false);
