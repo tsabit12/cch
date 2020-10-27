@@ -13,8 +13,7 @@ import {
 	Popper,
 	Grow,
 	ClickAwayListener,
-	MenuList,
-	CardActions
+	MenuList
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getLaporanTiket } from '../../actions/laporan';
@@ -49,14 +48,15 @@ const useStyles = makeStyles(theme => ({
 		color: '#FFF',
 		'&:hover': {
 			backgroundColor: theme.palette.success.dark
-		},
-		border: 'none'
+		}
 	}
 }))
 
 const getOfficeLabel = params => {
 	if (params.regional === '00' && params.kprk === '00') {
 		return 'nasional';
+	}else if(params.regional === '02'){
+		return 'semua_regional';
 	}else if(params.regional === '01' && params.kprk === '00'){
 		return 'kantor_pusat'; //omni, halopos, pusat
 	}else if(params.regional === '01' && params.kprk !== '00'){
@@ -299,7 +299,7 @@ const Laporan = props => {
 		        </Popper>
 			</div>
 			<div style={{display: 'flex', width: '100%', justifyContent: 'flex-end'}}>
-				<FormControl variant='outlined' size="small" style={{width: 200, marginLeft: 5}}>
+				<FormControl variant='outlined' size="small" style={{width: 120, marginLeft: 5}}>
 					<InputLabel htmlFor="regLabel">Regional</InputLabel>
 					<Select
 						labelId="regLabel"
@@ -315,7 +315,7 @@ const Laporan = props => {
 					</Select>
 				</FormControl>
 
-				<FormControl variant='outlined' size="small" style={{width: 200, marginLeft: 5}}>
+				<FormControl variant='outlined' size="small" style={{width: 120, marginLeft: 5}}>
 					<InputLabel htmlFor="kprkLabel">Kprk</InputLabel>
 					<Select
 						labelId="kprkLabel"
@@ -341,7 +341,7 @@ const Laporan = props => {
 			        autoOk
 			        size='small'
 			        variant="inline"
-			        style={{marginLeft: 5}}
+			        style={{marginLeft: 5, width: 120}}
 			        label="Mulai"
 			        inputVariant='outlined'
 			        value={params.startdate}
@@ -354,7 +354,7 @@ const Laporan = props => {
 			        autoOk
 			        size='small'
 			        variant="inline"
-			        style={{marginLeft: 5}}
+			        style={{marginLeft: 5, width: 120}}
 			        label="Sampai"
 			        inputVariant='outlined'
 			        value={params.enddate}
@@ -363,6 +363,32 @@ const Laporan = props => {
 			    <Button variant='outlined' style={{marginLeft: 5}} onClick={handleSearch} disabled={loading}>
 			    	Tampilkan
 			    </Button>
+			    { props.listTiket.length > 0 && <ExcelFile 
+					filename={`laporan_tiket_${activeName === '00' ? 'masuk' : 'keluar'}_${getOfficeLabel(params)}(${convertDay(params.startdate)}_${convertDay(params.enddate)})`} 
+					element={
+						<Button 
+							variant='outlined' 
+							style={{marginLeft: 5}}
+							className={classes.greenBtn}
+							startIcon={<FileCopyIcon />}
+						>
+							DOWNLOAD
+						</Button>
+					}
+				>
+					<ExcelSheet data={props.listTiket} name="tiket">
+						<ExcelColumn label="KANTOR" value="regional"/>
+						<ExcelColumn label="JUMLAH PENGADUAN" value={(col) => Number(col.tot_all)} />
+						<ExcelColumn label="JUMLAH 1 HARI" value={(col) => Number(col.hari1)} />
+						<ExcelColumn label="JUMLAH 2 HARI" value={(col) => Number(col.hari2)} />
+						<ExcelColumn label="JUMLAH 3 HARI" value={(col) => Number(col.hari3)} />
+						<ExcelColumn label="JUMLAH > 4 HARI" value={(col) => Number(col.hari4)}/>
+						<ExcelColumn 
+							label="TOTAL SELESAI" 
+							value={(col) => Number(col.hari1) + Number(col.hari2) + Number(col.hari3) + Number(col.hari4)}
+						/>
+					</ExcelSheet>
+				</ExcelFile> }
 		    </div>
 		</div>
 	);
@@ -386,34 +412,6 @@ const Laporan = props => {
 					data={props.listTiket}
 					onPress={handleClickDetail}
 				/>
-				<CardActions style={{justifyContent: 'flex-end'}}>
-					<ExcelFile 
-						filename={`laporan_tiket_${activeName === '00' ? 'masuk' : 'keluar'}_${getOfficeLabel(params)}(${convertDay(params.startdate)}_${convertDay(params.enddate)})`} 
-						element={
-							<Button 
-								variant='outlined' 
-								className={classes.greenBtn}
-								startIcon={<FileCopyIcon />}
-								disabled={props.listTiket.length > 0 ? false : true}
-							>
-								DOWNLOAD
-							</Button>
-						}
-					>
-						<ExcelSheet data={props.listTiket} name="tiket">
-							<ExcelColumn label="KANTOR" value="regional"/>
-							<ExcelColumn label="JUMLAH PENGADUAN" value={(col) => Number(col.tot_all)} />
-							<ExcelColumn label="JUMLAH 1 HARI" value={(col) => Number(col.hari1)} />
-							<ExcelColumn label="JUMLAH 2 HARI" value={(col) => Number(col.hari2)} />
-							<ExcelColumn label="JUMLAH 3 HARI" value={(col) => Number(col.hari3)} />
-							<ExcelColumn label="JUMLAH > 4 HARI" value={(col) => Number(col.hari4)}/>
-							<ExcelColumn 
-								label="TOTAL SELESAI" 
-								value={(col) => Number(col.hari1) + Number(col.hari2) + Number(col.hari3) + Number(col.hari4)}
-							/>
-						</ExcelSheet>
-					</ExcelFile>
-				</CardActions>
 			</Card>
 		</div>
 	);
