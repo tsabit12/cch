@@ -65,7 +65,7 @@ const getStatus = number => {
 		case 5:
 			return ['18'];
 		case 6:
-			return ['1', '12', '17', '18', '99'];
+			return ['12', '17', '18'];
 		default:
 			return ['1', '12'];
 	}
@@ -153,7 +153,7 @@ const ListTiket = props => {
 			payload.status = ['18'];
 		}else if(props.page === 6){
 			payload.offset = 0;
-			payload.status = ['1', '12', '17', '18', '99'];
+			payload.status = ['12', '17', '18'];
 		}else{
 			payload.offset = 0;
 			payload.status = ['99'];

@@ -79,11 +79,11 @@ const RenderListTrack = props => {
 					</Typography>
 
 					<Typography variant='body2' className={classes.typography}>
-						EVENT NAME : {row.eventName} ({row.eventDate})
+						EVENT NAME : {JSON.stringify(row.eventName)} ({JSON.stringify(row.eventDate)})
 					</Typography>
 
 					<Typography variant='body2' className={classes.typography}>
-						 OFFICE : {row.officeCode} - {row.officeName}
+						 OFFICE : {JSON.stringify(row.officeCode)} - {JSON.stringify(row.officeName)}
 					</Typography>
 				</div>
 			))}

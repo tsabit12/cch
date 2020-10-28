@@ -638,6 +638,7 @@ const AddNewTiket = props => {
 							tracks: tracks.result
 						}
 					}))
+					// console.log(tracks);
 				})
 				.catch(err => {
 					setState(state => ({

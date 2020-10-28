@@ -264,7 +264,7 @@ const Text = props => {
 
 const Message = props => {
 	const classes = useStyles();
-	const { data } = props;
+	const { data, detail, dataUser } = props;
 	const inputFileRef = React.useRef();
 
 	const [state, setState] = React.useState({
@@ -290,6 +290,12 @@ const Message = props => {
 			}
 		}
 	}, [data, state.photoProfileValue, props.dataUser]);
+
+	React.useEffect(() => {
+		if (detail.asal_pengaduan === dataUser.kantor_pos) {
+			setStatusValue('17');
+		}
+	}, [detail, dataUser])
 
 	const handleChange = (e) => {
 		const { value } = e.target;
@@ -339,14 +345,14 @@ const Message = props => {
 					placeholder: 'Masukkan text'
 				}))
 				inputFileRef.current.value = null;
-				setStatusValue('12');
+				// setStatusValue('12');
 			}else{
 				await props.onSendMessage(state.text, state.photoProfileValue, statusValue);
 				setState(prevState => ({
 					...prevState,
 					text: ''
 				}));
-				setStatusValue('12');
+				// setStatusValue('12');
 			}	
 		}else{
 			alert("Text harap diisi");
@@ -459,9 +465,9 @@ const Message = props => {
 					          label="Status"
 					          //disabled={props.user.utype === 'Kprk' ? true : false }
 					        >
-					        	<MenuItem value="12">Investigasi</MenuItem>
-					        	<MenuItem value="17">Konfirmasi</MenuItem>
-					        	<MenuItem value="18">Request Tutup</MenuItem>
+					        	{ detail.asal_pengaduan === dataUser.kantor_pos && <MenuItem value="17">Konfirmasi</MenuItem> }
+					        	{ detail.asal_pengaduan !== dataUser.kantor_pos && <MenuItem value="12">Investigasi</MenuItem> }
+					        	{ detail.asal_pengaduan !== dataUser.kantor_pos && <MenuItem value="18">Request Tutup</MenuItem> }
 					        </Select>
 						</FormControl>
 						<input 
@@ -513,7 +519,7 @@ const Message = props => {
 									            className={classes.inline}
 									            color="secondary"
 									          >
-									            {row.username} ({row.kantor_pos})
+									            {row.fullname} ({row.kantor_pos})
 									        </Typography>
 									      </React.Fragment>}
 									      secondary={<Text 
@@ -534,7 +540,7 @@ const Message = props => {
 									            className={classes.rightText}
 									            color="secondary"
 									          >
-									            {row.username} ({row.kantor_pos})
+									            {row.fullname} ({row.kantor_pos})
 									        </Typography>
 									      </React.Fragment>}
 									      secondary={ <Text 

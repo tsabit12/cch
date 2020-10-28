@@ -215,6 +215,7 @@ const Chat = props => {
 		        		shouldFetch={state.visible}
 		        		status={!!props.isDone}
 		        		onUpload={handleUpload}
+		        		detail={props.dataTiket.data}
 		        	/>
 		        </Grid>
 	        </Grid> }
