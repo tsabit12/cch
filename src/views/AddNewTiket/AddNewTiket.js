@@ -10,7 +10,8 @@ import {
 	TableTarif,
 	KantorPos,
 	TableOffice,
-	FormKeuangan
+	FormKeuangan,
+	LainnyaForm
 } from './components';
 import { connect } from 'react-redux';
 import { getChannel } from '../../actions/laporan';
@@ -974,6 +975,21 @@ const AddNewTiket = props => {
 
 			        	{ pengaduan.jenis === '6' && 
 			        		<FormKeuangan 
+			        			validateCustomer={handleValidateKantorPos}	
+			        			errors={state.errors}
+			        			pelanggan={state.pengaduan}
+			        			user={props.user}
+			        			setLoading={(bool) => 
+			        				setState(state => ({
+										...state,
+										loading: bool
+									})) 
+			        			}
+			        			setSucces={handleSetSuccess}
+			        		/> }
+
+			        	{ pengaduan.jenis === '7' && 
+			        		<LainnyaForm 
 			        			validateCustomer={handleValidateKantorPos}	
 			        			errors={state.errors}
 			        			pelanggan={state.pengaduan}

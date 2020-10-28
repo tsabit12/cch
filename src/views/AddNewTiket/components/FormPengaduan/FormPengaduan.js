@@ -95,6 +95,7 @@ const FormPengaduan = props => {
 				          <MenuItem value='1'>Lacak Kiriman</MenuItem>
 				          <MenuItem value='2'>Info Tarif</MenuItem>
 				          <MenuItem value='4'>Kantor Pos & Kode Pos</MenuItem>
+				          <MenuItem value='7'>Lain-Lain</MenuItem>
 				    </Select>
 				</FormControl>
 

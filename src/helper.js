@@ -121,7 +121,7 @@ export const listAduan = [
     { text: 'Permintaan Data/Berita Acara', value: '9'},
     { text: 'Salah Update Status', value: '10'},
     //{ text: 'Belum Terima', value: '9'},
-    // { text: 'Lainnya', value: '10'}
+    { text: 'Lainnya', value: '10'}
 ]
 
 
@@ -169,3 +169,18 @@ export const getInitialUser = (level) => {
       return 0;
   }
 }
+
+export const jenisAduan = [
+  {value: '0', text: 'Pengaduan Kiriman'},
+  {value: '5', text: 'Pengaduan Keuangan'},
+  {value: '1', text: 'Lacak Kiriman'},
+  {value: '2', text: 'Info Tarif'},
+  {value: ''}
+]
+
+export const listLayanan = [
+  {value: '00', text: '--Pilih Layanan--'},
+  {value: 'PUS', text: 'ORANGER PICKUP'},
+  {value: 'COD', text: 'CASH ON DELIVERY'},
+  {value: '000', text: 'Lain-lain'}
+];
