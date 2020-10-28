@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, FormControl, Select, MenuItem, InputLabel, Button, Paper, Divider } from '@material-ui/core';
+import { 
+	Grid, 
+	FormControl, 
+	Select, 
+	MenuItem, 
+	InputLabel, 
+	Button, 
+	Paper, 
+	Divider 
+} from '@material-ui/core';
 import {
 	TotalLastUpdate,
 	Pencapaian,
@@ -18,13 +27,11 @@ import {
 	getProduk,
 	getInfo
 } from '../../actions/dashboard';
-import { removeMessage } from "../../actions/message";
-import { getTotalPelanggan } from "../../actions/laporan"
+import { getTotalPelanggan } from "../../actions/laporan";
 import PropTypes from "prop-types";
-// import CollapseMessage from "../CollapseMessage";
 import api from "../../api";
 import { DatePicker } from "@material-ui/pickers";
-import { periodeView } from '../../helper';
+import { periodeView, getInitialUser } from '../../helper';
 
 const capitalize = (string) => {
 	return string.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
@@ -64,8 +71,8 @@ const listReg = [
 const Dashboard = props => {
   const classes = useStyles();
   // const { display, text } = props.flashMessage;
-
-  const [state, setState] = React.useState({
+  const { dataUser } = props;
+  const [state, setState] = useState({
   	search: {
   		regional: '00',
   		kprk: '00',
@@ -78,13 +85,15 @@ const Dashboard = props => {
   	}
   })
 
-  const [open, setOpen] = React.useState({
+  const [open, setOpen] = useState({
   	visible: false,
   	search: {}
   })
+  const [infoVisible, setVisibleInfo] = useState(false);
 
+  const { search, listKprk } = state;
 
-  React.useEffect(() => {
+  useEffect(() => {
   	(async () => {
   		const defaultValue = {};
 
@@ -152,7 +161,13 @@ const Dashboard = props => {
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
 
-  const { search, listKprk } = state;
+  useEffect(() => {
+  	const levelId = getInitialUser(dataUser.level);
+  	//refrence by menu in sidebar
+  	if (levelId === 1 || levelId === 2 || levelId === 5 || levelId === 6 || levelId === 7) {
+  		setVisibleInfo(true);
+  	}
+  }, [dataUser])
 
   const getListKprk = (regional) => {
   	if (regional === '02' || regional === '00') {
@@ -198,13 +213,10 @@ const Dashboard = props => {
   		...search,
   		periode: periodeView(search.periode)
   	}
-  	// props.getJumlahUser(search.regional, search.kprk, null, payload.periode);
-  	// props.getTotalPelanggan(payload);
 
   	props.getStatistik(payload);
   	props.getPencapaian(payload);
   	props.getProduk(payload);
-  	// props.getInfo(payload);
   }
 
   const handleGetDetail = (payload) => {
@@ -219,11 +231,6 @@ const Dashboard = props => {
 
   return (
     <div className={classes.root}>
-    	{ /* <CollapseMessage 
-			visible={display}
-			message={text}
-			onClose={props.removeMessage}
-		/> */ }
 		<ModalDetailTiket  
 			params={open}
 			onClose={() => setOpen(open => ({
@@ -233,10 +240,7 @@ const Dashboard = props => {
 			onClick={(no_tiket) => props.history.push(`/tiket/${no_tiket}`)}
 		/>
 
-      	<Grid
-        	container
-        	spacing={4}
-		>
+		{ infoVisible && <Grid container spacing={4}>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	          	<TotalPelanggan 
 	        		total={props.totPel}
@@ -265,7 +269,7 @@ const Dashboard = props => {
 	        		onClick={() => props.history.push('/tiket')}
 	        	/>
 	        </Grid>
-		</Grid>
+		</Grid> }
 
 		<Paper style={{marginTop: 20}}>
 			<div className={classes.paper}>
@@ -397,7 +401,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { 
-	removeMessage,
 	getPencapaian,
 	getStatistik,
 	getProduk,

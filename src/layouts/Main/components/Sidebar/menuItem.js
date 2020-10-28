@@ -10,6 +10,8 @@ import {
   Cancel as CancelIcon
 } from '@material-ui/icons';
 
+//for ref level id user
+//you can check function getInitialUser in helper.js
 export default [
   {
     href: '/dashboard',
