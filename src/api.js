@@ -12,8 +12,9 @@ export default{
 		kodepos
 	}).then(res => res.data.result),
 	cch: {
-		getKprk: (param) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
-			param
+		getKprk: (param, type) => axios.post(`${process.env.REACT_APP_API}/listOffice`, {
+			param,
+			type: type ? type : null
 		}).then(res => res.data),
 		resetPassword: (username) => axios.post(`${process.env.REACT_APP_API}/resetPassword`, {
 			username
@@ -73,7 +74,7 @@ export default{
 			awb: noresi
 		}).then(res => res.data)
 	},
-	getEmploye: (payload) => axios.post('http://10.32.41.90/pickup/api/dashboard/GetEmployee', {
+	getEmploye: (payload) => axios.post(`${process.env.REACT_APP_API2}/getemployee`, {
 		idPegawai: payload.nippos,
 		nopend: payload.kantor
 	}).then(res => res.data),

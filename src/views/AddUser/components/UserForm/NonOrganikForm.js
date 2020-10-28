@@ -52,7 +52,7 @@ const NonOrganikForm = props => {
 	useEffect(() => {
 		if (fieldKantor.label && fieldKantor.label.length <= 8) {
 			const timeId = setTimeout(function() {
-				api.cch.getKprk(fieldKantor.label)
+				api.cch.getKprk(fieldKantor.label, 'type')
 					.then(res => setOffices(res));
 			}, 500);
 

@@ -69,12 +69,15 @@ const XrayDetail = props => {
 		if (officesAllowed.length > 0) {
 			setMount(true); //don't waith for fetching new office
 			
-			const isAllowed = officesAllowed.find(row => row === user.kantor_pos);
-			if (isAllowed) {
-				setVisible(true);
+			if (user.jabatan !== 'REPORTING') { 
+				const isAllowed = officesAllowed.find(row => row === user.kantor_pos);
+				if (isAllowed) {
+					setVisible(true);
+				}
 			}
+
 		}
-	}, [officesAllowed, user.kantor_pos])
+	}, [officesAllowed, user.kantor_pos, user.jabatan])
 
 	useEffect(() => {
 		if (mount) {

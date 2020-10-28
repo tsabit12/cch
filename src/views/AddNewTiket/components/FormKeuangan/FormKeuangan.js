@@ -398,10 +398,10 @@ const FormKeuangan = props => {
 						renderInput={(params) => 
 							<TextField 
 								{...params} 
-								label='Kantor Tujuan'
+								label='Tujuan Pengaduan'
 								variant='outlined'
 								InputLabelProps={{ shrink: true }}
-								placeholder='Cari kantor tujuan'
+								placeholder='Cari kantor tujuan pengaduan'
 								size='small'
 								error={!!isValid.tujuanKantor}
 						      	helperText={isValid.tujuanKantor ? isValid.tujuanKantor : null }

@@ -15,21 +15,21 @@ export default [
     href: '/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
-    user: [1, 2, 3, 4, 5, 6, 7, 8],
+    user: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     collapse: []
   },
   {
     href: '/user',
     icon: PersonIcon,
     title: 'User',
-    user: [1, 2, 3, 4],
+    user: [1, 3, 4],
     collapse: []
   },
   {
     href: '/tiket',
     icon: AssignmentIcon,
     title: 'Tiket',
-    user: [1, 2, 3, 4, 5, 6, 7],
+    user: [1, 2, 5, 6, 7],
     collapse: []
   },
   {
@@ -50,7 +50,7 @@ export default [
     href: '/x-ray',
     icon: CancelIcon,
     title: 'Gagal X-Ray',
-    user: [1, 2, 3, 4, 5, 6, 7],
+    user: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     collapse: []
   },
   {
@@ -59,10 +59,10 @@ export default [
     title: 'Laporan',
     user: [], //collapse length > 0 && user must move to array in collapse
     collapse: [
-      {href: '/laporan-tiket', title: 'Tiket', user: [1, 2, 3, 4, 5, 6, 7]},
-      {href: '/laporan-product', title: 'Produk', user: [1, 2, 3, 4, 5, 6, 7]},
-      {href: '/kinerja-cs', title: 'Kinerja CS', user: [1, 2, 3, 4, 5, 6, 7]},
-      {href: '/laporan-xray', title: 'X-Ray', user:[1, 2, 8]},
+      {href: '/laporan-tiket', title: 'Tiket', user: [1, 2, 3, 4, 6, 7, 8, 9]},
+      {href: '/laporan-product', title: 'Produk', user: [1, 2, 3, 4, 6, 7, 8, 9]},
+      {href: '/kinerja-cs', title: 'Kinerja CS', user: [1, 2, 3, 5, 4, 6, 7, 8, 9]},
+      {href: '/laporan-xray', title: 'X-Ray', user:[1, 2, 8, 3, 9]},
     ]
   },
   {

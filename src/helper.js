@@ -165,6 +165,8 @@ export const getInitialUser = (level) => {
       return 7;
     case 'REPORTING KANTORPUSAT':
       return 8;
+    case 'REPORTING Regional':
+      return 9;
     default:
       return 0;
   }

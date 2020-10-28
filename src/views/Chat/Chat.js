@@ -156,8 +156,11 @@ const Chat = props => {
 		const payload = {
 			notiket: data.no_tiket,
 			jenisAduan: value.intiMasalah,
-			lokusMasalah: value.status
-		}
+			lokusMasalah: value.status,
+			user: props.user.email,
+			no_resi: data.awb,
+			status: '99' //done
+		} 
 
 		props.closeTiket(payload)
 			.then(() => setState(prevState => ({

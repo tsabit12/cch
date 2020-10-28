@@ -13,6 +13,17 @@ import {
 } from "@material-ui/core";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
+const allowedAction = (level) => {
+	switch(level){
+		case 'MANAGEMENT Regional':
+			return true;
+		case 'Administrator KANTORPUSAT':
+			return true;
+		default:
+			return false;
+	}
+}
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		minHeight: 360,
@@ -131,7 +142,7 @@ const TableUser = props => {
 	                  <TableCell className={classes.row}>REGIONAL</TableCell>
 	                  <TableCell className={classes.row}>HAK AKSES</TableCell>
 	                  <TableCell className={classes.row}>STATUS</TableCell>
-	                  <TableCell className={classes.row} align='center'>ACTION</TableCell>
+	                  { allowedAction(props.level) && <TableCell className={classes.row} align='center'>ACTION</TableCell> }
 	                </TableRow>
               	</TableHead>
 		        <TableBody>
@@ -148,14 +159,14 @@ const TableUser = props => {
 			              	<p className={classes.text}>{row.jabatan}</p>
 			              </TableCell>
 			              <TableCell className={classes.row}>{row.status === '1' ? 'Aktif' : 'Nonaktif'}</TableCell>
-			              <TableCell className={classes.row} align='center'>
+			              { allowedAction(props.level) && <TableCell className={classes.row} align='center'>
 			              	<ThreeDotsMenu 
 			              		status={row.status} 
 			              		onNonaktif={() => handleChange(row.username, row.status)}
 			              		onUpdate={() => props.onClickUpdate(row.username)}
 			              		onResetPassword={() => props.resetPassword(row.username)}
 			              	/>
-			              </TableCell>
+			              </TableCell> }
 			            </TableRow>
 		        	))}
 		        </TableBody>
@@ -170,7 +181,8 @@ TableUser.propTypes = {
 	limit: PropTypes.number.isRequired,
 	onUpdate: PropTypes.func.isRequired,
 	onClickUpdate: PropTypes.func.isRequired,
-	resetPassword: PropTypes.func.isRequired
+	resetPassword: PropTypes.func.isRequired,
+	level: PropTypes.string.isRequired
 }
 
 export default TableUser;

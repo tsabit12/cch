@@ -86,8 +86,8 @@ const User = props => {
 	const [loading, setLoading] = React.useState(false);
 	const [alertVal, setAlert] = React.useState({
 		open: false,
-		variant: null,
-		message: null
+		variant: 'success',
+		message: ''
 	})
 
 	const classes = useStyles();
@@ -380,6 +380,7 @@ const User = props => {
 				})}
 				message={alertVal.message}
 			/>
+
 			<Grid container spacing={4}>
 				<Grid
 		          item
@@ -410,6 +411,7 @@ const User = props => {
 								onUpdate={handleUpdateStatus}
 								onClickUpdate={handleUpdate}
 								resetPassword={handleResetPassword}
+								level={props.userData.level}
 							/> : <CardContent>
 							<div className={classes.contentEmpty}>
 								{state.loading ? <p>Loading...</p> : <p>Data user kosong</p> }
