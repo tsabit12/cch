@@ -9,7 +9,8 @@ const initialState = {
 			keluar: 0
 		},
 		close: 0,
-		lastupdate: 0
+		lastupdate: 0,
+		lastupdateMasuk: 0
 	},
 	list: {
 		activeMasuk: {},
@@ -17,7 +18,8 @@ const initialState = {
 		activeKeluarDone: {},
 		activeMasukDone: {},
 		activeClose: {},
-		activeLastupdate: {}
+		activeLastupdate: {},
+		activeLastupdateMasuk: {}
 	},
 	detail: {
 		// [notiket]: {
@@ -65,7 +67,18 @@ export default function newTiket(state=initialState, action={}) {
 				list: {
 					...state.list,
 					activeLastupdate: {
-						...state.list.activeKeluarDone,
+						...state.list.activeLastupdate,
+						[action.activePaging]: action.tickets
+					}
+				}
+			}
+		case 'GET_LAST_UPDATE_MASUK':
+			return {
+				...state,
+				list: {
+					...state.list,
+					activeLastupdateMasuk: {
+						...state.list.activeLastupdateMasuk,
 						[action.activePaging]: action.tickets
 					}
 				}

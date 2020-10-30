@@ -46,7 +46,9 @@ const getLabelPage = number => {
 		case 5:
 			return 'REQUEST TUTUP';
 		case 6:
-			return 'BARU DIUPDATE';
+			return 'PENGADUAN KELUAR BARU DIUPDATE';
+		case 7:
+			return 'PENGADUAN MASUK BARU DIUPDATE';
 		default:
 			return '-';
 	}
@@ -65,7 +67,9 @@ const getStatus = number => {
 		case 5:
 			return ['18'];
 		case 6:
-			return ['12', '17', '18'];
+			return ['12', '18'];
+		case 7:
+			return ['17'];
 		default:
 			return ['1', '12'];
 	}
@@ -121,6 +125,8 @@ const getVisibleDurasi = (page) => {
 			return true;
 		case 6:
 			return true;
+		case 7:
+			return true;
 		default:
 			return false;
 	}
@@ -153,7 +159,10 @@ const ListTiket = props => {
 			payload.status = ['18'];
 		}else if(props.page === 6){
 			payload.offset = 0;
-			payload.status = ['12', '17', '18'];
+			payload.status = ['12', '18'];
+		}else if(props.page === 7){
+			payload.offset = 0;
+			payload.status = ['17'];
 		}else{
 			payload.offset = 0;
 			payload.status = ['99'];

@@ -32,6 +32,8 @@ const getTypeTiket = activeNumber => {
 			return { type: 'GET_REQUEST_TUTUP', list: 'activeClose' };
 		case 6:
 			return { type: 'GET_LAST_UPDATE', list: 'activeLastupdate' };
+		case 7:
+			return { type:'GET_LAST_UPDATE_MASUK', list: 'activeLastupdateMasuk'}
 		default: 
 			return { type: '-', list: '-'};
 	}

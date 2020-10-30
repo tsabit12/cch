@@ -25,10 +25,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	listActived: {
 		backgroundColor: 'rgba(216, 212, 212, 0.94)',
-		height: 50
+		height: 40
 	},
 	listItem: {
-		height: 50
+		height: 40
 	}
 }))
 
@@ -46,7 +46,7 @@ const StyledBadge = withStyles(theme => ({
 const Navbar = props => {
 	const classes = useStyles();
 	const { page } = props;
-	const { done, active, close, lastupdate } = props.jumlah;
+	const { done, active, close, lastupdate, lastupdateMasuk } = props.jumlah;
 
 	return(
 		<Card className={classes.root}>
@@ -63,12 +63,11 @@ const Navbar = props => {
 					</Button> 
 				}
 			/>
-			<Divider />
 			<div className={classes.label}>
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h5"
+	              variant="h6"
 	            >
 	            	DALAM PROSES
 	            </Typography>
@@ -77,7 +76,6 @@ const Navbar = props => {
             { props.level !== 1 && <ListItem 
 				className={page === 1 ? classes.listActived : classes.listItem} 
 				button 
-				divider
 				onClick={() => props.onChangePage(1)}
 			>
 			    <ListItemText primary="Pengaduan Masuk" />
@@ -93,7 +91,6 @@ const Navbar = props => {
 			<ListItem 
 				className={page === 2 ? classes.listActived : classes.listItem} 
 				button 
-				divider
 				onClick={() => props.onChangePage(2)}
 			>
 			    <ListItemText primary="Pengaduan Keluar" />
@@ -106,12 +103,11 @@ const Navbar = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider />
-
 			<div className={classes.label}>
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h5"
+	              variant="h6"
 	            >
 	            	SUDAH SELESAI
 	            </Typography>
@@ -120,7 +116,6 @@ const Navbar = props => {
 			{ props.level !== 1 && <ListItem 
 				className={page === 3 ? classes.listActived : classes.listItem} 
 				button 
-				divider
 				onClick={() => props.onChangePage(3)}
 			>
 			    <ListItemText primary="Pengaduan Masuk" />
@@ -148,12 +143,52 @@ const Navbar = props => {
 			    </ListItemIcon>
 			</ListItem>
 			<Divider />
+			<div className={classes.label}>
+				<Typography
+	              color="inherit"
+	              gutterBottom
+	              variant="h6"
+	            >
+	            	BARU DIUPDATE
+	            </Typography>
+			</div>
+
+			<ListItem 
+				button 
+				onClick={() => props.onChangePage(6)}
+				className={page === 6 ? classes.listActived : classes.listItem}
+			>
+			    <ListItemText primary="Pengaduan Keluar" />
+				<ListItemIcon>
+					<IconButton aria-label="Cart" disabled>
+				      <StyledBadge badgeContent={lastupdate} color="primary">
+				        <MailIcon />
+				      </StyledBadge>
+				    </IconButton>
+			    </ListItemIcon>
+			</ListItem>
+
+			{ props.level !== 1 && <ListItem 
+				button 
+				onClick={() => props.onChangePage(7)}
+				className={page === 7 ? classes.listActived : classes.listItem}
+			>
+			    <ListItemText primary="Pengaduan Masuk" />
+				<ListItemIcon>
+					<IconButton aria-label="Cart" disabled>
+				      <StyledBadge badgeContent={lastupdateMasuk} color="primary">
+				        <MailIcon />
+				      </StyledBadge>
+				    </IconButton>
+			    </ListItemIcon>
+			</ListItem> }
+			<Divider />
 
 			<div className={classes.label}>
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h5"
+	              variant="h6"
 	            >
 	            	LAINNYA
 	            </Typography>
@@ -168,21 +203,6 @@ const Navbar = props => {
 				<ListItemIcon>
 					<IconButton aria-label="Cart" disabled>
 				      <StyledBadge badgeContent={close} color="primary">
-				        <MailIcon />
-				      </StyledBadge>
-				    </IconButton>
-			    </ListItemIcon>
-			</ListItem>
-
-			<ListItem 
-				button 
-				onClick={() => props.onChangePage(6)}
-				className={page === 6 ? classes.listActived : classes.listItem}
-			>
-			    <ListItemText primary="Baru Diupdate" />
-				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
-				      <StyledBadge badgeContent={lastupdate} color="primary">
 				        <MailIcon />
 				      </StyledBadge>
 				    </IconButton>
