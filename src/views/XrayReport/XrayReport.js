@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 const XrayReport = props => {
 	const anchorRef = useRef();
 	const classes = useStyles();
+	const { regional } = props;
 	const [openDetail, setOpenDetail] = useState({
 		visible: false,
 		param: {}
@@ -71,8 +72,10 @@ const XrayReport = props => {
 		const payload = {
 			startdate: convertDay(new Date()),
 			enddate: convertDay(new Date()),
-			type: '1'
+			type: '1',
+			regional
 		}
+
 		props.getData(payload)
 			.then(() => setLoading(false))
 			.catch(() => setLoading(false));
@@ -180,7 +183,8 @@ const XrayReport = props => {
 		const payload = {
 			startdate: convertDay(params.startdate),
 			enddate: convertDay(params.enddate),
-			type: params.type
+			type: params.type,
+			regional
 		}
 
 		setLoading(true);
@@ -196,7 +200,8 @@ const XrayReport = props => {
 			const payload = {
 				startdate: convertDay(params.startdate),
 				enddate: convertDay(params.enddate),
-				type: value
+				type: value,
+				regional
 			}
 
 			props.getData(payload)
@@ -242,12 +247,14 @@ const XrayReport = props => {
 
 XrayReport.propTypes = {
 	getData: PropTypes.func.isRequired,
-	data: PropTypes.array.isRequired
+	data: PropTypes.array.isRequired,
+	regional: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state) {
 	return{
-		data: state.xray.summary
+		data: state.xray.summary,
+		regional: state.auth.user.utype
 	}
 }
 
