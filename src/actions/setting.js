@@ -21,9 +21,13 @@ export const getTotal = () => dispatch =>
 
 export const generateData = (periode, activePage) => dispatch => 
 	api.cch.generateLibur(periode)
-		.then(response => dispatch({
-			type: 'GENERATE_LIBUR',
-			inserted: response.inserted,
-			totalAll: Number(response.totalAll), //new total record
-			activePage: `page${activePage}`
-		}))
+		.then(response => {
+			if (response.inserted.length > 0) {
+				dispatch({
+					type: 'GENERATE_LIBUR',
+					inserted: response.inserted,
+					totalAll: Number(response.totalAll), //new total record
+					activePage: `page${activePage}`
+				})
+			}
+		})
