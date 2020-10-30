@@ -168,7 +168,7 @@ const Faq = props => {
 							  aria-controls="panel3bh-content"
 							  id="panel3bh-header"
 							>
-								<IconButton 
+								{ props.user.jabatan === 'Administrator' && <IconButton 
 									aria-label="delete" 
 									size='small' 
 									style={{marginTop: -3}}
@@ -178,7 +178,7 @@ const Faq = props => {
 									}}
 								>
 						          <EditIcon fontSize="small" />
-						        </IconButton>
+						        </IconButton> }
 
 								<Typography className={classes.heading}>{row.title}</Typography>
 								<Typography className={classes.secondaryHeading}>
