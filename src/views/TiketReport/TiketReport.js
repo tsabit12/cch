@@ -44,7 +44,7 @@ const TiketReport = props => {
 
 	useEffect(() => {
 		props.getTotal(props.user.kantor_pos);
-		if (props.user.kantor_pos === '40005') {
+		if (props.user.regional === 'KANTORPUSAT') {
 			setActivePage(2);
 		}
 		//eslint-disable-next-line
@@ -91,7 +91,7 @@ const TiketReport = props => {
 						jumlah={props.total} 
 						page={activePage}
 						onChangePage={setActivePage}
-						level={props.user.kantor_pos === '40005' ? 1 : 2}
+						level={props.user.regional === 'KANTORPUSAT' ? 1 : 2}
 						addTicket={() => props.history.push("/tiket/add")}
 					/>
 		        </Grid>
