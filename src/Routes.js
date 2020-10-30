@@ -6,7 +6,8 @@ import {
   GuestRoute,
   UserRoute,
   NotCsRoute,
-  AdminRoute
+  AdminRoute,
+  AddUserRoute
 } from './components';
 import { 
   Main as MainLayout, 
@@ -78,7 +79,7 @@ const Routes = () => {
         layout={MainLayout}
         path="/user"
       />
-      <NotCsRoute
+      <AddUserRoute
         component={AddUserView}
         exact
         layout={MainLayout}

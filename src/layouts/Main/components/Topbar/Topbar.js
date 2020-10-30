@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Hidden, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Hidden, IconButton, Tooltip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import palette from '../../../../theme/palette';
@@ -42,13 +42,15 @@ const Topbar = props => {
         </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          <IconButton
-            onClick={() => logout()}
-            className={classes.signOutButton}
-            color="inherit"
-          >
-            <InputIcon />
-          </IconButton>
+          <Tooltip title="Logout" arrow>
+            <IconButton
+              onClick={() => logout()}
+              className={classes.signOutButton}
+              color="inherit"
+            >
+              <InputIcon />
+            </IconButton>
+          </Tooltip>
         </Hidden>
         <Hidden lgUp>
             <IconButton

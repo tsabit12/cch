@@ -3,3 +3,4 @@ export { default as GuestRoute } from "./GuestRoute";
 export { default as UserRoute } from "./UserRoute";
 export { default as NotCsRoute } from "./NotCsRoute";
 export { default as AdminRoute } from './AdminRoute';
+export { default as AddUserRoute } from './AddUserRoute';
