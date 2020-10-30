@@ -134,7 +134,7 @@ const AccountProfile = props => {
           variant="text"
           onClick={handleChooseFile}
         >
-         { state.choosed ? 'SIMPAN' : 'Upload picture'} 
+         { state.choosed ? 'SIMPAN' : 'Upload Foto Profil'} 
         </Button>
       </CardActions>
     </Card>

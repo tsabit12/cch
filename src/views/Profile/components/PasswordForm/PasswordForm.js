@@ -88,7 +88,7 @@ const PasswordForm = props => {
 
 	return(
 		<Dialog open={true} aria-labelledby="form-dialog-title">
-	        <DialogTitle id="form-dialog-title">Change Password</DialogTitle>
+	        <DialogTitle id="form-dialog-title">Ganti Password</DialogTitle>
 	        <DialogContent>
 	          <DialogContentText>
 	            Silahkan gunakan 6 karakter atau lebih dengan gabungan hurup dan angka

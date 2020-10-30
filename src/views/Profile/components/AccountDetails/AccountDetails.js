@@ -80,7 +80,7 @@ const AccountDetails = props => {
 		    		variant="text"
 		    		onClick={props.onShowPasswordForm}
 		    	>
-		    		Change Password
+		    		Ganti Password
 		    	</Button>
 		    </CardActions>
 		</Card>
