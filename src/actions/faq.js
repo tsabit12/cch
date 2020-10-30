@@ -13,3 +13,10 @@ export const addData = (payload) => dispatch =>
 			type: 'ADD_FAQ',
 			inserted
 		}))
+
+export const updateData = (payload) => dispatch =>
+	api.updateFaq(payload)
+		.then(inserted => dispatch({
+			type: 'UPDATE_FAQ',
+			inserted
+		}))

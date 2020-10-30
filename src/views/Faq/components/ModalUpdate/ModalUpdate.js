@@ -16,7 +16,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ModalAdd = props => {
+const ModalUpdate = props => {
+	const { item } = props;
 	const [field, setField] = useState({
 		title: '',
 		question: '',
@@ -26,15 +27,14 @@ const ModalAdd = props => {
 
 	//reset form
 	useEffect(() => {
-		if (!props.open) {
+		if (Object.keys(item).length > 0) {
 			setField({
-				title: '',
-				question: '',
-				answer: ''
+				title: item.title,
+				question: item.question,
+				answer: item.answer
 			})
-			setErrors({});
 		}
-	}, [props.open]);
+	}, [item]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -53,7 +53,7 @@ const ModalAdd = props => {
 		const errors = validate(field);
 		setErrors(errors);
 		if (Object.keys(errors).length === 0) {
-			props.onAdd(field);
+			props.onUpdate(field, item.id);
 			props.setLoading(true);
 			setTimeout(function() {
 				props.handleClose();
@@ -80,7 +80,7 @@ const ModalAdd = props => {
 	        fullWidth={true}
 	        width='sm'
 	      >
-	        <DialogTitle id="alert-dialog-slide-title">TAMBAH FAQ</DialogTitle>
+	        <DialogTitle id="alert-dialog-slide-title">UPDATE FAQ</DialogTitle>
 	        <DialogContent>
 	        	<FormControl fullWidth style={{marginBottom: 20}}>
 	        		<TextField 
@@ -136,18 +136,19 @@ const ModalAdd = props => {
 	          	onClick={onSubmit} 
 	          	color="primary"
 	          >
-	            TAMBAH
+	            UPDATE
 	          </Button>
 	        </DialogActions>
 		</Dialog>
 	);
 }
 
-ModalAdd.propTypes = {
+ModalUpdate.propTypes = {
 	handleClose: PropTypes.func.isRequired,
 	open: PropTypes.bool.isRequired,
-	onAdd: PropTypes.func.isRequired,
-	setLoading: PropTypes.func.isRequired
+	item: PropTypes.object.isRequired,
+	setLoading: PropTypes.func.isRequired,
+	onUpdate: PropTypes.func.isRequired
 }
 
-export default ModalAdd;
+export default ModalUpdate;

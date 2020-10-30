@@ -251,5 +251,8 @@ export default{
 	getFaq: () => axios.post(`${process.env.REACT_APP_API2}/faq/getData`).then(res => res.data),
 	addFaq: (payload) => axios.post(`${process.env.REACT_APP_API2}/faq`, {
 		...payload
-	}).then(res => res.data)
+	}).then(res => res.data),
+	updateFaq: (payload) => axios.post(`${process.env.REACT_APP_API2}/faq/update`, {
+		...payload
+	}).then(res =>  res.data)
 }
