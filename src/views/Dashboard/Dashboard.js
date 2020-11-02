@@ -240,7 +240,7 @@ const Dashboard = props => {
 			onClick={(no_tiket) => props.history.push(`/tiket/${no_tiket}`)}
 		/>
 
-		{ infoVisible && <Grid container spacing={4}>
+		{ infoVisible ? <Grid container spacing={4}>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	          	<TotalPelanggan 
 	        		total={props.totPel}
@@ -269,7 +269,16 @@ const Dashboard = props => {
 	        		onClick={() => props.history.push('/tiket')}
 	        	/>
 	        </Grid>
-		</Grid> }
+		</Grid> :  <Grid container spacing={4}>
+	        <Grid item lg={5} sm={12} xl={12} xs={12}>
+	          	<TotalPelanggan 
+	        		total={props.totPel}
+	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
+	        		user={props.dataUser}
+	        		onClick={() => props.history.push('/pelanggan')}
+	        	/>
+	        </Grid>
+	    </Grid> }
 
 		<Paper style={{marginTop: 20}}>
 			<div className={classes.paper}>
