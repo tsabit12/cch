@@ -31,7 +31,8 @@ import { getTotalPelanggan } from "../../actions/laporan";
 import PropTypes from "prop-types";
 import api from "../../api";
 import { DatePicker } from "@material-ui/pickers";
-import { periodeView, getInitialUser } from '../../helper';
+import { periodeView } from '../../helper';
+import { setActiveMenu } from '../../actions/tiket';
 
 const capitalize = (string) => {
 	return string.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
@@ -71,7 +72,6 @@ const listReg = [
 const Dashboard = props => {
   const classes = useStyles();
   // const { display, text } = props.flashMessage;
-  const { dataUser } = props;
   const [state, setState] = useState({
   	search: {
   		regional: '00',
@@ -89,7 +89,6 @@ const Dashboard = props => {
   	visible: false,
   	search: {}
   })
-  const [infoVisible, setVisibleInfo] = useState(false);
 
   const { search, listKprk } = state;
 
@@ -161,14 +160,6 @@ const Dashboard = props => {
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
 
-  useEffect(() => {
-  	const levelId = getInitialUser(dataUser.level);
-  	//refrence by menu in sidebar
-  	if (levelId === 1 || levelId === 2 || levelId === 5 || levelId === 6 || levelId === 7) {
-  		setVisibleInfo(true);
-  	}
-  }, [dataUser])
-
   const getListKprk = (regional) => {
   	if (regional === '02' || regional === '00') {
   		setState(state => ({
@@ -239,8 +230,8 @@ const Dashboard = props => {
 			}))}
 			onClick={(no_tiket) => props.history.push(`/tiket/${no_tiket}`)}
 		/>
-
-		{ infoVisible ? <Grid container spacing={4}>
+		
+		<Grid container spacing={4}>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	          	<TotalPelanggan 
 	        		total={props.totPel}
@@ -260,25 +251,22 @@ const Dashboard = props => {
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	        	<TotalLastUpdate 
 		          	total={props.info.lastUpdate}
-		          	onClick={() => props.history.push('/tiket')}
+		          	onClick={() => {
+		          		props.history.push('/tiket');
+		          		props.setActiveMenu(6);
+		          	}}
 		        />
 	        </Grid>
 	        <Grid item lg={3} sm={6} xl={6} xs={12}>
 	        	<RequestClose 
 	        		total={props.info.close}
-	        		onClick={() => props.history.push('/tiket')}
+	        		onClick={() => {
+	        			props.history.push('/tiket');
+	        			props.setActiveMenu(5);
+	        		}}
 	        	/>
 	        </Grid>
-		</Grid> :  <Grid container spacing={4}>
-	        <Grid item lg={5} sm={12} xl={12} xs={12}>
-	          	<TotalPelanggan 
-	        		total={props.totPel}
-	        		getTotalPelanggan={(payload) => props.getTotalPelanggan(payload)}
-	        		user={props.dataUser}
-	        		onClick={() => props.history.push('/pelanggan')}
-	        	/>
-	        </Grid>
-	    </Grid> }
+		</Grid>
 
 		<Paper style={{marginTop: 20}}>
 			<div className={classes.paper}>
@@ -394,7 +382,8 @@ Dashboard.propTypes = {
 	getProduk: PropTypes.func.isRequired,
 	getInfo: PropTypes.func.isRequired,
 	info: PropTypes.object.isRequired,
-	produk: PropTypes.array.isRequired
+	produk: PropTypes.array.isRequired,
+	setActiveMenu: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -414,5 +403,6 @@ export default connect(mapStateToProps, {
 	getStatistik,
 	getProduk,
 	getTotalPelanggan,
-	getInfo
+	getInfo,
+	setActiveMenu
 })(Dashboard);

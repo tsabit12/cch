@@ -128,3 +128,12 @@ export const getNewTiket = (payload, activePaging, type) => dispatch =>
 				})
 			}
 		})
+
+export const setActiveMenu = (number) => dispatch => dispatch({
+	type: 'SET_ACTIVE_MENU_TIKET',
+	menu: number
+})
+
+export const resetMenuTiket = () => dispatch => dispatch({
+	type: 'RESET_MENU_TIKET'
+})

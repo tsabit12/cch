@@ -27,7 +27,8 @@ const initialState = {
 		// 	data: {},
 		// 	isDone: bool
 		// }
-	}
+	},
+	active: null
 }
 
 export default function newTiket(state=initialState, action={}) {
@@ -191,6 +192,16 @@ export default function newTiket(state=initialState, action={}) {
 						notes: [ action.payload, ...state.detail[action.notiket].notes ]
 					}
 				}
+			}
+		case 'SET_ACTIVE_MENU_TIKET':
+			return {
+				...state,
+				active: action.menu
+			}
+		case 'RESET_MENU_TIKET':
+			return {
+				...state,
+				active: null
 			}
 		default:
 			return state;

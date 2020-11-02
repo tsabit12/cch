@@ -9,7 +9,7 @@ import {
 } from './components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTotal, getNewTiket } from '../../actions/tiket';
+import { getTotal, getNewTiket, resetMenuTiket } from '../../actions/tiket';
 import api from '../../api';
 
 const useStyles = makeStyles(theme => ({
@@ -42,15 +42,29 @@ const getTypeTiket = activeNumber => {
 
 const TiketReport = props => {
 	const classes = useStyles();
+
 	const [activePage, setActivePage] = useState(1);
+
+	//unmount
+	useEffect(() => {
+		return () => {
+			props.resetMenuTiket();
+		};
+		//eslint-disable-next-line
+	}, [])
 
 	useEffect(() => {
 		props.getTotal(props.user.kantor_pos);
-		if (props.user.regional === 'KANTORPUSAT') {
-			setActivePage(2);
+
+		if (props.activeMenu === null) {
+			if (props.user.regional === 'KANTORPUSAT') {
+				setActivePage(2);
+			}
+		}else{
+			setActivePage(props.activeMenu);
 		}
 		//eslint-disable-next-line
-	}, [props.user])
+	}, [props.user, props.activeMenu])
 
 	const handleGetTiket = async (payload, activePaging) => {
 		const { type, list } = getTypeTiket(activePage);
@@ -129,8 +143,9 @@ function mapStateToProps(state) {
 	return{
 		user: state.auth.user,
 		total: state.tiket.count,
-		data: state.tiket.list
+		data: state.tiket.list,
+		activeMenu: state.tiket.active
 	}
 }
 
-export default connect(mapStateToProps, { getTotal, getNewTiket })(TiketReport);
+export default connect(mapStateToProps, { getTotal, getNewTiket, resetMenuTiket })(TiketReport);
