@@ -65,11 +65,11 @@ const getStatus = number => {
 		case 4:
 			return ['99'];
 		case 5:
-			return ['18'];
+			return ['18']; //request tutup
 		case 6:
-			return ['12', '18'];
+			return ['12', '18']; //baru update pengaduan keluar
 		case 7:
-			return ['17'];
+			return ['17','18']; //baru update pengaduan masuk
 		default:
 			return ['1', '12'];
 	}
@@ -162,7 +162,7 @@ const ListTiket = props => {
 			payload.status = ['12', '18'];
 		}else if(props.page === 7){
 			payload.offset = 0;
-			payload.status = ['17'];
+			payload.status = ['17', '18'];
 		}else{
 			payload.offset = 0;
 			payload.status = ['99'];
@@ -281,8 +281,10 @@ const ListTiket = props => {
 							<TableCell className={classes.cell}>ASAL PENGADUAN</TableCell>
 							<TableCell className={classes.cell}>TUJUAN PENGADUAN</TableCell>
 							<TableCell className={classes.cell}>STATUS</TableCell>
-							{ getVisibleDurasi(props.page) && <TableCell className={classes.cell} align='center'>DURASI</TableCell> }
+							<TableCell className={classes.cell} align='center'>DURASI</TableCell>
 							<TableCell className={classes.cell}>TANGGAL ADUAN</TableCell>
+							{ getVisibleDurasi(props.page) === false && 
+								<TableCell className={classes.cell}>TANGGAL SELESAI</TableCell> }
 						</TableRow>
 					</TableHead>
 					{ props.list[paging.active] ?
@@ -293,7 +295,7 @@ const ListTiket = props => {
 							durasiVisible={getVisibleDurasi(props.page)}
 						/> : <TableBody>
 							<TableRow>
-								<TableCell colSpan={8} align='center'>Tiket tidak ditemukan</TableCell>
+								<TableCell colSpan={10} align='center'>Tiket tidak ditemukan</TableCell>
 							</TableRow>
 						</TableBody>}
 				</Table>

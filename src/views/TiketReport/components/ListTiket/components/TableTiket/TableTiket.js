@@ -93,7 +93,7 @@ const TableTiket = props => {
 				<TableCell className={classes.cell}>
 					 <Chip label={row.status} style={{fontSize: 13}} color='secondary' size="small" />
 				</TableCell>
-				{ durasiVisible && <TableCell 
+				{ durasiVisible ? <TableCell 
 					style={{
 						color: duration(row.current, row.tgl_exp).status === 0 ? 'red' : null
 					}} 
@@ -101,8 +101,11 @@ const TableTiket = props => {
 					align='center'
 				>	
 					{duration(row.current, row.tgl_exp).times}
-				</TableCell> }
-				<TableCell className={classes.cell}>{row.tgl_tambah.substring(0, 10)}</TableCell>
+				</TableCell> : <TableCell className={classes.cell} align='center'>	
+					{ duration(row.tgl_tambah, row.tgl_selesai).times }
+				</TableCell>  }
+				<TableCell className={classes.cell}>{row.tgl_tambah}</TableCell>
+				{ !durasiVisible && <TableCell className={classes.cell}>{row.tgl_selesai}</TableCell>}
 			</TableRow>)}
 		</TableBody>
 	);
