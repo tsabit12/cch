@@ -265,6 +265,8 @@ const Text = props => {
 const Message = props => {
 	const classes = useStyles();
 	const { data, detail, dataUser } = props;
+	const [disabled, setDisabled] = React.useState(false);
+
 	const inputFileRef = React.useRef();
 
 	const [state, setState] = React.useState({
@@ -314,10 +316,18 @@ const Message = props => {
 		}, 300);
 	}, []);
 
+	React.useEffect(() => {
+		if (data.length > 0 && !disabled) {
+			const firstStatus = data[0].status_tiket;
+			if (firstStatus === 'Selesai' || firstStatus === '99') {
+				setDisabled(true);
+			}
+		}
+	}, [disabled, data]);
+
 	//refresh after 3 second
 	React.useEffect(() => {
-		//props status is mean tiket was done
-		if (state.mount && !props.shouldFetch && !props.status && Object.keys(state.profile).length === 0) {
+		if (state.mount && !props.shouldFetch && !disabled && Object.keys(state.profile).length === 0) {
 			const timeoutID = setTimeout(() => {
 				//handle infinte loop
 		        setState(prevState => ({
@@ -330,7 +340,7 @@ const Message = props => {
 			return () => clearTimeout(timeoutID);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.shouldFetch, state.loading, state.mount, props.notiket, props.status, state.profile])
+	}, [props.shouldFetch, state.loading, state.mount, props.notiket, disabled, state.profile])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -448,7 +458,7 @@ const Message = props => {
 							variant="outlined"
 							value={state.text}
 							onChange={handleChange}
-							disabled={props.status}
+							disabled={disabled}
 						/>
 						<FormControl 
 							variant="outlined" 
@@ -463,6 +473,7 @@ const Message = props => {
 					          value={statusValue}
 					          onChange={(e) => setStatusValue(e.target.value)}
 					          label="Status"
+					          disabled={disabled}
 					          //disabled={props.user.utype === 'Kprk' ? true : false }
 					        >
 					        	{ detail.asal_pengaduan === dataUser.kantor_pos && <MenuItem value="17">Konfirmasi</MenuItem> }
@@ -481,13 +492,13 @@ const Message = props => {
 							className={classes.iconButton} 
 							aria-label="search"
 							onClick={handleChooseFile}
-							disabled={props.status}
+							disabled={disabled}
 						>
 							<AttachFileIcon />
 						</IconButton>
 						<IconButton 
 							type='submit' 
-							disabled={props.status}
+							disabled={disabled}
 							className={classes.iconButton} 
 							aria-label="search"
 						>

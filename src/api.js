@@ -54,7 +54,8 @@ export default{
 		getTiketById: (notiket) => axios.post(`${process.env.REACT_APP_API2}/tiket/detailTiket`, {
 			noTicket: notiket
 		}).then(res => res.data),
-		getNomorTiket: (payload) => axios.post('http://10.28.0.72/cchAPI/tiket/getNoTiket', {
+		getNomorTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/tiket/getNoTiket`, {
+			//'http://10.28.0.72/cchAPI/tiket/getNoTiket', 
 			...payload
 		}).then(res => res.data.result),
 		updatePelanggan: (payload) => axios.post(`${process.env.REACT_APP_API}/editPelanggan`, {

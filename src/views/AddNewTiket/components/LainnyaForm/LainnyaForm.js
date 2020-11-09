@@ -106,7 +106,7 @@ const LainnyaForm = props => {
 								asal_pengaduan: user.kantor_pos,
 								tujuan_kiriman: '-',
 								jenis_layanan: layanan,
-								awb: '-',
+								awb: resTiket.noTiket,
 								jenis_kiriman: 3,
 								tgl_exp: resTiket.tglExp,
 								no_tiket: resTiket.noTiket,
@@ -127,7 +127,7 @@ const LainnyaForm = props => {
 								lacak_value: null,
 								user_cch: user.email,
 								ticket_id: resTiket.noTiket,
-								no_resi: '-'
+								no_resi: resTiket.noTiket
 							}
 
 							formData.append('tiket', JSON.stringify(payloadTiket));

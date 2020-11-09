@@ -186,7 +186,7 @@ const SearchParam = props => {
 					>
 						<MenuItem value='00'>SEMUA KPRK</MenuItem>
 						{ listKprk.map((row, index) => <MenuItem key={index} value={row.code}>
-							{row.code} - {row.kprk}
+							{row.kprk}
 						</MenuItem>)}
 					</Select>
 				</FormControl>

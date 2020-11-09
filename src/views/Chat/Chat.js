@@ -74,9 +74,15 @@ const Chat = props => {
 
 	React.useEffect(() => {
 		if (Object.keys(props.dataTiket).length > 0) {
-			const { status, no_tiket } = props.dataTiket.data;
-			if (status === 'Selesai' && !props.isDone) {
-				props.closeTiketWithoutUpdate(no_tiket);
+			const { notes, data: detailnya } = props.dataTiket;
+			if (notes.length > 0) {
+				const { no_tiket } = detailnya;
+				const { status_tiket: status } = notes[0];
+				if (status === 'Selesai' && !props.isDone) {
+					props.closeTiketWithoutUpdate(no_tiket);
+				}else if(status === '99'){
+					props.closeTiketWithoutUpdate(no_tiket);		
+				}
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

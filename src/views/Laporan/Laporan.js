@@ -251,7 +251,7 @@ const Laporan = props => {
 	  		.then(result => {
 	  			const kprk = [{value: '00', text: 'SEMUA KPRK'}];
 	  			result.forEach(row => {
-	  				kprk.push({ text: `${row.code} - ${row.name}`, value: row.code });
+	  				kprk.push({ text: row.kprk, value: row.code });
 	  			})
 
 	  			setListKprk(kprk);
