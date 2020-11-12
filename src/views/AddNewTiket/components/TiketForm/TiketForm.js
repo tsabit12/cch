@@ -182,38 +182,43 @@ const TiketForm = props => {
 				          <MenuItem value='2'>Internasional</MenuItem>
 				    </Select>
 				</FormControl>
-				<FormControl 
-					className={classes.field} 
-					variant="outlined"
-					fullWidth
-					size='small'
-					//error={!!errors.noresi}
-				>
-					<InputLabel htmlFor="outlined-adornment-password" shrink>Nomor Resi</InputLabel>
-					<OutlinedInput
-						id="outlined-adornment-password"
-						type='text'
-						notched
-						value={values.noresi}
-						onChange={props.handleChange}
-						name='noresi'
-						autoComplete='off'
-						endAdornment={
-							<InputAdornment position="end">
-								<IconButton
-								  aria-label="toggle password visibility"
-								  onClick={props.onSearch}
-								  // onMouseDown={handleMouseDownPassword}
-								  edge="end"
-							>
-							  		<SearchIcon />
-								</IconButton>
-							</InputAdornment>
-						}
-						placeholder='Masukkan nomor resi'
-						labelWidth={70}
-					/>
-				</FormControl>
+				<form onSubmit={(e) => {
+					e.preventDefault();
+					props.onSearch();
+				}}>
+					<FormControl 
+						className={classes.field} 
+						variant="outlined"
+						fullWidth
+						size='small'
+						//error={!!errors.noresi}
+					>
+						<InputLabel htmlFor="outlined-adornment-password" shrink>Nomor Resi</InputLabel>
+						<OutlinedInput
+							id="outlined-adornment-password"
+							type='text'
+							notched
+							value={values.noresi}
+							onChange={props.handleChange}
+							name='noresi'
+							autoComplete='off'
+							endAdornment={
+								<InputAdornment position="end">
+									<IconButton
+									  aria-label="toggle password visibility"
+									  onClick={props.onSearch}
+									  // onMouseDown={handleMouseDownPassword}
+									  edge="end"
+								>
+								  		<SearchIcon />
+									</IconButton>
+								</InputAdornment>
+							}
+							placeholder='Masukkan nomor resi'
+							labelWidth={70}
+						/>
+					</FormControl>
+				</form>
 
 				{ props.isAvailabel && <React.Fragment>
 					{ props.tiketDetail.status === 'Entri' ?  <div>

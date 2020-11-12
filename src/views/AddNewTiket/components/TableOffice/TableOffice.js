@@ -41,7 +41,7 @@ const TableOffice = props => {
 	                  <TableCell className={classes.row}>TYPE</TableCell>
 	                  <TableCell className={classes.row}>ALAMAT</TableCell>
 	                  <TableCell className={classes.row}>KOTA</TableCell>
-	                  <TableCell className={classes.row}>NO TELP</TableCell>
+	                  <TableCell className={classes.row}>NO TELP KANTOR</TableCell>
 	                </TableRow>
               	</TableHead>
               	<TableBody>

@@ -170,7 +170,7 @@ const XrayDetail = props => {
 		        </IconButton> }
 		        <form onSubmit={handleMouseDownSearch}>
 				    <TextField 
-						placeholder='Cari ID/Isi kiriman'
+						placeholder='Cari kode kantor asal'
 						variant='outlined'
 						style={{backgroundColor: "#FFF", borderRadius: 3}}
 						fullWidth

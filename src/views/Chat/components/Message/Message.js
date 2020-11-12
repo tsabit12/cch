@@ -20,7 +20,8 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
-	FormControl
+	FormControl,
+	Button
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -35,6 +36,12 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 
 import api from "../../../../api";
 import { validateFile } from '../../../../helper';
+
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const DetailProfile = props => {
 	const { user } = props;
@@ -352,7 +359,7 @@ const Message = props => {
 					...prevState,
 					text: '',
 					fileName: '',
-					placeholder: 'Masukkan text'
+					placeholder: 'Masukkan text balasan'
 				}))
 				inputFileRef.current.value = null;
 				// setStatusValue('12');
@@ -405,7 +412,7 @@ const Message = props => {
 		setState(prevState => ({
 			...prevState,
 			fileName: '',
-			placeholder: 'Masukkan text'
+			placeholder: 'Masukkan text balasan'
 		}))
 	}
 
@@ -417,6 +424,26 @@ const Message = props => {
 			})))
 			.catch(err => alert("Terdapat kesalahan saat memuat profile pengguna"))
 	}
+
+	const renderAction = () => (
+		<ExcelFile 
+			filename={`hasil_investigasi(${props.notiket})_${props.detail.awb}`} 
+			element={
+				<Button variant="outlined">
+		        	Download Hasil Investigasi
+		    	</Button> 
+		    }
+		>
+			<ExcelSheet data={props.data} name="sheet1">
+				<ExcelColumn label="Response" value="response"/>
+				<ExcelColumn label="Status" value="status_tiket"/>
+				<ExcelColumn label="User" value={(col) => `${col.fullname} (${col.kantor_pos})`}/>
+				<ExcelColumn label="Tanggal" value={(col) => col.date.substring(0, 10)}/>
+				<ExcelColumn label="Waktu" value={(col) => col.date.substring(11, 19)}/>
+				<ExcelColumn label="Hasil Lacak" value={(col) => col.lacak_value === null ? '-' : col.lacak_value}/>
+			</ExcelSheet>
+	    </ExcelFile>
+	);
 
 	return(
 		<Card className={classes.root}>
@@ -430,6 +457,7 @@ const Message = props => {
 			<CardHeader 
 				className={classes.header}
 				title={`RESPONSE TIKET (${props.notiket})`}
+				action={renderAction()}
 			/>
 			{state.fileName && <div className={classes.file}>
 				<Chip
@@ -446,19 +474,20 @@ const Message = props => {
 					<Paper 
 						className={classes.form} 
 						elevation={1}
-						component='form'
-						onSubmit={handleSubmit}
+						//onSubmit={handleSubmit}
 					>
 						<InputBase 
 							placeholder={state.placeholder}
 							label='Add Message'
 							className={classes.input}
 							autoComplete='off'
-							rows={5}
+							//rows={5}
 							variant="outlined"
 							value={state.text}
+							multiline={true}
 							onChange={handleChange}
 							disabled={disabled}
+							rowsMax={1}
 						/>
 						<FormControl 
 							variant="outlined" 
@@ -497,10 +526,10 @@ const Message = props => {
 							<AttachFileIcon />
 						</IconButton>
 						<IconButton 
-							type='submit' 
 							disabled={disabled}
 							className={classes.iconButton} 
 							aria-label="search"
+							onClick={handleSubmit}	
 						>
 							<SendIcon />
 						</IconButton>
