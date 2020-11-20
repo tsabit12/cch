@@ -51,6 +51,12 @@ const Topbar = props => {
               <InputIcon />
             </IconButton>
           </Tooltip>
+          <IconButton
+            color="inherit"
+            onClick={onSidebarOpen}
+          >
+            <MenuIcon />
+          </IconButton>
         </Hidden>
         <Hidden lgUp>
             <IconButton

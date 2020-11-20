@@ -55,7 +55,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 
 const SidebarNav = props => {
-  const {className, href, title, icon: Icon, jabatan, toUser, ...rest } = props;
+  const {className, href, title, icon: Icon, jabatan, toUser, onClose, ...rest } = props;
   const [visible, setVisible] = useState(false);
   
   const classes = useStyles();
@@ -85,6 +85,7 @@ const SidebarNav = props => {
                   activeClassName={classes.active}
                   component={CustomRouterLink}
                   to={row.href}
+                  onClick={onClose}
                 >
                   <span className={classes.title}>
                     {row.title}
@@ -102,6 +103,7 @@ const SidebarNav = props => {
           className={classes.button}
           component={CustomRouterLink}
           to={href}
+          onClick={onClose}
         >
           <Icon /> 
           <span className={classes.title}>
@@ -117,7 +119,8 @@ SidebarNav.propTypes = {
   className: PropTypes.string,
   jabatan: PropTypes.number.isRequired,
   toUser: PropTypes.array.isRequired,
-  collapse: PropTypes.array.isRequired
+  collapse: PropTypes.array.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default SidebarNav;

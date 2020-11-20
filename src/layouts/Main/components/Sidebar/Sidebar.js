@@ -18,11 +18,7 @@ import { getInitialUser } from '../../../../helper';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: 240,
-    [theme.breakpoints.up('lg')]: {
-      marginTop: 64,
-      height: 'calc(100% - 64px)'
-    }
+    width: 240
   },
   root: {
     backgroundColor: theme.palette.white,
@@ -76,6 +72,7 @@ const Sidebar = props => {
                 jabatan={getInitialUser(user.level)}
                 toUser={item.user}
                 collapse={item.collapse}
+                onClose={onClose}
               /> )}
           </List>
         </Box>

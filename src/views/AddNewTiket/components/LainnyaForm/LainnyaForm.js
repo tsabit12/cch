@@ -74,82 +74,84 @@ const LainnyaForm = props => {
 		const errors = validate(kantor.value, catatan);
 		props.validateCustomer();
 		setError(errors);
-		if (Object.keys(errors).length === 0 && Object.keys(propsErr).length === 0) {
-			const payloadPelanggan = {
-				requestName: pelanggan.nama,
-				alamat: pelanggan.alamat,
-				nohp: pelanggan.channel === '1' ? pelanggan.channelName : pelanggan.phone,
-				email: pelanggan.email,
-				sosmed: pelanggan.channel === '7' || pelanggan.channel === '8' ? '' : pelanggan.channelName,
-				user: user.username,
-				nik: pelanggan.channel === '7' || pelanggan.channel === '8' ? pelanggan.channelName : '',
-				nopend: user.kantor_pos,
-				jenisChannel: pelanggan.channel,
-				detailAlamat: pelanggan.detailAlamat
+		setTimeout(function() {
+			if (Object.keys(errors).length === 0 && Object.keys(propsErr).length === 0) {
+				const payloadPelanggan = {
+					requestName: pelanggan.nama,
+					alamat: pelanggan.alamat,
+					nohp: pelanggan.channel === '1' ? pelanggan.channelName : pelanggan.phone,
+					email: pelanggan.email,
+					sosmed: pelanggan.channel === '7' || pelanggan.channel === '8' ? '' : pelanggan.channelName,
+					user: user.username,
+					nik: pelanggan.channel === '7' || pelanggan.channel === '8' ? pelanggan.channelName : '',
+					nopend: user.kantor_pos,
+					jenisChannel: pelanggan.channel,
+					detailAlamat: pelanggan.detailAlamat
+				}
+
+				props.setLoading(true);
+				const formData = new FormData();
+
+				api.cch.addPelanggan(payloadPelanggan)
+					.then(customers => {
+						const { custid } 			= customers;
+						const payloadNoTiket = {
+							nopend: props.user.kantor_pos
+						}
+						api.cch.getNomorTiket(payloadNoTiket)
+							.then(resTiket => {
+								const payloadTiket = [{
+									tipe_bisnis: null,
+									tipe_kantorpos: null,
+									asal_kiriman: '-',
+									asal_pengaduan: user.kantor_pos,
+									tujuan_kiriman: '-',
+									jenis_layanan: layanan,
+									awb: resTiket.noTiket,
+									jenis_kiriman: 3,
+									tgl_exp: resTiket.tglExp,
+									no_tiket: resTiket.noTiket,
+									cust_id: custid,
+									status: '1',
+									tujuan_pengaduan: kantor.value.nopend,
+									tipe_pelanggan: null,
+									channel_aduan: pelanggan.channel,
+									user_cch: user.email,
+									status_baca: '1', // belum dibaca
+									kategori: '5',
+									jenis_aduan: '10'
+								}];
+
+								const response_tiket = {
+									response: catatan,
+									file_name: null,
+									lacak_value: null,
+									user_cch: user.email,
+									ticket_id: resTiket.noTiket,
+									no_resi: resTiket.noTiket
+								}
+
+								formData.append('tiket', JSON.stringify(payloadTiket));
+								formData.append('response_tiket', JSON.stringify(response_tiket));
+
+								api.addTicket(formData)
+									.then(() => props.setSucces())
+									.catch(() => {
+										props.setLoading(false);
+										alert('Gagal add tiket');
+									})
+							})
+							.catch(() => {
+								props.setLoading(false);
+								alert('Gagal add tiket');
+							})
+					})
+					.catch(() => {
+						props.setLoading(false);
+						alert('Gagal add tiket');
+					})
 			}
-
-			props.setLoading(true);
-			const formData = new FormData();
-
-			api.cch.addPelanggan(payloadPelanggan)
-				.then(customers => {
-					const { custid } 			= customers;
-					const payloadNoTiket = {
-						nopend: props.user.kantor_pos
-					}
-					api.cch.getNomorTiket(payloadNoTiket)
-						.then(resTiket => {
-							const payloadTiket = [{
-								tipe_bisnis: null,
-								tipe_kantorpos: null,
-								asal_kiriman: '-',
-								asal_pengaduan: user.kantor_pos,
-								tujuan_kiriman: '-',
-								jenis_layanan: layanan,
-								awb: resTiket.noTiket,
-								jenis_kiriman: 3,
-								tgl_exp: resTiket.tglExp,
-								no_tiket: resTiket.noTiket,
-								cust_id: custid,
-								status: '1',
-								tujuan_pengaduan: kantor.value.nopend,
-								tipe_pelanggan: null,
-								channel_aduan: pelanggan.channel,
-								user_cch: user.email,
-								status_baca: '1', // belum dibaca
-								kategori: '5',
-								jenis_aduan: '10'
-							}];
-
-							const response_tiket = {
-								response: catatan,
-								file_name: null,
-								lacak_value: null,
-								user_cch: user.email,
-								ticket_id: resTiket.noTiket,
-								no_resi: resTiket.noTiket
-							}
-
-							formData.append('tiket', JSON.stringify(payloadTiket));
-							formData.append('response_tiket', JSON.stringify(response_tiket));
-
-							api.addTicket(formData)
-								.then(() => props.setSucces())
-								.catch(() => {
-									props.setLoading(false);
-									alert('Gagal add tiket');
-								})
-						})
-						.catch(() => {
-							props.setLoading(false);
-							alert('Gagal add tiket');
-						})
-				})
-				.catch(() => {
-					props.setLoading(false);
-					alert('Gagal add tiket');
-				})
-		}
+		}, 10);
 	}
 
 	const validate = (office, note) => {
