@@ -223,6 +223,9 @@ export default{
 		}, config).then(res => res.data),
 		getInfo: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/getInfo`, {
 			...payload
+		}, config).then(res => res.data),
+		getWeeklyTiket: (payload) => axios.post(`${process.env.REACT_APP_API2}/dashboard/graphWeek`, {
+			...payload
 		}, config).then(res => res.data)
 	},
 	tiket: {

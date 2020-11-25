@@ -18,14 +18,16 @@ import {
 	Grafik,
 	GrafikProduk,
 	ModalDetailTiket,
-	RequestClose
+	RequestClose,
+	ChartLine
 } from "./components";
 import { connect } from "react-redux";
 import { 
 	getPencapaian, 
 	getStatistik, 
 	getProduk,
-	getInfo
+	getInfo,
+	getWeekly
 } from '../../actions/dashboard';
 import { getTotalPelanggan } from "../../actions/laporan";
 import PropTypes from "prop-types";
@@ -155,7 +157,8 @@ const Dashboard = props => {
 	  	defaultValue.periode = periodeView(new Date());
 	  	props.getStatistik(defaultValue);
 	  	props.getPencapaian(defaultValue);
-	  	props.getProduk(defaultValue);
+		props.getProduk(defaultValue);
+		props.getWeekly(defaultValue);  
   	})();
   	// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.dataUser]);
@@ -207,7 +210,8 @@ const Dashboard = props => {
 
   	props.getStatistik(payload);
   	props.getPencapaian(payload);
-  	props.getProduk(payload);
+	props.getProduk(payload);
+	props.getWeekly(payload);
   }
 
   const handleGetDetail = (payload) => {
@@ -336,7 +340,7 @@ const Dashboard = props => {
 			<Divider />
 			<div style={{margin: 10}}>
 				<Grid container spacing={4}>
-					<Grid item lg={3} sm={12} xl={6} xs={12}>
+					<Grid item lg={3} sm={6} xl={6} xs={12}>
 			          <Pencapaian 
 			          	lebih={props.pencapaian.masuk.lebih}
 			          	kurang={props.pencapaian.masuk.kurang}
@@ -344,7 +348,7 @@ const Dashboard = props => {
 			          	getDetail={handleGetDetail}
 			          />
 			        </Grid>
-			        <Grid item lg={3} sm={12} xl={6} xs={12}>
+			        <Grid item lg={3} sm={6} xl={6} xs={12}>
 			        	<Pencapaian 
 				          	lebih={props.pencapaian.keluar.lebih}
 			          		kurang={props.pencapaian.keluar.kurang}
@@ -353,12 +357,17 @@ const Dashboard = props => {
 				        />
 			        </Grid>
 			        <Grid item lg={6} sm={12} xl={12} xs={12}>
+			         	<ChartLine 
+							data={props.weeklyTiket} 
+						/>
+			        </Grid>
+					<Grid item lg={6} sm={12} xl={12} xs={12}>
 			         	<Grafik 
 			         		data={props.statistik}
 			         		getDetail={handleGetDetail}
 			         	/>
 			        </Grid>
-			        <Grid item lg={12} sm={12} xl={12} xs={12}>
+			        <Grid item lg={6} sm={12} xl={12} xs={12}>
 			        	<GrafikProduk 
 			        		data={props.produk} 
 			        		getDetail={handleGetDetail}
@@ -383,7 +392,9 @@ Dashboard.propTypes = {
 	getInfo: PropTypes.func.isRequired,
 	info: PropTypes.object.isRequired,
 	produk: PropTypes.array.isRequired,
-	setActiveMenu: PropTypes.func.isRequired
+	setActiveMenu: PropTypes.func.isRequired,
+	getWeekly: PropTypes.func.isRequired,
+	weeklyTiket: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
@@ -394,7 +405,8 @@ function mapStateToProps(state) {
 		pencapaian: state.newDashboard.pencapaian,
 		statistik: state.newDashboard.statistik,
 		produk: state.newDashboard.produk,
-		info: state.newDashboard.info
+		info: state.newDashboard.info,
+		weeklyTiket: state.newDashboard.graphtiket
 	}
 }
 
@@ -404,5 +416,6 @@ export default connect(mapStateToProps, {
 	getProduk,
 	getTotalPelanggan,
 	getInfo,
-	setActiveMenu
+	setActiveMenu,
+	getWeekly
 })(Dashboard);

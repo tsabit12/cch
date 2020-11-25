@@ -67,3 +67,10 @@ export const getInfo = payload => dispatch =>
 			type: 'GET_INFO',
 			data: res
 		}))
+
+export const getWeekly = payload => dispatch => 
+	api.dashboard.getWeeklyTiket(payload)
+		.then(tiket => dispatch({
+			type: 'GET_WEEKLY_TIKET',
+			tiket
+		}))

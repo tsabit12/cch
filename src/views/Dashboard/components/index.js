@@ -6,3 +6,4 @@ export { default as Grafik } from './Grafik';
 export { default as GrafikProduk } from './GrafikProduk';
 export { default as ModalDetailTiket } from './ModalDetailTiket';
 export { default as RequestClose } from './RequestClose';
+export { default as ChartLine } from './ChartLine';

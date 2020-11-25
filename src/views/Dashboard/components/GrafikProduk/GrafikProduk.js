@@ -45,7 +45,7 @@ const GrafikProduk = props => {
             { 
               label: 'Keluar', 
               data: keluar, 
-              backgroundColor: palette.success.main,
+              backgroundColor: palette.primary.main,
               barThickness: 12,
               maxBarThickness: 15,
               barPercentage: 0.5,
@@ -166,7 +166,7 @@ const GrafikProduk = props => {
 						<Typography variant='body2'>Masuk</Typography>
 					</div>
 					<div>
-						<div style={{backgroundColor: palette.success.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.primary.main, height: 15, width: 15, margin: 'auto'}} />
 						<Typography variant='body2'>Keluar</Typography>
 					</div>
 				</div>}

@@ -27,7 +27,8 @@ const intialState = {
 		keluar: 0,
 		close: 0,
 		lastUpdate: 0
-	}
+	},
+	graphtiket: []
 }
 
 export default function newDashboard(state=intialState, action={}){
@@ -54,6 +55,11 @@ export default function newDashboard(state=intialState, action={}){
 					...state.info,
 					...action.data
 				}
+			}
+		case 'GET_WEEKLY_TIKET':
+			return {
+				...state,
+				graphtiket: action.tiket	
 			}
 		default: 
 			return state;

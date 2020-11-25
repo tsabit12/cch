@@ -98,7 +98,7 @@ const TiketReport = props => {
 			<Grid container spacing={4}>
 		      	<Grid
 		          item
-		          lg={3}
+		          lg={2}
 		          sm={12}
 		          xl={12}
 		          xs={12}
@@ -113,7 +113,7 @@ const TiketReport = props => {
 		        </Grid>
 		        <Grid
 		          item
-		          lg={9}
+		          lg={10}
 		          sm={12}
 		          xl={12}
 		          xs={12}
