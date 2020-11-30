@@ -3,7 +3,13 @@ import { makeStyles } from '@material-ui/styles';
 import {
 	CardHeader,
 	Card,
-	Divider
+	Divider,
+	Button,
+	Typography,
+	FormControl,
+	Select,
+	InputLabel,
+	MenuItem
 } from '@material-ui/core';
 import {
 	SearchParam,
@@ -15,10 +21,26 @@ import PropTypes from 'prop-types';
 import { getKinerja } from '../../actions/laporan';
 import Loader from '../Loader';
 import { convertDay } from '../../helper';
+import GetAppIcon from '@material-ui/icons/GetApp';
+
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: theme.spacing(4)
+	},
+	grenBtn: {
+		backgroundColor: theme.palette.success.main,
+		color: '#FFF',
+		'&:hover': {
+			backgroundColor: theme.palette.success.dark
+		},
+		border: 'none',
+		marginLeft: 5
 	}
 }))
 
@@ -31,6 +53,7 @@ const KinerjaCs = props => {
 		startdate: convertDay(new Date()),
 		enddate: convertDay(new Date())
 	})
+	const [jenis, setJenis] = useState('1');
 	const [openDetail, setOpenDetail] = useState({
 		open: false,
 		item: {}
@@ -62,6 +85,11 @@ const KinerjaCs = props => {
 		//props.history.push(`/kinerja-cs/detail/${email}&${date.startdate}&${date.enddate}`)
 	}
 
+	const handleChangeJenis = (e) => {
+		const { value } = e.target;
+		setJenis(value);
+	}
+
 	return(
 		<div className={classes.root}>
 			<ModalDetail 
@@ -73,14 +101,54 @@ const KinerjaCs = props => {
 				onClick={(notiket) => props.history.push(`/tiket/${notiket}`)}
 			/>
 			<Loader loading={loading} />
-			<Card>
+			<SearchParam 
+				user={user} 
+				getData={(payload) => props.getKinerja(payload)} 
+				onSearch={handleSearch} 
+				jenis={jenis}
+			/>
+			<Card style={{marginTop: 15}}>
 				<CardHeader 
-					title={<SearchParam 
-						user={user} 
-						getData={(payload) => props.getKinerja(payload)} 
-						onSearch={handleSearch} 
-						list={list}
-					/>}
+					title={<div style={{display: 'flex', alignItems: 'center', width: 300, justifyContent: 'space-between'}}>
+						<Typography variant='h5' style={{width: 150}}>KINERJA CS</Typography>
+						<FormControl variant='outlined' size="small" fullWidth>
+							<InputLabel htmlFor="regLabel">Jenis</InputLabel>
+							<Select
+								labelId="regLabel"
+								label="Jenis"
+								name="jenis"
+								value={jenis}
+								//disabled={regDisable}
+								onChange={handleChangeJenis}
+							>
+								<MenuItem value='1'>Pengaduan Keluar</MenuItem>
+								<MenuItem value='2'>Pengaduan Masuk</MenuItem>
+							</Select>
+						</FormControl>
+					</div>}
+					action={<React.Fragment>
+						{ list.length > 0 && <ExcelFile 
+							filename='kinerja-CS' 
+							element={
+								<Button 
+									variant='contained' 
+									color='primary'
+									className={classes.grenBtn}
+									endIcon={<GetAppIcon />}
+								>
+									DOWNLOAD
+								</Button>
+							}
+						>
+							<ExcelSheet data={list} name="sheet1">
+								<ExcelColumn label="KANTOR" value="kantor_pos"/>
+								<ExcelColumn label="CS" value={(col) => col.title.toUpperCase()}/>
+								<ExcelColumn label="JUMLAH SELESAI" value={(col) => Number(col.tiketSelesai)}/>
+								<ExcelColumn label="JUMLAH TERBUKA" value={(col) => Number(col.tiketTerbuka)}/>
+								<ExcelColumn label="JUMLAH SEMUA" value={(col) => Number(col.tiketTerbuka) + Number(col.tiketSelesai)}/>
+							</ExcelSheet>
+						</ExcelFile> }
+					</React.Fragment>}
 				/>
 				<Divider />
 				<ListItem data={list} onView={handleViewDetail} />

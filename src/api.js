@@ -155,11 +155,11 @@ export default{
 			...payload,
 			regional: payload.regional === '01' ? 'KANTORPUSAT' : payload.regional
 		}, config).then(res => res.data),
-		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser`, {
+		getKinerjaCs: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketusernew`, {
 			...payload,
 			email: payload.cs
 		}, config).then(res => res.data),
-		detailKinerja: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketuser/detail`, {
+		detailKinerja: (payload) => axios.post(`${process.env.REACT_APP_API2}/reptiketusernew/detail`, {
 			...payload
 		}, config).then(res => res.data)
 	},

@@ -1,49 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
 import {
 	Button,
 	FormControl,
 	InputLabel,
 	Select,
-	MenuItem
+	MenuItem,
+	Grid
 } from '@material-ui/core';
 import { listReg, convertDay } from '../../../../helper';
 import api from '../../../../api';
 import PropTypes from 'prop-types';
 import { DatePicker } from "@material-ui/pickers";
-import GetAppIcon from '@material-ui/icons/GetApp';
-
-import ReactExport from "react-export-excel";
-
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		display: 'flex'
-	},
-	field: {
-		width: 150
-	},
-	grenBtn: {
-		backgroundColor: theme.palette.success.main,
-		color: '#FFF',
-		'&:hover': {
-			backgroundColor: theme.palette.success.dark
-		},
-		border: 'none',
-		marginLeft: 5
-	}
-}))
-
 
 const SearchParam = props => {
-	const { user, list } = props;
-	const classes = useStyles();
+	const { user } = props;
 
 	const [param, setParam] = useState({
 		regional: '00',
@@ -61,7 +31,8 @@ const SearchParam = props => {
 	useEffect(() => {
 		const payload = {
 			startdate: convertDay(new Date()),
-			enddate: convertDay(new Date())
+			enddate: convertDay(new Date()),
+			type: props.jenis
 		};
 
 		if (user.utype === 'Regional') {
@@ -150,16 +121,17 @@ const SearchParam = props => {
 		const payload = {
 			...param,
 			startdate: convertDay(param.startdate),
-			enddate: convertDay(param.enddate)
+			enddate: convertDay(param.enddate),
+			type: props.jenis
 		}
 
 		props.onSearch(payload);
 	}
 
 	return(
-		<div className={classes.root}>
-			<div>
-				<FormControl variant='outlined' size="small" className={classes.field}>
+		<Grid container spacing={1}>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<FormControl variant='outlined' size="small" fullWidth>
 					<InputLabel htmlFor="regLabel">REGIONAL</InputLabel>
 					<Select
 						labelId="regLabel"
@@ -174,7 +146,9 @@ const SearchParam = props => {
 						))}
 					</Select>
 				</FormControl>
-				<FormControl variant='outlined' size="small" className={classes.field} style={{marginLeft: 5}}>
+			</Grid>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<FormControl variant='outlined' size="small" fullWidth>
 					<InputLabel htmlFor="kprkLabel">KPRK</InputLabel>
 					<Select
 						labelId="kprkLabel"
@@ -190,7 +164,9 @@ const SearchParam = props => {
 						</MenuItem>)}
 					</Select>
 				</FormControl>
-				<FormControl variant='outlined' size="small" className={classes.field} style={{marginLeft: 5}}>
+			</Grid>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<FormControl variant='outlined' size="small" fullWidth>
 					<InputLabel htmlFor="csLabel">CUSTOMER SERVICE</InputLabel>
 					<Select
 						labelId="csLabel"
@@ -205,7 +181,9 @@ const SearchParam = props => {
 						</MenuItem>)}
 					</Select>
 				</FormControl>
-				<FormControl className={classes.field}>
+			</Grid>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<FormControl fullWidth size="small">
 					<DatePicker
 				        format="YYYY-MM-DD"
 				        views={["year", "month", "date"]}
@@ -219,7 +197,9 @@ const SearchParam = props => {
 				        onChange={(e) => handleChangeDate(e._d, 'startdate')} 
 				    />
 				</FormControl>
-				<FormControl className={classes.field}>
+			</Grid>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<FormControl size="small" fullWidth>
 					<DatePicker
 				        format="YYYY-MM-DD"
 				        views={["year", "month", "date"]}
@@ -233,32 +213,16 @@ const SearchParam = props => {
 				        onChange={(e) => handleChangeDate(e._d, 'enddate')} 
 				    />
 				</FormControl>
-				<Button variant='contained' color='primary' style={{width: 100, marginLeft: 5}} onClick={onSubmit}>
-					Tampilkan
-				</Button>
-				{ list.length > 0 && <ExcelFile 
-					filename='kinerja-CS' 
-					element={
-						<Button 
-							variant='contained' 
-							color='primary'
-							className={classes.grenBtn}
-							endIcon={<GetAppIcon />}
-						>
-							DOWNLOAD
-						</Button>
-					}
-				>
-					<ExcelSheet data={list} name="sheet1">
-						<ExcelColumn label="KANTOR" value="kantor_pos"/>
-						<ExcelColumn label="CS" value={(col) => col.title.toUpperCase()}/>
-						<ExcelColumn label="JUMLAH SELESAI" value={(col) => Number(col.jmlselesai)}/>
-						<ExcelColumn label="JUMLAH TERBUKA" value={(col) => Number(col.jmlterbuka)}/>
-						<ExcelColumn label="JUMLAH SEMUA" value={(col) => Number(col.jmlterbuka) + Number(col.jmlselesai)}/>
-					</ExcelSheet>
-				</ExcelFile> }
-			</div>
-		</div>
+			</Grid>
+			<Grid item lg={2} sm={6} xl={12} xs={12}>
+				<div style={{display: 'flex'}}>
+					<Button variant='contained' color='primary' onClick={onSubmit} fullWidth>
+						Tampilkan
+					</Button>
+					
+				</div>
+			</Grid>
+		</Grid>
 	);
 }
 
@@ -266,7 +230,7 @@ SearchParam.propTypes = {
 	user: PropTypes.object.isRequired,
 	getData: PropTypes.func.isRequired,
 	onSearch: PropTypes.func.isRequired,
-	list: PropTypes.array.isRequired
+	jenis: PropTypes.string.isRequired
 }
 
 export default SearchParam;

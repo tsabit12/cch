@@ -44,9 +44,9 @@ const ListItem = props => {
 						<TableCell className={classes.cell}>{no++}</TableCell>
 						<TableCell className={classes.cell}>{row.kantor_pos}</TableCell>
 						<TableCell className={classes.cell}>{row.title.toUpperCase()}</TableCell>
-						<TableCell className={classes.cell} align='right'>{row.jmlselesai}</TableCell>
-						<TableCell className={classes.cell} align='right'>{row.jmlterbuka}</TableCell>
-						<TableCell className={classes.cell} align='right'>{Number(row.jmlselesai) + Number(row.jmlterbuka)}</TableCell>
+						<TableCell className={classes.cell} align='right'>{row.tiketSelesai}</TableCell>
+						<TableCell className={classes.cell} align='right'>{row.tiketTerbuka}</TableCell>
+						<TableCell className={classes.cell} align='right'>{Number(row.tiketSelesai) + Number(row.tiketTerbuka)}</TableCell>
 						<TableCell className={classes.cell} align='center'>
 							<Button 
 								size='small' 
