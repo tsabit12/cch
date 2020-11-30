@@ -144,15 +144,15 @@ const ChartLine = props => {
     return(
         <Card className={classes.root}>
             <CardHeader 
-                title='GRAFIK TIKET MINGGUAN' 
+                title={<Typography variant='body2'>GRAFIK TIKET MINGGUAN</Typography>}
                 action={
                     <div style={{display: 'flex', justifyContent: 'space-between', width: 100, marginTop: 7}}>
                         <div>
-                            <div style={{backgroundColor: palette.warning.main, height: 15, width: 15, margin: 'auto'}} />
+                            <div style={{backgroundColor: palette.warning.main, height: 10, width: 10, margin: 'auto'}} />
                             <Typography variant='body2'>Masuk</Typography>
                         </div>
                         <div>
-                            <div style={{backgroundColor: palette.info.main, height: 15, width: 15, margin: 'auto'}} />
+                            <div style={{backgroundColor: palette.info.main, height: 10, width: 10, margin: 'auto'}} />
                             <Typography variant='body2'>Keluar</Typography>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ const ChartLine = props => {
             />
             <Divider />
             <Box
-                height={350}
+                height={200}
                 position="relative"
                 margin={4}
             >

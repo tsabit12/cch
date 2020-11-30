@@ -35,9 +35,10 @@ const useStyles = makeStyles(theme => ({
 const StyledBadge = withStyles(theme => ({
   badge: {
     top: '50%',
-    right: -3,
+	right: -3,
+	fontSize: 10,
     // The border color match the background color.
-    border: `2px solid ${
+    border: `1px solid ${
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[900]
     }`,
   },
@@ -55,11 +56,12 @@ const Navbar = props => {
 					<Button
 					    variant="outlined"
 					    className={classes.button}
-					    fullWidth
+						fullWidth
+						size='small'
 					    onClick={props.addTicket}
 					>
-				  		<AddIcon className={classes.leftIcon} />
-				    	Buat Pengaduan
+				  		<AddIcon className={classes.leftIcon} style={{fontSize: 18}} />
+				    	<Typography variant='body2' style={{fontWeight: 'bold'}}>Buat Pengaduan</Typography>
 					</Button> 
 				}
 			/>
@@ -67,7 +69,8 @@ const Navbar = props => {
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h6"
+				  variant="body2"
+				  style={{fontWeight: 'bold'}}
 	            >
 	            	DALAM PROSES
 	            </Typography>
@@ -78,11 +81,11 @@ const Navbar = props => {
 				button 
 				onClick={() => props.onChangePage(1)}
 			>
-			    <ListItemText primary="Pengaduan Masuk" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Masuk</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={active.masuk} color="primary">
-				        <MailIcon />
+				        <MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -93,11 +96,11 @@ const Navbar = props => {
 				button 
 				onClick={() => props.onChangePage(2)}
 			>
-			    <ListItemText primary="Pengaduan Keluar" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Keluar</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={active.keluar} color="primary">
-				        <MailIcon />
+				        <MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -107,7 +110,8 @@ const Navbar = props => {
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h6"
+				  variant="body2"
+				  style={{fontWeight: 'bold'}}
 	            >
 	            	SUDAH SELESAI
 	            </Typography>
@@ -118,11 +122,11 @@ const Navbar = props => {
 				button 
 				onClick={() => props.onChangePage(3)}
 			>
-			    <ListItemText primary="Pengaduan Masuk" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Masuk</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={done.masuk} color="primary">
-				        <MailIcon />
+					  	<MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -133,11 +137,11 @@ const Navbar = props => {
 				onClick={() => props.onChangePage(4)}
 				className={page === 4 ? classes.listActived : classes.listItem}
 			>
-			    <ListItemText primary="Pengaduan Keluar" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Keluar</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={done.keluar} color="primary">
-				        <MailIcon />
+					  	<MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -147,7 +151,8 @@ const Navbar = props => {
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h6"
+				  variant="body2"
+				  style={{fontWeight: 'bold'}}
 	            >
 	            	BARU DIUPDATE
 	            </Typography>
@@ -158,11 +163,11 @@ const Navbar = props => {
 				onClick={() => props.onChangePage(6)}
 				className={page === 6 ? classes.listActived : classes.listItem}
 			>
-			    <ListItemText primary="Pengaduan Keluar" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Keluar</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={lastupdate} color="primary">
-				        <MailIcon />
+					  	<MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -173,11 +178,11 @@ const Navbar = props => {
 				onClick={() => props.onChangePage(7)}
 				className={page === 7 ? classes.listActived : classes.listItem}
 			>
-			    <ListItemText primary="Pengaduan Masuk" />
+			    <ListItemText primary={<Typography variant='body2'>Pengaduan Masuk</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={lastupdateMasuk} color="primary">
-				        <MailIcon />
+					  	<MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>
@@ -188,7 +193,8 @@ const Navbar = props => {
 				<Typography
 	              color="inherit"
 	              gutterBottom
-	              variant="h6"
+				  variant="body2"
+				  style={{fontWeight: 'bold'}}
 	            >
 	            	LAINNYA
 	            </Typography>
@@ -199,11 +205,11 @@ const Navbar = props => {
 				onClick={() => props.onChangePage(5)}
 				className={page === 5 ? classes.listActived : classes.listItem}
 			>
-			    <ListItemText primary="Request Tutup" />
+			    <ListItemText primary={<Typography variant='body2'>Request Tutup</Typography>} />
 				<ListItemIcon>
-					<IconButton aria-label="Cart" disabled>
+					<IconButton aria-label="Cart" disabled size='small'>
 				      <StyledBadge badgeContent={close} color="primary">
-				        <MailIcon />
+				        <MailIcon style={{fontSize: 20}} />
 				      </StyledBadge>
 				    </IconButton>
 			    </ListItemIcon>

@@ -77,12 +77,12 @@ const Pencapaian = props => {
 	return(
 		<Card style={{height: '100%'}}>
 			<CardHeader 
-				title={`PENCAPAIAN ${props.type}`}
+				title={<Typography variant='body2'>{`PENCAPAIAN ${props.type}`}</Typography>}
 			/>
 			<Divider />
 			<div>
 	    		<Box
-		          height={250}
+		          height={150}
 		          position="relative"
 		          marginTop={2}
 		          marginBottom={2}
@@ -104,13 +104,13 @@ const Pencapaian = props => {
 			              <Icon color="action" />
 			              <Typography
 			                color="textPrimary"
-			                variant="body1"
+			                variant="body2"
 			              >
 			                { row.label }
 			              </Typography>
 			              <Typography
 			                style={{ color: row.color }}
-			                variant="h2"
+			                variant="h5"
 			              >
 			                {row.jumlah}
 			              </Typography>

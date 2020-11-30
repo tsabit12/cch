@@ -159,21 +159,21 @@ const GrafikProduk = props => {
 	return(
 		<Card style={{height: '100%'}}>
 			<CardHeader 
-				title='GRAFIK PRODUK'
+				title={<Typography variant='body2'>GRAFIK PRODUK</Typography>}
 				action={<div style={{display: 'flex', justifyContent: 'space-between', width: 100, marginTop: 7}}>
 					<div>
-						<div style={{backgroundColor: palette.warning.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.warning.main, height: 10, width: 10, margin: 'auto'}} />
 						<Typography variant='body2'>Masuk</Typography>
 					</div>
 					<div>
-						<div style={{backgroundColor: palette.primary.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.primary.main, height: 10, width: 10, margin: 'auto'}} />
 						<Typography variant='body2'>Keluar</Typography>
 					</div>
 				</div>}
 			/>
 			<Divider />
 			<Box
-	          height={350}
+	          height={200}
 	          position="relative"
 	          margin={4}
 	       	>

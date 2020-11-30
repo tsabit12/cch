@@ -183,25 +183,25 @@ const Grafik = props => {
 	return(
 		<Card style={{height: '100%'}}>
 			<CardHeader 
-				title='STATISTIK TIKET'
+				title={<Typography variant='body2'>STATISTIK TIKET</Typography>}
 				action={<div style={{display: 'flex', justifyContent: 'space-between', width: 150, marginTop: 7}}>
 					<div>
-						<div style={{backgroundColor: palette.warning.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.warning.main, height: 10, width: 10, margin: 'auto'}} />
 						<Typography variant='body2'>Semua</Typography>
 					</div>
 					<div>
-						<div style={{backgroundColor: palette.info.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.info.main, height: 10, width: 10, margin: 'auto'}} />
 						<Typography variant='body2'>Terbuka</Typography>
 					</div>
 					<div>
-						<div style={{backgroundColor: palette.success.main, height: 15, width: 15, margin: 'auto'}} />
+						<div style={{backgroundColor: palette.success.main, height: 10, width: 10, margin: 'auto'}} />
 						<Typography variant='body2'>Selesai</Typography>
 					</div>
 				</div>}
 			/>
 			<Divider />
 			<Box
-	          height={350}
+	          height={200}
 	          position="relative"
 	          margin={4}
 	       	>
