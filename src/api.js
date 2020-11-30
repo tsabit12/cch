@@ -284,5 +284,8 @@ export default{
 	}, config).then(res => res.data),
 	updateFaq: (payload) => axios.post(`${process.env.REACT_APP_API2}/faq/update`, {
 		...payload
-	}, config).then(res =>  res.data)
+	}, config).then(res =>  res.data),
+	deleteFaq: (id) => axios.post(`${process.env.REACT_APP_API2}/faq/delete`, {
+		id
+	}, config).then(res => res.data)
 }

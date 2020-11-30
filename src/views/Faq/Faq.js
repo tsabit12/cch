@@ -11,14 +11,15 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getData, addData, updateData } from '../../actions/faq';
+import { getData, addData, updateData, onDelete } from '../../actions/faq';
 import MuiAlert from '@material-ui/lab/Alert';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Loader from '../Loader';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import { ModalAdd, ModalUpdate } from './components';
+import { ModalAdd, ModalUpdate, ModalDelete } from './components';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -59,6 +60,10 @@ const Faq = props => {
 		item: {}
 	});
 	const [updateSucces, setUpdateSucces] = useState(false);
+	const [modalDeleteVisible, setModalDeleteVisible] = useState({
+		open: false, 
+		id: null
+	})
 
 	useEffect(() => {
 		props.getData()
@@ -125,6 +130,24 @@ const Faq = props => {
 
 	}
 
+	const onClickDelete = (id) => {
+		setModalDeleteVisible({
+			open: true,
+			id
+		})
+	}
+
+	const handleDelete = (id) => {
+		setLoading(true);
+
+		props.onDelete(id)
+			.then(() => setLoading(false))
+			.catch(err => {
+				setLoading(false);
+				setErrors({fetch: 'Terdapat kesalahan saat menghapus data. Silahkan cobalagi'});
+			})
+	}
+
 	return(
 		<div className={classes.root}>
 			<Loader loading={loading} />
@@ -145,6 +168,16 @@ const Faq = props => {
 				}}
 				setLoading={(bool) => setLoading(bool)}
 				onUpdate={handleUpdate}
+			/>
+
+			<ModalDelete 
+				open={modalDeleteVisible.open}
+				id={modalDeleteVisible.id}
+				handleClose={() => setModalDeleteVisible({
+					open: false,
+					id: null
+				})}
+				onDelete={handleDelete}
 			/>
 
 			{ errors.fetch && <Alert severity="error">{errors.fetch}</Alert>}
@@ -168,17 +201,33 @@ const Faq = props => {
 							  aria-controls="panel3bh-content"
 							  id="panel3bh-header"
 							>
-								{ props.user.jabatan === 'Administrator' && <IconButton 
-									aria-label="delete" 
-									size='small' 
-									style={{marginTop: -3}}
-									onClick={(event) => {
-										event.stopPropagation();
-										onClickUpdate(row.id);
-									}}
-								>
-						          <EditIcon fontSize="small" />
-						        </IconButton> }
+								{ props.user.jabatan === 'Administrator' && <div style={{marginRight: 5}}>
+									<IconButton 
+										aria-label="update" 
+										size='small' 
+										color="primary"
+										component="span"
+										style={{marginTop: -3}}
+										onClick={(event) => {
+											event.stopPropagation();
+											onClickUpdate(row.id);
+										}}
+									>
+										<EditIcon style={{fontSize: 18}} />
+									</IconButton> 
+									<IconButton 
+										aria-label="delete" 
+										size='small' 
+										component="span"
+										style={{marginTop: -3}}
+										onClick={(event) => {
+											event.stopPropagation();
+											onClickDelete(row.id);
+										}}
+									>
+										<DeleteIcon style={{fontSize: 18, color: '#e03602'}} />
+									</IconButton> 
+								</div> }
 
 								<Typography className={classes.heading}>{row.title}</Typography>
 								<Typography className={classes.secondaryHeading}>
@@ -215,7 +264,8 @@ Faq.propTypes = {
 	getData: PropTypes.func.isRequired,
 	addData: PropTypes.func.isRequired,
 	user: PropTypes.object.isRequired,
-	updateData: PropTypes.func.isRequired
+	updateData: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -225,4 +275,9 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getData, addData, updateData })(Faq);
+export default connect(mapStateToProps, { 
+	getData, 
+	addData, 
+	updateData,
+	onDelete 
+})(Faq);

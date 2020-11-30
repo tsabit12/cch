@@ -20,3 +20,10 @@ export const updateData = (payload) => dispatch =>
 			type: 'UPDATE_FAQ',
 			inserted
 		}))
+
+export const onDelete = (id) => dispatch => 
+	api.deleteFaq(id)
+		.then(() => dispatch({
+			type: 'DELETE_FAQ',
+			id
+		}))

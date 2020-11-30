@@ -12,6 +12,8 @@ export default function faq(state=[], action={}){
 
 				return row;
 			})
+		case 'DELETE_FAQ':
+			return state.filter(row => row.id !== action.id)
 		default:
 			return state;
 	}
