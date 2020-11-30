@@ -16,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import { getData, onAddNewFile, onDelete } from '../../actions/knowledge';
 import Loader from '../Loader';
+import { getInitialUser } from '../../helper';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -79,6 +80,13 @@ const ProdKnowledge = props => {
 		status: false,
 		fileid: ''
 	});
+	const [uploadAllowed, setUploadAllowed] = useState(false);
+
+	useEffect(() => {
+		if(getInitialUser(user.level) === 1 || getInitialUser(user.level) === 3){
+			setUploadAllowed(true);
+		}
+	}, [user.level])
 
 	useEffect(() => {
 		if (query) {
@@ -186,7 +194,7 @@ const ProdKnowledge = props => {
 						/>)}
 				</Grid> }
 			</div>
-			{ user.jabatan === 'Administrator' && <div className={classes.btnupload}>
+			{ uploadAllowed && <div className={classes.btnupload}>
 				<Fab 
 					color="secondary" 
 					variant="extended" 
