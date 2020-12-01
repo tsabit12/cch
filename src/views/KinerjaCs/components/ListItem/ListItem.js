@@ -51,7 +51,7 @@ const ListItem = props => {
 							<Button 
 								size='small' 
 								color='primary'
-								onClick={() => props.onView(row.email)}
+								onClick={() => props.onView(row.email, row.kantor_pos)}
 							>
 								Detail
 							</Button>

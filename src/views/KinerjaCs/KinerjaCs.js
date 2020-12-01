@@ -73,13 +73,15 @@ const KinerjaCs = props => {
 			.catch(() => setLoading(false));
 	} 
 
-	const handleViewDetail = (email) => {
+	const handleViewDetail = (email, kprk) => {
 		setOpenDetail({
 			open: true,
 			item: {
 				email,
 				startdate: date.startdate,
-				enddate: date.enddate
+				enddate: date.enddate,
+				kprk,
+				type: jenis
 			}
 		})
 		//props.history.push(`/kinerja-cs/detail/${email}&${date.startdate}&${date.enddate}`)
@@ -106,6 +108,7 @@ const KinerjaCs = props => {
 				getData={(payload) => props.getKinerja(payload)} 
 				onSearch={handleSearch} 
 				jenis={jenis}
+				updatedDate={date}
 			/>
 			<Card style={{marginTop: 15}}>
 				<CardHeader 
@@ -151,7 +154,10 @@ const KinerjaCs = props => {
 					</React.Fragment>}
 				/>
 				<Divider />
-				<ListItem data={list} onView={handleViewDetail} />
+				<ListItem 
+					data={list} 
+					onView={handleViewDetail} 
+				/>
 			</Card>
 		</div>
 	);

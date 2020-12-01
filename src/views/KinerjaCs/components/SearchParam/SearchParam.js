@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { DatePicker } from "@material-ui/pickers";
 
 const SearchParam = props => {
-	const { user } = props;
+	const { user, updatedDate } = props;
 
 	const [param, setParam] = useState({
 		regional: '00',
@@ -30,8 +30,8 @@ const SearchParam = props => {
 
 	useEffect(() => {
 		const payload = {
-			startdate: convertDay(new Date()),
-			enddate: convertDay(new Date()),
+			startdate: updatedDate.startdate, //using date after search not onchange date
+			enddate: updatedDate.enddate,
 			type: props.jenis
 		};
 
@@ -77,7 +77,7 @@ const SearchParam = props => {
 		}
 		props.getData(payload);
 		//eslint-disable-next-line
-	}, [user, listKprk])
+	}, [user, listKprk, props.jenis])
 
 	useEffect(() => {
 		if (param.regional !== '00') {
