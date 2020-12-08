@@ -126,6 +126,7 @@ const KinerjaCs = props => {
 							>
 								<MenuItem value='1'>Pengaduan Keluar</MenuItem>
 								<MenuItem value='2'>Pengaduan Masuk</MenuItem>
+								<MenuItem value='3'>Semua Tiket</MenuItem>
 							</Select>
 						</FormControl>
 					</div>}

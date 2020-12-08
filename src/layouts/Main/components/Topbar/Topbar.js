@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { AppBar, Toolbar, Hidden, IconButton, Tooltip } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import palette from '../../../../theme/palette';
 
@@ -51,12 +50,6 @@ const Topbar = props => {
               <InputIcon />
             </IconButton>
           </Tooltip>
-          <IconButton
-            color="inherit"
-            onClick={onSidebarOpen}
-          >
-            <MenuIcon />
-          </IconButton>
         </Hidden>
         <Hidden lgUp>
             <IconButton
@@ -65,12 +58,6 @@ const Topbar = props => {
               color="inherit"
             >
               <InputIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            onClick={onSidebarOpen}
-          >
-            <MenuIcon />
           </IconButton>
         </Hidden>
       </Toolbar>

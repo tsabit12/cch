@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import palette from '../../../../../../theme/palette';
 
 const useStyles = makeStyles(theme => ({
 	cell: {
@@ -44,22 +45,32 @@ const duration = (t0, t1) => {
 
 
 	return result;
-
 }
 
-// const TooltipComponent = React.forwardRef(function TooltipComponent(props, ref) {
-//   return <div {...props} ref={ref}>
-//   		<p 
-//   			style={{
-//   				overflow: 'hidden',
-// 				textOverflow: 'ellipsis',
-// 				maxWidth: '150px'
-// 			}}
-// 		>
-// 			{props.text}
-// 		</p>
-//   	</div>
-// });
+const getColorChip = status => {
+	switch(status){
+		case 'Konfirmasi':
+			return {
+				bgcolor: palette.primary.dark,
+				color: '#FFF'
+			};
+		case 'Entri':
+			return {
+				bgcolor: palette.warning.main,
+				color: '#FFF'
+			};
+		case 'Selesai':
+			return {
+				bgcolor: palette.success.main,
+				color: '#FFF'
+			};
+		default:
+			return {
+				bgcolor: palette.info.main,
+				color: '#FFF'
+			};
+	}
+}
 
 const TableTiket = props => {
 	var no = (props.activePage * 15) - 15 + 1;
@@ -91,7 +102,15 @@ const TableTiket = props => {
 					{row.tujuan_pengaduan.split(',').map((row, index) => <p key={index}>{row}</p>)}
 				</TableCell>
 				<TableCell className={classes.cell}>
-					 <Chip label={row.status} style={{fontSize: 13}} color='secondary' size="small" />
+					<Chip 
+						label={row.status} 
+						style={{
+							fontSize: 13, 
+							backgroundColor: getColorChip(row.status).bgcolor,
+							color: getColorChip(row.status).color
+						}} 
+						size="small" 
+					/>
 				</TableCell>
 				{ durasiVisible ? <TableCell 
 					style={{

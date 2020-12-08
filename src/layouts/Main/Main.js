@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { 
   makeStyles, 
-  //useTheme 
+  useTheme 
 } from '@material-ui/styles';
-// import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import { Sidebar, Topbar } from './components';
 import { connect } from "react-redux";
 import { setLogout } from "../../actions/auth";
@@ -30,10 +30,10 @@ const Main = props => {
   const { children } = props;
 
   const classes = useStyles();
-  //const theme = useTheme();
-  // const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-  //   defaultMatches: true
-  // });
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
+    defaultMatches: true
+  });
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -45,13 +45,13 @@ const Main = props => {
     setOpenSidebar(false);
   };
 
-  //const shouldOpenSidebar = isDesktop ? true : openSidebar;
+  const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
   return (
     <div
       className={clsx({
         [classes.root]: true,
-        /* [classes.shiftContent]: openSidebar ? isDesktop : null */
+        [classes.shiftContent]: isDesktop
       })}
     >
       <Topbar 
@@ -60,9 +60,9 @@ const Main = props => {
       />
       <Sidebar
         onClose={handleSidebarClose}
-        open={openSidebar}
+        open={shouldOpenSidebar}
         user={props.user}
-        variant='temporary'
+        variant={isDesktop ? 'persistent' : 'temporary'}
       />
       <main className={classes.content}>
         {children}
